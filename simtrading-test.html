@@ -846,9 +846,16 @@ function setOrderType(type, element) {
 
 function setExecutionPrice(targetPrice) {
     if (ORDER_TYPE === "MARKET") return;
+
+    const numericPrice = parseFloat(targetPrice);
+    if (isNaN(numericPrice) || numericPrice <= 0) return;
+
     const priceInputField = document.getElementById('target-execution-price');
     if (priceInputField) {
-        priceInputField.value = targetPrice;
+        const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+        const precision = assetMap[currentAssetKey].precision;
+
+        priceInputField.value = numericPrice.toFixed(precision);
         recalculateSpecInterface();
         triggerLimitWorkingLine();
     }
