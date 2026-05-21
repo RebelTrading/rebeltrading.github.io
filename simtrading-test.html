@@ -1179,21 +1179,11 @@ function showActivePositionOverlays() {
 }
 
 function updatePositionOverlayLines() {
-    const overlay = document.getElementById('active-position-line');
-    const badge = document.getElementById('active-position-badge');
-    if (!overlay || !badge) return;
-
-    const sideLabel = activePosition.side === 'BUY' ? 'LONG' : 'SHORT';
-    const pnlSign = FLOATING_PNL >= 0 ? '+' : '';
     const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
     const precision = assetMap[currentAssetKey].precision;
 
-    badge.innerText = `${sideLabel} ${activePosition.size} Cont. | Entry: $${activePosition.entryPrice.toFixed(precision)} | P&L: ${pnlSign}$${FLOATING_PNL.toFixed(2)}`;
-
-    if (FLOATING_PNL >= 0) {
-        overlay.classList.remove('negative-state');
-    } else {
-        overlay.classList.add('negative-state');
+    if (window.RebelChart) {
+        window.RebelChart.updateEntryLine(activePosition, FLOATING_PNL, precision);
     }
 }
 
