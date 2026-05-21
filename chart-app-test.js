@@ -636,10 +636,10 @@ window.addEventListener('resize', () => {
 });
 window.RebelChart = {
     switchAsset(assetKey) {
-        if (!assetKey) return;
-        currentAsset = assetKey;
-        loadChartWorkspace();
-    },
+    if (!assetKey) return;
+    currentAsset = assetKey;
+    loadChartWorkspace();
+},
 
     updateLivePrice(price) {
         if (!price || isNaN(price)) return;
