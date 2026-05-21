@@ -1529,7 +1529,7 @@ window.addEventListener('DOMContentLoaded', function() {
             <div class="input-block">
                 <label>Target Execution Price ($)</label>
                 <div class="input-wrapper">
-                    <input type="text" id="target-execution-price" value="MARKET PRICE" disabled oninput="triggerLimitWorkingLine()">
+                    <input type="text" id="target-execution-price" value="MARKET PRICE" disabled oninput="recalculateSpecInterface(); triggerLimitWorkingLine();">
                 </div>
             </div>
             
