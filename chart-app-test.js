@@ -600,7 +600,7 @@ document.querySelectorAll('.tf-btn').forEach(button => {
     button.addEventListener('click', (e) => {
         document.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
-        currentTimeframe = e.target.getAttribute('data-tf');
+        currentTimeframe = e.target.getAttribute('data-tf') || '1m';
         loadChartWorkspace();
     });
 });
