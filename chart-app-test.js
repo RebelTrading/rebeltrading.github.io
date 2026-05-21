@@ -1,5 +1,5 @@
-import { createChart } from 'https://esm.sh/lightweight-charts@4.2.3';
-import { RSI, MACD } from 'https://esm.sh/technicalindicators';
+import { createChart } from 'https://esm.sh/lightweight-charts@4.2.1';
+import { RSI, MACD } from 'https://esm.sh/technicalindicators@3.1.0';
 
 let currentTimeframe = '1m';
 let currentAsset = 'BTC'; 
