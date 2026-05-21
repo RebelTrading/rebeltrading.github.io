@@ -654,5 +654,17 @@ window.RebelChart = {
         entryPriceLine = removePriceLine(entryPriceLine);
         takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
         stopLossPriceLine = removePriceLine(stopLossPriceLine);
+    },
+
+    showLimitLine(price, precision = 2) {
+        limitPriceLine = removePriceLine(limitPriceLine);
+        if (!price || isNaN(price)) return;
+
+        limitPriceLine = makePriceLine(
+            price,
+            '#ffb703',
+            `LIMIT $${Number(price).toFixed(precision)}`,
+            2
+        );
     }
 };
