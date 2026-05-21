@@ -1207,6 +1207,10 @@ function clearAllChartOverlays() {
     document.getElementById('active-position-line').style.display = 'none';
     document.getElementById('tv-target-line').style.display = 'none';
     document.getElementById('sl-risk-line').style.display = 'none';
+
+    if (window.RebelChart) {
+        window.RebelChart.clearTradeLines();
+    }
 }
 
 function executeDevOrder(side) {
