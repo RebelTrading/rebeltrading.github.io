@@ -14,6 +14,10 @@ let candlestickSeries = null, volumeSeries = null;
 let ema9Series = null, ema21Series = null, ema100Series = null, ema200Series = null, vwapSeries = null;
 let rsiSeries = null, rsiTopLine = null, rsiBottomLine = null;
 let macdLineSeries = null, macdSignalSeries = null, macdHistogramSeries = null;
+let limitPriceLine = null;
+let entryPriceLine = null;
+let takeProfitPriceLine = null;
+let stopLossPriceLine = null;
 
 // Shared configuration rules
 // Shared configuration rules
