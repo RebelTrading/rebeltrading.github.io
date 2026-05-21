@@ -214,12 +214,6 @@ async function loadChartWorkspace() {
 
         // Strong MACD nudge - this should finally move it
         setTimeout(() => {
-            if (macdChart) {
-                macdChart.timeScale().applyOptions({ 
-                    rightOffset: 50   // Try 25, 30, 35, 40, 50
-                });
-            }
-            
             const range = mainChart.timeScale().getVisibleLogicalRange();
             if (range) {
                 if (rsiChart) rsiChart.timeScale().setVisibleLogicalRange(range);
