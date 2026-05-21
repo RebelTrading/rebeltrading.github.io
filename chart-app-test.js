@@ -1,4 +1,4 @@
-import { createChart } from 'https://esm.sh/lightweight-charts';
+import { createChart } from 'https://esm.sh/lightweight-charts@4.2.3';
 import { RSI, MACD } from 'https://esm.sh/technicalindicators';
 
 let currentTimeframe = '1m';
