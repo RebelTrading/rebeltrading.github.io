@@ -1151,12 +1151,14 @@ function triggerLimitWorkingLine() {
     const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
     const precision = assetMap[currentAssetKey].precision;
     
-    if (overlay && badge && !isNaN(inputVal) && inputVal > 0) {
-        overlay.style.display = 'block';
-        overlay.style.top = '35%';
+        if (overlay && badge && !isNaN(inputVal) && inputVal > 0) {
+        overlay.style.display = 'none';
         badge.innerText = `WORKING LIMIT TARGET: $${inputVal.toFixed(precision)}`;
+
+        if (window.RebelChart) {
+            window.RebelChart.showLimitLine(inputVal, precision);
+        }
     }
-}
 
 function cancelPendingLimit() {
     pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
