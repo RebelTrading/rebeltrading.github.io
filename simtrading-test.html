@@ -829,6 +829,7 @@ function setOrderType(type, element) {
     document.querySelectorAll('.order-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
     element.classList.add('active');
     ORDER_TYPE = type;
+    window.ORDER_TYPE = ORDER_TYPE;
     
     const priceInput = document.getElementById('target-execution-price');
     if (type === "MARKET") {
