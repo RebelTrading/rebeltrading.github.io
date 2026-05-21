@@ -121,11 +121,6 @@ function initChartInstances() {
     });
     
     macdChart.priceScale('right').applyOptions({ scaleMargins: { top: 0.15, bottom: 0.15 } });
-
-    // Nudge MACD chart to the right by default
-    macdChart.timeScale().applyOptions({
-        rightOffset: 12   // ← Change this number (try 8, 10, 12, 15, 20) until it looks good
-    });
     
     macdLineSeries = macdChart.addLineSeries({ color: '#00b4d8', lineWidth: 1.5, title: 'MACD' });
     macdSignalSeries = macdChart.addLineSeries({ color: '#ffb703', lineWidth: 1.5, title: 'Signal' });
@@ -263,7 +258,7 @@ function refreshChartOverlays() {
     }
 
     // RSI
-    if (document.getElementById('toggle-rsi')?.checked && currentHistoricalBars.length > 14) {
+    if (isToggleChecked('toggle-rsi', true) && currentHistoricalBars.length > 14) {
         const closePrices = currentHistoricalBars.map(b => b.close);
         const rsiValues = RSI.calculate({ values: closePrices, period: 14 });
         
@@ -290,7 +285,7 @@ function refreshChartOverlays() {
     }
 
     // MACD - FIXED ALIGNMENT
-    if (document.getElementById('toggle-macd')?.checked && currentHistoricalBars.length > 26) {
+    if (isToggleChecked('toggle-macd', true) && currentHistoricalBars.length > 26) {
         const closePrices = currentHistoricalBars.map(b => b.close);
         const macdValues = MACD.calculate({ 
             values: closePrices, 
@@ -403,7 +398,7 @@ function initPriceLoop() {
                 low: parseFloat(updatedLastBar.low), close: parseFloat(updatedLastBar.close)
             });
 
-            if (document.getElementById('toggle-volume')?.checked) {
+            if (isToggleChecked('toggle-volume', true)) {
                 volumeSeries.update({ time: updatedLastBar.time, value: updatedLastBar.volume, color: updatedLastBar.close >= updatedLastBar.open ? '#00ff6622' : '#ff2a2a22' });
             }
 
