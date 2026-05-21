@@ -813,8 +813,12 @@ function switchAsset(assetKey, element) {
         priceInput.value = "MARKET PRICE";
     }
 
-    cancelPendingLimit();
+        cancelPendingLimit();
     clearAllChartOverlays();
+
+    if (window.RebelChart) {
+        window.RebelChart.switchAsset(assetKey);
+    }
     
     fetchRebelEnginePrices();
     setTimeout(recalculateSpecInterface, 100);
