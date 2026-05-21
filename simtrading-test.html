@@ -1364,6 +1364,10 @@ async function fetchRebelEnginePrices() {
             markEl.innerText = `$${markPriceVal.toLocaleString('en-US', { minimumFractionDigits: precision, maximumFractionDigits: precision })}`;
         }
         
+                if (window.RebelChart) {
+            window.RebelChart.updateLivePrice(currentPrice);
+        }
+
         renderSyntheticOrderBook(currentPrice);
         checkAutomatedRulesAndExits();
         updateAccountMetrics();
