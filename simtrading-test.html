@@ -1,92 +1,1550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KLineChart Test</title>
-  <script src="https://cdn.jsdelivr.net/npm/klinecharts/dist/umd/klinecharts.min.js"></script>
-  <style>
-    body { margin:0; padding:20px; background:#0a0a0a; color:#ddd; font-family:Arial, sans-serif; }
-    #chart { width:100%; max-width:1400px; height:720px; margin:20px auto; border:2px solid #444; background:#000; }
-    button { padding:10px 20px; margin:5px; background:#222; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
-    button.active { background:#ff2a2a; }
-  </style>
-</head>
-<body>
-  <h1>KLineChart Test (BTC/ETH/SOL/XRP)</h1>
-  
-  <div>
-    <button onclick="switchSymbol('BTC')" class="active" id="btn-BTC">BTC</button>
-    <button onclick="switchSymbol('ETH')" id="btn-ETH">ETH</button>
-    <button onclick="switchSymbol('SOL')" id="btn-SOL">SOL</button>
-    <button onclick="switchSymbol('XRP')" id="btn-XRP">XRP</button>
-  </div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rebel Trading Desk - Micro Perp Simulation Sandbox</title>
 
-  <div id="chart"></div>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    color: #bdbdbd;
+    overflow: hidden;
+}
 
-  <script>
-    let chart = null;
-    let currentSymbol = 'BTC';
+/* COMPREHENSIVE TRADING HEADER SYSTEM */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #0a0a0a;
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    align-items: center;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #1a1a1a;
+    z-index: 1000;
+    height: 65px;
+}
 
-    function generateMockBars(basePrice) {
-      const now = Date.now();
-      const bars = [];
-      let price = basePrice;
-      for (let i = 250; i >= 0; i--) {
-        const ts = now - i * 60000;
-        const open = price;
-        const close = open + (Math.random() * 380 - 190);
-        const high = Math.max(open, close) + Math.random() * 220;
-        const low = Math.min(open, close) - Math.random() * 220;
+header img {
+    height: 80px;
+}
 
-        bars.push({
-          timestamp: ts,
-          open: Number(open.toFixed(2)),
-          high: Number(high.toFixed(2)),
-          low: Number(low.toFixed(2)),
-          close: Number(close.toFixed(2)),
-          volume: Math.floor(Math.random() * 18000) + 2500
-        });
-        price = close;
-      }
-      return bars;
+/* LIVE TICKER TAPE & CHALLENGE PROGRESS AREA */
+.ticker-tape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.ticker-metrics-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.ticker-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ticker-label {
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    color: #555;
+    letter-spacing: 0.5px;
+}
+
+.ticker-value {
+    color: #fff;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 0.85rem;
+}
+
+/* CHALLENGE LEVEL 1 PROGRESS BAR */
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 280px;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.progress-labels .level-title {
+    color: #ffb703;
+}
+
+.progress-labels .percentage-track {
+    color: #00ff66;
+    font-family: monospace;
+}
+
+.progress-bar-track {
+    width: 100%;
+    height: 6px;
+    background: #141414;
+    border: 1px solid #222;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00ff66, #baff00);
+    box-shadow: 0 0 8px rgba(0, 255, 102, 0.6);
+    transition: width 0.3s ease;
+}
+
+/* HAMBURGER & MENU */
+.hamburger {
+    cursor: pointer;
+    width: 35px;
+}
+
+.hamburger div {
+    height: 2px;
+    background: #fff;
+    margin: 5px 0;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100%;
+    background: #0a0a0a;
+    padding-top: 80px;
+    transition: 0.3s;
+    z-index: 999;
+    border-left: 1px solid #1a1a1a;
+}
+
+.menu a {
+    display: block;
+    padding: 15px 25px;
+    color: #aaa;
+    text-decoration: none;
+    font-weight: bold;
+}
+.menu a:hover { color: #ff2a2a; }
+
+/* LAYOUT CONTAINER */
+.desk-container {
+    margin-top: 65px;
+    padding: 8px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 340px 320px; 
+    gap: 8px;
+    height: calc(100vh - 65px);
+    background: #050505;
+}
+
+/* WORKSPACE PANELS */
+.panel {
+    background: #0b0b0b;
+    border: 1px solid #1f1f1f;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.panel-header {
+    background: #0e0e0e;
+    border-bottom: 1px solid #1f1f1f;
+    padding: 10px 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ASSET TOGGLE BAR */
+.asset-bar {
+    display: flex;
+    background: #0e0e0e;
+    border-bottom: 1px solid #1f1f1f;
+    padding: 6px;
+    gap: 6px;
+}
+
+.asset-btn {
+    background: #141414;
+    border: 1px solid #222;
+    color: #888;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.asset-btn.active { background: #ff2a2a; border-color: #ff2a2a; color: #fff; }
+
+/* LIVE STATS TOP BAR */
+.stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: #0d0d0d;
+    border-bottom: 1px solid #1f1f1f;
+    padding: 8px;
+    gap: 8px;
+    text-align: center;
+}
+
+.stat-box {
+    background: #111;
+    border: 1px solid #1c1c1c;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+.stat-label {
+    font-size: 0.6rem;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 2px;
+}
+.stat-value.positive { color: #00ff66; }
+.stat-value.negative { color: #ff2a2a; }
+
+/* CHART AREA WITH INTERACTIVE OVERLAYS */
+.chart-wrapper {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.chart-line-overlay {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 10;
+    display: none;
+    pointer-events: none;
+}
+
+.chart-overlay-tag {
+    position: absolute;
+    right: 55px;
+    top: -11px;
+    font-family: monospace;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+#limit-order-line { border-top: 2px dashed #ffb703; }
+#limit-order-line .chart-overlay-tag { background: #ffb703; color: #000; }
+
+#active-position-line { background: #00ff66; box-shadow: 0 0 6px rgba(0, 255, 102, 0.3); }
+#active-position-line.negative-state { background: #ff2a2a; box-shadow: 0 0 6px rgba(255, 42, 42, 0.3); }
+#active-position-line .chart-overlay-tag { background: #00ff66; color: #000; }
+#active-position-line.negative-state .chart-overlay-tag { background: #ff2a2a; color: #fff; }
+
+#tv-target-line { border-top: 2px dashed #00ff66; }
+#tv-target-line .chart-overlay-tag { background: #00ff66; color: #000; }
+
+#sl-risk-line { border-top: 2px dashed #ff2a2a; }
+#sl-risk-line .chart-overlay-tag { background: #ff2a2a; color: #fff; }
+
+/* TIME-TRIGGERED GHOST MILESTONE OVERLAY COMPONENT */
+#chart-glitch-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 210, 255, 0.12);
+    border: 3px dashed #00d2ff;
+    box-sizing: border-box;
+    z-index: 99;
+    display: none;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.glitch-flash-active {
+    animation: glitchFlashFrame 0.6s steps(2) forwards;
+}
+
+@keyframes glitchFlashFrame {
+    0%, 100% { opacity: 0; }
+    20%, 80% { opacity: 1; background: rgba(0, 210, 255, 0.18); border-color: #00ff66; }
+    40% { opacity: 0.3; background: rgba(0, 255, 102, 0.1); }
+    60% { opacity: 1; background: rgba(0, 210, 255, 0.25); border-color: #00d2ff; }
+}
+
+/* ORDER BOOK (DOM) */
+.dom-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    font-family: monospace;
+    font-size: 0.8rem;
+    padding: 5px;
+}
+
+.dom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 4px 8px;
+    position: relative;
+    align-items: center;
+}
+.dom-row.ask { color: #ff2a2a; cursor: pointer; }
+.dom-row.bid { color: #00ff66; cursor: pointer; }
+.dom-row.ask:hover { background: rgba(255, 42, 42, 0.15); }
+.dom-row.bid:hover { background: rgba(0, 255, 102, 0.15); }
+
+.dom-row.spread {
+    background: #121212;
+    color: #666;
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 6px;
+    font-weight: bold;
+    border-top: 1px solid #1f1f1f;
+    border-bottom: 1px solid #1f1f1f;
+    display: block;
+}
+
+.dom-bar {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    right: 0;
+    opacity: 0.1;
+    pointer-events: none;
+}
+.dom-row.ask .dom-bar { background: #ff2a2a; }
+.dom-row.bid .dom-bar { background: #00ff66; }
+
+/* TIME & SALES */
+.tape-container {
+    height: 120px;
+    border-top: 1px solid #1f1f1f;
+    overflow-y: auto;
+    font-family: monospace;
+    font-size: 0.75rem;
+    padding: 5px;
+    background: #080808;
+}
+
+/* ORDER ENTRY PANEL */
+.order-panel {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.account-selector select {
+    width: 100%;
+    padding: 8px;
+    background: #111;
+    border: 1px solid #222;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+}
+
+.order-tabs {
+    display: flex;
+    background: #141414;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #555;
+    padding: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+.tab-btn.active {
+    background: #222;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.input-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.input-block label {
+    font-size: 0.65rem;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.input-wrapper {
+    display: flex;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.input-wrapper input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 8px;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.input-wrapper button {
+    background: #1a1a1a;
+    border: none;
+    color: #888;
+    width: 35px;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+/* TARGET SPEC DATA BLOCKS */
+.spec-metrics-display {
+    background: #090909;
+    border: 1px solid #141414;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    color: #777;
+}
+.spec-row strong { color: #fff; font-family: monospace; }
+
+/* CHECKBOX TOGGLES FOR BRACKETS */
+.bracket-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: #aaa;
+    user-select: none;
+    margin-top: 2px;
+}
+
+.bracket-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    display: none;
+}
+
+.execution-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.exec-btn {
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.exec-btn.buy { background: #00ff66; color: #000; }
+.exec-btn.sell { background: #ff2a2a; color: #fff; }
+
+.position-display {
+    background: #0e0e0e;
+    border: 1px dashed #333;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.position-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* PROP VERIFICATION MODULE */
+.rules-container {
+    padding: 12px;
+    background: #0e0e0e;
+    border-top: 1px solid #1f1f1f;
+    font-size: 0.75rem;
+}
+
+.rule-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    color: #666;
+}
+.rule-item span.pass { color: #00ff66; font-weight: bold; }
+.rule-item span.fail { color: #ff2a2a; font-weight: bold; }
+
+/* --- HEADER PROGRESS MILESTONE STYLES --- */
+.header-badge-space {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.persistent-arcade-badge {
+    padding: 3px 8px;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 0.70rem;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.badge-tier1 {
+    background: #001a0e;
+    color: #00ff66;
+    border: 1px solid #00ff66;
+    box-shadow: 0 0 8px rgba(0, 255, 102, 0.4);
+}
+
+.badge-tier2 {
+    background: #001f3d;
+    color: #00d2ff;
+    border: 1px solid #00d2ff;
+    box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+}
+
+/* --- CHASSIS AMBIENT POSITION FEEDBACK GLOWS --- */
+#tv_chart_container {
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    border: 1px solid #1f1f1f;
+    box-sizing: border-box;
+}
+
+/* RESTORED: RHYTHMIC ACTIVE POSITION HEARTBEAT BORDERS */
+@keyframes position-breathe-green {
+    0% { border-color: rgba(0, 255, 102, 0.5); box-shadow: inset 0 0 12px rgba(0, 255, 102, 0.1), 0 0 10px rgba(0, 255, 102, 0.15); }
+    100% { border-color: #00ff66; box-shadow: inset 0 0 22px rgba(0, 255, 102, 0.25), 0 0 25px rgba(0, 255, 102, 0.4); }
+}
+
+@keyframes position-breathe-red {
+    0% { border-color: rgba(255, 42, 42, 0.5); box-shadow: inset 0 0 12px rgba(255, 42, 42, 0.1), 0 0 10px rgba(255, 42, 42, 0.15); }
+    100% { border-color: #ff2a2a; box-shadow: inset 0 0 22px rgba(255, 42, 42, 0.25), 0 0 25px rgba(255, 42, 42, 0.4); }
+}
+
+.chart-panel-green-glow {
+    animation: position-breathe-green 1.6s infinite alternate ease-in-out !important;
+}
+
+.chart-panel-red-glow {
+    animation: position-breathe-red 1.6s infinite alternate ease-in-out !important;
+}
+
+/* --- CHASSIS OVERDRIVE EXTENSION GLOWS (TOUCH-FREE ARCHITECTURE) --- */
+.chassis-snap-active {
+    animation: chassisSnapJump 0.16s cubic-bezier(0.25, 0.8, 0.25, 1) ease-in-out;
+}
+
+@keyframes chassisSnapJump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.006); }
+    100% { transform: scale(1); }
+}
+
+/* Level 1 Overdrive Profile: Soft, deep, rhythmic engine breath */
+.chart-overdrive-tier1 {
+    border-color: #ffb703 !important; 
+    animation: engineBreathingGold 3s infinite ease-in-out !important;
+}
+
+@keyframes engineBreathingGold {
+    0%, 100% {
+        box-shadow: inset 0 0 15px rgba(255, 183, 3, 0.1), 
+                    0 0 15px rgba(255, 183, 3, 0.15) !important;
     }
+    50% {
+        box-shadow: inset 0 0 25px rgba(255, 183, 3, 0.25), 
+                    0 0 35px rgba(255, 183, 3, 0.4) !important;
+    }
+}
 
-    function initChart() {
-      if (chart) klinecharts.dispose('chart');
+/* Level 2 Overdrive Profile: High-Velocity Cyan/Green Arc Wave Pulse */
+.chart-overdrive-tier2 {
+    border-color: #00ff66 !important; 
+    animation: enginePulseHyperGreen 1.5s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
 
-      chart = klinecharts.init('chart');
+@keyframes enginePulseHyperGreen {
+    0%, 100% {
+        box-shadow: inset 0 0 20px rgba(0, 255, 102, 0.15), 
+                    0 0 20px rgba(0, 255, 102, 0.25) !important;
+    }
+    50% {
+        box-shadow: inset 0 0 35px rgba(0, 255, 102, 0.35), 
+                    0 0 45px rgba(0, 255, 102, 0.55) !important;
+    }
+}
 
-      chart.setSymbol({ ticker: currentSymbol + '/USD' });
-      chart.setPeriod({ span: 1, type: 'minute' });
+</style>
 
-      // Your indicators
-      chart.createIndicator('EMA', false, { calcParams: [9] });
-      chart.createIndicator('EMA', false, { calcParams: [21] });
-      chart.createIndicator('VOLUME', true);
-      chart.createIndicator('MACD', true);
-      chart.createIndicator('RSI', true);
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 
-      const basePrices = { BTC: 79130, ETH: 3450, SOL: 145, XRP: 1.43 };
-      const bars = generateMockBars(basePrices[currentSymbol] || 65000);
+<script>
+// SIMULATED ENGINE GLOBAL ARCHITECTURE
+let CURRENT_ASSET = "BTC-USD";
+let ORDER_TYPE = "MARKET";
+const LEVERAGE_FACTOR = 50.0;
 
-      chart.setDataLoader({
-        getBars: ({ callback }) => {
-          callback(bars);
+const accountTiers = {
+    "T1": { name: "Recruit Arcade: $1,000 Sim Box ($10 Ticket)", start: 1000.00, target: 100.00, dailyLimit: 50.00, eodLimit: 100.00 },
+    "T2": { name: "Raider Arcade: $2,000 Sim Box ($20 Ticket)", start: 2000.00, target: 200.00, dailyLimit: 100.00, eodLimit: 200.00 },
+    "T3": { name: "Rebel Arcade: $3,000 Sim Box ($30 Ticket)", start: 3000.00, target: 300.00, dailyLimit: 150.00, eodLimit: 300.00 }
+};
+
+let activeTierKey = "T3";
+let STARTING_BALANCE = 3000.00;
+let ACCOUNT_BALANCE = 3000.00;
+let PEAK_BALANCE = 3000.00;
+let FLOATING_PNL = 0.00;
+let REALIZED_PNL = 0.00;
+let PROFIT_TARGET = 300.00;
+let DAILY_LOSS_LIMIT = 150.00;
+let EOD_TRAILING_LIMIT = 300.00;
+
+// High-Fidelity Crypto Perp Multipliers & Fixed Decimals Configurations
+const assetMap = {
+    'BTC': { api: 'BTC-USD', tv: 'COINBASE:BTCUSD', display: 'BTC/USD Perpetual', multiplier: 0.1, precision: 2, tickSize: 0.50, delta: 1.50 },
+    'ETH': { api: 'ETH-USD', tv: 'COINBASE:ETHUSD', display: 'ETH/USD Perpetual', multiplier: 1.0, precision: 2, tickSize: 0.10, delta: 0.50 },
+    'SOL': { api: 'SOL-USD', tv: 'COINBASE:SOLUSD', display: 'SOL/USD Perpetual', multiplier: 10.0, precision: 2, tickSize: 0.05, delta: 0.10 },
+    'XRP': { api: 'XRP-USD', tv: 'COINBASE:XRPUSD', display: 'XRP/USD Perpetual', multiplier: 1000.0, precision: 4, tickSize: 0.0001, delta: 0.0005 }
+};
+
+let localAssetPrices = {
+    "BTC-USD": 79130.00,
+    "ETH-USD": 3450.00,
+    "SOL-USD": 145.00,
+    "XRP-USD": 1.4350
+};
+
+let pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
+let activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
+
+function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
+}
+
+function playOrderFilledSFX() {
+    try {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance("Order filled");
+            utterance.rate = 1.15;  
+            utterance.pitch = 1.0;   
+            utterance.volume = 1.0;  
+            const voices = window.speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) || voices.find(v => v.lang.startsWith('en'));
+            if (preferredVoice) utterance.voice = preferredVoice;
+            window.speechSynthesis.speak(utterance);
         }
-      });
+    } catch (e) {
+        console.log("Voice synthesis blocked or unsupported:", e);
+    }
+}
 
-      console.log(`✅ Loaded ${bars.length} bars for ${currentSymbol}`);
+function playPositionClosedSFX() {
+    try {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance("Position closed");
+            utterance.rate = 1.15;  
+            utterance.pitch = 1.0;   
+            utterance.volume = 1.0;  
+            const voices = window.speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) || voices.find(v => v.lang.startsWith('en'));
+            if (preferredVoice) utterance.voice = preferredVoice;
+            window.speechSynthesis.speak(utterance);
+        }
+    } catch (e) {
+        console.log("Voice synthesis blocked:", e);
+    }
+}
+
+function getCurrentPrice() {
+    return localAssetPrices[CURRENT_ASSET];
+}
+
+function changeSimAccountTier(selectElement) {
+    activeTierKey = selectElement.value;
+    const config = accountTiers[activeTierKey];
+    
+    STARTING_BALANCE = config.start;
+    ACCOUNT_BALANCE = config.start;
+    PEAK_BALANCE = config.start;
+    REALIZED_PNL = 0.00;
+    FLOATING_PNL = 0.00;
+    PROFIT_TARGET = config.target;
+    DAILY_LOSS_LIMIT = config.dailyLimit;
+    EOD_TRAILING_LIMIT = config.eodLimit;
+    
+    cancelPendingLimit();
+    activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
+    
+    clearAllChartOverlays();
+    updateAccountMetrics();
+    recalculateSpecInterface();
+}
+
+function switchAsset(assetKey, element) {
+    document.querySelectorAll('.asset-bar button').forEach(btn => btn.classList.remove('active'));
+    if (element) element.classList.add('active');
+    
+    const config = assetMap[assetKey];
+    CURRENT_ASSET = config.api;
+    document.getElementById('active-ticker-label').innerText = config.display;
+    const currentLivePrice = localAssetPrices[CURRENT_ASSET];
+    
+    document.getElementById('header-spot-price').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
+    document.getElementById('live-index-val').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
+    document.getElementById('live-mark-val').innerText = `$${(currentLivePrice + config.delta).toFixed(config.precision)}`;
+    
+    const priceInput = document.getElementById('target-execution-price');
+    if (ORDER_TYPE === "LIMIT") {
+        priceInput.value = getCurrentPrice().toFixed(config.precision);
+    } else {
+        priceInput.value = "MARKET PRICE";
     }
 
-    window.switchSymbol = function(symbol) {
-      currentSymbol = symbol;
-      document.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-      document.getElementById(`btn-${symbol}`).classList.add('active');
-      initChart();
-    };
+    cancelPendingLimit();
+    clearAllChartOverlays();
 
-    window.onload = initChart;
-  </script>
+    if (typeof TradingView !== 'undefined') {
+        new TradingView.widget({
+            "width": "100%",
+            "height": "100%",
+            "symbol": config.tv,
+            "interval": "1",
+            "timezone": "Etc/UTC",
+            "theme": "dark",
+            "style": "1",
+            "locale": "en",
+            "toolbar_bg": "#0b0b0b",
+            "enable_publishing": false,
+            "hide_side_toolbar": false,
+            "allow_symbol_change": false,
+            "container_id": "tv_chart_container"
+        });
+    }
+    
+    fetchRebelEnginePrices();
+    setTimeout(recalculateSpecInterface, 100);
+}
+
+function setOrderType(type, element) {
+    document.querySelectorAll('.order-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+    element.classList.add('active');
+    ORDER_TYPE = type;
+    
+    const priceInput = document.getElementById('target-execution-price');
+    if (type === "MARKET") {
+        priceInput.value = "MARKET PRICE";
+        priceInput.disabled = true;
+    } else {
+        const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+        const precision = assetMap[currentAssetKey].precision;
+        priceInput.value = getCurrentPrice().toFixed(precision);
+        priceInput.disabled = false;
+    }
+    cancelPendingLimit();
+    clearAllChartOverlays();
+    recalculateSpecInterface();
+}
+
+function setExecutionPrice(targetPrice) {
+    if (ORDER_TYPE === "MARKET") return;
+    const priceInputField = document.getElementById('target-execution-price');
+    if (priceInputField) {
+        priceInputField.value = targetPrice;
+        recalculateSpecInterface();
+        triggerLimitWorkingLine();
+    }
+}
+
+function toggleBracketInputBlock() {
+    const isChecked = document.getElementById('bracket-toggle-check').checked;
+    const inputGrid = document.getElementById('bracket-input-box-wrapper');
+    inputGrid.style.display = isChecked ? 'grid' : 'none';
+}
+
+function changeContractSizeValue(change) {
+    const sizeInput = document.getElementById('position-contract-size');
+    let currentVal = parseFloat(sizeInput.value) || 1.0;
+    currentVal = Math.max(0.1, currentVal + change);
+    sizeInput.value = currentVal.toFixed(1);
+    recalculateSpecInterface();
+}
+
+function recalculateSpecInterface() {
+    const size = parseFloat(document.getElementById('position-contract-size').value) || 0;
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const spec = assetMap[currentAssetKey];
+    
+    let basePrice = getCurrentPrice();
+    if (ORDER_TYPE === "LIMIT") {
+        const inputVal = parseFloat(document.getElementById('target-execution-price').value);
+        if (!isNaN(inputVal) && inputVal > 0) basePrice = inputVal;
+    }
+    
+    const notionalValue = basePrice * size * spec.multiplier;
+    const marginRequired = notionalValue / LEVERAGE_FACTOR;
+    
+    let netLiquidationValue = ACCOUNT_BALANCE + FLOATING_PNL;
+    const freeMarginAvailable = Math.max(0, netLiquidationValue - marginRequired);
+    
+    document.getElementById('spec-calc-notional').innerText = `$${notionalValue.toFixed(2)}`;
+    document.getElementById('spec-calc-margin').innerText = `$${marginRequired.toFixed(2)}`;
+    document.getElementById('spec-calc-buyingpower').innerText = `$${freeMarginAvailable.toFixed(2)}`;
+}
+
+function checkAutomatedRulesAndExits() {
+    const currentPrice = getCurrentPrice();
+    if (!currentPrice || currentPrice === 0) return;
+
+    if (pendingLimitOrder.isSet) {
+        let isStruck = false;
+        if (pendingLimitOrder.side === 'BUY' && currentPrice <= pendingLimitOrder.limitPrice) isStruck = true;
+        if (pendingLimitOrder.side === 'SELL' && currentPrice >= pendingLimitOrder.limitPrice) isStruck = true;
+        
+        if (isStruck) {
+            activePosition = {
+                hasPosition: true,
+                side: pendingLimitOrder.side,
+                entryPrice: pendingLimitOrder.limitPrice,
+                size: pendingLimitOrder.size,
+                asset: CURRENT_ASSET,
+                tpPrice: pendingLimitOrder.tpPrice,
+                slPrice: pendingLimitOrder.slPrice,
+                largestTradeProfit: 0.0
+            };
+            cancelPendingLimit();
+            showActivePositionOverlays();
+        }
+    }
+
+    if (activePosition.hasPosition && activePosition.asset === CURRENT_ASSET) {
+        let shouldClose = false;
+        let finalExitPrice = currentPrice;
+
+        if (activePosition.tpPrice > 0) {
+            if (activePosition.side === 'BUY' && currentPrice >= activePosition.tpPrice) { shouldClose = true; finalExitPrice = activePosition.tpPrice; }
+            if (activePosition.side === 'SELL' && currentPrice <= activePosition.tpPrice) { shouldClose = true; finalExitPrice = activePosition.tpPrice; }
+        }
+
+        if (activePosition.slPrice > 0) {
+            if (activePosition.side === 'BUY' && currentPrice <= activePosition.slPrice) { shouldClose = true; finalExitPrice = activePosition.slPrice; }
+            if (activePosition.side === 'SELL' && currentPrice >= activePosition.slPrice) { shouldClose = true; finalExitPrice = activePosition.slPrice; }
+        }
+
+        if (shouldClose) {
+            localAssetPrices[CURRENT_ASSET] = finalExitPrice;
+            closeActivePosition();
+        }
+    }
+}
+
+// TRIGGER METHOD FOR INDEPENDENT CYAN FLASH ELEMENT
+function triggerGhostLayerMilestoneFlash() {
+    const flashLayer = document.getElementById('chart-glitch-overlay');
+    if (flashLayer) {
+        flashLayer.style.display = 'block';
+        flashLayer.classList.remove('glitch-flash-active');
+        void flashLayer.offsetWidth; // Force element layout repaint
+        flashLayer.classList.add('glitch-flash-active');
+        setTimeout(() => { flashLayer.style.display = 'none'; }, 600);
+    }
+}
+
+function updateAccountMetrics() {
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const spec = assetMap[currentAssetKey];
+    const currentPrice = getCurrentPrice();
+
+    document.getElementById('header-spot-price').innerText = `$${currentPrice.toFixed(spec.precision)}`;
+    document.getElementById('live-index-val').innerText = `$${currentPrice.toFixed(spec.precision)}`;
+    document.getElementById('live-mark-val').innerText = `$${(currentPrice + spec.delta).toFixed(spec.precision)}`;
+
+    const chartWrapper = document.getElementById('tv_chart_container');
+
+    if (activePosition.hasPosition && activePosition.asset === CURRENT_ASSET) {
+        let priceDelta = currentPrice - activePosition.entryPrice;
+        
+        if (activePosition.side === 'BUY') {
+            FLOATING_PNL = priceDelta * activePosition.size * spec.multiplier;
+        } else {
+            FLOATING_PNL = (-priceDelta) * activePosition.size * spec.multiplier;
+        }
+
+        // RESTORED: REAL-TIME AMBIENT CHASSIS POSITION BORDER TRACKING
+        if (chartWrapper) {
+            if (FLOATING_PNL > 0) {
+                chartWrapper.classList.remove('chart-panel-red-glow');
+                chartWrapper.classList.add('chart-panel-green-glow');
+            } else if (FLOATING_PNL < 0) {
+                chartWrapper.classList.remove('chart-panel-green-glow');
+                chartWrapper.classList.add('chart-panel-red-glow');
+            } else {
+                chartWrapper.classList.add('chart-panel-green-glow');
+                chartWrapper.classList.remove('chart-panel-red-glow');
+            }
+        }
+        
+        if (FLOATING_PNL > activePosition.largestTradeProfit) {
+            activePosition.largestTradeProfit = FLOATING_PNL;
+        }
+        updatePositionOverlayLines();
+    } else {
+        FLOATING_PNL = 0.00;
+        document.getElementById('active-position-line').style.display = 'none';
+        document.getElementById('tv-target-line').style.display = 'none';
+        document.getElementById('sl-risk-line').style.display = 'none';
+
+        // Clear all glowing and overdrive states completely when flat
+        if (chartWrapper) {
+            chartWrapper.classList.remove(
+                'chart-panel-green-glow', 
+                'chart-panel-red-glow', 
+                'chart-overdrive-tier1', 
+                'chart-overdrive-tier2', 
+                'chassis-snap-active'
+            );
+        }
+    }
+
+    let combinedTotalProfit = REALIZED_PNL + FLOATING_PNL;
+    let accountProgressPct = (combinedTotalProfit / PROFIT_TARGET) * 100;
+
+    // LOCKED IN: PERSISTENT BANNER MILESTONES & OVERDRIVE LOGIC
+    const badgeContainer = document.getElementById('arcade-badge-container');
+    if (accountProgressPct >= 10.0) {
+        if (!badgeContainer.querySelector('.badge-tier2')) {
+            badgeContainer.innerHTML = `<span class="persistent-arcade-badge badge-tier2">⚡ BOSS LEVEL 5% ⚡</span>`;
+            
+            if (chartWrapper) {
+                chartWrapper.classList.remove('chart-overdrive-tier1');
+                chartWrapper.classList.add('chassis-snap-active', 'chart-overdrive-tier2');
+                setTimeout(() => chartWrapper.classList.remove('chassis-snap-active'), 160);
+            }
+
+            // TRIGGER FIXED OVERLAY CYAN PULSE WITHOUT BREAKING SYSTEM LAWS
+            triggerGhostLayerMilestoneFlash();
+
+            window.speechSynthesis.cancel();
+            let speech2 = new SpeechSynthesisUtterance("Momentum boost unlocked.");
+            speech2.rate = 1.15;
+            speech2.pitch = 1.0;
+            window.speechSynthesis.speak(speech2);
+        }
+    } else if (accountProgressPct >= 5.0) {
+        if (!badgeContainer.querySelector('.badge-tier1')) {
+            badgeContainer.innerHTML = `<span class="persistent-arcade-badge badge-tier1">⚔️ LEVEL 1 STRIKE ⚔️</span>`;
+            
+            if (chartWrapper) {
+                chartWrapper.classList.remove('chart-overdrive-tier2');
+                chartWrapper.classList.add('chassis-snap-active', 'chart-overdrive-tier1');
+                setTimeout(() => chartWrapper.classList.remove('chassis-snap-active'), 160);
+            }
+
+            // TRIGGER FIXED OVERLAY CYAN PULSE WITHOUT BREAKING SYSTEM LAWS
+            triggerGhostLayerMilestoneFlash();
+
+            window.speechSynthesis.cancel();
+            let speech1 = new SpeechSynthesisUtterance("Momentum boost unlocked.");
+            speech1.rate = 1.15;
+            speech1.pitch = 1.0;
+            window.speechSynthesis.speak(speech1);
+        }
+    } else {
+        badgeContainer.innerHTML = '';
+        if (chartWrapper) {
+            chartWrapper.classList.remove('chart-overdrive-tier1', 'chart-overdrive-tier2');
+        }
+    }
+    
+    let netLiquidationValue = ACCOUNT_BALANCE + FLOATING_PNL;
+    if (netLiquidationValue > PEAK_BALANCE) {
+        PEAK_BALANCE = netLiquidationValue;
+    }
+
+    let accumulatedLoss = STARTING_BALANCE - netLiquidationValue;
+    let currentTrailingDrawdown = PEAK_BALANCE - netLiquidationValue;
+
+    document.getElementById('display-balance').innerText = `$${netLiquidationValue.toFixed(2)}`;
+    
+    const pnlDisplay = document.getElementById('display-pnl');
+    pnlDisplay.innerText = FLOATING_PNL >= 0 ? `+$${FLOATING_PNL.toFixed(2)}` : `-$${Math.abs(FLOATING_PNL).toFixed(2)}`;
+    pnlDisplay.className = FLOATING_PNL >= 0 ? "stat-value positive" : "stat-value negative";
+
+    const lossDisplay = document.getElementById('display-daily-loss');
+    lossDisplay.innerText = `$${Math.max(0, accumulatedLoss).toFixed(2)} / $${DAILY_LOSS_LIMIT}`;
+    lossDisplay.className = accumulatedLoss >= DAILY_LOSS_LIMIT ? "stat-value negative" : "stat-value";
+
+    const positionPanel = document.getElementById('live-position-status');
+    if (activePosition.hasPosition) {
+        const sideColor = activePosition.side === 'BUY' ? '#00ff66' : '#ff2a2a';
+        const sideLabel = activePosition.side === 'BUY' ? 'LONG' : 'SHORT';
+        const displayTicker = activePosition.asset.split('-')[0];
+        const posPrecision = assetMap[displayTicker].precision;
+        
+        positionPanel.innerHTML = `
+            <div class="position-row">
+                <span style="color:${sideColor}; font-weight:bold;">${sideLabel} ${activePosition.size} ${displayTicker}</span>
+                <button style="background:#ff2a2a; border:none; color:#fff; font-size:0.7rem; padding:4px 8px; font-weight:bold; border-radius:2px; cursor:pointer;" onclick="closeActivePosition()">CLOSE POSITION</button>
+            </div>
+            <div class="position-row" style="margin-top: 4px; color:#aaa;">
+                <span>Entry: $${activePosition.entryPrice.toFixed(posPrecision)}</span>
+                <span>Live P&L: <strong style="color:${FLOATING_PNL >= 0 ? '#00ff66' : '#ff2a2a'}">${FLOATING_PNL >= 0 ? '+' : ''}$${FLOATING_PNL.toFixed(2)}</strong></span>
+            </div>
+        `;
+    } else {
+        positionPanel.innerHTML = `
+            <div class="position-row"><span>No Active Dev Positions Open</span><span>--</span></div>
+        `;
+    }
+
+    const targetLeft = PROFIT_TARGET - combinedTotalProfit;
+    const targetField = document.getElementById('metric-target');
+    if (targetLeft <= 0) {
+        targetField.innerText = "TARGET MET! (PASSED)";
+        targetField.className = "pass";
+    } else {
+        targetField.innerText = `$${targetLeft.toFixed(2)} Left`;
+        targetField.className = "";
+        targetField.style.color = "#fff";
+    }
+
+    // FIXED: PHYSICAL LEVEL 1 CHALLENGE PROGRESS BAR SYNCED TO THE INTERFACE
+    let challengePct = (combinedTotalProfit / PROFIT_TARGET) * 100;
+    challengePct = Math.max(0, Math.min(100, challengePct));
+    document.getElementById('header-progress-fill').style.width = `${challengePct.toFixed(1)}%`;
+    document.getElementById('header-progress-pct').innerText = `${challengePct.toFixed(0)}%`;
+
+    const dailyLossGuard = document.getElementById('metric-daily-loss');
+    if (accumulatedLoss >= DAILY_LOSS_LIMIT) {
+        dailyLossGuard.innerText = `VIOLATED (-$${accumulatedLoss.toFixed(2)})`;
+        dailyLossGuard.className = "fail";
+    } else {
+        dailyLossGuard.innerText = `PASSED (-$${Math.max(0, accumulatedLoss).toFixed(2)} / $${DAILY_LOSS_LIMIT})`;
+        dailyLossGuard.className = "pass";
+    }
+
+    const trailingGuard = document.getElementById('metric-trailing');
+    if (currentTrailingDrawdown >= EOD_TRAILING_LIMIT) {
+        trailingGuard.innerText = `VIOLATED ($${currentTrailingDrawdown.toFixed(2)} / $${EOD_TRAILING_LIMIT})`;
+        trailingGuard.className = "fail";
+    } else {
+        trailingGuard.innerText = `PASSED ($${currentTrailingDrawdown.toFixed(2)} / $${EOD_TRAILING_LIMIT})`;
+        trailingGuard.className = "pass";
+    }
+
+    const maxAllowedSingleTradeProfit = PROFIT_TARGET * 0.35;
+    const consistencyField = document.getElementById('metric-consistency');
+    let historicalHighProfit = activePosition.hasPosition ? activePosition.largestTradeProfit : 0.0;
+    
+    if (historicalHighProfit > maxAllowedSingleTradeProfit) {
+        consistencyField.innerText = `OVER CAP ($${historicalHighProfit.toFixed(2)} > $${maxAllowedSingleTradeProfit.toFixed(2)} Max)`;
+        consistencyField.className = "fail";
+    } else {
+        consistencyField.innerText = `COMPLIANT ($${maxAllowedSingleTradeProfit.toFixed(2)} Cap Per Trade)`;
+        consistencyField.className = "pass";
+    }
+}
+
+function triggerLimitWorkingLine() {
+    if (ORDER_TYPE !== "LIMIT") return;
+    const overlay = document.getElementById('limit-order-line');
+    const badge = document.getElementById('limit-line-badge');
+    const inputVal = parseFloat(document.getElementById('target-execution-price').value);
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const precision = assetMap[currentAssetKey].precision;
+    
+    if (overlay && badge && !isNaN(inputVal) && inputVal > 0) {
+        overlay.style.display = 'block';
+        overlay.style.top = '35%';
+        badge.innerText = `WORKING LIMIT TARGET: $${inputVal.toFixed(precision)}`;
+    }
+}
+
+function cancelPendingLimit() {
+    pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
+    document.getElementById('limit-order-line').style.display = 'none';
+}
+
+function showActivePositionOverlays() {
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const precision = assetMap[currentAssetKey].precision;
+    document.getElementById('active-position-line').style.display = 'block';
+    document.getElementById('active-position-line').style.top = '50%';
+    
+    if (activePosition.tpPrice > 0) {
+        const tpOverlay = document.getElementById('tv-target-line');
+        tpOverlay.style.display = 'block';
+        tpOverlay.style.top = activePosition.side === 'BUY' ? '20%' : '80%';
+        document.getElementById('tp-line-badge').innerText = `TAKE PROFIT TARGET: $${activePosition.tpPrice.toFixed(precision)}`;
+    }
+    if (activePosition.slPrice > 0) {
+        const slOverlay = document.getElementById('sl-risk-line');
+        slOverlay.style.display = 'block';
+        slOverlay.style.top = activePosition.side === 'BUY' ? '80%' : '20%';
+        document.getElementById('sl-line-badge').innerText = `STOP LOSS SAFEGUARD: $${activePosition.slPrice.toFixed(precision)}`;
+    }
+}
+
+function updatePositionOverlayLines() {
+    const overlay = document.getElementById('active-position-line');
+    const badge = document.getElementById('active-position-badge');
+    if (!overlay || !badge) return;
+
+    const sideLabel = activePosition.side === 'BUY' ? 'LONG' : 'SHORT';
+    const pnlSign = FLOATING_PNL >= 0 ? '+' : '';
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const precision = assetMap[currentAssetKey].precision;
+
+    badge.innerText = `${sideLabel} ${activePosition.size} Cont. | Entry: $${activePosition.entryPrice.toFixed(precision)} | P&L: ${pnlSign}$${FLOATING_PNL.toFixed(2)}`;
+
+    if (FLOATING_PNL >= 0) {
+        overlay.classList.remove('negative-state');
+    } else {
+        overlay.classList.add('negative-state');
+    }
+}
+
+function clearAllChartOverlays() {
+    document.getElementById('limit-order-line').style.display = 'none';
+    document.getElementById('active-position-line').style.display = 'none';
+    document.getElementById('tv-target-line').style.display = 'none';
+    document.getElementById('sl-risk-line').style.display = 'none';
+}
+
+function executeDevOrder(side) {
+    const contractSize = parseFloat(document.getElementById('position-contract-size').value);
+    
+    let targetTP = 0.0;
+    let targetSL = 0.0;
+    if (document.getElementById('bracket-toggle-check').checked) {
+        targetTP = parseFloat(document.getElementById('bracket-tp-input').value) || 0.0;
+        targetSL = parseFloat(document.getElementById('bracket-sl-input').value) || 0.0;
+    }
+
+    if (activePosition.hasPosition) {
+        closeActivePosition();
+    }
+
+    if (ORDER_TYPE === "MARKET") {
+        activePosition = {
+            hasPosition: true,
+            side: side,
+            entryPrice: getCurrentPrice(),
+            size: contractSize,
+            asset: CURRENT_ASSET,
+            tpPrice: targetTP,
+            slPrice: targetSL,
+            largestTradeProfit: 0.0
+        };
+        showActivePositionOverlays();
+        playOrderFilledSFX();
+    } else {
+        const limitPriceVal = parseFloat(document.getElementById('target-execution-price').value);
+        pendingLimitOrder = {
+            isSet: true,
+            side: side,
+            limitPrice: limitPriceVal,
+            size: contractSize,
+            tpPrice: targetTP,
+            slPrice: targetSL
+        };
+        triggerLimitWorkingLine();
+        playOrderFilledSFX();
+    }
+
+    updateAccountMetrics();
+    recalculateSpecInterface();
+}
+
+function closeActivePosition() {
+    if (!activePosition.hasPosition) return;
+    playPositionClosedSFX();
+
+    ACCOUNT_BALANCE += FLOATING_PNL;
+    REALIZED_PNL += FLOATING_PNL;
+    
+    activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
+    FLOATING_PNL = 0.00;
+    
+    clearAllChartOverlays();
+    updateAccountMetrics();
+    recalculateSpecInterface();
+}
+
+function renderSyntheticOrderBook(basePrice) {
+    if (!basePrice || basePrice === 0) return;
+    
+    const domContainer = document.querySelector('.dom-container');
+    const tapeContainer = document.querySelector('.tape-container');
+    
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const assetConfig = assetMap[currentAssetKey];
+    
+    const tickSize = assetConfig.tickSize;
+    const precision = assetConfig.precision;
+    
+    let askHtml = '';
+    for (let i = 4; i >= 1; i--) {
+        let askPrice = (basePrice + (i * tickSize)).toFixed(precision);
+        let askSize = (Math.random() * 3 + 0.1).toFixed(2);
+        let barWidth = Math.floor(Math.random() * 85 + 10);
+        askHtml += `
+            <div class="dom-row ask" onclick="setExecutionPrice('${askPrice}')">
+                <span>${askPrice}</span><span>${askSize}</span><div class="dom-bar" style="width: ${barWidth}%;"></div>
+            </div>`;
+    }
+    
+    const spreadHtml = `<div class="dom-row spread">SPREAD: $${tickSize.toFixed(precision)}</div>`;
+    
+    let bidHtml = '';
+    for (let i = 1; i <= 4; i++) {
+        let bidPrice = (basePrice - (i * tickSize)).toFixed(precision);
+        let bidSize = (Math.random() * 3 + 0.1).toFixed(2);
+        let barWidth = Math.floor(Math.random() * 85 + 10);
+        bidHtml += `
+            <div class="dom-row bid" onclick="setExecutionPrice('${bidPrice}')">
+                <span>${bidPrice}</span><span>${bidSize}</span><div class="dom-bar" style="width: ${barWidth}%;"></div>
+            </div>`;
+    }
+    
+    domContainer.innerHTML = askHtml + spreadHtml + bidHtml;
+    
+    const now = new Date();
+    const timestamp = now.toTimeString().split(' ')[0];
+    const isBuy = Math.random() > 0.48;
+    const tapeColor = isBuy ? '#00ff66' : '#ff2a2a';
+    const tradeSize = (Math.random() * 1.5 + 0.01).toFixed(2);
+    
+    const printRow = `<div style="color:${tapeColor}; display:flex; justify-content:space-between; padding: 2px 8px; font-family:monospace;"><span>${timestamp}</span><span>${basePrice.toFixed(precision)}</span><span>${tradeSize}</span></div>`;
+    tapeContainer.innerHTML = printRow + tapeContainer.innerHTML;
+    
+    if (tapeContainer.children.length > 5) {
+        tapeContainer.removeChild(tapeContainer.lastChild);
+    }
+}
+
+async function fetchRebelEnginePrices() {
+    try {
+        const response = await fetch("http://192.168.0.66:8000/api/prices");
+        const priceMatrix = await response.json();
+        
+        if (priceMatrix) {
+            const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+            const spec = assetMap[currentAssetKey];
+            
+            if (priceMatrix[spec.api]) {
+                localAssetPrices[CURRENT_ASSET] = parseFloat(priceMatrix[spec.api]);
+            }
+        }
+    } catch (err) {
+        const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+        const config = assetMap[currentAssetKey];
+        let tickDelta = config.delta;
+        localAssetPrices[CURRENT_ASSET] += (Math.random() * (tickDelta * 2) - tickDelta);
+    }
+
+    const currentPrice = localAssetPrices[CURRENT_ASSET];
+    
+    if (currentPrice && currentPrice > 0) {
+        const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+        const spec = assetMap[currentAssetKey];
+        const precision = spec.precision;
+        
+        const formattedPrice = currentPrice.toLocaleString('en-US', { 
+            minimumFractionDigits: precision, 
+            maximumFractionDigits: precision 
+        });
+        
+        const spotEl = document.getElementById('header-spot-price');
+        const indexEl = document.getElementById('live-index-val');
+        const markEl = document.getElementById('live-mark-val');
+        
+        if (spotEl) spotEl.innerText = `$${formattedPrice}`;
+        if (indexEl) indexEl.innerText = `$${formattedPrice}`;
+        if (markEl) {
+            const markPriceVal = currentPrice + spec.delta;
+            markEl.innerText = `$${markPriceVal.toLocaleString('en-US', { minimumFractionDigits: precision, maximumFractionDigits: precision })}`;
+        }
+        
+        renderSyntheticOrderBook(currentPrice);
+        checkAutomatedRulesAndExits();
+        updateAccountMetrics();
+    }
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    switchAsset('BTC', document.getElementById('default-asset'));
+    setInterval(fetchRebelEnginePrices, 1000);
+    setInterval(recalculateSpecInterface, 1000);
+});
+</script>
+</head>
+
+<body>
+
+<header>
+    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
+    
+    <div class="ticker-tape">
+    <div class="ticker-metrics-wrapper">
+        <div class="ticker-item">
+            <span class="ticker-label" style="margin-bottom: 2px;">Active Asset</span>
+            <span class="ticker-value" id="active-ticker-label">BTC/USD Perpetual</span>
+        </div>
+        
+        <div class="ticker-item">
+            <span class="ticker-label">Spot Price</span>
+            <span class="ticker-value" id="header-spot-price" style="color: #00ff66;">$0.00</span>
+        </div>
+
+        <div class="ticker-item">
+            <span class="ticker-label">Index Price</span>
+            <span class="ticker-value" id="live-index-val">$0.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-label">Mark Price</span>
+            <span class="ticker-value" id="live-mark-val">$0.00</span>
+        </div>
+    </div>
+
+       <div class="header-badge-space">
+        <div id="arcade-badge-container"></div>
+    </div>
+
+    <div class="progress-container" id="challenge-progress-wrapper">
+        <div class="progress-labels">
+            <span class="level-title">Level 1 Challenge</span>
+            <span class="percentage-track" id="header-progress-pct">0%</span>
+        </div>
+        <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="header-progress-fill"></div>
+        </div>
+    </div>
+</div>
+           
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div><div></div><div></div>
+    </div>
+</header>
+
+<div class="menu" id="menu">
+    <a href="#" onclick="toggleMenu()">Close Panel</a>
+    <a href="#">Sim Accounts</a>
+    <a href="#">Performance Analyzer</a>
+    <a href="#">Risk Control Center</a>
+</div>
+
+<div class="desk-container">
+    
+    <div class="panel">
+        <div class="asset-bar">
+            <button class="asset-btn active" id="default-asset" onclick="switchAsset('BTC', this)">BTC/USD</button>
+            <button class="asset-btn" onclick="switchAsset('ETH', this)">ETH/USD</button>
+            <button class="asset-btn" onclick="switchAsset('SOL', this)">SOL/USD</button>
+            <button class="asset-btn" onclick="switchAsset('XRP', this)">XRP/USD</button>
+        </div>
+        
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-label">Net Liquidation</div>
+                <div class="stat-value" id="display-balance">$5,000.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Open Floating P&L</div>
+                <div class="stat-value positive" id="display-pnl">+$0.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Daily Accum Loss</div>
+                <div class="stat-value" id="display-daily-loss">$0.00 / $250</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Max Leverage Engine</div>
+                <div class="stat-value" style="color: #ffb703;">1:50 CROSS</div>
+            </div>
+        </div>
+        
+        <div class="chart-wrapper">
+            <div id="limit-order-line" class="chart-line-overlay">
+                <div id="limit-line-badge" class="chart-overlay-tag">WORKING LIMIT TARGET: $0.00</div>
+            </div>
+            <div id="active-position-line" class="chart-line-overlay">
+                <div id="active-position-badge" class="chart-overlay-tag">LONG 1 Cont. | Entry: $0.00 | P&L: +$0.00</div>
+            </div>
+            <div id="tv-target-line" class="chart-line-overlay">
+                <div id="tp-line-badge" class="chart-overlay-tag">TAKE PROFIT TARGET: $0.00</div>
+            </div>
+            <div id="sl-risk-line" class="chart-line-overlay">
+                <div id="sl-line-badge" class="chart-overlay-tag">STOP LOSS SAFEGUARD: $0.00</div>
+            </div>
+
+            <div id="chart-glitch-overlay"></div>
+
+            <div id="tv_chart_container" style="width:100%; height:100%;"></div>
+        </div>
+    </div>
+    
+    <div class="panel">
+        <div class="panel-header">
+            <span>ORDER BOOK (LEVEL 2 DEPTH)</span>
+            <span style="font-family: monospace; font-size: 0.7rem; color: #777;">TICK FEED ACTIVE</span>
+        </div>
+        
+        <div class="dom-container">
+            </div>
+        
+        <div class="panel-header" style="border-top: 1px solid #1f1f1f; border-bottom: none;">
+            <span>TIME & SALES (TAPE)</span>
+        </div>
+        <div class="tape-container">
+            </div>
+    </div>
+    
+    <div class="panel">
+        <div class="panel-header">REBEL DEV ARCADE PANEL</div>
+        <div class="order-panel">
+            
+            <div class="account-selector">
+    <label style="font-size: 0.6rem; color: #555; text-transform: uppercase; display: block; margin-bottom: 4px;">ACTIVE BOX SUBSCRIPTION CLASS</label>
+    <select onchange="changeSimAccountTier(this)">
+        <option value="T3" selected>Rebel Arcade: $3,000 Sim Box ($30 Ticket)</option>
+        <option value="T2">Raider Arcade: $2,000 Sim Box ($20 Ticket)</option>
+        <option value="T1">Recruit Arcade: $1,000 Sim Box ($10 Ticket)</option>
+    </select>
+</div>
+            
+            <div class="order-tabs">
+                <button class="tab-btn active" onclick="setOrderType('MARKET', this)">MARKET</button>
+                <button class="tab-btn" onclick="setOrderType('LIMIT', this)">LIMIT</button>
+            </div>
+            
+            <div class="input-block">
+                <label>Target Execution Price ($)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="target-execution-price" value="MARKET PRICE" disabled oninput="triggerLimitWorkingLine()">
+                </div>
+            </div>
+            
+            <div class="input-block">
+                <label>Position Contract Size</label>
+                <div class="input-wrapper">
+                    <button onclick="changeContractSizeValue(-0.1)">-</button>
+                    <input type="text" id="position-contract-size" value="1.0" oninput="recalculateSpecInterface()">
+                    <button onclick="changeContractSizeValue(0.1)">+</button>
+                </div>
+            </div>
+            
+            <div class="spec-metrics-display">
+                <div class="spec-row">Notional Contract Value:<strong id="spec-calc-notional">$0.00</strong></div>
+                <div class="spec-row">Margin Allocated (1:50):<strong id="spec-calc-margin">$0.00</strong></div>
+                <div class="spec-row">Remaining Buying Power:<strong id="spec-calc-buyingpower">$5,000.00</strong></div>
+            </div>
+            
+            <div class="bracket-toggle-container">
+                <input type="checkbox" id="bracket-toggle-check" onchange="toggleBracketInputBlock()">
+                <label for="bracket-toggle-check" style="cursor:pointer;">Attach TP / SL Bracket Order Parameters</label>
+            </div>
+            
+            <div class="bracket-inputs-grid" id="bracket-input-box-wrapper">
+                <div class="input-block">
+                    <label>Take Profit Price</label>
+                    <div class="input-wrapper"><input type="number" step="any" id="bracket-tp-input" value="0.00"></div>
+                </div>
+                <div class="input-block">
+                    <label>Stop Loss Price</label>
+                    <div class="input-wrapper"><input type="number" step="any" id="bracket-sl-input" value="0.00"></div>
+                </div>
+            </div>
+            
+            <div class="execution-actions">
+                <button class="exec-btn buy" onclick="executeDevOrder('BUY')">BUY / LONG</button>
+                <button class="exec-btn sell" onclick="executeDevOrder('SELL')">SELL / SHORT</button>
+            </div>
+            
+            
+            <div class="position-display" id="live-position-status">
+                <div class="position-row"><span>No Active Open Positions</span><span>--</span></div>
+            </div>
+            
+        </div>
+        
+        <div class="rules-container">
+    <div style="font-weight:bold; color:#fff; font-size:0.7rem; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Prop Verification Framework</div>
+    <div class="rule-item"><span>Profit Extraction Target Metric:</span><span id="metric-target">$300.00 Left</span></div>
+    <div class="rule-item"><span>Intraday Drawdown Safety Metric:</span><span id="metric-daily-loss" class="pass">PASSED (-$0.00 / $150.00)</span></div>
+    <div class="rule-item"><span>EOD Trailing Drawdown Limit:</span><span id="metric-trailing" class="pass">PASSED ($0.00 / $300.00)</span></div>
+    <div class="rule-item"><span>35% Single-Trade Consistency Rule:</span><span id="metric-consistency" class="pass">COMPLIANT ($105.00 Cap)</span></div>
+</div>
+    </div>
+    
+</div>
+
 </body>
 </html>
