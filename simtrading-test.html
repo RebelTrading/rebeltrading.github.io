@@ -1157,13 +1157,14 @@ function updateAccountMetrics() {
 
 function triggerLimitWorkingLine() {
     if (ORDER_TYPE !== "LIMIT") return;
+
     const overlay = document.getElementById('limit-order-line');
     const badge = document.getElementById('limit-line-badge');
     const inputVal = parseFloat(document.getElementById('target-execution-price').value);
     const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
     const precision = assetMap[currentAssetKey].precision;
     
-        if (overlay && badge && !isNaN(inputVal) && inputVal > 0) {
+    if (overlay && badge && !isNaN(inputVal) && inputVal > 0) {
         overlay.style.display = 'none';
         badge.innerText = `WORKING LIMIT TARGET: $${inputVal.toFixed(precision)}`;
 
@@ -1171,6 +1172,7 @@ function triggerLimitWorkingLine() {
             window.RebelChart.showLimitLine(inputVal, precision);
         }
     }
+}
 
 function cancelPendingLimit() {
     pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
@@ -1482,15 +1484,18 @@ window.addEventListener('DOMContentLoaded', function() {
 
             <div id="chart-glitch-overlay"></div>
 
-            <div id="tv_chart_container" style="width:100%; height:100%;">
+<div id="tv_chart_container" style="width:100%; height:100%;">
     <div id="workspace">
         <div id="main-container" class="chart-row"></div>
         <div id="rsi-splitter" class="splitter"></div>
         <div id="rsi-container" class="chart-row"></div>
         <div id="macd-splitter" class="splitter"></div>
         <div id="macd-container" class="chart-row"></div>
-     </div>
-</div> 
+    </div>
+</div>
+
+        </div>
+    </div>
     
     <div class="panel">
         <div class="panel-header">
