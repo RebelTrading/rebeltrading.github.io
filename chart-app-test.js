@@ -239,17 +239,22 @@ async function loadChartWorkspace() {
     }
 }
 
+function isToggleChecked(id, defaultValue = false) {
+    const toggle = document.getElementById(id);
+    return toggle ? toggle.checked : defaultValue;
+}
+
 function refreshChartOverlays() {
     if (!candlestickSeries) return;
     candlestickSeries.setData(currentHistoricalBars);
 
-    ema9Series.setData(document.getElementById('toggle-ema9')?.checked ? calculateEMA(currentHistoricalBars, 9) : []);
-    ema21Series.setData(document.getElementById('toggle-ema21')?.checked ? calculateEMA(currentHistoricalBars, 21) : []);
-    ema100Series.setData(document.getElementById('toggle-ema100')?.checked ? calculateEMA(currentHistoricalBars, 100) : []);
-    ema200Series.setData(document.getElementById('toggle-ema200')?.checked ? calculateEMA(currentHistoricalBars, 200) : []);
-    vwapSeries.setData(document.getElementById('toggle-vwap')?.checked ? calculateVWAP(currentHistoricalBars) : []);
+    ema9Series.setData(isToggleChecked('toggle-ema9') ? calculateEMA(currentHistoricalBars, 9) : []);
+    ema21Series.setData(isToggleChecked('toggle-ema21') ? calculateEMA(currentHistoricalBars, 21) : []);
+    ema100Series.setData(isToggleChecked('toggle-ema100') ? calculateEMA(currentHistoricalBars, 100) : []);
+    ema200Series.setData(isToggleChecked('toggle-ema200') ? calculateEMA(currentHistoricalBars, 200) : []);
+    vwapSeries.setData(isToggleChecked('toggle-vwap') ? calculateVWAP(currentHistoricalBars) : []);
 
-    if (document.getElementById('toggle-volume')?.checked) {
+    if (isToggleChecked('toggle-volume', true)) {
         volumeSeries.setData(currentHistoricalBars.map(b => ({
             time: b.time, value: b.volume, color: b.close >= b.open ? '#ff2a2a22' : '#00ff6622'
         })));
@@ -408,7 +413,7 @@ function initPriceLoop() {
             if (document.getElementById('toggle-ema200')?.checked) ema200Series.update(calculateEMA(currentHistoricalBars, 200).pop());
             if (document.getElementById('toggle-vwap')?.checked) vwapSeries.update(calculateVWAP(currentHistoricalBars).pop());
 
-            if (document.getElementById('toggle-rsi')?.checked && currentHistoricalBars.length > 14) {
+            if (isToggleChecked('toggle-rsi', true) && currentHistoricalBars.length > 14) {
                 const closePrices = currentHistoricalBars.map(b => b.close);
                 const rsiValues = RSI.calculate({ values: closePrices, period: 14 });
                 if (rsiValues.length > 0) {
@@ -418,7 +423,7 @@ function initPriceLoop() {
                 }
             }
             
-            if (document.getElementById('toggle-macd')?.checked && currentHistoricalBars.length > 26) {
+            if (isToggleChecked('toggle-macd', true) && currentHistoricalBars.length > 26) {
                 const closePrices = currentHistoricalBars.map(b => b.close);
                 const macdValues = MACD.calculate({ values: closePrices, fastPeriod: 12, slowPeriod: 26, signalPeriod: 9, SimpleMAOscillator: false, SimpleMASignal: false });
                 if (macdValues.length > 0) {
