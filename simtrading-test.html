@@ -1168,20 +1168,13 @@ function cancelPendingLimit() {
 function showActivePositionOverlays() {
     const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
     const precision = assetMap[currentAssetKey].precision;
-    document.getElementById('active-position-line').style.display = 'block';
-    document.getElementById('active-position-line').style.top = '50%';
-    
-    if (activePosition.tpPrice > 0) {
-        const tpOverlay = document.getElementById('tv-target-line');
-        tpOverlay.style.display = 'block';
-        tpOverlay.style.top = activePosition.side === 'BUY' ? '20%' : '80%';
-        document.getElementById('tp-line-badge').innerText = `TAKE PROFIT TARGET: $${activePosition.tpPrice.toFixed(precision)}`;
-    }
-    if (activePosition.slPrice > 0) {
-        const slOverlay = document.getElementById('sl-risk-line');
-        slOverlay.style.display = 'block';
-        slOverlay.style.top = activePosition.side === 'BUY' ? '80%' : '20%';
-        document.getElementById('sl-line-badge').innerText = `STOP LOSS SAFEGUARD: $${activePosition.slPrice.toFixed(precision)}`;
+
+    document.getElementById('active-position-line').style.display = 'none';
+    document.getElementById('tv-target-line').style.display = 'none';
+    document.getElementById('sl-risk-line').style.display = 'none';
+
+    if (window.RebelChart) {
+        window.RebelChart.showPositionLines(activePosition, precision);
     }
 }
 
