@@ -47,7 +47,25 @@ const commonOptions = {
 function cleanArray(arr) {
     return arr.filter(item => item && item.time && item.value !== undefined && !isNaN(item.value));
 }
+function removePriceLine(lineRef) {
+    if (candlestickSeries && lineRef) {
+        candlestickSeries.removePriceLine(lineRef);
+    }
+    return null;
+}
 
+function makePriceLine(price, color, title, lineStyle = 2) {
+    if (!candlestickSeries || !price || isNaN(price)) return null;
+
+    return candlestickSeries.createPriceLine({
+        price,
+        color,
+        lineWidth: 2,
+        lineStyle,
+        axisLabelVisible: true,
+        title
+    });
+}
 function calculateEMA(data, period) {
     let emaData = [];
     if (data.length < period) return emaData;
@@ -629,5 +647,12 @@ window.RebelChart = {
         if (!price || isNaN(price)) return;
         // The chart currently polls the same price source internally.
         // This hook exists so the sim page can drive chart updates in the next step.
+    },
+
+    clearTradeLines() {
+        limitPriceLine = removePriceLine(limitPriceLine);
+        entryPriceLine = removePriceLine(entryPriceLine);
+        takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
+        stopLossPriceLine = removePriceLine(stopLossPriceLine);
     }
 };
