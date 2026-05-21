@@ -614,3 +614,16 @@ window.addEventListener('resize', () => {
     if (rsiChart && rsiDiv && rsiDiv.clientWidth > 0 && rsiDiv.clientHeight > 0) rsiChart.resize(rsiDiv.clientWidth, rsiDiv.clientHeight);
     if (macdChart && macdDiv && macdDiv.clientWidth > 0 && macdDiv.clientHeight > 0) macdChart.resize(macdDiv.clientWidth, macdDiv.clientHeight);
 });
+window.RebelChart = {
+    switchAsset(assetKey) {
+        if (!assetKey) return;
+        currentAsset = assetKey;
+        loadChartWorkspace();
+    },
+
+    updateLivePrice(price) {
+        if (!price || isNaN(price)) return;
+        // The chart currently polls the same price source internally.
+        // This hook exists so the sim page can drive chart updates in the next step.
+    }
+};
