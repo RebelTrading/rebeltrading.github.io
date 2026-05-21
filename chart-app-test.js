@@ -334,15 +334,7 @@ setTimeout(() => {
         const range = mainChart.timeScale().getVisibleLogicalRange();
         if (range) {
             if (rsiChart) rsiChart.timeScale().setVisibleLogicalRange(range);
-            if (macdChart) {
-                // Keep the sync, but remove the offset that isn't working
-                macdChart.timeScale().setVisibleLogicalRange(range);
-                
-                // ADD THIS INSTEAD: 
-                // This forces the MACD chart to pin its right edge 
-                // exactly where the main chart is pinned.
-                macdChart.timeScale().scrollToRealTime();
-            }
+            if (macdChart) macdChart.timeScale().setVisibleLogicalRange(range);
         }
     }
 }, 100);
