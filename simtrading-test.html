@@ -847,6 +847,7 @@ function setOrderType(type, element) {
 }
 
 function setExecutionPrice(targetPrice) {
+    
     if (ORDER_TYPE === "MARKET") return;
 
     const numericPrice = parseFloat(targetPrice);
@@ -862,6 +863,8 @@ function setExecutionPrice(targetPrice) {
         triggerLimitWorkingLine();
     }
 }
+
+    window.setExecutionPrice = setExecutionPrice;
 
 function toggleBracketInputBlock() {
     const isChecked = document.getElementById('bracket-toggle-check').checked;
