@@ -702,5 +702,25 @@ window.RebelChart = {
                 2
             );
         }
+    },
+
+    updateEntryLine(position, floatingPnl, precision = 2) {
+        if (!position || !position.hasPosition) return;
+
+        entryPriceLine = removePriceLine(entryPriceLine);
+
+        const sideLabel = position.side === 'BUY' ? 'LONG' : 'SHORT';
+        const pnlValue = Number(floatingPnl) || 0;
+        const pnlColor = pnlValue >= 0 ? '#00ff66' : '#ff2a2a';
+        const pnlText = pnlValue >= 0
+            ? `+$${pnlValue.toFixed(2)}`
+            : `-$${Math.abs(pnlValue).toFixed(2)}`;
+
+        entryPriceLine = makePriceLine(
+            position.entryPrice,
+            pnlColor,
+            `ENTRY ${sideLabel} | ${pnlText}`,
+            0
+        );
     }
 };
