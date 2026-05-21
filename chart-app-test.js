@@ -116,6 +116,16 @@ function initChartInstances() {
     candlestickSeries.applyOptions({
         priceFormat: { type: 'price', precision: currentAsset === 'XRP' ? 4 : 2, minMove: currentAsset === 'XRP' ? 0.0001 : 0.01 }
     });
+        mainChart.subscribeClick(param => {
+        if (!param || param.point === undefined || !candlestickSeries) return;
+        if (window.ORDER_TYPE !== 'LIMIT') return;
+        if (typeof window.setExecutionPrice !== 'function') return;
+
+        const price = candlestickSeries.coordinateToPrice(param.point.y);
+        if (!price || isNaN(price)) return;
+
+        window.setExecutionPrice(price);
+    });
 
     // Overlays
     ema9Series = mainChart.addLineSeries({ color: '#00b4d8', lineWidth: 1.5, title: '9 EMA' });
