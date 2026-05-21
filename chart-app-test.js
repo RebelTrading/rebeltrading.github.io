@@ -586,9 +586,12 @@ initSplitterDrag('macd-splitter', 'rsi-container', 'macd-container');
 
 document.querySelectorAll('.asset-btn').forEach(button => {
     button.addEventListener('click', (e) => {
-        document.querySelectorAll('.asset-btn').forEach(btn => btn.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        currentAsset = e.currentTarget.getAttribute('data-asset');
+        const label = e.currentTarget.textContent || '';
+        if (label.includes('BTC')) currentAsset = 'BTC';
+        if (label.includes('ETH')) currentAsset = 'ETH';
+        if (label.includes('SOL')) currentAsset = 'SOL';
+        if (label.includes('XRP')) currentAsset = 'XRP';
+
         loadChartWorkspace();
     });
 });
