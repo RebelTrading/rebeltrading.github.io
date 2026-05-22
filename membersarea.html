@@ -394,13 +394,15 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 <h2 class="glow-title">Performance Hub</h2>
                 <div style="font-size: 0.8rem; color: #8a8a93; margin-top: 4px;">Real-time tracking engine for evaluation milestones</div>
             </div>
-            <div>
-                <select id="account-dropdown">
-                    <option value="10k-challenge" selected>Rebel Challenge: $10,000 Sim Perp</option>
-                    <option value="5k-challenge">Rebel Challenge: $5,000 Sim Perp</option>
-                    <option value="25k-challenge">Rebel Challenge: $25,000 Sim Perp</option>
-                </select>
-            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+    <select id="account-dropdown">
+        <option value="active-challenge" selected>Active Rebel Challenge</option>
+    </select>
+
+    <button class="action-btn" onclick="window.location.href='simtrading-test.html'">
+        Launch Trade Sim
+    </button>
+</div>
         </div>
 
         <div class="grid">
