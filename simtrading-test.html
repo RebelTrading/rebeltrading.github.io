@@ -739,9 +739,13 @@ header img {
 
 <script>
 // SIMULATED ENGINE GLOBAL ARCHITECTURE
+const API_BASE_URL = "http://192.168.0.66:8000";
+
 let CURRENT_ASSET = "BTC-USD";
 let ORDER_TYPE = "MARKET";
 window.ORDER_TYPE = ORDER_TYPE;
+let AUTH_USER = null;
+let ACTIVE_CHALLENGE = null;
 const LEVERAGE_FACTOR = 50.0;
 
 const accountTiers = {
