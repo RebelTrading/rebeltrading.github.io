@@ -827,6 +827,10 @@ async function syncChallengeSnapshot() {
     const token = localStorage.getItem("rebel_auth_token");
     if (!token || !ACTIVE_CHALLENGE) return;
 
+    const now = Date.now();
+    if (now - lastSnapshotSyncAt < 5000) return;
+    lastSnapshotSyncAt = now;
+
     try {
         await fetch(`${API_BASE_URL}/api/challenge/snapshot`, {
             method: "POST",
