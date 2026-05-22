@@ -106,12 +106,12 @@ function initChartInstances() {
     // 1. Build Main Candlestick Window
     mainChart = createChart(mainDiv, { ...commonOptions, width: mainDiv.clientWidth, height: mainDiv.clientHeight });
     candlestickSeries = mainChart.addCandlestickSeries({
-        upColor: '#ff2a2a',      // Red = Up / Bullish
-        downColor: '#00ff66',    // Green = Down / Bearish
-        borderVisible: false, 
-        wickUpColor: '#ff2a2a',
-        wickDownColor: '#00ff66'
-    });
+    upColor: '#00ff66',
+    downColor: '#ff2a2a',
+    borderVisible: false,
+    wickUpColor: '#00ff66',
+    wickDownColor: '#ff2a2a'
+});
 
     candlestickSeries.applyOptions({
         priceFormat: { type: 'price', precision: currentAsset === 'XRP' ? 4 : 2, minMove: currentAsset === 'XRP' ? 0.0001 : 0.01 }
