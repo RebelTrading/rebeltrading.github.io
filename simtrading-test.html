@@ -1482,7 +1482,28 @@ window.addEventListener('DOMContentLoaded', function() {
                 <div id="sl-line-badge" class="chart-overlay-tag">STOP LOSS SAFEGUARD: $0.00</div>
             </div>
 
-            <div id="chart-glitch-overlay"></div>
+           <div id="chart-glitch-overlay"></div>
+
+<div id="chart-toolbar">
+    <button class="tf-btn active" data-tf="1m">1M</button>
+    <button class="tf-btn" data-tf="5m">5M</button>
+    <button class="tf-btn" data-tf="1h">1H</button>
+    <button class="tf-btn" data-tf="1d">1D</button>
+
+    <span class="chart-toolbar-divider">|</span>
+
+    <label><input type="checkbox" id="toggle-ema9"> 9 EMA</label>
+    <label><input type="checkbox" id="toggle-ema21"> 21 EMA</label>
+    <label><input type="checkbox" id="toggle-ema100"> 100 EMA</label>
+    <label><input type="checkbox" id="toggle-ema200"> 200 EMA</label>
+    <label><input type="checkbox" id="toggle-vwap"> VWAP</label>
+
+    <span class="chart-toolbar-divider">|</span>
+
+    <label><input type="checkbox" id="toggle-volume" checked> Volume</label>
+    <label><input type="checkbox" id="toggle-rsi" checked> RSI</label>
+    <label><input type="checkbox" id="toggle-macd" checked> MACD</label>
+</div>
 
 <div id="tv_chart_container" style="width:100%; height:100%;">
     <div id="workspace">
