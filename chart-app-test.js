@@ -674,10 +674,49 @@ window.RebelChart = {
 },
 
     updateLivePrice(price) {
-        if (!price || isNaN(price)) return;
-        // The chart currently polls the same price source internally.
-        // This hook exists so the sim page can drive chart updates in the next step.
-    },
+    const livePrice = Number(price);
+    if (!livePrice || isNaN(livePrice) || !candlestickSeries || currentHistoricalBars.length === 0) return;
+
+    const interval = currentTimeframe === '5m' ? 300 : currentTimeframe === '15m' ? 900 : currentTimeframe === '1h' ? 3600 : currentTimeframe === '1d' ? 86400 : 60;
+    const nowSeconds = Math.floor(Date.now() / 1000);
+    const currentBarTime = Math.floor(nowSeconds / interval) * interval;
+
+    let lastBar = currentHistoricalBars[currentHistoricalBars.length - 1];
+
+    if (lastBar && lastBar.time === currentBarTime) {
+        lastBar.close = livePrice;
+        lastBar.high = Math.max(lastBar.high, livePrice);
+        lastBar.low = Math.min(lastBar.low, livePrice);
+    } else {
+        lastBar = {
+            time: currentBarTime,
+            open: currentHistoricalBars[currentHistoricalBars.length - 1].close,
+            high: livePrice,
+            low: livePrice,
+            close: livePrice,
+            volume: 0
+        };
+
+        currentHistoricalBars.push(lastBar);
+        if (currentHistoricalBars.length > 300) currentHistoricalBars.shift();
+    }
+
+    candlestickSeries.update({
+        time: lastBar.time,
+        open: lastBar.open,
+        high: lastBar.high,
+        low: lastBar.low,
+        close: lastBar.close
+    });
+
+    if (isToggleChecked('toggle-volume', true) && volumeSeries) {
+        volumeSeries.update({
+            time: lastBar.time,
+            value: lastBar.volume || 0,
+            color: lastBar.close >= lastBar.open ? '#00ff6622' : '#ff2a2a22'
+        });
+    }
+},
 
     clearTradeLines() {
         limitPriceLine = removePriceLine(limitPriceLine);
