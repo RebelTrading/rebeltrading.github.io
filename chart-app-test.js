@@ -285,7 +285,7 @@ async function loadChartWorkspace() {
             }
         }, 250);
 
-        initPriceLoop(); 
+        // Live price updates are driven by simtrading-test.html via window.RebelChart.updateLivePrice().
 
     } catch (err) {
         console.error("Critical sandbox crash caught:", err);
