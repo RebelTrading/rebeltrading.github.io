@@ -816,13 +816,34 @@ async function checkTradingAccess() {
         const data = await response.json();
         AUTH_USER = data.user;
         ACTIVE_CHALLENGE = data.active_challenge;
+        applyActiveChallengeToSim();
 
         setTradingAccessState(Boolean(ACTIVE_CHALLENGE));
-    } catch (err) {
+        } catch (err) {
         console.warn("Auth check failed:", err);
+        AUTH_USER = null;
+        ACTIVE_CHALLENGE = null;
         setTradingAccessState(false);
     }
 }
+
+function applyActiveChallengeToSim() {
+    if (!ACTIVE_CHALLENGE) return;
+
+    activeTierKey = ACTIVE_CHALLENGE.tier || activeTierKey;
+    STARTING_BALANCE = Number(ACTIVE_CHALLENGE.starting_balance) || STARTING_BALANCE;
+    ACCOUNT_BALANCE = Number(ACTIVE_CHALLENGE.current_balance) || STARTING_BALANCE;
+    PEAK_BALANCE = Number(ACTIVE_CHALLENGE.peak_balance) || ACCOUNT_BALANCE;
+    REALIZED_PNL = Number(ACTIVE_CHALLENGE.realized_pnl) || 0;
+    FLOATING_PNL = Number(ACTIVE_CHALLENGE.floating_pnl) || 0;
+    PROFIT_TARGET = Number(ACTIVE_CHALLENGE.profit_target) || PROFIT_TARGET;
+    DAILY_LOSS_LIMIT = Number(ACTIVE_CHALLENGE.daily_loss_limit) || DAILY_LOSS_LIMIT;
+    EOD_TRAILING_LIMIT = Number(ACTIVE_CHALLENGE.trailing_limit) || EOD_TRAILING_LIMIT;
+
+    updateAccountMetrics();
+    recalculateSpecInterface();
+}
+
 async function syncChallengeSnapshot() {
     const token = localStorage.getItem("rebel_auth_token");
     if (!token || !ACTIVE_CHALLENGE) return;
@@ -1535,8 +1556,8 @@ async function fetchRebelEnginePrices() {
     }
 }
 
-window.addEventListener('DOMContentLoaded', function() {
-    checkTradingAccess();
+window.addEventListener('DOMContentLoaded', async function() {
+    await checkTradingAccess();
     switchAsset('BTC', document.getElementById('default-asset'));
     setInterval(fetchRebelEnginePrices, 1000);
     setInterval(recalculateSpecInterface, 1000);
