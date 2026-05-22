@@ -659,10 +659,17 @@ footer {
 }
 
   @media (max-width: 600px) {
-    /* Targets the second button specifically */
+    /* Targets the 'Get Sim Challenge' button directly */
     .header-cta-group a:nth-child(2) {
-        padding: 6px 2px; /* Reduces side padding to 2px to make it narrow */
-        font-size: 0.55rem; /* Shrinks font slightly to ensure it fits */
+        padding: 8px 4px !important; /* Force narrow padding */
+        font-size: 0.6rem !important; /* Force smaller font */
+        white-space: nowrap;          /* Force text to stay on one line */
+    }
+
+    /* Pulls the group closer to the logo to make more total room */
+    .header-cta-group {
+        gap: 2px !important;
+        margin-right: 5px; /* Adds space before the hamburger menu */
     }
 }
 </style>
