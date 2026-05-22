@@ -1335,7 +1335,7 @@ function renderSyntheticOrderBook(basePrice) {
     const precision = assetConfig.precision;
     
     let askHtml = '';
-    for (let i = 4; i >= 1; i--) {
+    for (let i = 10; i >= 1; i--) {
         let askPrice = (basePrice + (i * tickSize)).toFixed(precision);
         let askSize = (Math.random() * 3 + 0.1).toFixed(2);
         let barWidth = Math.floor(Math.random() * 85 + 10);
@@ -1348,7 +1348,7 @@ function renderSyntheticOrderBook(basePrice) {
     const spreadHtml = `<div class="dom-row spread">SPREAD: $${tickSize.toFixed(precision)}</div>`;
     
     let bidHtml = '';
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 10; i++) {
         let bidPrice = (basePrice - (i * tickSize)).toFixed(precision);
         let bidSize = (Math.random() * 3 + 0.1).toFixed(2);
         let barWidth = Math.floor(Math.random() * 85 + 10);
