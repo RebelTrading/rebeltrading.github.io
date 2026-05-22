@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rebel Trading Group | Membership</title>
+<title>Rebel Trading Group | Challenge Access</title>
 
 <style>
 body {
@@ -11,9 +11,9 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: #000;
     color: #bdbdbd;
+    min-height: 100vh;
 }
 
-/* HEADER */
 header {
     position: fixed;
     top: 0;
@@ -23,20 +23,19 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 10px;
+    padding: 12px 20px;
     box-sizing: border-box;
     border-bottom: 1px solid #1a1a1a;
     z-index: 1000;
 }
 
 header img {
-    height: 100px;
+    height: 80px;
 }
 
-/* HAMBURGER */
 .hamburger {
     cursor: pointer;
-    width: 50px;
+    width: 42px;
 }
 
 .hamburger div {
@@ -45,7 +44,6 @@ header img {
     margin: 5px 0;
 }
 
-/* MENU */
 .menu {
     position: fixed;
     top: 0;
@@ -53,9 +51,10 @@ header img {
     width: 260px;
     height: 100%;
     background: #0a0a0a;
-    padding-top: 80px;
+    padding-top: 90px;
     transition: 0.3s;
     z-index: 999;
+    border-left: 1px solid #1f1f1f;
 }
 
 .menu a {
@@ -70,179 +69,341 @@ header img {
     color: #ff2a2a;
 }
 
-/* BANNER */
-.banner {
-    height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: radial-gradient(circle at center, #111 0%, #000 60%);
-    margin-top: 80px;
+.page-shell {
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 130px 24px 60px;
+    background: radial-gradient(circle at 75% 20%, #1a0707 0%, #050505 38%, #000 100%);
 }
 
-.banner h1 {
-    font-size: 3.5rem;
-    color: #ff2a2a;
-}
-
-.banner p {
-    color: #888;
-}
-
-/* SECTIONS */
-.section {
-    padding: 100px 30px;
-    max-width: 1100px;
-    margin: auto;
-}
-
-.section h2 {
-    color: #ff2a2a;
-}
-
-p {
-    line-height: 1.6;
-}
-
-ul {
-    line-height: 1.8;
-}
-
-.highlight {
-    color: #fff;
-    font-weight: bold;
-}
-
-/* BOX */
-.box-container {
+.access-layout {
+    max-width: 1180px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+    align-items: stretch;
 }
 
-.box {
-    background: #0b0b0b;
+.info-panel,
+.form-panel {
+    background: rgba(8, 8, 12, 0.78);
     border: 1px solid #1f1f1f;
-    padding: 20px;
     border-radius: 10px;
+    box-sizing: border-box;
+    backdrop-filter: blur(8px);
 }
 
-.box:hover {
+.info-panel {
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.eyebrow {
+    color: #ff2a2a;
+    font-weight: bold;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+h1 {
+    color: #fff;
+    font-size: 2.7rem;
+    line-height: 1.05;
+    margin: 0 0 16px;
+}
+
+.lede {
+    color: #9a9a9a;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 620px;
+}
+
+.tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.tier-card {
+    border: 1px solid #222;
+    background: #090909;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.tier-card strong {
+    color: #fff;
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.tier-card span {
+    display: block;
+    color: #777;
+    font-size: 0.75rem;
+    line-height: 1.45;
+}
+
+.form-panel {
+    padding: 26px;
+}
+
+.tabs {
+    display: flex;
+    background: #111;
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 22px;
+}
+
+.tab-btn {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: #777;
+    padding: 11px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    background: #222;
+    color: #fff;
+}
+
+.form-block {
+    display: none;
+}
+
+.form-block.active {
+    display: block;
+}
+
+label {
+    display: block;
+    font-size: 0.7rem;
+    color: #777;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+input,
+select {
+    width: 100%;
+    box-sizing: border-box;
+    background: #0d0d0d;
+    border: 1px solid #242424;
+    color: #fff;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 14px;
+    font-weight: bold;
+    outline: none;
+}
+
+input:focus,
+select:focus {
     border-color: #ff2a2a;
 }
 
-/* CTA */
-.cta-box {
+.challenge-select {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.challenge-option {
+    position: relative;
+}
+
+.challenge-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.challenge-option span {
+    display: block;
+    border: 1px solid #252525;
+    background: #0b0b0b;
+    border-radius: 8px;
+    padding: 13px 10px;
     text-align: center;
-    padding: 40px;
-    border: 1px solid #1f1f1f;
-    border-radius: 12px;
-    background: #0a0a0a;
-    margin-top: 40px;
+    color: #aaa;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.price {
-    font-size: 2.5rem;
-    color: #ff2a2a;
-    margin-bottom: 10px;
+.challenge-option input:checked + span {
+    background: #ff2a2a;
+    border-color: #ff2a2a;
+    color: #fff;
 }
 
-.btn {
+.action-btn {
+    width: 100%;
     background: #ff2a2a;
     color: #fff;
-    padding: 15px 25px;
+    padding: 14px;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 0.95rem;
     font-weight: bold;
     border-radius: 6px;
     transition: 0.2s;
 }
 
-.btn:hover {
+.action-btn:hover {
     background: #cc0000;
 }
 
-.coming-soon {
-    margin-top: 10px;
-    color: #888;
-    font-size: 14px;
+.secondary-note {
+    color: #777;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin-top: 14px;
 }
 
-/* MODAL */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.8);
+.status-message {
+    min-height: 20px;
+    font-size: 0.82rem;
+    margin-top: 14px;
+    color: #ffb703;
+    font-weight: bold;
 }
 
-.modal-content {
-    background-color: #111;
-    margin: 15% auto;
-    padding: 30px;
-    border: 1px solid #333;
-    width: 80%;
-    max-width: 400px;
-    text-align: center;
-    border-radius: 10px;
-    color: #fff;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 22px;
-    cursor: pointer;
-}
-
-.close:hover {
-    color: #fff;
-}
-
-/* FOOTER */
 footer {
     text-align: center;
-    padding: 30px;
+    padding: 24px;
     background: #0a0a0a;
     border-top: 1px solid #1a1a1a;
+    color: #666;
+    font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+    .access-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .tier-grid,
+    .challenge-select {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 2.1rem;
+    }
 }
 </style>
 
 <script>
+const API_URL = "http://192.168.0.66:8000";
+
 function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
 }
 
-function openModal() {
-    document.getElementById("modal").style.display = "block";
+function setMode(mode) {
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+    document.querySelectorAll(".form-block").forEach(block => block.classList.remove("active"));
+
+    document.getElementById(`${mode}-tab`).classList.add("active");
+    document.getElementById(`${mode}-form`).classList.add("active");
+    setStatus("");
 }
 
-function closeModal() {
-    document.getElementById("modal").style.display = "none";
+function setStatus(message) {
+    const status = document.getElementById("status-message");
+    if (status) status.innerText = message;
 }
 
-window.onclick = function(event) {
-    let modal = document.getElementById("modal");
-    if (event.target == modal) {
-        modal.style.display = "none";
+function getSelectedTier() {
+    const selected = document.querySelector("input[name='tier']:checked");
+    return selected ? selected.value : "T3";
+}
+
+async function createAccount(event) {
+    event.preventDefault();
+    setStatus("Creating challenge access...");
+
+    const payload = {
+        email: document.getElementById("signup-email").value,
+        password: document.getElementById("signup-password").value,
+        display_name: document.getElementById("signup-name").value,
+        tier: getSelectedTier()
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/api/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setStatus(data.detail || "Signup failed");
+            return;
+        }
+
+        localStorage.setItem("rebel_auth_token", data.token);
+        window.location.href = "membersarea.html";
+    } catch (err) {
+        setStatus("Connection failed. Check API server.");
+    }
+}
+
+async function loginAccount(event) {
+    event.preventDefault();
+    setStatus("Signing in...");
+
+    const payload = {
+        email: document.getElementById("login-email").value,
+        password: document.getElementById("login-password").value
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/api/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setStatus(data.detail || "Login failed");
+            return;
+        }
+
+        localStorage.setItem("rebel_auth_token", data.token);
+        window.location.href = "membersarea.html";
+    } catch (err) {
+        setStatus("Connection failed. Check API server.");
     }
 }
 </script>
-
 </head>
 
 <body>
 
 <header>
-    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradinglogo.png">
+    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradinglogo.png" alt="Rebel Trading Logo">
     <div class="hamburger" onclick="toggleMenu()">
         <div></div>
         <div></div>
@@ -251,47 +412,98 @@ window.onclick = function(event) {
 </header>
 
 <div id="menu" class="menu">
-    <a href="index.html#who">Who</a>
-    <a href="index.html#howitworks">How It Works</a>
-    <a href="index.html#join">Join</a>
-    <a href="index.html#package">Evaluation</a>
-    <a href="index.html#apply">Apply</a>
-    <a href="livetradedesk.html">Live Trade Desk</a>
-    <a href="liveaccounts.html">Live Accounts</a>
-    <a href="rebeluniversity.html">Rebel University</a>
-    <a href="membership.html">Membership</a>
+    <a href="index.html">Home</a>
+    <a href="index.html#package">Challenges</a>
+    <a href="simtrading-test.html">Trading Desk</a>
+    <a href="membersarea.html">Members Area</a>
 </div>
 
-<!-- BANNER -->
-<div class="banner">
-    <div>
-        <h1>MEMBERSHIP</h1>
-        <p>Elite access to the Rebel Trading ecosystem</p>
+<main class="page-shell">
+    <div class="access-layout">
+        <section class="info-panel">
+            <div>
+                <div class="eyebrow">Challenge Access</div>
+                <h1>Open your Rebel simulated trading account.</h1>
+                <p class="lede">
+                    Create your account, select a challenge size, and launch the trading desk. Payment integration will be added after this flow is verified.
+                </p>
+
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <strong>$1K Box</strong>
+                        <span>$100 target, $50 daily loss guard, $100 trailing wall.</span>
+                    </div>
+                    <div class="tier-card">
+                        <strong>$2K Box</strong>
+                        <span>$200 target, $100 daily loss guard, $200 trailing wall.</span>
+                    </div>
+                    <div class="tier-card">
+                        <strong>$3K Box</strong>
+                        <span>$300 target, $150 daily loss guard, $300 trailing wall.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel">
+            <div class="tabs">
+                <button class="tab-btn active" id="signup-tab" onclick="setMode('signup')">CREATE ACCOUNT</button>
+                <button class="tab-btn" id="login-tab" onclick="setMode('login')">LOGIN</button>
+            </div>
+
+            <form class="form-block active" id="signup-form" onsubmit="createAccount(event)">
+                <label>Display Name</label>
+                <input type="text" id="signup-name" placeholder="Rebel Trader" required>
+
+                <label>Email</label>
+                <input type="email" id="signup-email" placeholder="you@example.com" required>
+
+                <label>Password</label>
+                <input type="password" id="signup-password" placeholder="Minimum 6 characters" required>
+
+                <label>Select Challenge</label>
+                <div class="challenge-select">
+                    <label class="challenge-option">
+                        <input type="radio" name="tier" value="T1">
+                        <span>$1K</span>
+                    </label>
+                    <label class="challenge-option">
+                        <input type="radio" name="tier" value="T2">
+                        <span>$2K</span>
+                    </label>
+                    <label class="challenge-option">
+                        <input type="radio" name="tier" value="T3" checked>
+                        <span>$3K</span>
+                    </label>
+                </div>
+
+                <button class="action-btn" type="submit">CREATE TEST CHALLENGE</button>
+                <div class="secondary-note">
+                    Test mode creates an active challenge immediately. Payment checkout will be inserted here later.
+                </div>
+            </form>
+
+            <form class="form-block" id="login-form" onsubmit="loginAccount(event)">
+                <label>Email</label>
+                <input type="email" id="login-email" placeholder="you@example.com" required>
+
+                <label>Password</label>
+                <input type="password" id="login-password" placeholder="Your password" required>
+
+                <button class="action-btn" type="submit">LOGIN TO DASHBOARD</button>
+                <div class="secondary-note">
+                    Existing users can sign in and continue to their members dashboard.
+                </div>
+            </form>
+
+            <div class="status-message" id="status-message"></div>
+        </section>
     </div>
-</div>
+</main>
 
-<!-- WHAT IS MEMBERSHIP -->
-<section class="section">
-    <h2>What is the Membership?</h2>
-    <p>
-        The Rebel Trading Membership is an elite access program designed for serious traders who want real-time exposure to a professional trading environment. For just <span class="highlight">$50/month</span>, members gain direct access to our live trading ecosystem, tools, and mentorship.
-    </p>
-</section>
+<footer>
+    © Rebel Trading Group. Simulated trading challenge environment.
+</footer>
 
-<!-- LIVE TRADE DESK -->
-<section class="section">
-    <h2>Live Trade Desk Access</h2>
-    <p>
-        Every morning from <span class="highlight">4:00 AM MST to 7:00 AM MST</span>, members can join our live trade desk and:
-    </p>
-    <ul>
-        <li>Watch real-time trade executions</li>
-        <li>Follow professional decision-making in live markets</li>
-        <li>Access custom stock & futures screeners</li>
-        <li>View live news flow and catalysts</li>
-        <li>Engage in live chat discussions</li>
-        <li>Observe structured chart breakdowns</li>
-    </ul>
-</section>
-
-<!
+</body>
+</html>
