@@ -658,23 +658,17 @@ footer {
     letter-spacing: 0.5px;
 }
 
-    @media (max-width: 600px) {
+  @media (max-width: 600px) {
     .sim-challenge-btn {
-        padding: 8px 6px;
+        /* TOP RIGHT BOTTOM LEFT */
+        /* This makes the right side (4px) much tighter than the left (8px) */
+        padding: 6px 4px 6px 8px; 
         font-size: 0.6rem;
-    }
-    .header-cta-group {
-        gap: 4px;
-    }
-}
-    @media (max-width: 600px) {
-    .sim-challenge-btn {
-        padding: 6px 8px; /* Shrinks button width/height on mobile */
-        font-size: 0.6rem; /* Makes the text slightly smaller to fit */
     }
     
     .header-cta-group {
-        gap: 4px; /* Brings the two buttons closer together */
+        /* Tightens the gap between the two buttons */
+        gap: 2px; 
     }
 }
 </style>
