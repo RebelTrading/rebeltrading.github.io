@@ -822,7 +822,27 @@ async function checkTradingAccess() {
         setTradingAccessState(false);
     }
 }
+async function testLogin() {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: "test@rebel.local",
+            password: "testpass123"
+        })
+    });
 
+    if (!response.ok) {
+        alert("Test login failed");
+        return;
+    }
+
+    const data = await response.json();
+    localStorage.setItem("rebel_auth_token", data.token);
+    await checkTradingAccess();
+}
 function setTradingAccessState(hasAccess) {
     const actions = document.querySelector('.execution-actions');
     if (!actions) return;
