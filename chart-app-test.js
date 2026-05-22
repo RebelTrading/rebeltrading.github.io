@@ -197,28 +197,34 @@ function generateHistoricalBars(timeframe, asset, startingPrice) {
     let basePrice = typeof startingPrice === 'number' ? startingPrice : parseFloat(startingPrice);
     if (isNaN(basePrice)) basePrice = getAssetFallbackPrice(asset);
 
-    let now = Math.floor(Date.now() / 1000);
-    let interval = timeframe === '5m' ? 300 : timeframe === '1h' ? 3600 : timeframe === '1d' ? 86400 : 60;
-    let volatilityFactor = basePrice * 0.0015; 
-    let tempBars = [];
+    const now = Math.floor(Date.now() / 1000);
+    const interval = timeframe === '5m' ? 300 : timeframe === '1h' ? 3600 : timeframe === '1d' ? 86400 : 60;
+    const volatilityFactor = basePrice * 0.0015;
+    const bars = [];
+
+    let currentTime = Math.floor((now - (249 * interval)) / interval) * interval;
 
     for (let i = 0; i < 250; i++) {
-        let drift = (Math.random() * volatilityFactor * 2) - volatilityFactor;
-        let open = basePrice;
-        let close = basePrice + drift;
-        let high = Math.max(open, close) + (Math.random() * volatilityFactor * 0.2);
-        let low = Math.min(open, close) - (Math.random() * volatilityFactor * 0.2);
-        let barTime = Math.floor((now - (i * interval)) / interval) * interval;
-        
-        tempBars.push({
-            time: barTime,
-            open: parseFloat(open.toFixed(4)), high: parseFloat(high.toFixed(4)),
-            low: parseFloat(low.toFixed(4)), close: parseFloat(close.toFixed(4)),
+        const open = basePrice;
+        const drift = (Math.random() * volatilityFactor * 2) - volatilityFactor;
+        const close = open + drift;
+        const high = Math.max(open, close) + (Math.random() * volatilityFactor * 0.2);
+        const low = Math.min(open, close) - (Math.random() * volatilityFactor * 0.2);
+
+        bars.push({
+            time: currentTime,
+            open: parseFloat(open.toFixed(4)),
+            high: parseFloat(high.toFixed(4)),
+            low: parseFloat(low.toFixed(4)),
+            close: parseFloat(close.toFixed(4)),
             volume: Math.floor(Math.random() * 500) + 100
         });
-        basePrice = close; 
+
+        basePrice = close;
+        currentTime += interval;
     }
-    return tempBars.reverse();
+
+    return bars;
 }
 
 async function loadChartWorkspace() {
