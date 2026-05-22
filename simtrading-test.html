@@ -822,6 +822,29 @@ async function checkTradingAccess() {
         setTradingAccessState(false);
     }
 }
+async function syncChallengeSnapshot() {
+    const token = localStorage.getItem("rebel_auth_token");
+    if (!token || !ACTIVE_CHALLENGE) return;
+
+    try {
+        await fetch(`${API_BASE_URL}/api/challenge/snapshot`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                current_balance: ACCOUNT_BALANCE + FLOATING_PNL,
+                peak_balance: PEAK_BALANCE,
+                realized_pnl: REALIZED_PNL,
+                floating_pnl: FLOATING_PNL,
+                last_asset: CURRENT_ASSET
+            })
+        });
+    } catch (err) {
+        console.warn("Challenge snapshot sync failed:", err);
+    }
+}
 async function testLogin() {
     const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
