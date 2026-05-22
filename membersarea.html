@@ -343,6 +343,7 @@ async function loadMemberDashboard() {
     const trailingLimit = Number(challenge.trailing_limit) || 0;
     const pnl = realized + floating;
     const targetRemaining = Math.max(0, target - pnl);
+    setText("metric-profit-target", `Reach ${formatMoney(starting + target)} (+${formatMoney(target)})`);
 
     setText("dashboard-status", "EVALUATION IN PROGRESS");
     setText("dashboard-equity", formatMoney(equity));
