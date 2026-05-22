@@ -787,6 +787,42 @@ function toggleMenu() {
     menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
 }
 
+async function checkTradingAccess() {
+    const token = localStorage.getItem("rebel_auth_token");
+
+    if (!token) {
+        AUTH_USER = null;
+        ACTIVE_CHALLENGE = null;
+        setTradingAccessState(false);
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/me`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            localStorage.removeItem("rebel_auth_token");
+            AUTH_USER = null;
+            ACTIVE_CHALLENGE = null;
+            setTradingAccessState(false);
+            return;
+        }
+
+        const data = await response.json();
+        AUTH_USER = data.user;
+        ACTIVE_CHALLENGE = data.active_challenge;
+
+        setTradingAccessState(Boolean(ACTIVE_CHALLENGE));
+    } catch (err) {
+        console.warn("Auth check failed:", err);
+        setTradingAccessState(false);
+    }
+}
+
 function playOrderFilledSFX() {
     try {
         if ('speechSynthesis' in window) {
