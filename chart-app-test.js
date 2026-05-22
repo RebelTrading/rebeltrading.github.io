@@ -193,6 +193,32 @@ function extractPriceFromFeed(matrix, assetKey) {
     return null;
 }
 
+async function fetchRealCandles(timeframe, asset) {
+    const response = await fetch(`http://192.168.0.66:8000/api/candles/${asset}?tf=${timeframe}`);
+    if (!response.ok) {
+        throw new Error(`Candle fetch failed: ${response.status}`);
+    }
+
+    const candles = await response.json();
+
+    return candles
+        .map(candle => ({
+            time: Number(candle.time),
+            open: Number(candle.open),
+            high: Number(candle.high),
+            low: Number(candle.low),
+            close: Number(candle.close),
+            volume: Number(candle.volume || 0)
+        }))
+        .filter(candle =>
+            candle.time &&
+            !isNaN(candle.open) &&
+            !isNaN(candle.high) &&
+            !isNaN(candle.low) &&
+            !isNaN(candle.close)
+        );
+}
+
 function generateHistoricalBars(timeframe, asset, startingPrice) {
     let basePrice = typeof startingPrice === 'number' ? startingPrice : parseFloat(startingPrice);
     if (isNaN(basePrice)) basePrice = getAssetFallbackPrice(asset);
@@ -242,7 +268,7 @@ async function loadChartWorkspace() {
         
         if (!realAnchorPrice) realAnchorPrice = getAssetFallbackPrice(currentAsset);
 
-        currentHistoricalBars = generateHistoricalBars(currentTimeframe, currentAsset, realAnchorPrice);
+        currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
         
         refreshChartOverlays();
         updateRowLayouts(); 
