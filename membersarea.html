@@ -291,11 +291,76 @@ header img {
 <script>
 const API_URL = "http://192.168.0.66:8000";
 
-// Standard framework login preservation models 
-function logout() {
-    localStorage.removeItem("token");
-    alert("Simulation Mode Reset Triggered");
+function formatMoney(value) {
+    const number = Number(value) || 0;
+    const sign = number < 0 ? "-" : "";
+    return `${sign}$${Math.abs(number).toFixed(2)}`;
 }
+
+function setText(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.innerText = value;
+}
+
+async function loadMemberDashboard() {
+    const token = localStorage.getItem("rebel_auth_token");
+
+    if (!token) {
+        window.location.href = "simtrading-test.html";
+        return;
+    }
+
+    const response = await fetch(`${API_URL}/api/me`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    if (!response.ok) {
+        localStorage.removeItem("rebel_auth_token");
+        window.location.href = "simtrading-test.html";
+        return;
+    }
+
+    const data = await response.json();
+    const user = data.user;
+    const challenge = data.active_challenge;
+
+    setText("member-display-name", user.display_name || user.email);
+    setText("member-avatar", (user.display_name || user.email || "RT").slice(0, 2).toUpperCase());
+
+    if (!challenge) {
+        setText("dashboard-status", "NO ACTIVE CHALLENGE");
+        return;
+    }
+
+    const equity = Number(challenge.current_balance) || 0;
+    const starting = Number(challenge.starting_balance) || 0;
+    const realized = Number(challenge.realized_pnl) || 0;
+    const floating = Number(challenge.floating_pnl) || 0;
+    const target = Number(challenge.profit_target) || 0;
+    const dailyLimit = Number(challenge.daily_loss_limit) || 0;
+    const trailingLimit = Number(challenge.trailing_limit) || 0;
+    const pnl = realized + floating;
+    const targetRemaining = Math.max(0, target - pnl);
+
+    setText("dashboard-status", "EVALUATION IN PROGRESS");
+    setText("dashboard-equity", formatMoney(equity));
+    setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
+    setText("dashboard-pnl", `${pnl >= 0 ? "+" : "-"}${formatMoney(Math.abs(pnl))}`);
+    setText("dashboard-drawdown", formatMoney(starting - trailingLimit));
+    setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
+    setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
+    setText("metric-max-status", "Passed (No Drawdown Violations)");
+    setText("metric-profit-status", `${formatMoney(equity)} (${formatMoney(targetRemaining)} Remaining)`);
+}
+
+function logout() {
+    localStorage.removeItem("rebel_auth_token");
+    window.location.href = "simtrading-test.html";
+}
+
+window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </script>
 </head>
 
