@@ -277,7 +277,7 @@ function refreshChartOverlays() {
 
     if (isToggleChecked('toggle-volume', true)) {
         volumeSeries.setData(currentHistoricalBars.map(b => ({
-            time: b.time, value: b.volume, color: b.close >= b.open ? '#ff2a2a22' : '#00ff6622'
+            time: b.time, value: b.volume, color: b.close >= b.open ? '#00ff6622' : '#ff2a2a22'
         })));
     } else {
         volumeSeries.setData([]);
