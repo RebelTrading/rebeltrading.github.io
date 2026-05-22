@@ -659,16 +659,10 @@ footer {
 }
 
   @media (max-width: 600px) {
-    .sim-challenge-btn {
-        /* TOP RIGHT BOTTOM LEFT */
-        /* This makes the right side (4px) much tighter than the left (8px) */
-        padding: 6px 4px 6px 8px; 
-        font-size: 0.6rem;
-    }
-    
-    .header-cta-group {
-        /* Tightens the gap between the two buttons */
-        gap: 2px; 
+    /* Targets the second button specifically */
+    .header-cta-group a:nth-child(2) {
+        padding: 6px 2px; /* Reduces side padding to 2px to make it narrow */
+        font-size: 0.55rem; /* Shrinks font slightly to ensure it fits */
     }
 }
 </style>
