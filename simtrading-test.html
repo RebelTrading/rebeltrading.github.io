@@ -870,8 +870,26 @@ function applyActiveChallengeToSim() {
     DAILY_LOSS_LIMIT = Number(ACTIVE_CHALLENGE.daily_loss_limit) || DAILY_LOSS_LIMIT;
     EOD_TRAILING_LIMIT = Number(ACTIVE_CHALLENGE.trailing_limit) || EOD_TRAILING_LIMIT;
 
-    updateAccountMetrics();
-    recalculateSpecInterface();
+    const userBadge = document.getElementById('trade-user-badge');
+const userLabel = document.getElementById('trade-user-label');
+const userAvatar = document.getElementById('trade-user-avatar');
+
+if (AUTH_USER) {
+    const displayName = AUTH_USER.display_name || AUTH_USER.email || 'Rebel Trader';
+    const initials = displayName
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map(part => part[0].toUpperCase())
+        .join('');
+
+    if (userBadge) userBadge.style.display = 'flex';
+    if (userLabel) userLabel.innerText = displayName;
+    if (userAvatar) userAvatar.innerText = initials || 'RT';
+}
+
+updateAccountMetrics();
+recalculateSpecInterface();
 }
 
 async function syncChallengeSnapshot() {
