@@ -1487,6 +1487,7 @@ async function fetchRebelEnginePrices() {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
+    checkTradingAccess();
     switchAsset('BTC', document.getElementById('default-asset'));
     setInterval(fetchRebelEnginePrices, 1000);
     setInterval(recalculateSpecInterface, 1000);
