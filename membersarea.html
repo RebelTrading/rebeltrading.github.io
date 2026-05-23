@@ -483,11 +483,11 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 <div class="dashboard-wrapper">
 
     <nav class="sidebar-nav">
-        <a href="#overview" class="nav-item active">Account Overview</a>
-        <a href="simtrading.html" class="nav-item">Trading Desk Console</a>
-        <a href="#billing" class="nav-item">Billing & Orders</a>
-        <a href="#payouts" class="nav-item">Withdrawals (80/20)</a>
-        <a href="#help" class="nav-item">Support Desk</a>
+    <a href="#overview" class="nav-item active" data-section="overview-section" onclick="showDashboardSection('overview-section')">Account Overview</a>
+    <a href="simtrading-test.html" class="nav-item">Trading Desk Console</a>
+    <a href="#billing" class="nav-item">Billing & Orders</a>
+    <a href="#payouts" class="nav-item" data-section="payouts-section" onclick="showDashboardSection('payouts-section')">Withdrawals (80/20)</a>
+    <a href="#help" class="nav-item">Support Desk</a>
         <div style="flex-grow: 1;"></div>
         <button class="logout-btn" onclick="logout()">Reset View</button>
     </nav>
