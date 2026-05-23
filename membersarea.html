@@ -283,6 +283,97 @@ header img {
     letter-spacing: -0.5px;
 }
 
+.dashboard-section {
+    display: block;
+}
+
+.dashboard-section.hidden {
+    display: none;
+}
+
+.payout-copy {
+    color: #9a9a9a;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 780px;
+    margin: 0 0 24px 0;
+}
+
+.payout-form-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr auto;
+    gap: 12px;
+    align-items: end;
+    margin-top: 18px;
+}
+
+.payout-form-grid label {
+    font-size: 0.68rem;
+    color: #777;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.payout-form-grid select,
+.payout-form-grid input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #09090b;
+    border: 1px solid #1f1f23;
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    outline: none;
+}
+
+.payout-form-grid select:focus,
+.payout-form-grid input:focus {
+    border-color: #ff2a2a;
+}
+
+.payout-status {
+    min-height: 18px;
+    margin-top: 12px;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.payout-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+}
+
+.payout-history-table th,
+.payout-history-table td {
+    border-bottom: 1px solid #141416;
+    padding: 13px 10px;
+    text-align: left;
+}
+
+.payout-history-table th {
+    color: #8a8a93;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.payout-history-table td {
+    color: #d0d0d0;
+    font-family: monospace;
+}
+
+.payout-empty {
+    color: #777;
+    font-size: 0.85rem;
+    padding: 18px 10px;
+}
+
 /* DEPRECATED PLACEHOLDER CONTROL FIELDS FROM SCRIPT SELECTION BLOCK */
 #login { display: none; }
 #dashboard { display: block; }
