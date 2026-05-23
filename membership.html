@@ -311,6 +311,10 @@ footer {
 
 <script>
 const API_URL = "http://192.168.0.66:8000";
+function getRedirectTarget() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("redirect") || "membersarea.html";
+}
 
 function toggleMenu() {
     const menu = document.getElementById("menu");
@@ -362,7 +366,7 @@ async function createAccount(event) {
         }
 
         localStorage.setItem("rebel_auth_token", data.token);
-        window.location.href = "membersarea.html";
+        window.location.href = getRedirectTarget();
     } catch (err) {
         setStatus("Connection failed. Check API server.");
     }
@@ -392,7 +396,7 @@ async function loginAccount(event) {
         }
 
         localStorage.setItem("rebel_auth_token", data.token);
-        window.location.href = "membersarea.html";
+        window.location.href = getRedirectTarget();
     } catch (err) {
         setStatus("Connection failed. Check API server.");
     }
