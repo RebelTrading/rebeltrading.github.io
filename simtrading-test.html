@@ -937,7 +937,8 @@ function applyActiveChallengeToSim() {
     DAILY_LOSS_LIMIT = Number(ACTIVE_CHALLENGE.daily_loss_limit) || DAILY_LOSS_LIMIT;
     EOD_TRAILING_LIMIT = Number(ACTIVE_CHALLENGE.trailing_limit) || EOD_TRAILING_LIMIT;
 
-    const userBadge = document.getElementById('trade-user-badge');
+    const accountButton = document.getElementById('my-account-btn');
+const userBadge = document.getElementById('trade-user-badge');
 const userLabel = document.getElementById('trade-user-label');
 const userAvatar = document.getElementById('trade-user-avatar');
 
@@ -950,6 +951,7 @@ if (AUTH_USER) {
         .map(part => part[0].toUpperCase())
         .join('');
 
+    if (accountButton) accountButton.style.display = 'inline-block';
     if (userBadge) userBadge.style.display = 'flex';
     if (userLabel) userLabel.innerText = displayName;
     if (userAvatar) userAvatar.innerText = initials || 'RT';
