@@ -672,6 +672,20 @@ footer {
         margin-right: 5px; /* Adds space before the hamburger menu */
     }
 }
+/* MOBILE ONLY: Hide Roadmap and optimize Get Sim Challenge button */
+@media (max-width: 600px) {
+    /* 1. Hide the Roadmap button on mobile */
+    .header-cta-group a[href="roadmap.html"] {
+        display: none !important;
+    }
+
+    /* 2. Target only the Get Sim Challenge button to make it fit */
+    .header-cta-group a[href="#packages"] {
+        padding: 6px 8px !important; /* Makes the button narrow */
+        font-size: 0.65rem !important; /* Shrinks the text size */
+        margin-right: 5px !important;  /* Adds space between button and hamburger */
+    }
+}
 </style>
 
 <script>
