@@ -383,7 +383,10 @@ async function createAccount(event) {
         }
 
         localStorage.setItem("rebel_auth_token", data.token);
-        window.location.href = getRedirectTarget();
+
+const selectedTier = getSelectedTier();
+const redirectTarget = getRedirectTarget();
+window.location.href = `payments.html?tier=${selectedTier}&redirect=${encodeURIComponent(redirectTarget)}`;
     } catch (err) {
         setStatus("Connection failed. Check API server.");
     }
