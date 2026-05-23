@@ -446,7 +446,21 @@ async function loadMemberDashboard() {
     setText("metric-max-status", "Passed (No Drawdown Violations)");
     setText("metric-profit-status", `${formatMoney(equity)} (${formatMoney(targetRemaining)} Remaining)`);
 }
+function showDashboardSection(sectionId) {
+    document.querySelectorAll(".dashboard-section").forEach(section => {
+        section.classList.add("hidden");
+    });
 
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    const section = document.getElementById(sectionId);
+    if (section) section.classList.remove("hidden");
+
+    const navItem = document.querySelector(`[data-section="${sectionId}"]`);
+    if (navItem) navItem.classList.add("active");
+}
 function logout() {
     localStorage.removeItem("rebel_auth_token");
     window.location.href = "simtrading-test.html";
