@@ -315,6 +315,23 @@ function getRedirectTarget() {
     const params = new URLSearchParams(window.location.search);
     return params.get("redirect") || "membersarea.html";
 }
+function cameFromTradeSim() {
+    return getRedirectTarget().includes("simtrading");
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+    if (!cameFromTradeSim()) return;
+
+    const headline = document.getElementById("access-headline");
+    const lede = document.getElementById("access-lede");
+    const signupButton = document.getElementById("signup-submit-btn");
+    const loginButton = document.getElementById("login-submit-btn");
+
+    if (headline) headline.innerText = "Create your challenge account to unlock the trade desk.";
+    if (lede) lede.innerText = "You can view the trading desk without an active challenge, but live order execution requires a Rebel challenge account.";
+    if (signupButton) signupButton.innerText = "CREATE ACCOUNT & RETURN TO SIM";
+    if (loginButton) loginButton.innerText = "LOGIN & RETURN TO SIM";
+});
 
 function toggleMenu() {
     const menu = document.getElementById("menu");
@@ -427,8 +444,8 @@ async function loginAccount(event) {
         <section class="info-panel">
             <div>
                 <div class="eyebrow">Challenge Access</div>
-                <h1>Open your Rebel simulated trading account.</h1>
-                <p class="lede">
+                <h1 id="access-headline">Open your Rebel simulated trading account.</h1>
+                <p class="lede" id="access-lede">
                     Create your account, select a challenge size, and launch the trading desk. Payment integration will be added after this flow is verified.
                 </p>
 
@@ -481,7 +498,7 @@ async function loginAccount(event) {
                     </label>
                 </div>
 
-                <button class="action-btn" type="submit">CREATE TEST CHALLENGE</button>
+                <button class="action-btn" id="signup-submit-btn" type="submit">CREATE TEST CHALLENGE</button>
                 <div class="secondary-note">
                     Test mode creates an active challenge immediately. Payment checkout will be inserted here later.
                 </div>
@@ -494,7 +511,7 @@ async function loginAccount(event) {
                 <label>Password</label>
                 <input type="password" id="login-password" placeholder="Your password" required>
 
-                <button class="action-btn" type="submit">LOGIN TO DASHBOARD</button>
+                <button class="action-btn" id="login-submit-btn" type="submit">LOGIN TO DASHBOARD</button>
                 <div class="secondary-note">
                     Existing users can sign in and continue to their members dashboard.
                 </div>
