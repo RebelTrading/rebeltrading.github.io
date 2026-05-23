@@ -989,6 +989,74 @@ async function testLogin() {
     localStorage.setItem("rebel_auth_token", data.token);
     await checkTradingAccess();
 }
+function getChallengeProgressPct() {
+    const combinedTotalProfit = REALIZED_PNL + FLOATING_PNL;
+    if (!PROFIT_TARGET || PROFIT_TARGET <= 0) return 0;
+
+    return Math.max(0, Math.min(100, (combinedTotalProfit / PROFIT_TARGET) * 100));
+}
+
+function initializeProgressMilestones() {
+    const currentPct = getChallengeProgressPct();
+    const levels = [5, 10, 25, 50, 75, 90, 100];
+
+    progressMilestonesTriggered = {};
+
+    levels.forEach(level => {
+        progressMilestonesTriggered[level] = currentPct >= level;
+    });
+}
+
+function speakMilestone(text) {
+    try {
+        if (!('speechSynthesis' in window)) return;
+
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.08;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice =
+            voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) ||
+            voices.find(v => v.lang.startsWith('en'));
+
+        if (preferredVoice) utterance.voice = preferredVoice;
+
+        window.speechSynthesis.speak(utterance);
+    } catch (err) {
+        console.warn("Milestone voice blocked:", err);
+    }
+}
+
+function showMilestoneOverlay(title, subtitle) {
+    const overlay = document.getElementById('milestone-overlay');
+    const titleEl = document.getElementById('milestone-title');
+    const subtitleEl = document.getElementById('milestone-subtitle');
+
+    if (!overlay || !titleEl || !subtitleEl) return;
+
+    titleEl.innerText = title;
+    subtitleEl.innerText = subtitle;
+
+    overlay.style.display = 'flex';
+
+    clearTimeout(window._milestoneOverlayTimer);
+    window._milestoneOverlayTimer = setTimeout(() => {
+        overlay.style.display = 'none';
+    }, 4200);
+}
+
+function triggerProgressMilestone(title, subtitle, voiceText) {
+    triggerGhostLayerMilestoneFlash();
+    showMilestoneOverlay(title, subtitle);
+    speakMilestone(voiceText);
+}
+
+function setTradingAccessState(hasAccess) {
+    const actions = document.querySelector('.execution-actions');
 function setTradingAccessState(hasAccess) {
     const actions = document.querySelector('.execution-actions');
     if (!actions) return;
