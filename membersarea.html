@@ -628,7 +628,41 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
         </div>        </div>
 
         </section>
+               <section class="dashboard-section hidden" id="trade-history-section">
+            <div class="account-selector-bar">
+                <div>
+                    <h2 class="glow-title">Trade History</h2>
+                    <div style="font-size: 0.8rem; color: #8a8a93; margin-top: 4px;">Closed trade log and account execution record</div>
+                </div>
+                <button class="action-btn" onclick="showDashboardSection('overview-section')">
+                    Back To Overview
+                </button>
+            </div>
 
+            <div class="performance-table-panel">
+                <div class="panel-header-title">Closed Trades</div>
+
+                <table class="trade-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Asset</th>
+                            <th>Side</th>
+                            <th>Size</th>
+                            <th>Entry</th>
+                            <th>Exit</th>
+                            <th>P&L</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trade-history-body">
+                        <tr>
+                            <td colspan="8" class="payout-empty">No closed trades yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
         <section class="dashboard-section hidden" id="payouts-section">
             <div class="account-selector-bar">
                 <div>
