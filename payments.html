@@ -350,9 +350,67 @@ footer {
 </style>
 
 <script>
+const API_URL = "http://192.168.0.66:8000";
+
 function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
+}
+
+function getSelectedTierFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const tier = (params.get("tier") || "T3").toUpperCase();
+
+    if (["T1", "T2", "T3"].includes(tier)) {
+        return tier;
+    }
+
+    return "T3";
+}
+
+function getRedirectTargetFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("redirect") || "membersarea.html";
+}
+
+function setDevPaymentStatus(message) {
+    const status = document.getElementById("dev-payment-status");
+    if (status) status.innerText = message;
+}
+
+async function devActivateChallenge() {
+    const token = localStorage.getItem("rebel_auth_token");
+
+    if (!token) {
+        window.location.href = "membership.html?redirect=payments.html";
+        return;
+    }
+
+    const tier = getSelectedTierFromUrl();
+    setDevPaymentStatus("Activating test challenge...");
+
+    try {
+        const response = await fetch(`${API_URL}/api/challenge/dev-activate`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ tier })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setDevPaymentStatus(data.detail || "Activation failed.");
+            return;
+        }
+
+        setDevPaymentStatus("Challenge activated. Redirecting...");
+        window.location.href = getRedirectTargetFromUrl();
+    } catch (err) {
+        setDevPaymentStatus("Connection failed. Check API server.");
+    }
 }
 </script>
 
