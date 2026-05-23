@@ -1114,8 +1114,6 @@ function checkProgressMilestones() {
 
 function setTradingAccessState(hasAccess) {
     const actions = document.querySelector('.execution-actions');
-function setTradingAccessState(hasAccess) {
-    const actions = document.querySelector('.execution-actions');
     if (!actions) return;
 
     if (hasAccess) {
@@ -1127,10 +1125,10 @@ function setTradingAccessState(hasAccess) {
     }
 
     actions.innerHTML = `
-    <button class="exec-btn buy" style="grid-column: 1 / -1;" onclick="testLogin()">
-        TEST LOGIN / ACTIVATE CHALLENGE
-    </button>
-`;
+        <button class="exec-btn buy" style="grid-column: 1 / -1;" onclick="testLogin()">
+            TEST LOGIN / ACTIVATE CHALLENGE
+        </button>
+    `;
 }
 
 function playOrderFilledSFX() {
