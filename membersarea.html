@@ -579,12 +579,82 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 <span class="metric-current" id="dashboard-status" style="color: #ffaa00; font-weight: bold;">EVALUATION IN PROGRESS</span>
             </div>
 
-        </div>
+        </div>        </div>
+
+        </section>
+
+        <section class="dashboard-section hidden" id="payouts-section">
+            <div class="account-selector-bar">
+                <div>
+                    <h2 class="glow-title">Payouts</h2>
+                    <div style="font-size: 0.8rem; color: #8a8a93; margin-top: 4px;">USDC wallet setup and payout history</div>
+                </div>
+                <button class="action-btn" onclick="showDashboardSection('overview-section')">
+                    Back To Overview
+                </button>
+            </div>
+
+            <div class="performance-table-panel" style="margin-bottom: 28px;">
+                <div class="panel-header-title">USDC Payout Wallet</div>
+
+                <p class="payout-copy">
+                    Rebel Trading pays approved challenge profits in USDC to keep settlement fast, simple, and free from traditional bank delays. Save the wallet address where you want approved payouts sent.
+                </p>
+
+                <p class="payout-copy">
+                    We support USDC payout routing across the same low-friction networks used in our checkout flow, including Solana, Base, and Polygon. Always confirm your wallet supports the selected network before saving.
+                </p>
+
+                <div class="payout-form-grid">
+                    <div>
+                        <label>Payout Network</label>
+                        <select id="payout-network">
+                            <option value="Solana">Solana</option>
+                            <option value="Base">Base</option>
+                            <option value="Polygon">Polygon</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>USDC Wallet Address</label>
+                        <input type="text" id="payout-wallet-address" placeholder="Paste your USDC receiving address">
+                    </div>
+
+                    <button class="action-btn" onclick="savePayoutWallet()">
+                        Save Wallet
+                    </button>
+                </div>
+
+                <div class="payout-status" id="payout-status"></div>
+            </div>
+
+            <div class="performance-table-panel">
+                <div class="panel-header-title">Payout History</div>
+
+                <table class="payout-history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Network</th>
+                            <th>Wallet</th>
+                            <th>Status</th>
+                            <th>Tx Hash</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payout-history-body">
+                        <tr>
+                            <td colspan="6" class="payout-empty">No payout history yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
     </div>
 </div>
 
-<div id="login">
+<div id="login">v id="login">
     <input type="text" id="user"><input type="password" id="pass">
     <button onclick="login()"></button>
 </div>
