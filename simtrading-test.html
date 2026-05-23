@@ -1056,6 +1056,62 @@ function triggerProgressMilestone(title, subtitle, voiceText) {
     speakMilestone(voiceText);
 }
 
+function checkProgressMilestones() {
+    const currentPct = getChallengeProgressPct();
+
+    const milestones = [
+        {
+            level: 5,
+            title: 'FIRST STRIKE',
+            subtitle: '5% CHECKPOINT CLEARED',
+            voice: 'First strike confirmed. Level one challenge is live.'
+        },
+        {
+            level: 10,
+            title: 'SPEEDRUN ACTIVATED',
+            subtitle: '10% CHECKPOINT CLEARED',
+            voice: 'Speedrun activated. Ten percent checkpoint cleared.'
+        },
+        {
+            level: 25,
+            title: 'QUARTER CHECKPOINT',
+            subtitle: '25% CHALLENGE PROGRESS',
+            voice: 'Quarter checkpoint cleared. Stay sharp.'
+        },
+        {
+            level: 50,
+            title: 'HALFWAY CLEARED',
+            subtitle: '50% CHALLENGE COMPLETE',
+            voice: 'Level one challenge fifty percent complete.'
+        },
+        {
+            level: 75,
+            title: 'FINAL STRETCH',
+            subtitle: '75% CHALLENGE COMPLETE',
+            voice: 'Final stretch unlocked. Discipline mode engaged.'
+        },
+        {
+            level: 90,
+            title: 'FINISH LINE ARMED',
+            subtitle: '90% CHALLENGE COMPLETE',
+            voice: 'Finish line armed. Level one challenge is almost complete.'
+        },
+        {
+            level: 100,
+            title: 'CHALLENGE COMPLETE',
+            subtitle: 'LEVEL ONE TARGET CLEARED',
+            voice: 'Challenge complete. Level one target cleared.'
+        }
+    ];
+
+    milestones.forEach(milestone => {
+        if (currentPct >= milestone.level && !progressMilestonesTriggered[milestone.level]) {
+            progressMilestonesTriggered[milestone.level] = true;
+            triggerProgressMilestone(milestone.title, milestone.subtitle, milestone.voice);
+        }
+    });
+}
+
 function setTradingAccessState(hasAccess) {
     const actions = document.querySelector('.execution-actions');
 function setTradingAccessState(hasAccess) {
