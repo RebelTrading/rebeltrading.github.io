@@ -1419,52 +1419,7 @@ function updateAccountMetrics() {
     let combinedTotalProfit = REALIZED_PNL + FLOATING_PNL;
     let accountProgressPct = (combinedTotalProfit / PROFIT_TARGET) * 100;
 
-    // LOCKED IN: PERSISTENT BANNER MILESTONES & OVERDRIVE LOGIC
-    const badgeContainer = document.getElementById('arcade-badge-container');
-    if (accountProgressPct >= 10.0) {
-        if (!badgeContainer.querySelector('.badge-tier2')) {
-            badgeContainer.innerHTML = `<span class="persistent-arcade-badge badge-tier2">⚡ BOSS LEVEL 5% ⚡</span>`;
-            
-            if (chartWrapper) {
-                chartWrapper.classList.remove('chart-overdrive-tier1');
-                chartWrapper.classList.add('chassis-snap-active', 'chart-overdrive-tier2');
-                setTimeout(() => chartWrapper.classList.remove('chassis-snap-active'), 160);
-            }
-
-            // TRIGGER FIXED OVERLAY CYAN PULSE WITHOUT BREAKING SYSTEM LAWS
-            triggerGhostLayerMilestoneFlash();
-
-            window.speechSynthesis.cancel();
-            let speech2 = new SpeechSynthesisUtterance("Momentum boost unlocked.");
-            speech2.rate = 1.15;
-            speech2.pitch = 1.0;
-            window.speechSynthesis.speak(speech2);
-        }
-    } else if (accountProgressPct >= 5.0) {
-        if (!badgeContainer.querySelector('.badge-tier1')) {
-            badgeContainer.innerHTML = `<span class="persistent-arcade-badge badge-tier1">⚔️ LEVEL 1 STRIKE ⚔️</span>`;
-            
-            if (chartWrapper) {
-                chartWrapper.classList.remove('chart-overdrive-tier2');
-                chartWrapper.classList.add('chassis-snap-active', 'chart-overdrive-tier1');
-                setTimeout(() => chartWrapper.classList.remove('chassis-snap-active'), 160);
-            }
-
-            // TRIGGER FIXED OVERLAY CYAN PULSE WITHOUT BREAKING SYSTEM LAWS
-            triggerGhostLayerMilestoneFlash();
-
-            window.speechSynthesis.cancel();
-            let speech1 = new SpeechSynthesisUtterance("Momentum boost unlocked.");
-            speech1.rate = 1.15;
-            speech1.pitch = 1.0;
-            window.speechSynthesis.speak(speech1);
-        }
-    } else {
-        badgeContainer.innerHTML = '';
-        if (chartWrapper) {
-            chartWrapper.classList.remove('chart-overdrive-tier1', 'chart-overdrive-tier2');
-        }
-    }
+    checkProgressMilestones();
     
     let netLiquidationValue = ACCOUNT_BALANCE + FLOATING_PNL;
     if (netLiquidationValue > PEAK_BALANCE) {
