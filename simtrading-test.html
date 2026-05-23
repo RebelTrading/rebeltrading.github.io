@@ -301,6 +301,54 @@ header img {
     pointer-events: none;
     mix-blend-mode: screen;
 }
+#milestone-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 120;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.milestone-card {
+    background: rgba(5, 5, 5, 0.86);
+    border: 1px solid rgba(0, 255, 102, 0.65);
+    box-shadow: 0 0 24px rgba(0, 255, 102, 0.32);
+    padding: 18px 28px;
+    border-radius: 6px;
+    text-align: center;
+    animation: milestonePulse 0.9s ease-in-out infinite alternate;
+}
+
+.milestone-title {
+    color: #00ff66;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.milestone-subtitle {
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: bold;
+    margin-top: 6px;
+    font-family: monospace;
+    text-transform: uppercase;
+}
+
+@keyframes milestonePulse {
+    from {
+        transform: scale(0.98);
+        opacity: 0.86;
+    }
+    to {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+}
 
 .glitch-flash-active {
     animation: glitchFlashFrame 0.6s steps(2) forwards;
