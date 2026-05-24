@@ -526,7 +526,6 @@ async function loadMemberDashboard() {
 
         if (stage === "rebel_stage") {
         setText("dashboard-stage", "Sim Funded");
-        setText("account-dropdown", "Sim Funded Rebel Account");
         setText("dashboard-stage-detail", `Rebel Stage Active • ${payoutSplit.toFixed(0)}% Split`);
         setText("metric-profit-target", "Unlimited");
         setText("dashboard-status", "SIM FUNDED ACTIVE");
@@ -534,12 +533,17 @@ async function loadMemberDashboard() {
         setText("metric-stage-status", `${payoutSplit.toFixed(0)}% Split Active`);
     } else {
         setText("dashboard-stage", "Level 1");
-        setText("account-dropdown", "Active Rebel Challenge");
         setText("dashboard-stage-detail", "Rebel Challenge Active");
         setText("metric-profit-target", `Reach ${formatMoney(starting + target)} (+${formatMoney(target)})`);
         setText("dashboard-status", "EVALUATION IN PROGRESS");
         setText("metric-stage-target", "Challenge → Sim Funded");
         setText("metric-stage-status", "Level 1 Active");
+    }
+        const accountDropdown = document.getElementById("account-dropdown");
+    if (accountDropdown) {
+        accountDropdown.innerHTML = stage === "rebel_stage"
+            ? `<option value="sim-funded" selected>Sim Funded Rebel Account</option>`
+            : `<option value="active-challenge" selected>Active Rebel Challenge</option>`;
     }
     setText("dashboard-equity", formatMoney(equity));
     setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
