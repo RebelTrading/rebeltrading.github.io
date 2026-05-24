@@ -545,6 +545,7 @@ async function loadMemberDashboard() {
     setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
     setText("dashboard-pnl", `${pnl >= 0 ? "+" : "-"}${formatMoney(Math.abs(pnl))}`);
     setText("dashboard-drawdown", formatMoney(starting - trailingLimit));
+    setText("metric-max-target", `Absolute Floor ${formatMoney(starting - trailingLimit)}`);
     setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
     setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
     setText("metric-max-status", "Passed (No Drawdown Violations)");
