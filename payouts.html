@@ -14,7 +14,6 @@ body {
     overflow-x: hidden;
 }
 
-/* HEADER */
 header {
     position: fixed;
     top: 0;
@@ -34,7 +33,6 @@ header img {
     height: 80px;
 }
 
-/* HAMBURGER */
 .hamburger {
     cursor: pointer;
     width: 35px;
@@ -46,7 +44,6 @@ header img {
     margin: 5px 0;
 }
 
-/* GAMIFIED SIM CHALLENGE HEADER CTA */
 .sim-challenge-btn {
     background: linear-gradient(135deg, #ff2a2a 0%, #990000 100%);
     color: #fff;
@@ -71,7 +68,6 @@ header img {
     border-color: #fff;
 }
 
-/* MENU */
 .menu {
     position: fixed;
     top: 0;
@@ -97,7 +93,6 @@ header img {
     color: #ff2a2a;
 }
 
-/* LIVE NETWORK STATUS BAR TERMINAL GRID */
 .network-status-bar {
     position: fixed;
     top: 105px;
@@ -160,7 +155,6 @@ header img {
     100% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 10px #00ff66; }
 }
 
-/* LIVE TICKER MARQUEE */
 .ticker-wrap {
     position: fixed;
     top: 132px;
@@ -209,7 +203,6 @@ header img {
     100% { transform: translate3d(-100%, 0, 0); }
 }
 
-/* HERO CHANNELS */
 .banner {
     height: 60vh;
     display: flex;
@@ -238,7 +231,6 @@ header img {
     text-transform: uppercase;
 }
 
-/* SECTIONS */
 .section {
     padding: 60px 30px 100px 30px;
     max-width: 1100px;
@@ -260,7 +252,6 @@ header img {
     font-weight: bold;
 }
 
-/* GRID SYSTEM */
 .box-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -268,7 +259,6 @@ header img {
     margin-top: 40px;
 }
 
-/* FEATURE / STEP BOXES */
 .box {
     background: rgba(6, 6, 6, 0.7);
     backdrop-filter: blur(12px);
@@ -316,7 +306,6 @@ header img {
     color: #fff;
 }
 
-/* CALL TO ACTION BUTTON / LINK */
 .wallet-link-btn {
     display: inline-block;
     margin-top: 15px;
@@ -340,7 +329,6 @@ header img {
     box-shadow: 0 0 15px rgba(255, 183, 3, 0.4);
 }
 
-/* SUMMARY / METRICS BANNER */
 .metrics-banner {
     background: linear-gradient(145deg, rgba(10, 10, 10, 0.8), rgba(3, 3, 3, 0.9));
     border: 1px solid rgba(20, 20, 20, 1);
@@ -376,7 +364,6 @@ header img {
     display: block;
 }
 
-/* FOOTER STANDARD */
 footer {
     text-align: center;
     padding: 40px;
@@ -402,7 +389,7 @@ function toggleMenu() {
 <header>
     <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
     
-    <a href="payments.html" class="sim-challenge-btn">🎮 GET SIM CHALLENGE →</a>
+    <a href="payments.html" class="sim-challenge-btn">GET SIM CHALLENGE →</a>
     
     <div class="hamburger" onclick="toggleMenu()">
         <div></div>
@@ -424,122 +411,35 @@ function toggleMenu() {
     <div class="terminal-node">
         <span class="ping-dot"></span>
         <span>CONSOLE // <span style="color: #00ff66; font-weight:bold;">PAYOUT_ENGINE_ONLINE</span></span>
-        <span class="terminal-tag">v2.4 SECURE</span>
+        <span class="terminal-tag">SIM FUNDED ONLY</span>
     </div>
     
     <div class="terminal-node center">
-        <span class="terminal-tag" style="background:rgba(0, 255, 102, 0.1); color:#00ff66; border-color:rgba(0, 255, 10green2, 0.2);">USDC ON-CHAIN RAIL</span> &nbsp;
-        <span>TREASURY: <strong style="color: #ffb703;">STABLECOIN_AUTOMATION_ROUTER</strong></span>
+        <span class="terminal-tag" style="background:rgba(0, 255, 102, 0.1); color:#00ff66; border-color:rgba(0, 255, 102, 0.2);">USDC ON-CHAIN RAIL</span> &nbsp;
+        <span>TREASURY: <strong style="color: #ffb703;">MANUAL REVIEW / 24H PROCESSING</strong></span>
     </div>
     
     <div class="terminal-node right">
-        <span>PING: <strong style="color: #00ff66;">12ms</strong> &nbsp;&bull;&nbsp; LATENCY: <strong>OPTIMAL</strong></span>
+        <span>PAYOUT SPLIT: <strong style="color: #00ff66;">80%</strong> / SPEEDRUN: <strong style="color:#ffb703;">90%</strong></span>
     </div>
 </div>
 
 <div class="ticker-wrap">
     <div class="ticker">
-        <div class="ticker__item">🏆 NASDAQ_X7 cleared BTC levels &rarr; <span class="payout-tag">Paid $80.00 USDT</span></div>
-        <div class="ticker__item">🟢 142 Coins Inserted into Recruit Arena this hour</div>
-        <div class="ticker__item">🏆 SCALPER_DECK cleared SOL levels &rarr; <span class="payout-tag">Paid $400.00 USDC</span></div>
-        <div class="ticker__item">⚡ SPEEDRUN LOCKOUT: User 'TapeReader' unlocked <strong style="color:#ffb703;">100% PROFIT BOOST</strong></div>
-        <div class="ticker__item">🏆 WHALE_HUNTER cleared ETH levels &rarr; <span class="payout-tag">Paid $200.00 USDT</span></div>
-        <div class="ticker__item">🟢 89 Coins Inserted into Rebel Box Arena this hour</div>
+        <div class="ticker__item">Sim Funded payouts are processed in USDC within 24 hours after approval</div>
+        <div class="ticker__item">Payouts unlock only after passing the Rebel Challenge and entering Sim Funded stage</div>
+        <div class="ticker__item">Funded profits above the 4.2% buffer are eligible for payout requests</div>
+        <div class="ticker__item">Speedrun status unlocks a boosted 90% funded-stage split</div>
     </div>
 </div>
 
 <div class="banner">
     <div>
         <h1>PAYOUT PROTOCOL</h1>
-        <p>Zero Legacy Bank Friction. Instant Stablecoin Settlement. Automated On-Chain Extractions.</p>
+        <p>Pass The Challenge. Enter Sim Funded. Request USDC From Funded Profits.</p>
     </div>
 </div>
 
 <section class="section">
-    <h2>Why Digital Stablecoins Beat Legacy Banks</h2>
-    <div class="section-subtitle">We bypassed traditional banking rails entirely. No wire delays, no manual review blocks, no border restrictions.</div>
-    <p>
-        If you are scalping volatile crypto assets natively on a trading desk, you shouldn't have to wait days for a retail bank to clear a wire or approve a payout. Traditional banks complicate your trading loops with processing flags, weekend blackouts, and heavy international transfer fees. 
-    </p>
-    <p>
-        <strong>Rebel Trading Desk deploys performance settlements strictly in USDC and USDT.</strong> While our internal ledger and trading simulator calculate metrics cleanly in USD values, your extraction share is pushed directly to your digital wallet. The moment our engine validates your consistency milestones, the contract executes. No international banking friction—just programmatic stablecoin value delivered directly to your sovereign custody.
-    </p>
-
-    <div class="box-container">
-        
-        <div class="box">
-            <div class="step-number">STEP 01</div>
-            <h3>Pin a Multi-Chain Web3 Wallet</h3>
-            <p>
-                To collect your automatic profit harvests, you need a Web3 wallet capable of handling low-fee, high-velocity networks. You can use any sovereign wallet that accepts token contracts on our supported networks.
-            </p>
-            <p>
-                We highly recommend **Phantom Wallet** or **Metamask** for fast, reliable ecosystem access. They install directly onto your browser or mobile phone in a matter of clicks.
-            </p>
-            <a href="https://phantom.app/" target="_blank" class="wallet-link-btn">⚡ Get Web3 Wallet Access →</a>
-        </div>
-
-        <div class="box">
-            <div class="step-number">STEP 02</div>
-            <h3>Lock In Your Payout Address</h3>
-            <p>
-                Navigate directly inside your live trading dashboard terminal to assign your automated transfer string destination:
-                <br><br>
-                <code>Account Profile &gt; Extraction Config &gt; Wallet Address</code>
-            </p>
-            <p>
-                Simply copy your private receiving address for either **USDC** or **USDT**, select your network choice (Solana, Base, or Polygon), and lock it in. Our automated treasury routers use this exact string for all future profit splits.
-            </p>
-        </div>
-
-        <div class="box">
-            <div class="step-number">STEP 03</div>
-            <h3>Hit Milestones & Extract</h3>
-            <p>
-                Once your wallet profile is confirmed, the extraction engine monitors your account equity value. Your trades clear entirely in standard dollar values for total simplicity.
-            </p>
-            <p>
-                Execute your edge, manage your risk limits, and clear the simulator milestones. The exact second your balance clears a performance target, the system locks the gain, mints your **80% profit allocation**, and routes stablecoins right to your wallet.
-            </p>
-        </div>
-
-    </div>
-
-    <h2 style="margin-top: 80px;">The Payout Structure</h2>
-    <div class="section-subtitle">No artificial blockades. Built around mathematical discipline and trading consistency.</div>
-
-    <div class="metrics-banner">
-        <div class="metric-item">
-            <h4>The Base Allocation</h4>
-            <p>80/20</p>
-            <span>You harvest a massive 80% share of all generated performance simulation profits paid out on-chain. Our treasury handles the pool overhead.</span>
-        </div>
-        
-        <div class="metric-item">
-            <h4>Minimum Runway</h4>
-            <p>4 Days</p>
-            <span>You must register active, data-validated market execution for a minimum of 4 distinct trading days before clearing a harvest window.</span>
-        </div>
-
-        <div class="metric-item">
-            <h4>The 10% Milestone Target</h4>
-            <p>Automatic</p>
-            <span>Every time your net sandbox equity hits a clean 10% milestone above your initial base balance, profits are extracted automatically in stablecoins.</span>
-        </div>
-    </div>
-
-    <p style="margin-top: 50px; text-align: center; font-size: 0.95rem; color: #ff2a2a; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase;">
-        ⚠️ Operational Constraint: Accounts must strictly comply with the 35% Consistency Filter. Lucky single-trade outlier spikes will not trigger automated treasury extractions.
-    </p>
-</section>
-
-<footer>
-    © 2026 Rebel Trading Group — Private Micro-Prop Crypto Evaluation & Asset Simulation Network
-    <br><br>
-    <a href="termsofuse.html" style="color:#ff2a2a; text-decoration:none; font-weight:bold;">
-        Terms of Use
-    </a>
-</footer>
-
-</body>
-</html>
+    <h2>How Rebel Payouts Work</h2>
+    <div class="section-subtitle
