@@ -407,6 +407,59 @@ header img {
     color: #ff2a2a !important;
     font-weight: bold;
 }
+.support-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.support-form-field.full {
+    grid-column: 1 / -1;
+}
+
+.support-form-field label {
+    display: block;
+    font-size: 0.68rem;
+    color: #777;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.support-form-field input,
+.support-form-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    background: #09090b;
+    border: 1px solid #1f1f23;
+    color: #fff;
+    padding: 11px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.support-form-field textarea {
+    min-height: 150px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.support-form-field input:focus,
+.support-form-field textarea:focus {
+    border-color: #ff2a2a;
+}
+
+.support-status {
+    min-height: 18px;
+    margin-top: 12px;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
 
 /* DEPRECATED PLACEHOLDER CONTROL FIELDS FROM SCRIPT SELECTION BLOCK */
 #login { display: none; }
@@ -521,7 +574,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <a href="simtrading-test.html" class="nav-item">Trading Desk Console</a>
     <a href="#trades" class="nav-item" data-section="trade-history-section" onclick="showDashboardSection('trade-history-section')">Trade History</a>
     <a href="#payouts" class="nav-item" data-section="payouts-section" onclick="showDashboardSection('payouts-section')">Withdrawals (80/20)</a>
-    <a href="#help" class="nav-item">Support Desk</a>
+    <a href="#support" class="nav-item" data-section="support-section" onclick="showDashboardSection('support-section')">Support Desk</a>
         <div style="flex-grow: 1;"></div>
         <button class="logout-btn" onclick="logout()">Reset View</button>
     </nav>
