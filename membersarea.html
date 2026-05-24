@@ -590,6 +590,44 @@ async function submitSupportRequest(event) {
         setSupportStatus("Connection failed. Please try again.");
     }
 }
+async function loadTradeStats(token) {
+    try {
+        const summaryResponse = await fetch(`${API_URL}/api/trades/summary`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (summaryResponse.ok) {
+            const summary = await summaryResponse.json();
+
+            setText("dashboard-trade-count", summary.total_trades || 0);
+            setText("dashboard-win-rate", `${Number(summary.win_rate || 0).toFixed(1)}%`);
+
+            const tradingDaysEl = document.getElementById("metric-trading-days-status");
+            if (tradingDaysEl) {
+                const tradingDays = Number(summary.trading_days || 0);
+                tradingDaysEl.innerText = `${tradingDays} / 4 Days Active`;
+                tradingDaysEl.className = tradingDays >= 4
+                    ? "metric-current passed-text"
+                    : "metric-current running-text";
+            }
+        }
+
+        const historyResponse = await fetch(`${API_URL}/api/trades/history`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (historyResponse.ok) {
+            const data = await historyResponse.json();
+            renderTradeHistory(data.trades || []);
+        }
+    } catch (err) {
+        console.warn("Trade stats load failed:", err);
+    }
+}
 function logout() {
     localStorage.removeItem("rebel_auth_token");
     window.location.href = "simtrading-test.html";
