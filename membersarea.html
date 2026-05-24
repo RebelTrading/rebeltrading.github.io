@@ -519,6 +519,8 @@ async function loadMemberDashboard() {
     const target = Number(challenge.profit_target) || 0;
     const dailyLimit = Number(challenge.daily_loss_limit) || 0;
     const trailingLimit = Number(challenge.trailing_limit) || 0;
+    const eodHighBalance = Number(challenge.eod_high_balance) || starting;
+    const drawdownFloor = eodHighBalance - trailingLimit;
     const pnl = realized + floating;
     const targetRemaining = Math.max(0, target - pnl);
     const stage = challenge.stage || "challenge";
@@ -548,8 +550,8 @@ async function loadMemberDashboard() {
     setText("dashboard-equity", formatMoney(equity));
     setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
     setText("dashboard-pnl", `${pnl >= 0 ? "+" : "-"}${formatMoney(Math.abs(pnl))}`);
-    setText("dashboard-drawdown", formatMoney(starting - trailingLimit));
-    setText("metric-max-target", `Absolute Floor ${formatMoney(starting - trailingLimit)}`);
+    setText("dashboard-drawdown", formatMoney(drawdownFloor));
+    setText("metric-max-target", `EOD Floor ${formatMoney(drawdownFloor)}`);
     setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
     setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
     setText("metric-max-status", "Passed (No Drawdown Violations)");
