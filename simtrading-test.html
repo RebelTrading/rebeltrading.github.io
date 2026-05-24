@@ -1331,15 +1331,16 @@ function checkAutomatedRulesAndExits() {
         
         if (isStruck) {
             activePosition = {
-                hasPosition: true,
-                side: pendingLimitOrder.side,
-                entryPrice: pendingLimitOrder.limitPrice,
-                size: pendingLimitOrder.size,
-                asset: CURRENT_ASSET,
-                tpPrice: pendingLimitOrder.tpPrice,
-                slPrice: pendingLimitOrder.slPrice,
-                largestTradeProfit: 0.0
-            };
+            hasPosition: true,
+            side: side,
+            entryPrice: getCurrentPrice(),
+            size: contractSize,
+            asset: CURRENT_ASSET,
+            tpPrice: targetTP,
+            slPrice: targetSL,
+            largestTradeProfit: 0.0,
+            openedAt: Math.floor(Date.now() / 1000)
+        };
             cancelPendingLimit();
             showActivePositionOverlays();
         }
