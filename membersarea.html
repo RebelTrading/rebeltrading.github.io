@@ -521,9 +521,20 @@ async function loadMemberDashboard() {
     const trailingLimit = Number(challenge.trailing_limit) || 0;
     const pnl = realized + floating;
     const targetRemaining = Math.max(0, target - pnl);
+    const stage = challenge.stage || "challenge";
+    const payoutSplit = Number(challenge.payout_split || 80);
 
-    setText("metric-profit-target", `Reach ${formatMoney(starting + target)} (+${formatMoney(target)})`);
-    setText("dashboard-status", "EVALUATION IN PROGRESS");
+    if (stage === "rebel_stage") {
+        setText("dashboard-stage", "Sim Funded");
+        setText("dashboard-stage-detail", `Rebel Stage Active • ${payoutSplit.toFixed(0)}% Split`);
+        setText("metric-profit-target", "Unlimited");
+        setText("dashboard-status", "SIM FUNDED ACTIVE");
+    } else {
+        setText("dashboard-stage", "Level 1");
+        setText("dashboard-stage-detail", "Rebel Challenge Active");
+        setText("metric-profit-target", `Reach ${formatMoney(starting + target)} (+${formatMoney(target)})`);
+        setText("dashboard-status", "EVALUATION IN PROGRESS");
+    }
     setText("dashboard-equity", formatMoney(equity));
     setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
     setText("dashboard-pnl", `${pnl >= 0 ? "+" : "-"}${formatMoney(Math.abs(pnl))}`);
