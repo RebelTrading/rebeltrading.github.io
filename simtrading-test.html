@@ -956,10 +956,25 @@ if (AUTH_USER) {
     if (userLabel) userLabel.innerText = displayName;
     if (userAvatar) userAvatar.innerText = initials || 'RT';
 }
-
+applyStageDisplay();
 initializeProgressMilestones();
 updateAccountMetrics();
 recalculateSpecInterface();
+}
+function applyStageDisplay() {
+    const stage = ACTIVE_CHALLENGE?.stage || "challenge";
+    const levelTitle = document.querySelector(".level-title");
+    const progressPct = document.getElementById("header-progress-pct");
+    const progressFill = document.getElementById("header-progress-fill");
+
+    if (stage === "rebel_stage") {
+        if (levelTitle) levelTitle.innerText = "Sim Funded";
+        if (progressPct) progressPct.innerText = `${Number(ACTIVE_CHALLENGE?.payout_split || 80).toFixed(0)}% SPLIT`;
+        if (progressFill) progressFill.style.width = "100%";
+        return;
+    }
+
+    if (levelTitle) levelTitle.innerText = "Level 1 Challenge";
 }
 
 async function syncChallengeSnapshot() {
@@ -1506,11 +1521,18 @@ function updateAccountMetrics() {
         targetField.style.color = "#fff";
     }
 
-    // FIXED: PHYSICAL LEVEL 1 CHALLENGE PROGRESS BAR SYNCED TO THE INTERFACE
-    let challengePct = (combinedTotalProfit / PROFIT_TARGET) * 100;
-    challengePct = Math.max(0, Math.min(100, challengePct));
-    document.getElementById('header-progress-fill').style.width = `${challengePct.toFixed(1)}%`;
-    document.getElementById('header-progress-pct').innerText = `${challengePct.toFixed(0)}%`;
+        // FIXED: PHYSICAL LEVEL 1 CHALLENGE PROGRESS BAR SYNCED TO THE INTERFACE
+    const currentStage = ACTIVE_CHALLENGE?.stage || "challenge";
+
+    if (currentStage === "rebel_stage") {
+        document.getElementById('header-progress-fill').style.width = "100%";
+        document.getElementById('header-progress-pct').innerText = `${Number(ACTIVE_CHALLENGE?.payout_split || 80).toFixed(0)}% SPLIT`;
+    } else {
+        let challengePct = PROFIT_TARGET > 0 ? (combinedTotalProfit / PROFIT_TARGET) * 100 : 0;
+        challengePct = Math.max(0, Math.min(100, challengePct));
+        document.getElementById('header-progress-fill').style.width = `${challengePct.toFixed(1)}%`;
+        document.getElementById('header-progress-pct').innerText = `${challengePct.toFixed(0)}%`;
+    }
 
     const dailyLossGuard = document.getElementById('metric-daily-loss');
     if (accumulatedLoss >= DAILY_LOSS_LIMIT) {
