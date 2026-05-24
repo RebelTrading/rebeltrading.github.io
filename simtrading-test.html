@@ -1653,6 +1653,16 @@ async function recordClosedTrade(tradePayload) {
 }
 function executeDevOrder(side) {
     const contractSize = parseFloat(document.getElementById('position-contract-size').value);
+    const currentAssetKeyForMargin = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const marginSpec = assetMap[currentAssetKeyForMargin];
+    const estimatedNotional = getCurrentPrice() * contractSize * marginSpec.multiplier;
+    const estimatedMargin = estimatedNotional / LEVERAGE_FACTOR;
+    const maxPositionMargin = (ACCOUNT_BALANCE + FLOATING_PNL) * 0.35;
+
+    if (estimatedMargin > maxPositionMargin) {
+        alert(`Order blocked: margin required $${estimatedMargin.toFixed(2)} exceeds 35% max position margin $${maxPositionMargin.toFixed(2)}.`);
+        return;
+    }
     
     let targetTP = 0.0;
     let targetSL = 0.0;
