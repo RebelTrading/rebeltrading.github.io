@@ -1584,7 +1584,23 @@ function clearAllChartOverlays() {
         window.RebelChart.clearTradeLines();
     }
 }
+async function recordClosedTrade(tradePayload) {
+    const token = localStorage.getItem("rebel_auth_token");
+    if (!token || !tradePayload) return;
 
+    try {
+        await fetch(`${API_BASE_URL}/api/trades/record`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify(tradePayload)
+        });
+    } catch (err) {
+        console.warn("Trade history record failed:", err);
+    }
+}
 function executeDevOrder(side) {
     const contractSize = parseFloat(document.getElementById('position-contract-size').value);
     
