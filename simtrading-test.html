@@ -1510,15 +1510,23 @@ function updateAccountMetrics() {
         `;
     }
 
-    const targetLeft = PROFIT_TARGET - combinedTotalProfit;
-    const targetField = document.getElementById('metric-target');
-    if (targetLeft <= 0) {
-        targetField.innerText = "TARGET MET! (PASSED)";
+        const targetField = document.getElementById('metric-target');
+    const currentStageForTarget = ACTIVE_CHALLENGE?.stage || "challenge";
+
+    if (currentStageForTarget === "rebel_stage") {
+        targetField.innerText = "UNLIMITED";
         targetField.className = "pass";
     } else {
-        targetField.innerText = `$${targetLeft.toFixed(2)} Left`;
-        targetField.className = "";
-        targetField.style.color = "#fff";
+        const targetLeft = PROFIT_TARGET - combinedTotalProfit;
+
+        if (targetLeft <= 0) {
+            targetField.innerText = "TARGET MET! (PASSED)";
+            targetField.className = "pass";
+        } else {
+            targetField.innerText = `$${targetLeft.toFixed(2)} Left`;
+            targetField.className = "";
+            targetField.style.color = "#fff";
+        }
     }
 
         // FIXED: PHYSICAL LEVEL 1 CHALLENGE PROGRESS BAR SYNCED TO THE INTERFACE
