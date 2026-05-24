@@ -971,7 +971,7 @@ async function syncChallengeSnapshot() {
     lastSnapshotSyncAt = now;
 
     try {
-        await fetch(`${API_BASE_URL}/api/challenge/snapshot`, {
+        const response = await fetch(`${API_BASE_URL}/api/challenge/snapshot`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -985,6 +985,19 @@ async function syncChallengeSnapshot() {
                 last_asset: CURRENT_ASSET
             })
         });
+                const data = await response.json();
+
+        if (data.stage_changed && data.new_stage === "rebel_stage") {
+            triggerProgressMilestone(
+                "CHALLENGE COMPLETE",
+                "SIM FUNDED REBEL STAGE UNLOCKED",
+                "Challenge complete. Sim funded Rebel Stage unlocked."
+            );
+
+            setTimeout(() => {
+                window.location.href = "membersarea.html";
+            }, 4500);
+        }
     } catch (err) {
         console.warn("Challenge snapshot sync failed:", err);
     }
