@@ -542,7 +542,11 @@ async function loadMemberDashboard() {
     setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
     setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
     setText("metric-max-status", "Passed (No Drawdown Violations)");
-    setText("metric-profit-status", `${formatMoney(equity)} (${formatMoney(targetRemaining)} Remaining)`);
+    if (stage === "rebel_stage") {
+        setText("metric-profit-status", `${formatMoney(equity)} (Unlimited Target)`);
+    } else {
+        setText("metric-profit-status", `${formatMoney(equity)} (${formatMoney(targetRemaining)} Remaining)`);
+    }
 
     await loadTradeStats(token);
 }
