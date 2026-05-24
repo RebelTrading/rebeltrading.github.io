@@ -1650,10 +1650,22 @@ function closeActivePosition() {
     if (!activePosition.hasPosition) return;
     playPositionClosedSFX();
 
+        const closedTrade = {
+        asset: activePosition.asset || CURRENT_ASSET,
+        side: activePosition.side,
+        size: activePosition.size,
+        entry_price: activePosition.entryPrice,
+        exit_price: getCurrentPrice(),
+        pnl: FLOATING_PNL,
+        opened_at: activePosition.openedAt || null
+    };
+
     ACCOUNT_BALANCE += FLOATING_PNL;
     REALIZED_PNL += FLOATING_PNL;
+
+    recordClosedTrade(closedTrade);
     
-    activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
+    activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0, openedAt: null };
     FLOATING_PNL = 0.00;
     
     clearAllChartOverlays();
