@@ -716,6 +716,50 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 </table>
             </div>
         </section>
+            <section class="dashboard-section hidden" id="support-section">
+            <div class="account-selector-bar">
+                <div>
+                    <h2 class="glow-title">Support Desk</h2>
+                    <div style="font-size: 0.8rem; color: #8a8a93; margin-top: 4px;">Submit a support request to the Rebel Trading team</div>
+                </div>
+                <button class="action-btn" onclick="showDashboardSection('overview-section')">
+                    Back To Overview
+                </button>
+            </div>
+
+            <div class="performance-table-panel">
+                <div class="panel-header-title">Contact Support</div>
+
+                <p class="payout-copy">
+                    Need help with your challenge, account access, payout wallet, or trade desk experience? Send a request below and our support team will review it.
+                </p>
+
+                <form id="support-form" onsubmit="submitSupportRequest(event)">
+                    <div class="support-form-grid">
+                        <div class="support-form-field">
+                            <label>Name</label>
+                            <input type="text" id="support-name" name="name" placeholder="Your name" required>
+                        </div>
+
+                        <div class="support-form-field">
+                            <label>Email</label>
+                            <input type="email" id="support-email" name="email" placeholder="you@example.com" required>
+                        </div>
+
+                        <div class="support-form-field full">
+                            <label>Description Of Issue Or Question</label>
+                            <textarea id="support-message" name="message" placeholder="Tell us what happened or what you need help with..." required></textarea>
+                        </div>
+                    </div>
+
+                    <button class="action-btn" type="submit" style="margin-top: 16px;">
+                        Submit Request
+                    </button>
+
+                    <div class="support-status" id="support-status"></div>
+                </form>
+            </div>
+        </section>
         <section class="dashboard-section hidden" id="payouts-section">
             <div class="account-selector-bar">
                 <div>
