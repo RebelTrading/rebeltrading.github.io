@@ -524,16 +524,20 @@ async function loadMemberDashboard() {
     const stage = challenge.stage || "challenge";
     const payoutSplit = Number(challenge.payout_split || 80);
 
-    if (stage === "rebel_stage") {
+        if (stage === "rebel_stage") {
         setText("dashboard-stage", "Sim Funded");
         setText("dashboard-stage-detail", `Rebel Stage Active • ${payoutSplit.toFixed(0)}% Split`);
         setText("metric-profit-target", "Unlimited");
         setText("dashboard-status", "SIM FUNDED ACTIVE");
+        setText("metric-stage-target", "Sim Funded Rebel Stage");
+        setText("metric-stage-status", `${payoutSplit.toFixed(0)}% Split Active`);
     } else {
         setText("dashboard-stage", "Level 1");
         setText("dashboard-stage-detail", "Rebel Challenge Active");
         setText("metric-profit-target", `Reach ${formatMoney(starting + target)} (+${formatMoney(target)})`);
         setText("dashboard-status", "EVALUATION IN PROGRESS");
+        setText("metric-stage-target", "Challenge → Sim Funded");
+        setText("metric-stage-status", "Level 1 Active");
     }
     setText("dashboard-equity", formatMoney(equity));
     setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
