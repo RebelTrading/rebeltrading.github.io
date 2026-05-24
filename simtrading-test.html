@@ -1205,7 +1205,7 @@ function changeSimAccountTier(selectElement) {
     EOD_TRAILING_LIMIT = config.eodLimit;
     
     cancelPendingLimit();
-    activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
+    activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0, openedAt: null };
     
     clearAllChartOverlays();
     updateAccountMetrics();
