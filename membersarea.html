@@ -532,6 +532,7 @@ async function loadMemberDashboard() {
     setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
     setText("metric-max-status", "Passed (No Drawdown Violations)");
     setText("metric-profit-status", `${formatMoney(equity)} (${formatMoney(targetRemaining)} Remaining)`);
+    await loadTradeStats(token);
 }
 function showDashboardSection(sectionId) {
     document.querySelectorAll(".dashboard-section").forEach(section => {
