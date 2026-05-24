@@ -1329,18 +1329,19 @@ function checkAutomatedRulesAndExits() {
         if (pendingLimitOrder.side === 'BUY' && currentPrice <= pendingLimitOrder.limitPrice) isStruck = true;
         if (pendingLimitOrder.side === 'SELL' && currentPrice >= pendingLimitOrder.limitPrice) isStruck = true;
         
-        if (isStruck) {
+                if (isStruck) {
             activePosition = {
-            hasPosition: true,
-            side: side,
-            entryPrice: getCurrentPrice(),
-            size: contractSize,
-            asset: CURRENT_ASSET,
-            tpPrice: targetTP,
-            slPrice: targetSL,
-            largestTradeProfit: 0.0,
-            openedAt: Math.floor(Date.now() / 1000)
-        };
+                hasPosition: true,
+                side: pendingLimitOrder.side,
+                entryPrice: pendingLimitOrder.limitPrice,
+                size: pendingLimitOrder.size,
+                asset: CURRENT_ASSET,
+                tpPrice: pendingLimitOrder.tpPrice,
+                slPrice: pendingLimitOrder.slPrice,
+                largestTradeProfit: 0.0,
+                openedAt: Math.floor(Date.now() / 1000)
+            };
+
             cancelPendingLimit();
             showActivePositionOverlays();
         }
