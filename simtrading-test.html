@@ -1618,7 +1618,7 @@ function executeDevOrder(side) {
     }
 
     if (ORDER_TYPE === "MARKET") {
-        activePosition = {
+            activePosition = {
             hasPosition: true,
             side: side,
             entryPrice: getCurrentPrice(),
@@ -1626,7 +1626,8 @@ function executeDevOrder(side) {
             asset: CURRENT_ASSET,
             tpPrice: targetTP,
             slPrice: targetSL,
-            largestTradeProfit: 0.0
+            largestTradeProfit: 0.0,
+            openedAt: Math.floor(Date.now() / 1000)
         };
         showActivePositionOverlays();
         playOrderFilledSFX();
