@@ -566,19 +566,23 @@ function updatePayoutEligibility(challenge, equity) {
 
     const summary = document.getElementById("payout-eligibility-summary");
     const withdrawableEl = document.getElementById("payout-withdrawable");
+    const requestButton = document.getElementById("request-payout-btn");
 
-    if (stage !== "rebel_stage") {
+        if (stage !== "rebel_stage") {
         if (summary) summary.innerText = "Payouts unlock after you pass Level 1 and enter the Sim Funded Rebel Stage.";
         if (withdrawableEl) withdrawableEl.className = "metric-current running-text";
+        if (requestButton) requestButton.style.display = "none";
         return;
     }
 
-    if (withdrawable >= 25) {
+        if (withdrawable >= 25) {
         if (summary) summary.innerText = `Payout request eligible. ${payoutSplit.toFixed(0)}% split applies to approved funded-stage profits above the buffer.`;
         if (withdrawableEl) withdrawableEl.className = "metric-current passed-text";
+        if (requestButton) requestButton.style.display = "inline-block";
     } else {
         if (summary) summary.innerText = "Sim Funded active. Build at least $25 above the 4.2% buffer floor to request payout.";
         if (withdrawableEl) withdrawableEl.className = "metric-current running-text";
+        if (requestButton) requestButton.style.display = "none";
     }
 }
 function updatePayoutEligibility(challenge, equity) {
