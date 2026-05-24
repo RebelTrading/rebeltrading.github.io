@@ -632,9 +632,7 @@ function logout() {
 async function loadTradeStats(token) {
     try {
         const summaryResponse = await fetch(`${API_URL}/api/trades/summary`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
 
         if (summaryResponse.ok) {
@@ -654,9 +652,7 @@ async function loadTradeStats(token) {
         }
 
         const historyResponse = await fetch(`${API_URL}/api/trades/history`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
 
         if (historyResponse.ok) {
@@ -667,6 +663,7 @@ async function loadTradeStats(token) {
         console.warn("Trade stats load failed:", err);
     }
 }
+
 function renderTradeHistory(trades) {
     const body = document.getElementById("trade-history-body");
     if (!body) return;
@@ -707,12 +704,27 @@ function renderTradeHistory(trades) {
         `;
     }).join("");
 }
+
+function savePayoutWallet() {
+    const network = document.getElementById("payout-network")?.value || "";
+    const wallet = document.getElementById("payout-wallet-address")?.value || "";
+    const status = document.getElementById("payout-status");
+
+    if (!wallet.trim()) {
+        if (status) status.innerText = "Enter a USDC wallet address before saving.";
+        return;
+    }
+
+    localStorage.setItem("rebel_payout_network", network);
+    localStorage.setItem("rebel_payout_wallet", wallet.trim());
+
+    if (status) status.innerText = "Wallet saved locally for testing. Backend save is next.";
+}
+
 function logout() {
     localStorage.removeItem("rebel_auth_token");
     window.location.href = "simtrading-test.html";
 }
-
-window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </script>
 </head>
 
