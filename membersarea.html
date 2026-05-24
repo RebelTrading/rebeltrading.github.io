@@ -749,7 +749,12 @@ function renderTradeHistory(trades) {
         `;
     }).join("");
 }
-
+function requestPayout() {
+    const status = document.getElementById("payout-status");
+    if (status) {
+        status.innerText = "Payout request captured for testing. Backend payout queue is next.";
+    }
+}
 function savePayoutWallet() {
     const network = document.getElementById("payout-network")?.value || "";
     const wallet = document.getElementById("payout-wallet-address")?.value || "";
