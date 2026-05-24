@@ -1560,15 +1560,20 @@ function updateAccountMetrics() {
         trailingGuard.className = "pass";
     }
 
-    const maxAllowedSingleTradeProfit = PROFIT_TARGET * 0.35;
-    const consistencyField = document.getElementById('metric-consistency');
-    let historicalHighProfit = activePosition.hasPosition ? activePosition.largestTradeProfit : 0.0;
-    
-    if (historicalHighProfit > maxAllowedSingleTradeProfit) {
-        consistencyField.innerText = `OVER CAP ($${historicalHighProfit.toFixed(2)} > $${maxAllowedSingleTradeProfit.toFixed(2)} Max)`;
+        const consistencyField = document.getElementById('metric-consistency');
+    const netLiquidationForMargin = ACCOUNT_BALANCE + FLOATING_PNL;
+    const maxPositionMargin = Math.max(0, netLiquidationForMargin * 0.35);
+    const currentSize = parseFloat(document.getElementById('position-contract-size').value) || 0;
+    const currentAssetKeyForMargin = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const marginSpec = assetMap[currentAssetKeyForMargin];
+    const estimatedNotional = currentPrice * currentSize * marginSpec.multiplier;
+    const estimatedMargin = estimatedNotional / LEVERAGE_FACTOR;
+
+    if (estimatedMargin > maxPositionMargin) {
+        consistencyField.innerText = `OVER LIMIT ($${estimatedMargin.toFixed(2)} / $${maxPositionMargin.toFixed(2)} Max)`;
         consistencyField.className = "fail";
     } else {
-        consistencyField.innerText = `COMPLIANT ($${maxAllowedSingleTradeProfit.toFixed(2)} Cap Per Trade)`;
+        consistencyField.innerText = `COMPLIANT ($${estimatedMargin.toFixed(2)} / $${maxPositionMargin.toFixed(2)} Max)`;
         consistencyField.className = "pass";
     }
 }
@@ -2068,7 +2073,7 @@ window.addEventListener('DOMContentLoaded', async function() {
     <div class="rule-item"><span>Profit Extraction Target Metric:</span><span id="metric-target">$300.00 Left</span></div>
     <div class="rule-item"><span>Intraday Drawdown Safety Metric:</span><span id="metric-daily-loss" class="pass">PASSED (-$0.00 / $150.00)</span></div>
     <div class="rule-item"><span>EOD Trailing Drawdown Limit:</span><span id="metric-trailing" class="pass">PASSED ($0.00 / $300.00)</span></div>
-    <div class="rule-item"><span>35% Single-Trade Consistency Rule:</span><span id="metric-consistency" class="pass">COMPLIANT ($105.00 Cap)</span></div>
+    <div class="rule-item"><span>Max Position Margin Guard:</span><span id="metric-consistency" class="pass">COMPLIANT</span></div>
 </div>
     </div>
     
