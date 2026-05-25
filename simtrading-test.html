@@ -1579,10 +1579,10 @@ function updateAccountMetrics() {
     const estimatedMargin = estimatedNotional / LEVERAGE_FACTOR;
 
     if (estimatedMargin > maxPositionMargin) {
-        consistencyField.innerText = `OVER LIMIT ($${estimatedMargin.toFixed(2)} / $${maxPositionMargin.toFixed(2)} Max)`;
+        consistencyField.innerText = `OVER LIMIT ($${estimatedMargin.toFixed(2)} / $${maxPositionMargin.toFixed(2)} Max @ ${(getMaxPositionMarginRate() * 100).toFixed(0)}%)`;
         consistencyField.className = "fail";
     } else {
-        consistencyField.innerText = `COMPLIANT ($${estimatedMargin.toFixed(2)} / $${maxPositionMargin.toFixed(2)} Max)`;
+        consistencyField.innerText = `COMPLIANT ($${estimatedMargin.toFixed(2)} / $${maxPositionMargin.toFixed(2)} Max @ ${(getMaxPositionMarginRate() * 100).toFixed(0)}%)`;
         consistencyField.className = "pass";
     }
 }
@@ -1669,7 +1669,7 @@ function executeDevOrder(side) {
     const maxPositionMargin = (ACCOUNT_BALANCE + FLOATING_PNL) * getMaxPositionMarginRate();
 
     if (estimatedMargin > maxPositionMargin) {
-        alert(`Order blocked: margin required $${estimatedMargin.toFixed(2)} exceeds 35% max position margin $${maxPositionMargin.toFixed(2)}.`);
+        alert(`Order blocked: margin required $${estimatedMargin.toFixed(2)} exceeds ${(getMaxPositionMarginRate() * 100).toFixed(0)}% max position margin $${maxPositionMargin.toFixed(2)}.`);
         return;
     }
     
