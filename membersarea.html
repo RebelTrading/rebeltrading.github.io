@@ -926,8 +926,7 @@ async function savePayoutWallet() {
         }
 
         if (summary) summary.innerText = data.reason || "";
-        const hasPendingPayout = (data.history || []).some(payout => payout.status === "pending_manual_review");
-                const hasPendingPayout = (data.history || []).some(payout => payout.status === "pending_manual_review");
+        const hasPendingPayout = (data.history || []).some(payout => payout.status === "pending_manual_review");       
 
         if (requestButton) {
             requestButton.style.display = "inline-block";
