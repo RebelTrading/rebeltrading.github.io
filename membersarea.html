@@ -492,8 +492,9 @@ function setText(id, value) {
 async function loadMemberDashboard() {
     const token = localStorage.getItem("rebel_auth_token");
 
-    if (!token) {
-        window.location.href = "simtrading-test.html";
+        if (!token) {
+        setText("dashboard-status", "NO LOGIN TOKEN FOUND");
+        console.warn("No rebel_auth_token found in localStorage.");
         return;
     }
 
@@ -503,9 +504,9 @@ async function loadMemberDashboard() {
         }
     });
 
-    if (!response.ok) {
-        localStorage.removeItem("rebel_auth_token");
-        window.location.href = "simtrading-test.html";
+        if (!response.ok) {
+        setText("dashboard-status", "BACKEND AUTH CHECK FAILED");
+        console.warn("Members API auth failed:", response.status);
         return;
     }
 
