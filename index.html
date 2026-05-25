@@ -328,6 +328,54 @@ header img {
 .speedrun-text span {
     color: #ffb703;
 }
+    .hero-proof-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+    gap: 10px;
+    max-width: 920px;
+    margin: 28px auto 0 auto;
+}
+
+.hero-proof-item {
+    background: rgba(5, 5, 5, 0.72);
+    border: 1px solid #1f1f1f;
+    border-radius: 6px;
+    padding: 12px 10px;
+    font-family: monospace;
+    text-align: center;
+}
+
+.hero-proof-label {
+    display: block;
+    color: #666;
+    font-size: 0.62rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.hero-proof-value {
+    display: block;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: bold;
+}
+
+.hero-proof-value.green {
+    color: #00ff66;
+}
+
+.hero-proof-value.gold {
+    color: #ffb703;
+}
+
+@media (max-width: 800px) {
+    .hero-proof-grid {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        padding: 0 15px;
+    }
+}
 
 @keyframes pulse-glow {
     0% { box-shadow: 0 0 5px rgba(255, 42, 42, 0.5); }
@@ -696,9 +744,9 @@ function toggleMenu() {
 
 // Interactive Box Parameter Configuration matrix
 const configMatrix = [
-    { entry: "$10", balance: "$1,000.00", target: "$80.00", potential: "$100.00 max" },
-    { entry: "$20", balance: "$2,000.00", target: "$200.00", potential: "$200.00 max" },
-    { entry: "$30", balance: "$3,000.00", target: "$400.00", potential: "$300.00 max" }
+    { entry: "$10", balance: "$1,000.00", target: "$100.00", potential: "$1,042 buffer / $25 min" },
+    { entry: "$20", balance: "$2,000.00", target: "$200.00", potential: "$2,084 buffer / $25 min" },
+    { entry: "$30", balance: "$3,000.00", target: "$300.00", potential: "$3,126 buffer / $25 min" }
 ];
 
 function updateInteractiveCalculator(val) {
@@ -757,7 +805,7 @@ function updateInteractiveCalculator(val) {
         <div class="ticker__item">🏆 NASDAQ_X7 cleared BTC levels &rarr; <span class="payout-tag">Paid $80.00 USDC</span></div>
         <div class="ticker__item">🟢 142 Coins Inserted into Recruit Arena this hour</div>
         <div class="ticker__item">🏆 SCALPER_DECK cleared SOL levels &rarr; <span class="payout-tag">Paid $400.00 USDC</span></div>
-        <div class="ticker__item">⚡ SPEEDRUN LOCKOUT: User 'TapeReader' unlocked <strong style="color:#ffb703;">90% PAYOUT BOOST</strong></div>
+        <div class="ticker__item">⚡ SPEEDRUN CLEAR: User 'TapeReader' passed Level 1 in under 48 hours &rarr; <strong style="color:#ffb703;">90% FUNDED SPLIT</strong></div>
         <div class="ticker__item">🏆 WHALE_HUNTER cleared ETH levels &rarr; <span class="payout-tag">Paid $200.00 USDT</span></div>
         <div class="ticker__item">🟢 89 Coins Inserted into Rebel Box Arena this hour</div>
     </div>
@@ -765,22 +813,71 @@ function updateInteractiveCalculator(val) {
 
 <div class="banner">
     <div>
-        <h1>ENTER THE ARENA</h1>
-        <p>Micro Prop Funding. Gamified Rules. Institutional Performance.</p>
+        <h1>ONE STEP TO SIM FUNDED</h1>
+        <p>No monthly fees. No Phase 2 evaluation. Pass once and unlock the Rebel Stage.</p>
+
+        <div class="hero-proof-grid">
+            <div class="hero-proof-item">
+                <span class="hero-proof-label">Entry Tickets</span>
+                <span class="hero-proof-value">$10 / $20 / $30</span>
+            </div>
+            <div class="hero-proof-item">
+                <span class="hero-proof-label">Challenge Target</span>
+                <span class="hero-proof-value green">10% To Pass</span>
+            </div>
+            <div class="hero-proof-item">
+                <span class="hero-proof-label">Funded Stage</span>
+                <span class="hero-proof-value">Auto Unlock</span>
+            </div>
+            <div class="hero-proof-item">
+                <span class="hero-proof-label">Payout Rail</span>
+                <span class="hero-proof-value gold">USDC</span>
+            </div>
+        </div>
         
         <div class="speedrun-banner">
             <div class="speedrun-badge">Speedrun Active</div>
-            <div class="speedrun-text">Pass Level 1 Challenge in under 48 Hours <span> Profit Boost (90% Split)</span></div>
+            <div class="speedrun-text">Clear Level 1 within 48 hours to unlock the <span>90% Funded Payout Split</span></div>
         </div>
 
         <div class="enter-desk-container">
-            <a href="https://rebeltrading.github.io/simtrading.html" class="enter-desk-btn">⚡ ENTER TRADE SIM ⚡</a>
+            <a href="#packages" class="enter-desk-btn">⚡ PICK YOUR CHALLENGE ⚡</a>
         </div>
 
     </div>
 </div>
 
 <section id="who" class="section">
+    <section id="how-it-works" class="section" style="padding-top: 90px; padding-bottom: 40px;">
+    <h2>How Rebel Works</h2>
+    <div class="section-subtitle">A one-step micro prop path built for fast evaluation, simple rules, and funded-stage USDC payouts.</div>
+
+    <div class="box-container">
+        <div class="box">
+            <h3>1. Choose A Challenge</h3>
+            <p>Pick a $1K, $2K, or $3K simulated account and pay one entry ticket. No monthly subscription, no recurring platform fee, and no hidden activation charge.</p>
+        </div>
+
+        <div class="box">
+            <h3>2. Hit The 10% Target</h3>
+            <p>Trade BTC, ETH, SOL, and XRP with 1:50 leverage while respecting the daily loss guard, EOD trailing drawdown, and max position margin rule.</p>
+        </div>
+
+        <div class="box">
+            <h3>3. Unlock Sim Funded</h3>
+            <p>Pass Level 1 and your account automatically moves into the Sim Funded Rebel Stage. No Phase 2 evaluation. Your profit target becomes unlimited.</p>
+        </div>
+
+        <div class="box">
+            <h3>4. Request USDC Payouts</h3>
+            <p>Once funded-stage profits clear the 4.2% buffer and $25 minimum request, submit a payout request from your members dashboard.</p>
+        </div>
+        </div>
+
+    <div class="enter-desk-container" style="margin-top: 34px;">
+        <a href="#packages" class="enter-desk-btn">VIEW CHALLENGE TIERS</a>
+    </div>
+</section>
     <h2>The Rebel Manifesto</h2>
     <div class="section-subtitle">We crashed the entry barrier. Traditional prop evaluation models are bloated, intimidating, and built around your failure.</div>
     <p>
@@ -828,7 +925,7 @@ function updateInteractiveCalculator(val) {
 
         <div class="box">
             <h3>USDC Payout Loop</h3>
-            <p>Funded-stage payouts can be requested every 5 trading days when profits exceed the 4.2% buffer and meet the $25 minimum request. Standard accounts receive 80%, while Speedrun status unlocks a boosted 90% split.</p>
+            <p>Funded-stage payouts can be requested every 5 trading days when profits exceed the 4.2% buffer and meet the $25 minimum request. Standard accounts receive 80%, while traders who clear Level 1 within 48 hours unlock a boosted 90% split.</p>
         </div>
     </div>
 </section>
@@ -914,7 +1011,7 @@ function updateInteractiveCalculator(val) {
                 <div id="calc-sim-balance" class="calc-val">$1,000.00</div>
             </div>
             <div class="calc-card">
-                <div class="calc-label">Potential Extraction Payout Loop</div>
+                <div class="calc-label">Funded Payout Buffer</div>
                 <div id="calc-payout-cap" class="calc-val highlight">$100.00 max</div>
             </div>
         </div>
