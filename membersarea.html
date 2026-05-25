@@ -510,7 +510,13 @@ async function loadMemberDashboard() {
         return;
     }
 
-    const data = await response.json();
+        const data = await response.json();
+
+    if (!data.user) {
+        console.warn("Backend response did not include user:", data);
+        setText("dashboard-status", "BACKEND DATA NOT LOADED");
+        return;
+    }
 
     const user = data.user;
     const challenge = data.active_challenge;
