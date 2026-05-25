@@ -13,7 +13,6 @@ body {
     color: #bdbdbd;
 }
 
-/* HEADER (same as index) */
 header {
     position: fixed;
     top: 0;
@@ -26,14 +25,27 @@ header {
     padding: 12px 10px;
     border-bottom: 1px solid #1a1a1a;
     z-index: 1000;
+    box-sizing: border-box;
 }
 
 header img {
     height: 80px;
 }
 
+.header-link {
+    color: #ff2a2a;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: bold;
+    font-family: monospace;
+    border: 1px solid #242424;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background: #0b0b0b;
+}
+
 .section {
-    padding: 140px 30px 80px 30px;
+    padding: 145px 30px 80px 30px;
     max-width: 1000px;
     margin: auto;
 }
@@ -42,12 +54,14 @@ h1 {
     color: #ff2a2a;
     font-size: 3rem;
     margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 h2 {
     color: #ff2a2a;
     margin-top: 50px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 p {
@@ -58,6 +72,7 @@ p {
 ul {
     padding-left: 20px;
     color: #aaa;
+    line-height: 1.7;
 }
 
 strong {
@@ -67,9 +82,20 @@ strong {
 .box {
     background: rgba(6,6,6,0.7);
     border: 1px solid #141414;
-    padding: 20px;
+    padding: 22px;
     border-radius: 8px;
     margin-top: 20px;
+}
+
+.highlight-box {
+    border-color: rgba(255, 183, 3, 0.35);
+    background: rgba(255, 183, 3, 0.04);
+}
+
+.small-note {
+    color: #777;
+    font-size: 0.86rem;
+    font-family: monospace;
 }
 
 footer {
@@ -86,141 +112,251 @@ footer {
 <body>
 
 <header>
-    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png">
+    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
+    <a class="header-link" href="index.html">BACK TO SITE</a>
 </header>
 
 <div class="section">
 
 <h1>Terms of Use</h1>
-<p>Effective Date: 2026</p>
+<p class="small-note">Effective Date: 2026</p>
 
 <p>
-Welcome to <strong>Rebel Trading Desk</strong>. By accessing or purchasing a simulation challenge, you agree to the following terms governing the use of our micro-prop trading environment.
+Welcome to <strong>Rebel Trading Desk</strong>. By accessing the website, creating an account, purchasing a challenge, using the simulated trading desk, or requesting a payout, you agree to the following Terms of Use.
+</p>
+
+<p>
+These terms describe the operating rules of Rebel Trading Group’s private simulated micro-prop evaluation environment. This document is provided for platform transparency and should not be treated as legal, tax, investment, or financial advice.
 </p>
 
 <h2>1. Simulation Environment Disclaimer</h2>
 <div class="box">
 <p>
-All Rebel Trading products operate in a <strong>simulated trading environment</strong>. No real capital is traded on your behalf. Performance results are based on simulated execution and market replication.
+Rebel Trading Desk operates as a <strong>simulated trading and performance evaluation platform</strong>. Users do not trade live capital, brokerage funds, exchange-held funds, securities, futures contracts, or customer-owned investment accounts through Rebel Trading Desk.
 </p>
 <p>
-Payouts are derived from internal performance tracking models and are not tied to live brokerage accounts.
+All balances, trades, profit and loss values, account tiers, drawdown levels, and payout eligibility calculations are based on internal simulated account tracking. Market prices, fills, execution, account values, and performance metrics may be modeled, synthetic, delayed, or otherwise simulated.
+</p>
+<p>
+Participation in Rebel Trading Desk does not create an investment account, brokerage relationship, advisory relationship, employment contract, partnership, or guaranteed compensation arrangement.
 </p>
 </div>
 
-<h2>2. Challenge Structure</h2>
+<h2>2. One-Step Challenge Structure</h2>
 <div class="box">
-<p>All users participate in a two-phase evaluation system:</p>
+<p>
+Rebel Trading uses a <strong>one-step evaluation model</strong>. Users purchase a challenge tier, trade inside the simulation environment, and attempt to reach the Level 1 profit target while respecting all platform risk rules.
+</p>
 <ul>
-<li><strong>Phase 1:</strong> Achieve a 10% profit target</li>
-<li><strong>Phase 2:</strong> Enter the funded simulation payout arena</li>
+<li><strong>Level 1 Rebel Challenge:</strong> Reach a 10% simulated profit target.</li>
+<li><strong>No Phase 2 Evaluation:</strong> Users do not complete a second evaluation after passing Level 1.</li>
+<li><strong>Sim Funded Rebel Stage:</strong> After passing Level 1, the account is reset to the selected starting balance and moved into the Sim Funded stage.</li>
+<li><strong>No Monthly Fee:</strong> Challenge entry is not a recurring monthly subscription unless otherwise stated at checkout.</li>
+<li><strong>No Activation Fee:</strong> Passing Level 1 does not require an additional activation payment to unlock the Sim Funded Rebel Stage.</li>
 </ul>
-<p>No additional fees are required to progress between phases.</p>
+<p>
+Level 1 evaluation profits do <strong>not</strong> create a payout. Payout eligibility begins only after the user reaches the Sim Funded Rebel Stage and generates funded-stage profits above the required payout buffer.
+</p>
 </div>
 
-<h2>3. Account Tiers & Rules</h2>
+<h2>3. Account Tiers</h2>
 
 <div class="box">
-<p><strong>Recruit Box ($1,000 Sim)</strong></p>
+<p><strong>Recruit Box — $1,000 Simulated Account</strong></p>
 <ul>
-<li>Profit Target: $100</li>
-<li>Daily Loss Limit: $50 (5%)</li>
-<li>EOD Trailing Drawdown: $100 (10%)</li>
-<li>Max Trade Contribution: 35%</li>
-</ul>
-</div>
-
-<div class="box">
-<p><strong>Raider Box ($2,000 Sim)</strong></p>
-<ul>
-<li>Profit Target: $200</li>
-<li>Daily Loss Limit: $100</li>
-<li>EOD Trailing Drawdown: $200</li>
-<li>Max Trade Contribution: 35%</li>
-</ul>
-</div>
-
-<div class="box">
-<p><strong>Rebel Box ($3,000 Sim)</strong></p>
-<ul>
-<li>Profit Target: $300</li>
-<li>Daily Loss Limit: $150</li>
-<li>EOD Trailing Drawdown: $300</li>
-<li>Max Trade Contribution: 35%</li>
+<li>Level 1 Target: 10% / $100</li>
+<li>Max Daily Loss: 5% / $50</li>
+<li>Challenge EOD Trailing Drawdown: 10% / $100</li>
+<li>Sim Funded EOD Trailing Drawdown: 8% / $80</li>
+<li>Max Position Margin: 25% of account equity</li>
+<li>Funded Payout Buffer: $1,042 account floor</li>
 </ul>
 </div>
 
-<h2>4. Risk Management Rules</h2>
 <div class="box">
+<p><strong>Raider Box — $2,000 Simulated Account</strong></p>
 <ul>
-<li><strong>Daily Loss Safeguard:</strong> 5% maximum loss per trading day</li>
-<li><strong>EOD Trailing Drawdown:</strong> Based on end-of-day balance vs peak</li>
-<li><strong>Consistency Rule:</strong> No single trade may exceed 35% of total profit target</li>
+<li>Level 1 Target: 10% / $200</li>
+<li>Max Daily Loss: 5% / $100</li>
+<li>Challenge EOD Trailing Drawdown: 10% / $200</li>
+<li>Sim Funded EOD Trailing Drawdown: 8% / $160</li>
+<li>Max Position Margin: 30% of account equity</li>
+<li>Funded Payout Buffer: $2,084 account floor</li>
+</ul>
+</div>
+
+<div class="box">
+<p><strong>Rebel Box — $3,000 Simulated Account</strong></p>
+<ul>
+<li>Level 1 Target: 10% / $300</li>
+<li>Max Daily Loss: 5% / $150</li>
+<li>Challenge EOD Trailing Drawdown: 10% / $300</li>
+<li>Sim Funded EOD Trailing Drawdown: 8% / $240</li>
+<li>Max Position Margin: 35% of account equity</li>
+<li>Funded Payout Buffer: $3,126 account floor</li>
+</ul>
+</div>
+
+<h2>4. Trading Products & Leverage</h2>
+<div class="box">
+<p>
+The Rebel Trading Desk currently supports simulated trading for selected crypto perpetual markets:
+</p>
+<ul>
+<li>BTC/USD</li>
+<li>ETH/USD</li>
+<li>SOL/USD</li>
+<li>XRP/USD</li>
 </ul>
 <p>
-Violation of any rule may result in account reset or disqualification from the current challenge.
+Accounts are modeled with up to <strong>1:50 simulated leverage</strong>. Leverage, margin values, contract multipliers, supported assets, and market settings may be modified by Rebel Trading Group at any time to protect system integrity.
 </p>
 </div>
 
-<h2>5. Profit Split & Payouts</h2>
+<h2>5. Risk Rules</h2>
 <div class="box">
 <ul>
-<li>Users receive <strong>80% of simulated profits</strong></li>
-<li>Profit milestones trigger automated payout events</li>
-<li>No manual withdrawal requests required</li>
+<li><strong>Max Daily Loss:</strong> Each account is subject to a 5% daily loss limit based on the account tier.</li>
+<li><strong>Challenge EOD Trailing Drawdown:</strong> Level 1 accounts use a 10% end-of-day trailing drawdown.</li>
+<li><strong>Sim Funded EOD Trailing Drawdown:</strong> Sim Funded accounts use an 8% end-of-day trailing drawdown.</li>
+<li><strong>EOD Logic:</strong> Trailing drawdown updates based on end-of-day account balance snapshots, not every open-trade tick.</li>
+<li><strong>Max Position Margin:</strong> Users may not exceed the tier-specific maximum position margin on a single position.</li>
 </ul>
 <p>
-Accounts remain active after payout events to allow continuous trading.
+A breach of risk rules may result in account failure, reset, suspension, payout ineligibility, or other restrictions at Rebel Trading Group’s discretion.
 </p>
 </div>
 
-<h2>6. Speedrun & Bonus Conditions</h2>
+<h2>6. Speedrun Payout Split</h2>
+<div class="box highlight-box">
+<p>
+Users who clear the Level 1 Rebel Challenge within <strong>48 hours</strong> of challenge creation may unlock the <strong>90% Speedrun funded-stage payout split</strong>.
+</p>
+<p>
+Users who pass Level 1 outside the Speedrun window receive the standard <strong>80% funded-stage payout split</strong>.
+</p>
+<p>
+The Speedrun split applies to eligible Sim Funded payouts only. It does not create a payout from Level 1 evaluation profits.
+</p>
+</div>
+
+<h2>7. Sim Funded Stage</h2>
 <div class="box">
 <p>
-Users who complete Phase 1 within <strong>48 hours or 50 trades</strong> may qualify for a <strong>90% profit split boost</strong>.
+After passing Level 1, the user’s account is moved into the <strong>Sim Funded Rebel Stage</strong>. The account is reset to the selected starting balance, the Level 1 profit target is removed, and funded-stage payout tracking becomes active.
+</p>
+<ul>
+<li>Profit target becomes unlimited.</li>
+<li>Max daily loss remains 5%.</li>
+<li>EOD trailing drawdown tightens to 8%.</li>
+<li>Funded-stage trades are tracked separately from evaluation trades.</li>
+<li>Payout eligibility begins only from funded-stage profit above the buffer floor.</li>
+</ul>
+</div>
+
+<h2>8. Payout Terms</h2>
+<div class="box highlight-box">
+<p>
+Payouts are available only during the Sim Funded Rebel Stage and only from eligible simulated funded-stage profits.
+</p>
+<ul>
+<li><strong>Standard Split:</strong> 80% of approved eligible funded-stage profits.</li>
+<li><strong>Speedrun Split:</strong> 90% of approved eligible funded-stage profits if the user qualified by passing Level 1 within 48 hours.</li>
+<li><strong>Payout Buffer:</strong> Account equity must remain above the starting balance plus 4.2%.</li>
+<li><strong>Minimum Request:</strong> Users must have at least $25 above the buffer floor to request payout.</li>
+<li><strong>Trading Day Requirement:</strong> Users must complete 5 funded trading days before a payout request is eligible.</li>
+<li><strong>Duplicate Request Block:</strong> Users may not submit a new payout request while another request is pending manual review.</li>
+<li><strong>Manual Review:</strong> All payout requests are subject to review before approval.</li>
+<li><strong>Settlement Rail:</strong> Approved payouts are intended to be sent in USDC to the wallet address provided by the user.</li>
+</ul>
+<p>
+When a payout is approved and marked paid, the gross requested profit amount is deducted from the simulated account equity. The user receives the approved split percentage of that gross amount.
 </p>
 <p>
-Eligibility is determined automatically by the system.
+Example: if a user requests $25 of eligible funded-stage profit with a 90% split, the user may receive $22.50 USDC, and the simulated account equity is reduced by the full $25 gross request.
 </p>
 </div>
 
-<h2>7. Prohibited Behavior</h2>
+<h2>9. Wallet Responsibility</h2>
+<div class="box">
+<p>
+Users are responsible for providing an accurate wallet address and selecting the correct payout network. Rebel Trading Group is not responsible for funds sent to an incorrect address, incompatible wallet, wrong network, expired wallet, compromised wallet, or wallet controlled by a third party.
+</p>
+<p>
+Users should confirm that their wallet supports USDC on the selected network before submitting a payout request.
+</p>
+</div>
+
+<h2>10. Payout Timing</h2>
+<div class="box">
+<p>
+Rebel Trading Group intends to process approved manual payout requests within approximately <strong>24 hours</strong> after review, although timing may vary due to network congestion, treasury review, operational delays, wallet verification, compliance review, or technical interruptions.
+</p>
+<p>
+A payout request is not guaranteed until approved and marked paid by Rebel Trading Group.
+</p>
+</div>
+
+<h2>11. Prohibited Behavior</h2>
 <div class="box">
 <ul>
-<li>Exploiting system latency or pricing errors</li>
-<li>Using automated bots without authorization</li>
-<li>Engaging in manipulation of simulation metrics</li>
+<li>Attempting to manipulate simulated pricing, account metrics, payouts, or trading history.</li>
+<li>Using unauthorized automation, bots, scripts, browser manipulation, or API abuse.</li>
+<li>Exploiting latency, price feed errors, chart discrepancies, or system bugs.</li>
+<li>Creating multiple accounts to bypass limits, risk rules, payout rules, or review processes.</li>
+<li>Submitting false information, fraudulent wallet data, or misleading support/payout requests.</li>
+<li>Attempting to reverse engineer, interfere with, or overload platform infrastructure.</li>
 </ul>
 <p>
-Rebel Trading reserves the right to terminate accounts violating fair-use policies.
+Rebel Trading Group may suspend, restrict, reset, or terminate accounts that violate fair-use or platform integrity rules.
 </p>
 </div>
 
-<h2>8. No Financial Advice</h2>
+<h2>12. Account Review & Manual Decisions</h2>
 <div class="box">
 <p>
-Rebel Trading Desk does not provide financial, investment, or trading advice. This platform is strictly an evaluation and simulation product.
+Rebel Trading Group reserves the right to review account activity, trades, payout eligibility, wallet information, rule compliance, and suspected abuse before approving payouts or continuing account access.
+</p>
+<p>
+Manual review decisions may include approval, rejection, account reset, account restriction, payout delay, or account termination.
 </p>
 </div>
 
-<h2>9. Limitation of Liability</h2>
+<h2>13. No Financial Advice</h2>
 <div class="box">
 <p>
-Rebel Trading is not liable for losses, missed opportunities, or technical interruptions within the simulation environment.
+Rebel Trading Desk does not provide financial, investment, tax, trading, legal, or brokerage advice. The platform is a simulated evaluation and training environment. Users are responsible for their own decisions and should not interpret platform content as financial advice.
 </p>
 </div>
 
-<h2>10. Modifications</h2>
+<h2>14. No Guarantee of Earnings</h2>
 <div class="box">
 <p>
-We reserve the right to modify these terms, system rules, or payout structures at any time to maintain platform integrity.
+Rebel Trading Group does not guarantee that any user will pass an evaluation, receive a payout, generate simulated profits, or achieve any specific performance result. Past performance, simulated results, or public payout examples do not guarantee future outcomes.
 </p>
 </div>
 
-<h2>11. Acceptance</h2>
+<h2>15. Technical Interruptions</h2>
 <div class="box">
 <p>
-By purchasing or using any Rebel Trading product, you acknowledge and agree to all terms outlined above.
+The platform may experience downtime, delayed updates, incorrect display values, network interruptions, API failures, price feed issues, wallet processing delays, or other technical problems. Rebel Trading Group is not liable for missed opportunities, simulated losses, delayed payouts, display errors, or interruption of service.
+</p>
+</div>
+
+<h2>16. Changes To Rules</h2>
+<div class="box">
+<p>
+Rebel Trading Group may update challenge rules, account tiers, payout structures, supported assets, margin limits, risk rules, fees, platform features, or these Terms of Use at any time to protect platform integrity, comply with operational requirements, or improve the service.
+</p>
+<p>
+Continued use of the platform after changes are posted constitutes acceptance of the updated terms.
+</p>
+</div>
+
+<h2>17. Acceptance</h2>
+<div class="box">
+<p>
+By creating an account, purchasing a challenge, using the simulated trading desk, saving a payout wallet, or submitting a payout request, you acknowledge that you have read, understood, and agreed to these Terms of Use.
 </p>
 </div>
 
