@@ -576,6 +576,7 @@ async function loadMemberDashboard() {
     }
     updatePayoutEligibility(challenge, equity);
     await loadTradeStats(token);
+    await loadPayoutStatus(token);
 }
 function updatePayoutEligibility(challenge, equity) {
     const stage = challenge.stage || "challenge";
@@ -768,6 +769,40 @@ function renderTradeHistory(trades) {
                 <td>${Number(trade.exit_price || 0).toFixed(2)}</td>
                 <td class="${pnl >= 0 ? "trade-result-win" : "trade-result-loss"}">${pnl >= 0 ? "+" : "-"}$${Math.abs(pnl).toFixed(2)}</td>
                 <td class="${resultClass}">${result}</td>
+            </tr>
+        `;
+    }).join("");
+}
+    function renderPayoutHistory(payouts) {
+    const body = document.getElementById("payout-history-body");
+    if (!body) return;
+
+    if (!payouts.length) {
+        body.innerHTML = `
+            <tr>
+                <td colspan="6" class="payout-empty">No payout history yet.</td>
+            </tr>
+        `;
+        return;
+    }
+
+    body.innerHTML = payouts.map(payout => {
+        const createdAt = payout.created_at
+            ? new Date(Number(payout.created_at) * 1000).toLocaleString()
+            : "--";
+
+        const wallet = payout.wallet_address
+            ? `${payout.wallet_address.slice(0, 6)}...${payout.wallet_address.slice(-6)}`
+            : "--";
+
+        return `
+            <tr>
+                <td>${createdAt}</td>
+                <td>$${Number(payout.payout_amount || 0).toFixed(2)} (${Number(payout.payout_split || 0).toFixed(0)}%)</td>
+                <td>${payout.network || "--"}</td>
+                <td>${wallet}</td>
+                <td>${payout.status || "--"}</td>
+                <td>${payout.tx_hash || "Manual Review"}</td>
             </tr>
         `;
     }).join("");
