@@ -973,6 +973,7 @@ async function savePayoutWallet() {
 
         const bufferFloor = document.getElementById("payout-buffer-floor");
         const withdrawable = document.getElementById("payout-withdrawable");
+        const tradingDays = document.getElementById("payout-trading-days");
         const summary = document.getElementById("payout-eligibility-summary");
         const requestButton = document.getElementById("request-payout-btn");
         const walletInput = document.getElementById("payout-wallet-address");
@@ -980,6 +981,14 @@ async function savePayoutWallet() {
 
         if (bufferFloor) bufferFloor.innerText = formatMoney(data.buffer_floor || 0);
         if (withdrawable) withdrawable.innerText = formatMoney(data.withdrawable || 0);
+        if (tradingDays) {
+        const fundedDays = Number(data.funded_trading_days || 0);
+        const requiredDays = Number(data.required_trading_days || 5);
+        tradingDays.innerText = `${fundedDays} / ${requiredDays}`;
+        tradingDays.className = fundedDays >= requiredDays
+                ? "metric-current passed-text"
+                : "metric-current running-text";
+        }
 
         if (data.wallet) {
             if (walletInput) walletInput.value = data.wallet.wallet_address || "";
@@ -1279,6 +1288,11 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                     <span class="metric-name">Withdrawable Above Buffer</span>
                     <span class="metric-target">$25 Minimum Request</span>
                     <span class="metric-current running-text" id="payout-withdrawable">--</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-name">Funded Trading Days</span>
+                    <span class="metric-target">5 Days Required</span>
+                    <span class="metric-current running-text" id="payout-trading-days">0 / 5</span>
                 </div>
 
                 <div style="height: 28px;"></div>
