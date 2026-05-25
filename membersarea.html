@@ -807,10 +807,61 @@ function renderTradeHistory(trades) {
         `;
     }).join("");
 }
-function requestPayout() {
+async function requestPayout() {
+    const token = localStorage.getItem("rebel_auth_token");
     const status = document.getElementById("payout-status");
-    if (status) {
-        status.innerText = "Payout request captured for testing. Backend payout queue is next.";
+
+    if (!token) {
+        if (status) status.innerText = "Session expired. Please log back in.";
+        return;
+    }
+
+    if (status) status.innerText = "Submitting payout request...";
+
+    try {
+        const response = await fetch(`${API_URL}/api/payout/request`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({})
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (status) status.innerText = data.detail || "Payout request failed.";
+            return;
+        }
+
+        const payout = data.payout_request;
+
+        await fetch("https://formspree.io/f/mbdwdwqd", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                source: "membersarea.html payout request",
+                request_id: payout.id,
+                requested_amount: payout.requested_amount,
+                payout_split: payout.payout_split,
+                payout_amount: payout.payout_amount,
+                network: payout.network,
+                wallet_address: payout.wallet_address,
+                status: payout.status
+            })
+        });
+
+        if (status) {
+            status.innerText = `Payout request submitted. Estimated payout: $${Number(payout.payout_amount || 0).toFixed(2)} USDC.`;
+        }
+
+        await loadPayoutStatus(token);
+    } catch (err) {
+        if (status) status.innerText = "Connection failed. Please try again.";
     }
 }
 async function savePayoutWallet() {
