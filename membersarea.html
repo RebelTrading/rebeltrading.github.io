@@ -511,13 +511,6 @@ async function loadMemberDashboard() {
 
     const data = await response.json();
 
-    if (!data.user) {
-        console.warn("Member dashboard auth payload missing user:", data);
-        localStorage.removeItem("rebel_auth_token");
-        window.location.href = "simtrading-test.html";
-        return;
-    }
-
     const user = data.user;
     const challenge = data.active_challenge;
 
