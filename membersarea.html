@@ -778,20 +778,49 @@ function requestPayout() {
         status.innerText = "Payout request captured for testing. Backend payout queue is next.";
     }
 }
-function savePayoutWallet() {
+async function savePayoutWallet() {
+    const token = localStorage.getItem("rebel_auth_token");
     const network = document.getElementById("payout-network")?.value || "";
     const wallet = document.getElementById("payout-wallet-address")?.value || "";
     const status = document.getElementById("payout-status");
+
+    if (!token) {
+        if (status) status.innerText = "Session expired. Please log back in.";
+        return;
+    }
 
     if (!wallet.trim()) {
         if (status) status.innerText = "Enter a USDC wallet address before saving.";
         return;
     }
 
-    localStorage.setItem("rebel_payout_network", network);
-    localStorage.setItem("rebel_payout_wallet", wallet.trim());
+    if (status) status.innerText = "Saving payout wallet...";
 
-    if (status) status.innerText = "Wallet saved locally for testing. Backend save is next.";
+    try {
+        const response = await fetch(`${API_URL}/api/payout/wallet`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                network,
+                wallet_address: wallet.trim()
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (status) status.innerText = data.detail || "Wallet save failed.";
+            return;
+        }
+
+        if (status) status.innerText = "Wallet saved to payout profile.";
+        await loadPayoutStatus(token);
+    } catch (err) {
+        if (status) status.innerText = "Connection failed. Please try again.";
+    }
 }
 
 function logout() {
