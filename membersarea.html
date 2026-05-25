@@ -845,24 +845,6 @@ async function requestPayout() {
 
         const payout = data.payout_request;
 
-        await fetch("https://formspree.io/f/mbdwdwqd", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                source: "membersarea.html payout request",
-                request_id: payout.id,
-                requested_amount: payout.requested_amount,
-                payout_split: payout.payout_split,
-                payout_amount: payout.payout_amount,
-                network: payout.network,
-                wallet_address: payout.wallet_address,
-                status: payout.status
-            })
-        });
-
         if (status) {
             status.innerText = `Payout request submitted. Estimated payout: $${Number(payout.payout_amount || 0).toFixed(2)} USDC.`;
         }
