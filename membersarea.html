@@ -822,6 +822,50 @@ async function savePayoutWallet() {
         if (status) status.innerText = "Connection failed. Please try again.";
     }
 }
+    async function loadPayoutStatus(token) {
+    try {
+        const response = await fetch(`${API_URL}/api/payout/status`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        const bufferFloor = document.getElementById("payout-buffer-floor");
+        const withdrawable = document.getElementById("payout-withdrawable");
+        const summary = document.getElementById("payout-eligibility-summary");
+        const requestButton = document.getElementById("request-payout-btn");
+        const walletInput = document.getElementById("payout-wallet-address");
+        const networkSelect = document.getElementById("payout-network");
+
+        if (bufferFloor) bufferFloor.innerText = formatMoney(data.buffer_floor || 0);
+        if (withdrawable) withdrawable.innerText = formatMoney(data.withdrawable || 0);
+
+        if (data.wallet) {
+            if (walletInput) walletInput.value = data.wallet.wallet_address || "";
+            if (networkSelect) networkSelect.value = data.wallet.network || "Solana";
+        }
+
+        if (summary) summary.innerText = data.reason || "";
+
+        if (requestButton) {
+            requestButton.style.display = "inline-block";
+            requestButton.disabled = !data.eligible;
+            requestButton.innerText = data.eligible
+                ? "Request Payout"
+                : "Payout Floor Not Met";
+            requestButton.style.opacity = data.eligible ? "1" : "0.45";
+            requestButton.style.cursor = data.eligible ? "pointer" : "not-allowed";
+        }
+
+        renderPayoutHistory(data.history || []);
+    } catch (err) {
+        console.warn("Payout status load failed:", err);
+    }
+}
 
 function logout() {
     localStorage.removeItem("rebel_auth_token");
