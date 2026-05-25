@@ -565,6 +565,8 @@ async function loadMemberDashboard() {
     setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
     setText("dashboard-margin-rate", `${(marginRate * 100).toFixed(0)}%`);
     setText("dashboard-margin-detail", `${challenge.tier || "T3"} max position margin guard`);
+    setText("metric-margin-target", `${(marginRate * 100).toFixed(0)}% Max Position Margin`);
+    setText("metric-margin-status", "Active");
     setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
     setText("metric-max-status", "Passed (No Drawdown Violations)");
     if (stage === "rebel_stage") {
@@ -924,7 +926,11 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <span class="metric-target" id="metric-profit-target">Reach $3,300.00 (+$300.00)</span>
     <span class="metric-current running-text" id="metric-profit-status">$3,000.00 ($300.00 Remaining)</span>
 </div>
-
+            <div class="metric-row">
+                <span class="metric-name">Max Position Margin Guard</span>
+                <span class="metric-target" id="metric-margin-target">35% Max Position Margin</span>
+                <span class="metric-current passed-text" id="metric-margin-status">Active</span>
+            </div>
             <div class="metric-row">
                 <span class="metric-name">Account Milestone Clearance Status</span>
                 <span class="metric-target">Phase 1 Status</span>
