@@ -705,6 +705,46 @@ footer {
     color: #555;
     letter-spacing: 0.5px;
 }
+    .footer-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin: 18px 0 8px 0;
+}
+
+.footer-social-link {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #1f1f1f;
+    border-radius: 6px;
+    background: #0b0b0b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.footer-social-link:hover {
+    border-color: #ff2a2a;
+    box-shadow: 0 0 14px rgba(255, 42, 42, 0.28);
+    transform: translateY(-2px);
+}
+
+.footer-social-link img {
+    width: 19px;
+    height: 19px;
+    display: block;
+}
+
+.footer-social-label {
+    color: #777;
+    font-size: 0.72rem;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 16px;
+}
 
   @media (max-width: 600px) {
     /* Targets the 'Get Sim Challenge' button directly */
@@ -1058,6 +1098,22 @@ function updateInteractiveCalculator(val) {
 </section>
 
 <footer>
+    <div class="footer-social-label">Join The Rebel Network</div>
+
+    <div class="footer-socials">
+        <a class="footer-social-link" href="https://x.com/rebeltradedesk" target="_blank" aria-label="Rebel Trading Desk on X">
+            <img src="https://cdn.simpleicons.org/x/ffffff" alt="X">
+        </a>
+
+        <a class="footer-social-link" href="https://www.youtube.com/@RebelTradingGroup" target="_blank" aria-label="Rebel Trading Group on YouTube">
+            <img src="https://cdn.simpleicons.org/youtube/ff2a2a" alt="YouTube">
+        </a>
+
+        <a class="footer-social-link" href="https://discord.gg/vdjU2YW4w" target="_blank" aria-label="Join Rebel Trading Group on Discord">
+            <img src="https://cdn.simpleicons.org/discord/ffffff" alt="Discord">
+        </a>
+    </div>
+
     © 2026 Rebel Trading Group — Private Micro-Prop Crypto Evaluation & Asset Simulation Network
     <br><br>
     <a href="termsofuse.html" style="color:#ff2a2a; text-decoration:none; font-weight:bold;">
