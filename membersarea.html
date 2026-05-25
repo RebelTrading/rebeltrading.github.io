@@ -926,15 +926,25 @@ async function savePayoutWallet() {
         }
 
         if (summary) summary.innerText = data.reason || "";
+        const hasPendingPayout = (data.history || []).some(payout => payout.status === "pending_manual_review");
+                const hasPendingPayout = (data.history || []).some(payout => payout.status === "pending_manual_review");
 
         if (requestButton) {
             requestButton.style.display = "inline-block";
-            requestButton.disabled = !data.eligible;
-            requestButton.innerText = data.eligible
-                ? "Request Payout"
-                : "Payout Floor Not Met";
-            requestButton.style.opacity = data.eligible ? "1" : "0.45";
-            requestButton.style.cursor = data.eligible ? "pointer" : "not-allowed";
+
+            if (hasPendingPayout) {
+                requestButton.disabled = true;
+                requestButton.innerText = "Payout Pending Review";
+                requestButton.style.opacity = "0.45";
+                requestButton.style.cursor = "not-allowed";
+            } else {
+                requestButton.disabled = !data.eligible;
+                requestButton.innerText = data.eligible
+                    ? "Request Payout"
+                    : "Payout Floor Not Met";
+                requestButton.style.opacity = data.eligible ? "1" : "0.45";
+                requestButton.style.cursor = data.eligible ? "pointer" : "not-allowed";
+            }
         }
 
         renderPayoutHistory(data.history || []);
