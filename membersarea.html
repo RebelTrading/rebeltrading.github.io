@@ -468,6 +468,15 @@ header img {
 
 <script>
 const API_URL = "http://192.168.0.66:8000";
+    const maxPositionMarginRates = {
+    "T1": 0.25,
+    "T2": 0.30,
+    "T3": 0.35
+};
+
+function getMaxPositionMarginRate(tier) {
+    return maxPositionMarginRates[tier] || 0.35;
+}
 
 function formatMoney(value) {
     const number = Number(value) || 0;
@@ -519,6 +528,7 @@ async function loadMemberDashboard() {
     const target = Number(challenge.profit_target) || 0;
     const dailyLimit = Number(challenge.daily_loss_limit) || 0;
     const trailingLimit = Number(challenge.trailing_limit) || 0;
+    const marginRate = getMaxPositionMarginRate(challenge.tier);
     const eodHighBalance = Number(challenge.eod_high_balance) || starting;
     const drawdownFloor = eodHighBalance - trailingLimit;
     const pnl = realized + floating;
@@ -553,6 +563,8 @@ async function loadMemberDashboard() {
     setText("dashboard-drawdown", formatMoney(drawdownFloor));
     setText("metric-max-target", `EOD Floor ${formatMoney(drawdownFloor)}`);
     setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
+    setText("dashboard-margin-rate", `${(marginRate * 100).toFixed(0)}%`);
+    setText("dashboard-margin-detail", `${challenge.tier || "T3"} max position margin guard`);
     setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
     setText("metric-max-status", "Passed (No Drawdown Violations)");
     if (stage === "rebel_stage") {
@@ -871,6 +883,11 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <h3>Win Rate</h3>
     <div class="value positive" id="dashboard-win-rate">0.0%</div>
     <span class="status-badge">Wins / Total Closed Trades</span>
+</div>
+            <div class="card">
+    <h3>Max Position Margin</h3>
+    <div class="value neutral" id="dashboard-margin-rate">35%</div>
+    <span class="status-badge" id="dashboard-margin-detail">Tier-based order guard</span>
 </div>
 
         </div>
