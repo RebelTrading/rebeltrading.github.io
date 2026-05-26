@@ -630,7 +630,20 @@ async function loadMemberDashboard() {
     const failureReason = challenge.failure_reason || "";
     const payoutSplit = Number(challenge.payout_split || 80);
 
-        if (stage === "rebel_stage") {
+            if (accountStatus === "failed") {
+        const readableFailure = failureReason === "daily_loss_breach"
+            ? "Daily Loss Breach"
+            : failureReason === "eod_trailing_drawdown_breach"
+                ? "EOD Drawdown Breach"
+                : "Rule Breach";
+
+        setText("dashboard-stage", "Failed");
+        setText("dashboard-stage-detail", readableFailure);
+        setText("metric-profit-target", "Account Failed");
+        setText("dashboard-status", "ACCOUNT FAILED");
+        setText("metric-stage-target", "Account Status");
+        setText("metric-stage-status", readableFailure);
+    } else if (stage === "rebel_stage") {
         setText("dashboard-stage", "Sim Funded");
         setText("dashboard-stage-detail", `Rebel Stage Active • ${payoutSplit.toFixed(0)}% Split`);
         setText("metric-profit-target", "Unlimited");
