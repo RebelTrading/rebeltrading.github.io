@@ -1011,7 +1011,14 @@ async function syncChallengeSnapshot() {
                 last_asset: CURRENT_ASSET
             })
         });
-                const data = await response.json();
+            const data = await response.json();
+
+        if (data.status === "failed") {
+            ACCOUNT_STATUS = "failed";
+            setTradingAccessState(true);
+            alert(`Account failed: ${data.failure_reason || "rule breach"}`);
+            return;
+        }
 
         if (data.stage_changed && data.new_stage === "rebel_stage") {
             triggerProgressMilestone(
@@ -1672,6 +1679,11 @@ async function recordClosedTrade(tradePayload) {
     }
 }
 function executeDevOrder(side) {
+    if (ACCOUNT_STATUS === "failed") {
+        alert("This account has failed its trading rules. Trading is locked.");
+        return;
+    }
+
     const contractSize = parseFloat(document.getElementById('position-contract-size').value);
     const currentAssetKeyForMargin = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
     const marginSpec = assetMap[currentAssetKeyForMargin];
