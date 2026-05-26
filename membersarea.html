@@ -664,6 +664,18 @@ async function loadMemberDashboard() {
             ? `<option value="sim-funded" selected>Sim Funded Rebel Account</option>`
             : `<option value="active-challenge" selected>Active Rebel Challenge</option>`;
     }
+    const dashboardStageEl = document.getElementById("dashboard-stage");
+    const dashboardStatusEl = document.getElementById("dashboard-status");
+    const metricStageStatusEl = document.getElementById("metric-stage-status");
+
+    if (accountStatus === "failed") {
+        if (dashboardStageEl) dashboardStageEl.className = "value negative";
+        if (dashboardStatusEl) dashboardStatusEl.style.color = "#ff2a2a";
+        if (metricStageStatusEl) {
+            metricStageStatusEl.className = "metric-current";
+            metricStageStatusEl.style.color = "#ff2a2a";
+        }
+    }
     setText("dashboard-equity", formatMoney(equity));
     setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
     setText("dashboard-pnl", `${pnl >= 0 ? "+" : "-"}${formatMoney(Math.abs(pnl))}`);
