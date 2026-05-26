@@ -626,6 +626,8 @@ async function loadMemberDashboard() {
     const pnl = realized + floating;
     const targetRemaining = Math.max(0, target - pnl);
     const stage = challenge.stage || "challenge";
+    const accountStatus = challenge.status || "active";
+    const failureReason = challenge.failure_reason || "";
     const payoutSplit = Number(challenge.payout_split || 80);
 
         if (stage === "rebel_stage") {
