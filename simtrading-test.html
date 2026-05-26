@@ -944,7 +944,9 @@ function applyActiveChallengeToSim() {
     PEAK_BALANCE = Number(ACTIVE_CHALLENGE.peak_balance) || ACCOUNT_BALANCE;
     REALIZED_PNL = Number(ACTIVE_CHALLENGE.realized_pnl) || 0;
     FLOATING_PNL = Number(ACTIVE_CHALLENGE.floating_pnl) || 0;
-    PROFIT_TARGET = Number(ACTIVE_CHALLENGE.profit_target) || PROFIT_TARGET;
+    PROFIT_TARGET = ACTIVE_CHALLENGE.profit_target !== null && ACTIVE_CHALLENGE.profit_target !== undefined
+    ? Number(ACTIVE_CHALLENGE.profit_target)
+    : PROFIT_TARGET;
     DAILY_LOSS_LIMIT = Number(ACTIVE_CHALLENGE.daily_loss_limit) || DAILY_LOSS_LIMIT;
     EOD_TRAILING_LIMIT = Number(ACTIVE_CHALLENGE.trailing_limit) || EOD_TRAILING_LIMIT;
 
@@ -1058,6 +1060,16 @@ async function testLogin() {
 }
 function getChallengeProgressPct() {
     const combinedTotalProfit = REALIZED_PNL + FLOATING_PNL;
+    const stage = ACTIVE_CHALLENGE?.stage || "challenge";
+
+    if (stage === "rebel_stage") {
+        const fundedProfitPct = STARTING_BALANCE > 0
+            ? ((ACCOUNT_BALANCE + FLOATING_PNL - STARTING_BALANCE) / STARTING_BALANCE) * 100
+            : 0;
+
+        return Math.max(0, fundedProfitPct);
+    }
+
     if (!PROFIT_TARGET || PROFIT_TARGET <= 0) return 0;
 
     return Math.max(0, Math.min(100, (combinedTotalProfit / PROFIT_TARGET) * 100));
@@ -1124,55 +1136,97 @@ function triggerProgressMilestone(title, subtitle, voiceText) {
 
 function checkProgressMilestones() {
     const currentPct = getChallengeProgressPct();
+    const stage = ACTIVE_CHALLENGE?.stage || "challenge";
 
-    const milestones = [
-        {
-            level: 5,
-            title: 'FIRST STRIKE',
-            subtitle: '5% CHECKPOINT CLEARED',
-            voice: 'First strike confirmed. Level one challenge is live.'
-        },
-        {
-            level: 10,
-            title: 'SPEEDRUN ACTIVATED',
-            subtitle: '10% CHECKPOINT CLEARED',
-            voice: 'Speedrun activated. Ten percent checkpoint cleared.'
-        },
-        {
-            level: 25,
-            title: 'QUARTER CHECKPOINT',
-            subtitle: '25% CHALLENGE PROGRESS',
-            voice: 'Quarter checkpoint cleared. Stay sharp.'
-        },
-        {
-            level: 50,
-            title: 'HALFWAY CLEARED',
-            subtitle: '50% CHALLENGE COMPLETE',
-            voice: 'Level one challenge fifty percent complete.'
-        },
-        {
-            level: 75,
-            title: 'FINAL STRETCH',
-            subtitle: '75% CHALLENGE COMPLETE',
-            voice: 'Final stretch unlocked. Discipline mode engaged.'
-        },
-        {
-            level: 90,
-            title: 'FINISH LINE ARMED',
-            subtitle: '90% CHALLENGE COMPLETE',
-            voice: 'Finish line armed. Level one challenge is almost complete.'
-        },
-        {
-            level: 100,
-            title: 'CHALLENGE COMPLETE',
-            subtitle: 'LEVEL ONE TARGET CLEARED',
-            voice: 'Challenge complete. Level one target cleared.'
-        }
-    ];
+    const milestones = stage === "rebel_stage"
+        ? [
+            {
+                level: 5,
+                title: 'PAYOUT RUNWAY ONLINE',
+                subtitle: 'FUNDED PROFIT BUFFER BUILDING',
+                voice: 'Payout runway online. Funded profit buffer is building.'
+            },
+            {
+                level: 10,
+                title: 'REBEL MOMENTUM',
+                subtitle: 'SIM FUNDED ACCOUNT PUSHING HIGHER',
+                voice: 'Rebel momentum confirmed. Stay disciplined.'
+            },
+            {
+                level: 25,
+                title: 'PAYOUT ENGINE WARM',
+                subtitle: 'FUNDED PROFIT EXPANSION ACTIVE',
+                voice: 'Payout engine warming. Funded profit expansion active.'
+            },
+            {
+                level: 50,
+                title: 'EXTRACTION WINDOW BUILDING',
+                subtitle: 'SIM FUNDED RUNWAY EXPANDING',
+                voice: 'Extraction window building. Keep risk controlled.'
+            },
+            {
+                level: 75,
+                title: 'HIGH WATERMARK PRESSURE',
+                subtitle: 'FUNDED RUNWAY EXTENDED',
+                voice: 'High watermark pressure. Funded runway extended.'
+            },
+            {
+                level: 100,
+                title: 'REBEL STAGE DOMINANCE',
+                subtitle: 'FUNDED PERFORMANCE MILESTONE CLEARED',
+                voice: 'Rebel Stage dominance. Funded performance milestone cleared.'
+            }
+        ]
+        : [
+            {
+                level: 5,
+                title: 'FIRST STRIKE',
+                subtitle: '5% CHECKPOINT CLEARED',
+                voice: 'First strike confirmed. Level one challenge is live.'
+            },
+            {
+                level: 10,
+                title: 'SPEEDRUN ACTIVATED',
+                subtitle: '10% CHECKPOINT CLEARED',
+                voice: 'Speedrun activated. Ten percent checkpoint cleared.'
+            },
+            {
+                level: 25,
+                title: 'QUARTER CHECKPOINT',
+                subtitle: '25% CHALLENGE PROGRESS',
+                voice: 'Quarter checkpoint cleared. Stay sharp.'
+            },
+            {
+                level: 50,
+                title: 'HALFWAY CLEARED',
+                subtitle: '50% CHALLENGE COMPLETE',
+                voice: 'Level one challenge fifty percent complete.'
+            },
+            {
+                level: 75,
+                title: 'FINAL STRETCH',
+                subtitle: '75% CHALLENGE COMPLETE',
+                voice: 'Final stretch unlocked. Discipline mode engaged.'
+            },
+            {
+                level: 90,
+                title: 'FINISH LINE ARMED',
+                subtitle: '90% CHALLENGE COMPLETE',
+                voice: 'Finish line armed. Level one challenge is almost complete.'
+            },
+            {
+                level: 100,
+                title: 'CHALLENGE COMPLETE',
+                subtitle: 'LEVEL ONE TARGET CLEARED',
+                voice: 'Challenge complete. Level one target cleared.'
+            }
+        ];
 
     milestones.forEach(milestone => {
-        if (currentPct >= milestone.level && !progressMilestonesTriggered[milestone.level]) {
-            progressMilestonesTriggered[milestone.level] = true;
+        const milestoneKey = `${stage}_${milestone.level}`;
+
+        if (currentPct >= milestone.level && !progressMilestonesTriggered[milestoneKey]) {
+            progressMilestonesTriggered[milestoneKey] = true;
             triggerProgressMilestone(milestone.title, milestone.subtitle, milestone.voice);
         }
     });
