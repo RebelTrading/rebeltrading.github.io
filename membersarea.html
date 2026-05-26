@@ -686,7 +686,20 @@ async function loadMemberDashboard() {
     setText("dashboard-margin-detail", `${challenge.tier || "T3"} max position margin guard`);
     setText("metric-margin-target", `${(marginRate * 100).toFixed(0)}% Max Position Margin`);
     setText("metric-margin-status", "Active");
-    setText("metric-daily-status", `Passed (${formatMoney(Math.max(0, -pnl))} Current Loss)`);
+        const currentLoss = Math.max(0, starting - equity);
+    const dailyStatusEl = document.getElementById("metric-daily-status");
+
+    if (dailyStatusEl) {
+        if (currentLoss >= dailyLimit) {
+            dailyStatusEl.innerText = `Failed (${formatMoney(currentLoss)} Current Loss)`;
+            dailyStatusEl.className = "metric-current";
+            dailyStatusEl.style.color = "#ff2a2a";
+        } else {
+            dailyStatusEl.innerText = `Passed (${formatMoney(currentLoss)} Current Loss)`;
+            dailyStatusEl.className = "metric-current passed-text";
+            dailyStatusEl.style.color = "";
+        }
+    }
     setText("metric-max-status", "Passed (No Drawdown Violations)");
     if (stage === "rebel_stage") {
         setText("metric-profit-status", `${formatMoney(equity)} (Unlimited Target)`);
