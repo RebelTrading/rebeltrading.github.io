@@ -373,9 +373,56 @@ footer {
     color: #555;
     letter-spacing: 0.5px;
 }
-</style>
 
-<script>
+/* MOBILE RESPONSIVE REPAIR */
+@media (max-width: 700px) {
+    header {
+        height: 76px;
+        padding: 8px 10px;
+    }
+
+    header img {
+        height: 62px;
+        max-width: 135px;
+        object-fit: contain;
+    }
+
+    .sim-challenge-btn {
+        padding: 6px 8px;
+        font-size: 0.62rem;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .hamburger {
+        width: 30px;
+        flex-shrink: 0;
+    }
+
+    .network-status-bar {
+        display: none;
+    }
+
+    .ticker-wrap {
+        top: 76px;
+        height: 28px;
+    }
+
+    .ticker,
+    .ticker__item {
+        height: 28px;
+        line-height: 28px;
+    }
+
+    .ticker__item {
+        font-size: 0.62rem;
+        padding: 0 1rem;
+    }
+
+    .menu {
+        padding-top: 90px;
+    }
+
 function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
