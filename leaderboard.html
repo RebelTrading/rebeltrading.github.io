@@ -1,1 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard | Rebel Trading Desk</title>
 
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    color: #bdbdbd;
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #1a1a1a;
+    z-index: 1000;
+}
+
+header img {
+    height: 80px;
+}
+
+.header-cta-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sim-challenge-btn {
+    background: linear-gradient(135deg, #ff2a2a 0%, #990000 100%);
+    color: #fff;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid #ff5555;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(255, 42, 42, 0.4);
+    transition: 0.2s;
+}
+
+.sim-challenge-btn:hover {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    box-shadow: 0 0 18px rgba(255, 42, 42, 0.7);
+    transform: scale(1.02);
+}
+
+.hamburger {
+    cursor: pointer;
+    width: 35px;
+}
+
+.hamburger div {
+    height: 2px;
+    background: #fff;
+    margin: 5px 0;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100%;
+    background: #0a0a0a;
+    padding-top: 120px;
+    transition: 0.3s;
+    z-index: 999;
+    border-left: 1px solid #1a1a1a;
+}
+
+.menu a {
+    display: block;
+    padding: 15px 25px;
+    color: #aaa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    color: #ff2a2a;
+}
+
+.leaderboard-hero {
+    min-height: 430px;
+    padding: 190px 24px 70px 24px;
+    box-sizing: border-box;
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 20%, rgba(255, 42, 42, 0.18), transparent 34%),
+        radial-gradient(circle at 80% 10%, rgba(255, 183, 3, 0.09), transparent 28%),
+        #000;
+    border-bottom: 1px solid #141414;
+}
+
+.leaderboard-hero h1 {
+    color: #fff;
+    font-size: 4rem;
+    line-height: 1;
+    margin: 0;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+.leaderboard-hero h1 span {
+    color: #ff2a2a;
+    text-shadow: 0 0 22px rgba(255, 42, 42, 0.35);
+}
+
+.leaderboard-hero p {
+    color: #aaa;
+    max-width: 760px;
+    margin: 20px auto 0 auto;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.leaderboard-status-row {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+    gap: 12px;
+    max-width: 920px;
+    margin: 32px auto 0 auto;
+}
+
+.status-pill {
+    background: rgba(8, 8, 10, 0.82);
+    border: 1px solid #1f1f1f;
+    border-radius: 6px;
+    padding: 12px 10px;
+    font-family: monospace;
+}
+
+.status-pill span {
+    display: block;
+    color: #666;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.status-pill strong {
+    color: #00ff66;
+    font-size: 0.84rem;
+}
+
+.section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 80px 30px 110px 30px;
+}
+
+.podium-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+    gap: 26px;
+    margin-bottom: 34px;
+    align-items: stretch;
+}
+
+.leader-card {
+    position: relative;
+    background: linear-gradient(180deg, rgba(16,16,18,0.96), rgba(5,5,6,0.98));
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    padding: 28px 24px;
+    overflow: hidden;
+    min-height: 390px;
+    transition: 0.25s;
+}
+
+.leader-card:hover {
+    border-color: rgba(255, 42, 42, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 34px rgba(255, 42, 42, 0.08);
+}
+
+.leader-card.rank-one {
+    border-color: rgba(255, 183, 3, 0.65);
+    box-shadow: 0 0 34px rgba(255, 183, 3, 0.09);
+}
+
+.rank-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: monospace;
+    font-size: 0.72rem;
+    color: #777;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.rank-one .rank-badge {
+    color: #ffb703;
+}
+
+.trophy-stage {
+    height: 160px;
+    border: 1px solid #242424;
+    border-radius: 8px;
+    background:
+        linear-gradient(135deg, rgba(255,42,42,0.18), transparent 42%),
+        radial-gradient(circle at 70% 25%, rgba(255,183,3,0.18), transparent 34%),
+        #080808;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 26px;
+    position: relative;
+    overflow: hidden;
+}
+
+.trophy-stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,42,42,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,42,42,0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.36;
+}
+
+.trophy-icon {
+    position: relative;
+    font-size: 4.2rem;
+    filter: drop-shadow(0 0 16px rgba(255, 183, 3, 0.38));
+}
+
+.leader-name {
+    color: #fff;
+    font-size: 1.45rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.leader-meta {
+    color: #777;
+    font-family: monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 22px;
+}
+
+.leader-stats {
+    display: grid;
+    gap: 10px;
+}
+
+.leader-stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid #141414;
+    padding-bottom: 10px;
+    color: #888;
+    font-size: 0.82rem;
+}
+
+.leader-stat strong {
+    color: #fff;
+    font-family: monospace;
+}
+
+.leader-stat strong.green {
+    color: #00ff66;
+}
+
+.table-panel {
+    background: rgba(8, 8, 12, 0.78);
+    border: 1px solid #141414;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 80px 1.3fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 15px 18px;
+    background: #0d0d0d;
+    border-bottom: 1px solid #1f1f1f;
+    color: #777;
+    font-family: monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.leader-row {
+    display: grid;
+    grid-template-columns: 80px 1.3fr 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 17px 18px;
+    border-bottom: 1px solid #141414;
+    font-size: 0.86rem;
+}
+
+.leader-row:last-child {
+    border-bottom: none;
+}
+
+.row-rank {
+    color: #ffb703;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.row-name {
+    color: #fff;
+    font-weight: bold;
+}
+
+.row-muted {
+    color: #888;
+    font-family: monospace;
+}
+
+.row-payout {
+    color: #00ff66;
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.leaderboard-note {
+    color: #777;
+    max-width: 820px;
+    margin: 30px auto 0 auto;
+    text-align: center;
+    line-height: 1.6;
+    font-size: 0.84rem;
+}
+
+.action-row {
+    text-align: center;
+    margin-top: 34px;
+}
+
+.cta-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #ff2a2a;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.2s;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(255, 42, 42, 0.15);
+}
+
+.cta-btn:hover {
+    background: #cc0000;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(255, 42, 42, 0.25);
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #050505;
+    border-top: 1px solid #111;
+    font-size: 0.8rem;
+    color: #555;
+    letter-spacing: 0.5px;
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin: 18px 0 8px 0;
+}
+
+.footer-social-link {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #1f1f1f;
+    border-radius: 6px;
+    background: #0b0b0b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.footer-social-link:hover {
+    border-color: #ff2a2a;
+    box-shadow: 0 0 14px rgba(255, 42, 42, 0.28);
+    transform: translateY(-2px);
+}
+
+.footer-social-link img {
+    width: 19px;
+    height: 19px;
+}
+
+.footer-social-label {
+    color: #777;
+    font-size: 0.72rem;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+    .leaderboard-hero h1 {
+        font-size: 2.75rem;
+    }
+
+    .leaderboard-status-row,
+    .podium-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .table-header {
+        display: none;
+    }
+
+    .leader-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-cta-group a[href="index.html#packages"] {
+        padding: 6px 8px !important;
+        font-size: 0.65rem !important;
+    }
+}
+</style>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
+}
+</script>
+</head>
+
+<body>
+
+<header>
+    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
+
+    <div class="header-cta-group">
+        <a href="index.html" class="sim-challenge-btn" style="background:#111; border-color:#333; box-shadow:none;">HOME</a>
+        <a href="index.html#packages" class="sim-challenge-btn">GET SIM CHALLENGE →</a>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</header>
+
+<div id="menu" class="menu">
+    <a href="index.html#who">The Manifesto</a>
+    <a href="index.html#infrastructure">Arcade Architecture</a>
+    <a href="index.html#packages">Sim Boxes Tiers</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="https://rebel-trading-group.gitbook.io/rebel-trading-group-docs/documentation/" target="_blank" style="color:#ffb703;">Docs</a>
+    <a href="payouts.html">Payouts</a>
+    <a href="tradesim.html" style="color:#ff2a2a;">Sim Trade Desk →</a>
+</div>
+
+<section class="leaderboard-hero">
+    <h1>Rebel <span>Leaderboard</span></h1>
+    <p>
+        Placeholder rankings for the dev arena. Once Rebel launches, this page will track verified Sim Funded payout records, payout certificates, and top-performing traders across BTC, ETH, SOL, and XRP.
+    </p>
+
+    <div class="leaderboard-status-row">
+        <div class="status-pill"><span>Total Placeholder Payouts</span><strong>$1,086.90</strong></div>
+        <div class="status-pill"><span>Tracked Traders</span><strong>10</strong></div>
+        <div class="status-pill"><span>Top Split</span><strong>90%</strong></div>
+        <div class="status-pill"><span>Payout Asset</span><strong>USDC</strong></div>
+    </div>
+</section>
+
+<section class="section">
+
+    <div class="podium-grid">
+        <div class="leader-card">
+            <div class="rank-badge">RANK 02</div>
+            <div class="trophy-stage"><div class="trophy-icon">🥈</div></div>
+            <div class="leader-name">John S.</div>
+            <div class="leader-meta">Raider Box • 80% Split</div>
+            <div class="leader-stats">
+                <div class="leader-stat"><span>Approved Payouts</span><strong class="green">$122.50</strong></div>
+                <div class="leader-stat"><span>Best Asset</span><strong>SOL</strong></div>
+                <div class="leader-stat"><span>Status</span><strong>Sim Funded</strong></div>
+            </div>
+        </div>
+
+        <div class="leader-card rank-one">
+            <div class="rank-badge">RANK 01</div>
+            <div class="trophy-stage"><div class="trophy-icon">🏆</div></div>
+            <div class="leader-name">Chat T.</div>
+            <div class="leader-meta">Rebel Box • 90% Speedrun Split</div>
+            <div class="leader-stats">
+                <div class="leader-stat"><span>Approved Payouts</span><strong class="green">$179.00</strong></div>
+                <div class="leader-stat"><span>Best Asset</span><strong>BTC</strong></div>
+                <div class="leader-stat"><span>Status</span><strong>Sim Funded</strong></div>
+            </div>
+        </div>
+
+        <div class="leader-card">
+            <div class="rank-badge">RANK 03</div>
+            <div class="trophy-stage"><div class="trophy-icon">🥉</div></div>
+            <div class="leader-name">Clarence M.</div>
+            <div class="leader-meta">Recruit Box • 80% Split</div>
+            <div class="leader-stats">
+                <div class="leader-stat"><span>Approved Payouts</span><strong class="green">$86.40</strong></div>
+                <div class="leader-stat"><span>Best Asset</span><strong>ETH</strong></div>
+                <div class="leader-stat"><span>Status</span><strong>Sim Funded</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-panel">
+        <div class="table-header">
+            <span>Rank</span>
+            <span>Trader</span>
+            <span>Box</span>
+            <span>Best Asset</span>
+            <span>Payouts</span>
+        </div>
+
+        <div class="leader-row">
+            <span class="row-rank">#04</span>
+            <span class="row-name">Maya R.</span>
+            <span class="row-muted">Rebel Box</span>
+            <span class="row-muted">XRP</span>
+            <span class="row-payout">$81.00 USDC</span>
+        </div>
+
+        <div class="leader-row">
+            <span class="row-rank">#05</span>
+            <span class="row-name">Dante V.</span>
+            <span class="row-muted">Raider Box</span>
+            <span class="row-muted">BTC</span>
+            <span class="row-payout">$78.30 USDC</span>
+        </div>
+
+        <div class="leader-row">
+            <span class="row-rank">#06</span>
+            <span class="row-name">Sofia L.</span>
+            <span class="row-muted">Recruit Box</span>
+            <span class="row-muted">SOL</span>
+            <span class="row-payout">$71.20 USDC</span>
+        </div>
+
+        <div class="leader-row">
+            <span class="row-rank">#07</span>
+            <span class="row-name">Marcus B.</span>
+            <span class="row-muted">Rebel Box</span>
+            <span class="row-muted">ETH</span>
+            <span class="row-payout">$69.75 USDC</span>
+        </div>
+
+        <div class="leader-row">
+            <span class="row-rank">#08</span>
+            <span class="row-name">Nina K.</span>
+            <span class="row-muted">Raider Box</span>
+            <span class="row-muted">BTC</span>
+            <span class="row-payout">$64.80 USDC</span>
+        </div>
+
+        <div class="leader-row">
+            <span class="row-rank">#09</span>
+            <span class="row-name">Owen P.</span>
+            <span class="row-muted">Recruit Box</span>
+            <span class="row-muted">XRP</span>
+            <span class="row-payout">$55.40 USDC</span>
+        </div>
+
+        <div class="leader-row">
+            <span class="row-rank">#10</span>
+            <span class="row-name">Reese A.</span>
+            <span class="row-muted">Recruit Box</span>
+            <span class="row-muted">SOL</span>
+            <span class="row-payout">$48.55 USDC</span>
+        </div>
+    </div>
+
+    <p class="leaderboard-note">
+        Current leaderboard data is placeholder content for launch preparation. Live rankings will use approved payout history, account status, and internal performance checks from Sim Funded Rebel Stage accounts.
+    </p>
+
+    <div class="action-row">
+        <a href="index.html#packages" class="cta-btn">Enter The Arena</a>
+    </div>
+
+</section>
+
+<footer>
+    <div class="footer-social-label">Join The Rebel Network</div>
+
+    <div class="footer-socials">
+        <a class="footer-social-link" href="https://x.com/rebeltradedesk" target="_blank" aria-label="Rebel Trading Desk on X">
+            <img src="https://cdn.simpleicons.org/x/ffffff" alt="X">
+        </a>
+
+        <a class="footer-social-link" href="https://www.youtube.com/@RebelTradingGroup" target="_blank" aria-label="Rebel Trading Group on YouTube">
+            <img src="https://cdn.simpleicons.org/youtube/ff2a2a" alt="YouTube">
+        </a>
+
+        <a class="footer-social-link" href="https://discord.gg/vdjU2YW4w" target="_blank" aria-label="Join Rebel Trading Group on Discord">
+            <img src="https://cdn.simpleicons.org/discord/ffffff" alt="Discord">
+        </a>
+    </div>
+
+    © 2026 Rebel Trading Group — Private Micro-Prop Crypto Evaluation & Asset Simulation Network
+    <br><br>
+    <a href="termsofuse.html" style="color:#ff2a2a; text-decoration:none; font-weight:bold;">
+        Terms of Use
+    </a>
+</footer>
+
+</body>
+</html>
