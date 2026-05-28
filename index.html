@@ -1014,11 +1014,190 @@ footer {
         display: none !important;
     }
 
-    /* 2. Target only the Get Sim Challenge button to make it fit */
+        /* 2. Target only the Get Sim Challenge button to make it fit */
     .header-cta-group a[href="#packages"] {
         padding: 6px 8px !important; /* Makes the button narrow */
         font-size: 0.65rem !important; /* Shrinks the text size */
         margin-right: 5px !important;  /* Adds space between button and hamburger */
+    }
+}
+
+/* MOBILE RESPONSIVE REPAIR */
+@media (max-width: 700px) {
+    header {
+        height: 76px;
+        padding: 8px 10px;
+    }
+
+    header img {
+        height: 64px;
+        max-width: 145px;
+        object-fit: contain;
+    }
+
+    .network-status-bar {
+        top: 76px;
+        grid-template-columns: 1fr;
+        gap: 4px;
+        padding: 8px 12px;
+        font-size: 0.58rem;
+    }
+
+    .terminal-node.center,
+    .terminal-node.right {
+        justify-content: flex-start;
+    }
+
+    .ticker-wrap {
+        top: 138px;
+        height: 28px;
+    }
+
+    .ticker,
+    .ticker__item {
+        height: 28px;
+        line-height: 28px;
+    }
+
+    .ticker__item {
+        font-size: 0.64rem;
+        padding: 0 1rem;
+    }
+
+    .banner {
+        min-height: 100svh;
+        height: auto;
+        padding: 190px 16px 48px 16px;
+        align-items: flex-start;
+    }
+
+    .banner h1 {
+        font-size: 3rem;
+        line-height: 0.96;
+        letter-spacing: 0;
+        margin: 0 auto;
+        max-width: 330px;
+    }
+
+    .banner p {
+        font-size: 0.86rem;
+        line-height: 1.45;
+        letter-spacing: 1px;
+        max-width: 330px;
+        margin: 14px auto 0 auto;
+    }
+
+    .hero-proof-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        max-width: 340px;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    .hero-proof-item {
+        padding: 10px 6px;
+        min-width: 0;
+    }
+
+    .hero-proof-label {
+        font-size: 0.55rem;
+    }
+
+    .hero-proof-value {
+        font-size: 0.68rem;
+        overflow-wrap: anywhere;
+    }
+
+    .speedrun-banner {
+        max-width: 340px;
+        margin-top: 20px;
+        padding: 12px;
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .speedrun-text {
+        font-size: 0.76rem;
+        line-height: 1.45;
+    }
+
+    .enter-desk-btn {
+        max-width: 310px;
+        box-sizing: border-box;
+        padding: 13px 16px;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+
+    .section {
+        padding: 72px 18px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .section h2,
+    .leaderboard-header h2 {
+        font-size: 2rem;
+        line-height: 1.08;
+        letter-spacing: 0;
+        overflow-wrap: anywhere;
+        margin-bottom: 14px;
+    }
+
+    .section-subtitle {
+        font-size: 0.98rem;
+        line-height: 1.55;
+        margin-bottom: 28px;
+    }
+
+    .box-container,
+    .packages-grid,
+    .leaderboard-grid,
+    .calc-metrics {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .box,
+    .package,
+    .leader-card,
+    .calc-wrapper {
+        padding: 22px 18px;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .package p {
+        padding-left: 0;
+        font-size: 0.84rem;
+    }
+
+    .price {
+        font-size: 2.25rem;
+    }
+
+    .certificate-preview {
+        height: 160px;
+    }
+
+    .cert-title {
+        font-size: 1.25rem;
+    }
+
+    .cert-amount {
+        font-size: 1.45rem;
+    }
+
+    .faq-item summary {
+        font-size: 0.88rem;
+        line-height: 1.35;
+        align-items: flex-start;
+    }
+
+    footer {
+        padding: 34px 18px;
+        line-height: 1.6;
     }
 }
 </style>
