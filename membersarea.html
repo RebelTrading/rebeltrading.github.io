@@ -787,9 +787,34 @@ async function loadMemberDashboard() {
     setText("member-avatar", (user.display_name || user.email || "RT").slice(0, 2).toUpperCase());
 
     if (!challenge) {
-        setText("dashboard-status", "NO ACTIVE CHALLENGE");
-        return;
+    setText("dashboard-stage", "No Challenge");
+    setText("dashboard-stage-detail", "Buy a challenge to unlock live simulated trading");
+    setText("dashboard-equity", "--");
+    setText("dashboard-starting", "No active challenge selected");
+    setText("dashboard-pnl", "--");
+    setText("dashboard-drawdown", "--");
+    setText("dashboard-daily", "--");
+    setText("dashboard-trade-count", "0");
+    setText("dashboard-win-rate", "0.0%");
+    setText("dashboard-margin-rate", "--");
+    setText("dashboard-margin-detail", "Challenge required");
+    setText("metric-stage-target", "Challenge Required");
+    setText("metric-stage-status", "No Active Challenge");
+    setText("metric-daily-status", "--");
+    setText("metric-max-status", "--");
+    setText("metric-profit-target", "Buy A Challenge");
+    setText("metric-profit-status", "Locked Until Challenge Purchase");
+    setText("metric-margin-target", "Challenge Required");
+    setText("metric-margin-status", "--");
+    setText("dashboard-status", "NO ACTIVE CHALLENGE");
+
+    const accountDropdown = document.getElementById("account-dropdown");
+    if (accountDropdown) {
+        accountDropdown.innerHTML = `<option value="no-challenge" selected>No Active Challenge</option>`;
     }
+
+    return;
+}
 
     const equity = Number(challenge.current_balance) || 0;
     const starting = Number(challenge.starting_balance) || 0;
