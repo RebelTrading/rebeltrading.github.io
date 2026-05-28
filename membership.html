@@ -294,17 +294,108 @@ footer {
 }
 
 @media (max-width: 900px) {
-    .access-layout {
-        grid-template-columns: 1fr;
+    header {
+        height: 76px;
+        padding: 8px 12px;
     }
 
-    .tier-grid,
-    .challenge-select {
+    header img {
+        height: 58px;
+        max-width: 145px;
+        object-fit: contain;
+    }
+
+    .hamburger {
+        width: 34px;
+        flex-shrink: 0;
+    }
+
+    .hamburger div {
+        height: 2px;
+    }
+
+    .menu {
+        padding-top: 86px;
+    }
+
+    .page-shell {
+        padding: 104px 16px 46px;
+        min-height: auto;
+    }
+
+    .access-layout {
         grid-template-columns: 1fr;
+        gap: 18px;
+        max-width: 520px;
+    }
+
+    .info-panel,
+    .form-panel {
+        border-radius: 8px;
+    }
+
+    .info-panel {
+        padding: 24px 18px;
+    }
+
+    .form-panel {
+        padding: 22px 18px;
     }
 
     h1 {
-        font-size: 2.1rem;
+        font-size: 2rem;
+        line-height: 1.08;
+        letter-spacing: 0;
+    }
+
+    .lede {
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    .tier-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .tier-card {
+        padding: 14px;
+    }
+
+    .tabs {
+        margin-bottom: 18px;
+    }
+
+    .tab-btn {
+        padding: 10px 6px;
+        font-size: 0.78rem;
+    }
+
+    input,
+    select {
+        padding: 12px;
+        font-size: 0.92rem;
+    }
+
+    .challenge-select {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .challenge-option span {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+    }
+
+    .action-btn {
+        padding: 13px;
+        font-size: 0.88rem;
+    }
+
+    footer {
+        padding: 22px 16px;
+        line-height: 1.5;
     }
 }
 </style>
