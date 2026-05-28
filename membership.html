@@ -453,11 +453,10 @@ async function createAccount(event) {
     setStatus("Creating challenge access...");
 
     const payload = {
-        email: document.getElementById("signup-email").value,
-        password: document.getElementById("signup-password").value,
-        display_name: document.getElementById("signup-name").value,
-        tier: getSelectedTier()
-    };
+    email: document.getElementById("signup-email").value,
+    password: document.getElementById("signup-password").value,
+    display_name: document.getElementById("signup-name").value
+};
 
     try {
         const response = await fetch(`${API_URL}/api/auth/register`, {
