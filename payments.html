@@ -347,6 +347,128 @@ footer {
     color: #555;
     letter-spacing: 0.5px;
 }
+
+/* MOBILE RESPONSIVE REPAIR */
+@media (max-width: 700px) {
+    header {
+        height: 76px;
+        padding: 8px 10px;
+    }
+
+    header img {
+        height: 62px;
+        max-width: 135px;
+        object-fit: contain;
+    }
+
+    .sim-challenge-btn {
+        padding: 6px 8px;
+        font-size: 0.6rem;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .hamburger {
+        width: 30px;
+        flex-shrink: 0;
+    }
+
+    .network-status-bar {
+        display: none;
+    }
+
+    .ticker-wrap {
+        top: 76px;
+        height: 28px;
+    }
+
+    .ticker,
+    .ticker__item {
+        height: 28px;
+        line-height: 28px;
+    }
+
+    .ticker__item {
+        font-size: 0.62rem;
+        padding: 0 1rem;
+    }
+
+    .menu {
+        padding-top: 90px;
+    }
+
+    .banner {
+        min-height: 52svh;
+        height: auto;
+        padding: 128px 16px 42px 16px;
+        align-items: flex-start;
+    }
+
+    .banner h1 {
+        font-size: 2.15rem;
+        line-height: 1.05;
+        letter-spacing: 0;
+        margin: 0 auto;
+        max-width: 340px;
+    }
+
+    .banner p {
+        font-size: 0.76rem;
+        line-height: 1.45;
+        letter-spacing: 1px;
+        max-width: 340px;
+        margin: 14px auto 0 auto;
+    }
+
+    .section {
+        padding: 34px 18px 72px 18px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .box-container {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin-top: 14px;
+    }
+
+    .box {
+        padding: 28px 18px 22px 18px;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .box h3 {
+        font-size: 1.28rem;
+        line-height: 1.25;
+    }
+
+    .product-price {
+        font-size: 2rem;
+    }
+
+    .product-details {
+        font-size: 0.68rem;
+        line-height: 1.45;
+    }
+
+    .widget-payload-frame {
+        min-height: 260px;
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    .step-number {
+        left: 18px;
+        font-size: 0.68rem;
+        padding: 4px 10px;
+    }
+
+    footer {
+        padding: 34px 18px;
+        line-height: 1.6;
+    }
+}
 </style>
 
 <script>
