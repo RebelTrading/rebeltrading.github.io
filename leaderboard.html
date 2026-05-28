@@ -428,13 +428,103 @@ footer {
 }
 
 @media (max-width: 900px) {
-    .leaderboard-hero h1 {
-        font-size: 2.75rem;
+    header {
+        height: 76px;
+        padding: 8px 10px;
     }
 
-    .leaderboard-status-row,
+    header img {
+        height: 62px;
+        max-width: 135px;
+        object-fit: contain;
+    }
+
+    .header-cta-group {
+        gap: 4px;
+    }
+
+    .header-cta-group a[href="index.html"] {
+        display: none;
+    }
+
+    .sim-challenge-btn {
+        padding: 6px 8px;
+        font-size: 0.62rem;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .hamburger {
+        width: 30px;
+        flex-shrink: 0;
+    }
+
+    .menu {
+        padding-top: 90px;
+    }
+
+    .leaderboard-hero {
+        min-height: auto;
+        padding: 128px 16px 48px 16px;
+    }
+
+    .leaderboard-hero h1 {
+        font-size: 2.35rem;
+        line-height: 1.02;
+        letter-spacing: 0;
+    }
+
+    .leaderboard-hero p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-top: 16px;
+    }
+
+    .leaderboard-status-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 24px;
+    }
+
+    .status-pill {
+        padding: 10px 6px;
+    }
+
+    .status-pill span {
+        font-size: 0.55rem;
+    }
+
+    .status-pill strong {
+        font-size: 0.72rem;
+    }
+
+    .section {
+        padding: 56px 18px 78px 18px;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
     .podium-grid {
         grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .leader-card {
+        padding: 24px 18px;
+        min-height: auto;
+        box-sizing: border-box;
+    }
+
+    .trophy-stage {
+        height: 135px;
+    }
+
+    .trophy-icon {
+        font-size: 3.4rem;
+    }
+
+    .leader-stat {
+        font-size: 0.8rem;
     }
 
     .table-header {
@@ -444,13 +534,28 @@ footer {
     .leader-row {
         grid-template-columns: 1fr;
         gap: 6px;
+        padding: 16px;
     }
-}
 
-@media (max-width: 600px) {
-    .header-cta-group a[href="index.html#packages"] {
-        padding: 6px 8px !important;
-        font-size: 0.65rem !important;
+    .leader-row span {
+        display: block;
+    }
+
+    .leaderboard-note {
+        font-size: 0.82rem;
+        line-height: 1.6;
+    }
+
+    .cta-btn {
+        width: 100%;
+        max-width: 310px;
+        box-sizing: border-box;
+        padding: 13px 18px;
+    }
+
+    footer {
+        padding: 34px 18px;
+        line-height: 1.6;
     }
 }
 </style>
