@@ -2194,9 +2194,30 @@ async function fetchRebelEnginePrices() {
     }
 }
 
+function resizeTradeDeskChart() {
+    window.dispatchEvent(new Event("resize"));
+
+    if (window.RebelChart && typeof window.RebelChart.resize === "function") {
+        window.RebelChart.resize();
+    }
+}
+
 window.addEventListener('DOMContentLoaded', async function() {
     await checkTradingAccess();
     switchAsset('BTC', document.getElementById('default-asset'));
+
+    setTimeout(resizeTradeDeskChart, 250);
+    setTimeout(resizeTradeDeskChart, 750);
+    setTimeout(resizeTradeDeskChart, 1500);
+
+    window.addEventListener("orientationchange", function() {
+        setTimeout(resizeTradeDeskChart, 400);
+    });
+
+    window.addEventListener("resize", function() {
+        setTimeout(resizeTradeDeskChart, 150);
+    });
+
     setInterval(fetchRebelEnginePrices, 1000);
     setInterval(recalculateSpecInterface, 1000);
 });
