@@ -731,9 +731,21 @@ window.RebelChart = {
     loadChartWorkspace();
 },
 
-    updateLivePrice(price) {
+        updateLivePrice(price) {
     const livePrice = Number(price);
     if (!livePrice || isNaN(livePrice) || !candlestickSeries || currentHistoricalBars.length === 0) return;
+
+    const previousClose = Number(currentHistoricalBars[currentHistoricalBars.length - 1]?.close || 0);
+    const jumpPct = previousClose > 0 ? Math.abs(livePrice - previousClose) / previousClose : 0;
+
+    if (jumpPct > 0.05) {
+        console.warn("Rejected suspicious live chart price jump:", {
+            livePrice,
+            previousClose,
+            jumpPct
+        });
+        return;
+    }
 
     const interval = currentTimeframe === '5m' ? 300 : currentTimeframe === '15m' ? 900 : currentTimeframe === '1h' ? 3600 : currentTimeframe === '1d' ? 86400 : 60;
     const nowSeconds = Math.floor(Date.now() / 1000);
