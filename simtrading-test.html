@@ -1100,6 +1100,50 @@ header img {
 // SIMULATED ENGINE GLOBAL ARCHITECTURE
 const API_BASE_URL = "http://192.168.0.66:8000";
 
+async function runMobileApiDebug() {
+    const results = [
+        `PAGE URL: ${window.location.href}`,
+        `PAGE PROTOCOL: ${window.location.protocol}`,
+        `SECURE CONTEXT: ${window.isSecureContext}`
+    ];
+
+    async function testFetch(label, url) {
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+
+            results.push(`${label}: OK ${response.status}`);
+            results.push(`${label} SAMPLE: ${text.slice(0, 120)}`);
+        } catch (err) {
+            results.push(`${label}: FAIL ${err.name}: ${err.message}`);
+        }
+    }
+
+    await testFetch("PRICES API", `${API_BASE_URL}/api/prices`);
+    await testFetch("BTC CANDLES API", `${API_BASE_URL}/api/candles/BTC?tf=1m`);
+
+    const box = document.createElement("div");
+    box.style.cssText = `
+        position: fixed;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        z-index: 99999;
+        max-height: 45vh;
+        overflow: auto;
+        background: #050505;
+        border: 1px solid #ffb703;
+        color: #ffb703;
+        font-family: monospace;
+        font-size: 11px;
+        line-height: 1.45;
+        padding: 10px;
+        white-space: pre-wrap;
+    `;
+    box.textContent = results.join("\n");
+    document.body.appendChild(box);
+}
+
 let CURRENT_ASSET = "BTC-USD";
 let ORDER_TYPE = "MARKET";
 window.ORDER_TYPE = ORDER_TYPE;
@@ -2205,6 +2249,8 @@ function resizeTradeDeskChart() {
 }
 
 window.addEventListener('DOMContentLoaded', async function() {
+    await runMobileApiDebug();
+
     await checkTradingAccess();
     switchAsset('BTC', document.getElementById('default-asset'));
 
