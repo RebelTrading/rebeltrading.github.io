@@ -230,7 +230,7 @@ function extractPriceFromFeed(matrix, assetKey) {
 }
 
 async function fetchRealCandles(timeframe, asset) {
-    const response = await fetch(`http://192.168.0.66:8000/api/candles/${asset}?tf=${timeframe}`);
+    const response = await fetch(`//192.168.0.66:8000/api/candles/${asset}?tf=${timeframe}`);
     if (!response.ok) {
         throw new Error(`Candle fetch failed: ${response.status}`);
     }
