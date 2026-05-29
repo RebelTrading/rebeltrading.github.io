@@ -47,33 +47,6 @@ const commonOptions = {
 function cleanArray(arr) {
     return arr.filter(item => item && item.time && item.value !== undefined && !isNaN(item.value));
 }
-
-function waitForChartContainers(maxAttempts = 20) {
-    return new Promise((resolve) => {
-        let attempts = 0;
-
-        const check = () => {
-            const mainDiv = document.getElementById('main-container');
-            const rsiDiv = document.getElementById('rsi-container');
-            const macdDiv = document.getElementById('macd-container');
-
-            const mainReady = mainDiv && mainDiv.clientWidth > 0 && mainDiv.clientHeight > 0;
-            const rsiReady = rsiDiv && rsiDiv.clientWidth > 0 && rsiDiv.clientHeight > 0;
-            const macdReady = macdDiv && macdDiv.clientWidth > 0 && macdDiv.clientHeight > 0;
-
-            if ((mainReady && rsiReady && macdReady) || attempts >= maxAttempts) {
-                resolve();
-                return;
-            }
-
-            attempts += 1;
-            setTimeout(check, 100);
-        };
-
-        check();
-    });
-}
-
 function removePriceLine(lineRef) {
     if (candlestickSeries && lineRef) {
         candlestickSeries.removePriceLine(lineRef);
@@ -201,20 +174,11 @@ function initChartInstances() {
 }
 
 function getAssetFallbackPrice(asset) {
-    const fallbackFromLoadedBars = currentHistoricalBars[currentHistoricalBars.length - 1]?.close;
-
-    if (fallbackFromLoadedBars && !isNaN(fallbackFromLoadedBars)) {
-        return Number(fallbackFromLoadedBars);
-    }
-
-    const livePriceMap = window.localAssetPrices || {};
-
-    if (asset === 'BTC') return Number(livePriceMap["BTC-USD"]) || 0;
-    if (asset === 'ETH') return Number(livePriceMap["ETH-USD"]) || 0;
-    if (asset === 'SOL') return Number(livePriceMap["SOL-USD"]) || 0;
-    if (asset === 'XRP') return Number(livePriceMap["XRP-USD"]) || 0;
-
-    return 0;
+    if (asset === 'BTC') return 76500;
+    if (asset === 'ETH') return 2100;
+    if (asset === 'SOL') return 145;
+    if (asset === 'XRP') return 1.39; 
+    return 100;
 }
 
 function extractPriceFromFeed(matrix, assetKey) {
@@ -230,7 +194,7 @@ function extractPriceFromFeed(matrix, assetKey) {
 }
 
 async function fetchRealCandles(timeframe, asset) {
-    const response = await fetch(`//192.168.0.66:8000/api/candles/${asset}?tf=${timeframe}`);
+    const response = await fetch(`http://192.168.0.66:8000/api/candles/${asset}?tf=${timeframe}`);
     if (!response.ok) {
         throw new Error(`Candle fetch failed: ${response.status}`);
     }
@@ -291,72 +255,35 @@ function generateHistoricalBars(timeframe, asset, startingPrice) {
 
 async function loadChartWorkspace() {
     try {
-        await waitForChartContainers();
-
         initChartInstances();
 
+        let realAnchorPrice = null;
         try {
-            currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
-            console.log("Real candles loaded:", currentAsset, currentTimeframe, currentHistoricalBars.length);
-                } catch (candleErr) {
-            console.error("REAL CANDLE FETCH FAILED. No fallback candles generated.", candleErr);
-            currentHistoricalBars = [];
-
-            const mainDiv = document.getElementById('main-container');
-            if (mainDiv) {
-                mainDiv.innerHTML = `
-                    <div style="
-                        height: 100%;
-                        min-height: 260px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        text-align: center;
-                        padding: 24px;
-                        box-sizing: border-box;
-                        color: #ffb703;
-                        font-family: monospace;
-                        font-size: 0.78rem;
-                        line-height: 1.6;
-                        background: #050505;
-                    ">
-                        CANDLE FETCH FAILED<br>
-                        ${candleErr.name || "Error"}: ${candleErr.message || candleErr}
-                    </div>
-                `;
-            }
-
-            return;
+            const response = await fetch("http://192.168.0.66:8000/api/prices");
+            const priceMatrix = await response.json();
+            realAnchorPrice = extractPriceFromFeed(priceMatrix, currentAsset);
+        } catch (e) {
+            console.warn("Local backend connection skipped. Processing static feeds.");
         }
+        
+        if (!realAnchorPrice) realAnchorPrice = getAssetFallbackPrice(currentAsset);
 
-        if (!currentHistoricalBars.length) {
-            console.error("REAL CANDLE FEED RETURNED EMPTY. No fallback candles generated.");
-            return;
-        }
+        currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
         
         refreshChartOverlays();
         updateRowLayouts(); 
-        triggerChartResize();
-
+        
         mainChart.priceScale('right').applyOptions({ autoScale: true });
         mainChart.timeScale().fitContent();
 
+        // Strong MACD nudge - this should finally move it
         setTimeout(() => {
-            triggerChartResize();
-
             const range = mainChart.timeScale().getVisibleLogicalRange();
             if (range) {
                 if (rsiChart) rsiChart.timeScale().setVisibleLogicalRange(range);
                 if (macdChart) macdChart.timeScale().setVisibleLogicalRange(range);
             }
-
-            mainChart.timeScale().fitContent();
         }, 250);
-
-        setTimeout(() => {
-            triggerChartResize();
-            if (mainChart) mainChart.timeScale().fitContent();
-        }, 900);
 
         initPriceLoop();
 
@@ -740,36 +667,15 @@ window.addEventListener('resize', () => {
     if (macdChart && macdDiv && macdDiv.clientWidth > 0 && macdDiv.clientHeight > 0) macdChart.resize(macdDiv.clientWidth, macdDiv.clientHeight);
 });
 window.RebelChart = {
-    resize() {
-        triggerChartResize();
-
-        if (mainChart) {
-            mainChart.priceScale('right').applyOptions({ autoScale: true });
-            mainChart.timeScale().fitContent();
-        }
-    },
-
     switchAsset(assetKey) {
     if (!assetKey) return;
     currentAsset = assetKey;
     loadChartWorkspace();
 },
 
-        updateLivePrice(price) {
+    updateLivePrice(price) {
     const livePrice = Number(price);
     if (!livePrice || isNaN(livePrice) || !candlestickSeries || currentHistoricalBars.length === 0) return;
-
-    const previousClose = Number(currentHistoricalBars[currentHistoricalBars.length - 1]?.close || 0);
-    const jumpPct = previousClose > 0 ? Math.abs(livePrice - previousClose) / previousClose : 0;
-
-    if (jumpPct > 0.05) {
-        console.warn("Rejected suspicious live chart price jump:", {
-            livePrice,
-            previousClose,
-            jumpPct
-        });
-        return;
-    }
 
     const interval = currentTimeframe === '5m' ? 300 : currentTimeframe === '15m' ? 900 : currentTimeframe === '1h' ? 3600 : currentTimeframe === '1d' ? 86400 : 60;
     const nowSeconds = Math.floor(Date.now() / 1000);
