@@ -201,11 +201,20 @@ function initChartInstances() {
 }
 
 function getAssetFallbackPrice(asset) {
-    if (asset === 'BTC') return 76500;
-    if (asset === 'ETH') return 2100;
-    if (asset === 'SOL') return 145;
-    if (asset === 'XRP') return 1.39; 
-    return 100;
+    const fallbackFromLoadedBars = currentHistoricalBars[currentHistoricalBars.length - 1]?.close;
+
+    if (fallbackFromLoadedBars && !isNaN(fallbackFromLoadedBars)) {
+        return Number(fallbackFromLoadedBars);
+    }
+
+    const livePriceMap = window.localAssetPrices || {};
+
+    if (asset === 'BTC') return Number(livePriceMap["BTC-USD"]) || 0;
+    if (asset === 'ETH') return Number(livePriceMap["ETH-USD"]) || 0;
+    if (asset === 'SOL') return Number(livePriceMap["SOL-USD"]) || 0;
+    if (asset === 'XRP') return Number(livePriceMap["XRP-USD"]) || 0;
+
+    return 0;
 }
 
 function extractPriceFromFeed(matrix, assetKey) {
