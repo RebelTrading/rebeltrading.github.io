@@ -297,9 +297,16 @@ async function loadChartWorkspace() {
         
         if (!realAnchorPrice) realAnchorPrice = getAssetFallbackPrice(currentAsset);
 
-        currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
+                try {
+            currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
+            console.log("Real candles loaded:", currentHistoricalBars.length);
+        } catch (candleErr) {
+            console.warn("Real candle fetch blocked or failed. Using fallback bars.", candleErr);
+            currentHistoricalBars = generateHistoricalBars(currentTimeframe, currentAsset, realAnchorPrice);
+        }
 
         if (!currentHistoricalBars.length) {
+            console.warn("Real candle feed returned empty. Using fallback bars.");
             currentHistoricalBars = generateHistoricalBars(currentTimeframe, currentAsset, realAnchorPrice);
         }
         
