@@ -1140,9 +1140,8 @@ footer {
         margin-right: 5px; /* Adds space before the hamburger menu */
     }
 }
-/* MOBILE ONLY: Hide extra header buttons and optimize Get Sim Challenge button */
+/* MOBILE ONLY: Hide Signup in header and optimize Get Sim Challenge button */
 @media (max-width: 600px) {
-    .header-cta-group a[href="#roadmap"],
     .header-cta-group a[href="membership.html?redirect=membersarea.html"] {
         display: none !important;
     }
@@ -1350,11 +1349,10 @@ function updateInteractiveCalculator(val) {
 <header>
     <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo02.png" alt="Rebel Trading Logo">
     
-    <div class="header-cta-group">
-         <a href="#roadmap" class="sim-challenge-btn" style="background: #111; border-color: #333; box-shadow: none;">🗺️ REBEL ROADMAP</a>
-         <a href="membership.html?redirect=membersarea.html" class="sim-challenge-btn" style="background: #111; border-color: #333; box-shadow: none;">SIGN UP</a>
-         <a href="#packages" class="sim-challenge-btn">🎮 GET SIM CHALLENGE →</a>
-    </div>
+   <div class="header-cta-group">
+        <a href="membership.html?redirect=membersarea.html" class="sim-challenge-btn">SIGN UP</a>
+        <a href="#packages" class="sim-challenge-btn">🎮 GET SIM CHALLENGE →</a>
+   </div>
     
     <div class="hamburger" onclick="toggleMenu()">
         <div></div>
