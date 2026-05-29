@@ -2141,6 +2141,8 @@ function renderSyntheticOrderBook(basePrice) {
 }
 
 async function fetchRebelEnginePrices() {
+    let backendPriceLoaded = false;
+
     try {
         const response = await fetch("http://192.168.0.66:8000/api/prices");
         const priceMatrix = await response.json();
@@ -2151,14 +2153,14 @@ async function fetchRebelEnginePrices() {
             
             if (priceMatrix[spec.api]) {
                 localAssetPrices[CURRENT_ASSET] = parseFloat(priceMatrix[spec.api]);
+                backendPriceLoaded = true;
             }
         }
     } catch (err) {
-        const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
-        const config = assetMap[currentAssetKey];
-        let tickDelta = config.delta;
-        localAssetPrices[CURRENT_ASSET] += (Math.random() * (tickDelta * 2) - tickDelta);
+        console.warn("Live backend price fetch blocked or unavailable. Skipping chart live-price injection.", err);
     }
+
+    const currentPrice = localAssetPrices[CURRENT_ASSET];
 
     const currentPrice = localAssetPrices[CURRENT_ASSET];
     
@@ -2183,7 +2185,7 @@ async function fetchRebelEnginePrices() {
             markEl.innerText = `$${markPriceVal.toLocaleString('en-US', { minimumFractionDigits: precision, maximumFractionDigits: precision })}`;
         }
         
-                if (window.RebelChart) {
+                        if (window.RebelChart && backendPriceLoaded) {
             window.RebelChart.updateLivePrice(currentPrice);
         }
 
