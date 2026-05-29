@@ -295,28 +295,18 @@ async function loadChartWorkspace() {
 
         initChartInstances();
 
-        let realAnchorPrice = null;
         try {
-            const response = await fetch("http://192.168.0.66:8000/api/prices");
-            const priceMatrix = await response.json();
-            realAnchorPrice = extractPriceFromFeed(priceMatrix, currentAsset);
-        } catch (e) {
-            console.warn("Local backend connection skipped. Processing static feeds.");
-        }
-        
-        if (!realAnchorPrice) realAnchorPrice = getAssetFallbackPrice(currentAsset);
-
-                try {
             currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
-            console.log("Real candles loaded:", currentHistoricalBars.length);
+            console.log("Real candles loaded:", currentAsset, currentTimeframe, currentHistoricalBars.length);
         } catch (candleErr) {
-            console.warn("Real candle fetch blocked or failed. Using fallback bars.", candleErr);
-            currentHistoricalBars = generateHistoricalBars(currentTimeframe, currentAsset, realAnchorPrice);
+            console.error("REAL CANDLE FETCH FAILED. No fallback candles generated.", candleErr);
+            currentHistoricalBars = [];
+            return;
         }
 
         if (!currentHistoricalBars.length) {
-            console.warn("Real candle feed returned empty. Using fallback bars.");
-            currentHistoricalBars = generateHistoricalBars(currentTimeframe, currentAsset, realAnchorPrice);
+            console.error("REAL CANDLE FEED RETURNED EMPTY. No fallback candles generated.");
+            return;
         }
         
         refreshChartOverlays();
