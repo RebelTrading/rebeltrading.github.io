@@ -47,6 +47,33 @@ const commonOptions = {
 function cleanArray(arr) {
     return arr.filter(item => item && item.time && item.value !== undefined && !isNaN(item.value));
 }
+
+function waitForChartContainers(maxAttempts = 20) {
+    return new Promise((resolve) => {
+        let attempts = 0;
+
+        const check = () => {
+            const mainDiv = document.getElementById('main-container');
+            const rsiDiv = document.getElementById('rsi-container');
+            const macdDiv = document.getElementById('macd-container');
+
+            const mainReady = mainDiv && mainDiv.clientWidth > 0 && mainDiv.clientHeight > 0;
+            const rsiReady = rsiDiv && rsiDiv.clientWidth > 0 && rsiDiv.clientHeight > 0;
+            const macdReady = macdDiv && macdDiv.clientWidth > 0 && macdDiv.clientHeight > 0;
+
+            if ((mainReady && rsiReady && macdReady) || attempts >= maxAttempts) {
+                resolve();
+                return;
+            }
+
+            attempts += 1;
+            setTimeout(check, 100);
+        };
+
+        check();
+    });
+}
+
 function removePriceLine(lineRef) {
     if (candlestickSeries && lineRef) {
         candlestickSeries.removePriceLine(lineRef);
@@ -255,6 +282,8 @@ function generateHistoricalBars(timeframe, asset, startingPrice) {
 
 async function loadChartWorkspace() {
     try {
+        await waitForChartContainers();
+
         initChartInstances();
 
         let realAnchorPrice = null;
@@ -269,21 +298,34 @@ async function loadChartWorkspace() {
         if (!realAnchorPrice) realAnchorPrice = getAssetFallbackPrice(currentAsset);
 
         currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
+
+        if (!currentHistoricalBars.length) {
+            currentHistoricalBars = generateHistoricalBars(currentTimeframe, currentAsset, realAnchorPrice);
+        }
         
         refreshChartOverlays();
         updateRowLayouts(); 
-        
+        triggerChartResize();
+
         mainChart.priceScale('right').applyOptions({ autoScale: true });
         mainChart.timeScale().fitContent();
 
-        // Strong MACD nudge - this should finally move it
         setTimeout(() => {
+            triggerChartResize();
+
             const range = mainChart.timeScale().getVisibleLogicalRange();
             if (range) {
                 if (rsiChart) rsiChart.timeScale().setVisibleLogicalRange(range);
                 if (macdChart) macdChart.timeScale().setVisibleLogicalRange(range);
             }
+
+            mainChart.timeScale().fitContent();
         }, 250);
+
+        setTimeout(() => {
+            triggerChartResize();
+            if (mainChart) mainChart.timeScale().fitContent();
+        }, 900);
 
         initPriceLoop();
 
@@ -667,6 +709,15 @@ window.addEventListener('resize', () => {
     if (macdChart && macdDiv && macdDiv.clientWidth > 0 && macdDiv.clientHeight > 0) macdChart.resize(macdDiv.clientWidth, macdDiv.clientHeight);
 });
 window.RebelChart = {
+    resize() {
+        triggerChartResize();
+
+        if (mainChart) {
+            mainChart.priceScale('right').applyOptions({ autoScale: true });
+            mainChart.timeScale().fitContent();
+        }
+    },
+
     switchAsset(assetKey) {
     if (!assetKey) return;
     currentAsset = assetKey;
