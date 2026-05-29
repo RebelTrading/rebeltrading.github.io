@@ -1144,11 +1144,13 @@ const assetMap = {
 };
 
 let localAssetPrices = {
-    "BTC-USD": 79130.00,
-    "ETH-USD": 3450.00,
-    "SOL-USD": 145.00,
-    "XRP-USD": 1.4350
+    "BTC-USD": 0,
+    "ETH-USD": 0,
+    "SOL-USD": 0,
+    "XRP-USD": 0
 };
+
+window.localAssetPrices = localAssetPrices;
 
 let pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
 let activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
@@ -2161,8 +2163,6 @@ async function fetchRebelEnginePrices() {
     }
 
     const currentPrice = localAssetPrices[CURRENT_ASSET];
-
-    const currentPrice = localAssetPrices[CURRENT_ASSET];
     
     if (currentPrice && currentPrice > 0) {
         const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
@@ -2465,6 +2465,6 @@ window.addEventListener('DOMContentLoaded', async function() {
     </div>
     
 </div>
-<script type="module" src="./chart-app-test.js?v=mobile-chart-3"></script>
+<script type="module" src="./chart-app-test.js?v=mobile-chart-5"></script>
 </body>
 </html>
