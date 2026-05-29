@@ -298,9 +298,34 @@ async function loadChartWorkspace() {
         try {
             currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
             console.log("Real candles loaded:", currentAsset, currentTimeframe, currentHistoricalBars.length);
-        } catch (candleErr) {
+                } catch (candleErr) {
             console.error("REAL CANDLE FETCH FAILED. No fallback candles generated.", candleErr);
             currentHistoricalBars = [];
+
+            const mainDiv = document.getElementById('main-container');
+            if (mainDiv) {
+                mainDiv.innerHTML = `
+                    <div style="
+                        height: 100%;
+                        min-height: 260px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        text-align: center;
+                        padding: 24px;
+                        box-sizing: border-box;
+                        color: #ffb703;
+                        font-family: monospace;
+                        font-size: 0.78rem;
+                        line-height: 1.6;
+                        background: #050505;
+                    ">
+                        CANDLE FETCH FAILED<br>
+                        ${candleErr.name || "Error"}: ${candleErr.message || candleErr}
+                    </div>
+                `;
+            }
+
             return;
         }
 
