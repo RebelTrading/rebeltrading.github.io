@@ -195,7 +195,7 @@ function extractPriceFromFeed(matrix, assetKey) {
 }
 
 async function fetchRealCandles(timeframe, asset) {
-    const response = await fetch(`http://192.168.0.66:8000/api/candles/${asset}?tf=${timeframe}`);
+    const response = await fetch(`${CHART_API_BASE_URL}/api/candles/${asset}?tf=${timeframe}`);
     if (!response.ok) {
         throw new Error(`Candle fetch failed: ${response.status}`);
     }
@@ -260,7 +260,7 @@ async function loadChartWorkspace() {
 
         let realAnchorPrice = null;
         try {
-            const response = await fetch("http://192.168.0.66:8000/api/prices");
+            const response = await fetch(`${CHART_API_BASE_URL}/api/prices`);
             const priceMatrix = await response.json();
             realAnchorPrice = extractPriceFromFeed(priceMatrix, currentAsset);
         } catch (e) {
@@ -412,7 +412,7 @@ function initPriceLoop() {
         try {
             let livePrice = null;
             try {
-                const response = await fetch("http://192.168.0.66:8000/api/prices");
+                const response = await fetch(`${CHART_API_BASE_URL}/api/prices`);
                 const priceMatrix = await response.json();
                 livePrice = extractPriceFromFeed(priceMatrix, currentAsset);
             } catch (e) {
