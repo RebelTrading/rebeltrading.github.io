@@ -264,7 +264,11 @@ async function loadChartWorkspace() {
 
         let realAnchorPrice = null;
         try {
-            const response = await fetch(`${CHART_API_BASE_URL}/api/prices`);
+                        const response = await fetch(`${CHART_API_BASE_URL}/api/prices`, {
+                headers: {
+                    "ngrok-skip-browser-warning": "true"
+                }
+            });
             const priceMatrix = await response.json();
             realAnchorPrice = extractPriceFromFeed(priceMatrix, currentAsset);
         } catch (e) {
