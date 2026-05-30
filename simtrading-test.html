@@ -861,9 +861,14 @@ header img {
     }
 
     .header-badge-space,
-    .my-account-btn,
     .trade-user-badge {
         display: none !important;
+    }
+
+    .my-account-btn {
+        display: inline-block !important;
+        padding: 6px 7px;
+        font-size: 0.58rem;
     }
 
     .progress-container {
@@ -1989,11 +1994,12 @@ async function recordClosedTrade(tradePayload) {
     if (!token || !tradePayload) return;
 
     try {
-        await fetch(`${API_BASE_URL}/api/trades/record`, {
+            await fetch(`${API_BASE_URL}/api/trades/record`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
             },
             body: JSON.stringify(tradePayload)
         });
