@@ -1170,10 +1170,11 @@ async function checkTradingAccess() {
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/me`, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        });
+    headers: {
+        "Authorization": `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true"
+    }
+});
 
         if (!response.ok) {
             localStorage.removeItem("rebel_auth_token");
