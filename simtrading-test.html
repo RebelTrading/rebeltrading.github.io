@@ -2142,7 +2142,11 @@ function renderSyntheticOrderBook(basePrice) {
 
 async function fetchRebelEnginePrices() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/prices`);
+               const response = await fetch(`${API_BASE_URL}/api/prices`, {
+            headers: {
+                "ngrok-skip-browser-warning": "true"
+            }
+        });
         const priceMatrix = await response.json();
         
         if (priceMatrix) {
@@ -2442,6 +2446,6 @@ window.addEventListener('DOMContentLoaded', async function() {
     </div>
     
 </div>
-<script type="module" src="./chart-app-test.js?v=ngrok-mobile-1"></script>
+<script type="module" src="./chart-app-test.js?v=ngrok-mobile-2"></script>
 </body>
 </html>
