@@ -472,7 +472,7 @@ footer {
 </style>
 
 <script>
-const API_URL = "http://192.168.0.66:8000";
+const API_URL = "https://trunks-derail-brethren.ngrok-free.dev";
 
 function toggleMenu() {
     const menu = document.getElementById("menu");
@@ -512,11 +512,12 @@ async function devActivateChallenge() {
     setDevPaymentStatus("Activating test challenge...");
 
     try {
-        const response = await fetch(`${API_URL}/api/challenge/dev-activate`, {
+    const response = await fetch(`${API_URL}/api/challenge/dev-activate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
             },
             body: JSON.stringify({ tier })
         });
