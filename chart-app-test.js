@@ -5,6 +5,7 @@ let currentTimeframe = '1m';
 let currentAsset = 'BTC'; 
 let updateInterval = null;
 let currentHistoricalBars = []; 
+const CHART_API_BASE_URL = "https://trunks-derail-brethren.ngrok-free.dev"; 
 
 // Chart Instance Trackers
 let mainChart = null, rsiChart = null, macdChart = null;
