@@ -1009,9 +1009,10 @@ async function submitSupportRequest(event) {
 
 async function loadTradeStats(token) {
     try {
-        const summaryResponse = await fetch(`${API_URL}/api/trades/summary`, {
+                const summaryResponse = await fetch(`${API_URL}/api/trades/summary`, {
             headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
             }
         });
 
@@ -1031,9 +1032,10 @@ async function loadTradeStats(token) {
             }
         }
 
-        const historyResponse = await fetch(`${API_URL}/api/trades/history`, {
+                const historyResponse = await fetch(`${API_URL}/api/trades/history`, {
             headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
             }
         });
 
