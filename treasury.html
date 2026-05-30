@@ -469,10 +469,12 @@ footer {
 <script>
 const TREASURY_CONFIG = {
     walletAddress: "78WpbE2ZNzogz5xXQWGEH8TsLHGhhr951aGJjXNACddW",
-    networkLabel: "Treasury Wallet",
-    allocationRate: 10,
-    balanceApiUrl: ""
+    networkLabel: "Solana USDC Treasury Wallet",
+    allocationRate: 10
 };
+
+const SOLANA_RPC_URL = "https://api.mainnet-beta.solana.com";
+const SOLANA_USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 
 function toggleMenu() {
     const menu = document.getElementById("menu");
@@ -481,7 +483,7 @@ function toggleMenu() {
 
 function formatTreasuryMoney(value) {
     const number = Number(value);
-    if (isNaN(number)) return "--";
+    if (isNaN(number)) return "$0.00";
 
     return number.toLocaleString("en-US", {
         style: "currency",
@@ -497,12 +499,45 @@ function setTreasuryText(id, value) {
 }
 
 function maskWallet(address) {
-    if (!address || address === "PASTE_TREASURY_WALLET_HERE") {
-        return "Wallet not connected yet. Paste the public treasury wallet into TREASURY_CONFIG.walletAddress.";
-    }
-
+    if (!address) return "Treasury wallet not connected.";
     if (address.length <= 18) return address;
     return `${address.slice(0, 8)}...${address.slice(-8)}`;
+}
+
+async function fetchSolanaUsdcBalance(walletAddress) {
+    const response = await fetch(SOLANA_RPC_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            jsonrpc: "2.0",
+            id: 1,
+            method: "getTokenAccountsByOwner",
+            params: [
+                walletAddress,
+                {
+                    mint: SOLANA_USDC_MINT
+                },
+                {
+                    encoding: "jsonParsed"
+                }
+            ]
+        })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || data.error) {
+        throw new Error(data.error?.message || "Solana balance request failed");
+    }
+
+    const accounts = data.result?.value || [];
+
+    return accounts.reduce((total, account) => {
+        const amount = account.account?.data?.parsed?.info?.tokenAmount?.uiAmount || 0;
+        return total + Number(amount);
+    }, 0);
 }
 
 async function loadTreasuryBalance() {
@@ -512,45 +547,22 @@ async function loadTreasuryBalance() {
     setTreasuryText("treasury-allocation-rate", `${TREASURY_CONFIG.allocationRate}%`);
     setTreasuryText("treasury-wallet-label", TREASURY_CONFIG.networkLabel);
     setTreasuryText("treasury-wallet-address", maskWallet(wallet));
-
-    if (!wallet || wallet === "PASTE_TREASURY_WALLET_HERE") {
-        setTreasuryText("treasury-balance", "Awaiting Wallet");
-        setTreasuryText("treasury-balance-subline", "Add the public treasury wallet address to activate balance tracking.");
-        setTreasuryText("treasury-status-text", "Wallet Pending");
-        return;
-    }
-
-    if (!TREASURY_CONFIG.balanceApiUrl) {
-        setTreasuryText("treasury-balance", "Wallet Added");
-        setTreasuryText("treasury-balance-subline", "Connect a balance endpoint when the treasury wallet is created.");
-        setTreasuryText("treasury-status-text", "Wallet Published");
-        if (statusDot) statusDot.classList.add("live");
-        return;
-    }
+    setTreasuryText("treasury-balance", "Loading...");
+    setTreasuryText("treasury-balance-subline", "Reading Solana USDC treasury wallet...");
 
     try {
-        const response = await fetch(`${TREASURY_CONFIG.balanceApiUrl}?wallet=${encodeURIComponent(wallet)}`, {
-            headers: {
-                "Accept": "application/json"
-            }
-        });
+        const usdcBalance = await fetchSolanaUsdcBalance(wallet);
 
-        if (!response.ok) {
-            throw new Error(`Treasury balance request failed: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const balance = data.usd_balance ?? data.balance_usd ?? data.balance ?? null;
-
-        setTreasuryText("treasury-balance", formatTreasuryMoney(balance));
-        setTreasuryText("treasury-balance-subline", "Live treasury balance synced from the public wallet source.");
+        setTreasuryText("treasury-balance", formatTreasuryMoney(usdcBalance));
+        setTreasuryText("treasury-balance-subline", "Live balance synced from the public Solana USDC treasury wallet.");
         setTreasuryText("treasury-status-text", "Live Treasury Feed");
+
         if (statusDot) statusDot.classList.add("live");
     } catch (err) {
-        setTreasuryText("treasury-balance", "Sync Pending");
-        setTreasuryText("treasury-balance-subline", "Wallet is configured, but the balance feed is not responding yet.");
-        setTreasuryText("treasury-status-text", "Balance Feed Pending");
         console.warn("Treasury balance load failed:", err);
+        setTreasuryText("treasury-balance", "Sync Failed");
+        setTreasuryText("treasury-balance-subline", "Could not read the Solana USDC wallet balance. Try refreshing the page.");
+        setTreasuryText("treasury-status-text", "Balance Feed Error");
     }
 }
 
