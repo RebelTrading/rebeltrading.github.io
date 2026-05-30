@@ -830,6 +830,269 @@ header img {
     }
 }
 
+/* MOBILE TRADE DESK LAYOUT ONLY */
+@media (max-width: 800px) {
+    body {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    header {
+        height: 76px;
+        grid-template-columns: 118px 1fr 32px;
+        padding: 0 10px;
+    }
+
+    header img {
+        height: 58px;
+        max-width: 112px;
+        object-fit: contain;
+    }
+
+    .ticker-tape {
+        padding: 0 8px;
+        gap: 8px;
+        justify-content: flex-end;
+        min-width: 0;
+    }
+
+    .ticker-metrics-wrapper {
+        display: none;
+    }
+
+    .header-badge-space,
+    .my-account-btn,
+    .trade-user-badge {
+        display: none !important;
+    }
+
+    .progress-container {
+        width: 150px;
+        min-width: 0;
+    }
+
+    .progress-labels {
+        font-size: 0.55rem;
+        gap: 8px;
+    }
+
+    .hamburger {
+        width: 30px;
+        flex-shrink: 0;
+    }
+
+    .desk-container {
+        margin-top: 76px;
+        height: auto;
+        min-height: calc(100svh - 76px);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 8px;
+        overflow: visible;
+    }
+
+    .panel {
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .desk-container > .panel:nth-child(1) {
+        min-height: 620px;
+        order: 1;
+    }
+
+    .desk-container > .panel:nth-child(2) {
+        display: none;
+    }
+
+    .desk-container > .panel:nth-child(3) {
+        order: 2;
+    }
+
+    .asset-bar {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding: 7px;
+    }
+
+    .asset-btn {
+        flex: 0 0 auto;
+        padding: 7px 12px;
+        font-size: 0.72rem;
+    }
+
+    .stats-bar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+        padding: 7px;
+    }
+
+    .stat-box {
+        padding: 7px 5px;
+        min-width: 0;
+    }
+
+    .stat-label {
+        font-size: 0.52rem;
+        line-height: 1.2;
+    }
+
+    .stat-value {
+        font-size: 0.72rem;
+        overflow-wrap: anywhere;
+    }
+
+    .chart-wrapper {
+        min-height: 465px;
+        height: 465px;
+        flex: none;
+    }
+
+    #chart-toolbar {
+        min-height: 38px;
+        padding: 6px;
+        gap: 8px;
+        overflow-x: auto;
+        font-size: 0.68rem;
+    }
+
+    #chart-toolbar button {
+        padding: 6px 9px;
+        font-size: 0.68rem;
+        flex: 0 0 auto;
+    }
+
+    #chart-toolbar label {
+        flex: 0 0 auto;
+        font-size: 0.68rem;
+    }
+
+    #tv_chart_container {
+        min-height: 420px;
+        height: 420px;
+        flex: none;
+    }
+
+    #workspace {
+        min-height: 420px;
+        height: 420px;
+    }
+
+    #main-container {
+        flex-grow: 70;
+        min-height: 270px;
+    }
+
+    #rsi-container,
+    #macd-container {
+        flex-grow: 15;
+        min-height: 65px;
+    }
+
+    .panel-header {
+        padding: 10px 12px;
+        font-size: 0.72rem;
+        line-height: 1.3;
+    }
+
+    .order-panel {
+        padding: 12px;
+        gap: 11px;
+    }
+
+    .account-selector select {
+        font-size: 0.72rem;
+        padding: 9px;
+    }
+
+    .order-tabs {
+        min-height: 38px;
+    }
+
+    .tab-btn {
+        font-size: 0.72rem;
+        padding: 9px;
+    }
+
+    .input-block label {
+        font-size: 0.6rem;
+    }
+
+    .input-wrapper input {
+        padding: 10px 8px;
+        font-size: 0.82rem;
+    }
+
+    .input-wrapper button {
+        width: 40px;
+    }
+
+    .spec-metrics-display {
+        font-size: 0.68rem;
+        gap: 7px;
+    }
+
+    .bracket-toggle-container {
+        font-size: 0.72rem;
+        line-height: 1.35;
+    }
+
+    .bracket-inputs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .execution-actions {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .exec-btn {
+        padding: 14px 10px;
+        font-size: 0.82rem;
+    }
+
+    .position-display {
+        font-size: 0.72rem;
+        line-height: 1.4;
+    }
+
+    .rules-container {
+        font-size: 0.68rem;
+        padding: 12px;
+    }
+
+    .rule-item {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3px;
+        margin-bottom: 9px;
+    }
+
+    .chart-overlay-tag {
+        right: 12px;
+        font-size: 0.58rem;
+        max-width: 230px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .milestone-card {
+        max-width: 300px;
+        padding: 16px 18px;
+    }
+
+    .milestone-title {
+        font-size: 0.95rem;
+        line-height: 1.25;
+    }
+
+    .milestone-subtitle {
+        font-size: 0.68rem;
+        line-height: 1.35;
+    }
+}
+
 </style>
     
 
