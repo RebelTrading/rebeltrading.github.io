@@ -420,7 +420,11 @@ function initPriceLoop() {
         try {
             let livePrice = null;
             try {
-                const response = await fetch(`${CHART_API_BASE_URL}/api/prices`);
+                                const response = await fetch(`${CHART_API_BASE_URL}/api/prices`, {
+                    headers: {
+                        "ngrok-skip-browser-warning": "true"
+                    }
+                });
                 const priceMatrix = await response.json();
                 livePrice = extractPriceFromFeed(priceMatrix, currentAsset);
             } catch (e) {
