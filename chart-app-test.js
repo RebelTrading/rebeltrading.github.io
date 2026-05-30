@@ -195,7 +195,11 @@ function extractPriceFromFeed(matrix, assetKey) {
 }
 
 async function fetchRealCandles(timeframe, asset) {
-    const response = await fetch(`${CHART_API_BASE_URL}/api/candles/${asset}?tf=${timeframe}`);
+        const response = await fetch(`${CHART_API_BASE_URL}/api/candles/${asset}?tf=${timeframe}`, {
+        headers: {
+            "ngrok-skip-browser-warning": "true"
+        }
+    });
     if (!response.ok) {
         throw new Error(`Candle fetch failed: ${response.status}`);
     }
