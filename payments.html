@@ -613,18 +613,23 @@ async function devActivateChallenge() {
             <div class="widget-payload-frame">
                 <div id="helioCheckoutContainer1" style="width: 100%;"></div>
                 <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    window.helioCheckout(
-                      document.getElementById("helioCheckoutContainer1"),
-                      {
-                        paylinkId: "6a0a56cfea3219151cf81975",
-                        theme: {"themeMode":"dark"},
-                        primaryColor: "#6400CC",
-                        neutralColor: "#5A6578",
-                      }
-                    );
-                  });
-                </script>
+  document.addEventListener("DOMContentLoaded", () => {
+    window.helioCheckout(
+      document.getElementById("helioCheckoutContainer1"),
+      {
+        paylinkId: "6a0a56cfea3219151cf81975",
+        theme: {"themeMode":"dark"},
+        primaryColor: "#6400CC",
+        neutralColor: "#5A6578",
+        onSuccess: () => {
+          setTimeout(() => {
+            window.location.href = getRedirectTargetFromUrl();
+          }, 5000);
+        },
+      }
+    );
+  });
+</script>
             </div>
         </div>
 
@@ -639,18 +644,23 @@ async function devActivateChallenge() {
             <div class="widget-payload-frame">
                 <div id="helioCheckoutContainer2" style="width: 100%;"></div>
                 <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    window.helioCheckout(
-                      document.getElementById("helioCheckoutContainer2"),
-                      {
-                        paylinkId: "6a0a578b63a89dc9b93da97e",
-                        theme: {"themeMode":"dark"},
-                        primaryColor: "#6400CC",
-                        neutralColor: "#5A6578",
-                      }
-                    );
-                  });
-                </script>
+  document.addEventListener("DOMContentLoaded", () => {
+    window.helioCheckout(
+      document.getElementById("helioCheckoutContainer2"),
+      {
+        paylinkId: "6a0a578b63a89dc9b93da97e",
+        theme: {"themeMode":"dark"},
+        primaryColor: "#6400CC",
+        neutralColor: "#5A6578",
+        onSuccess: () => {
+          setTimeout(() => {
+            window.location.href = getRedirectTargetFromUrl();
+          }, 5000);
+        },
+      }
+    );
+  });
+</script>
             </div>
         </div>
 
@@ -665,18 +675,23 @@ async function devActivateChallenge() {
             <div class="widget-payload-frame">
                 <div id="helioCheckoutContainer3" style="width: 100%;"></div>
                 <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    window.helioCheckout(
-                      document.getElementById("helioCheckoutContainer3"),
-                      {
-                        paylinkId: "6a0a57d9efd1a6b2e1b201ca",
-                        theme: {"themeMode":"dark"},
-                        primaryColor: "#6400CC",
-                        neutralColor: "#5A6578",
-                      }
-                    );
-                  });
-                </script>
+  document.addEventListener("DOMContentLoaded", () => {
+    window.helioCheckout(
+      document.getElementById("helioCheckoutContainer3"),
+      {
+        paylinkId: "6a0a57d9efd1a6b2e1b201ca",
+        theme: {"themeMode":"dark"},
+        primaryColor: "#6400CC",
+        neutralColor: "#5A6578",
+        onSuccess: () => {
+          setTimeout(() => {
+            window.location.href = getRedirectTargetFromUrl();
+          }, 5000);
+        },
+      }
+    );
+  });
+</script>
             </div>
         </div>
 
