@@ -470,16 +470,9 @@ footer {
 const TREASURY_CONFIG = {
     walletAddress: "78WpbE2ZNzogz5xXQWGEH8TsLHGhhr951aGJjXNACddW",
     networkLabel: "Solana USDC Treasury Wallet",
-    allocationRate: 10
+    allocationRate: 10,
+    balanceApiUrl: "https://trunks-derail-brethren.ngrok-free.dev/api/treasury/balance"
 };
-
-const SOLANA_USDC_MINT = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
-
-const SOLANA_RPC_ENDPOINTS = [
-    "https://rpc.aex402.com",
-    "https://solana-rpc.publicnode.com",
-    "https://api.mainnet-beta.solana.com"
-];
 
 function toggleMenu() {
     const menu = document.getElementById("menu");
@@ -509,73 +502,21 @@ function maskWallet(address) {
     return `${address.slice(0, 8)}...${address.slice(-8)}`;
 }
 
-function getSolanaRpcPayload(walletAddress) {
-    return {
-        jsonrpc: "2.0",
-        id: 1,
-        method: "getTokenAccountsByOwner",
-        params: [
-            walletAddress,
-            {
-                mint: SOLANA_USDC_MINT
-            },
-            {
-                encoding: "jsonParsed"
-            }
-        ]
-    };
-}
-
-async function fetchWithTimeout(url, payload, timeoutMs = 9000) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), timeoutMs);
-
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            signal: controller.signal,
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || data.error) {
-            throw new Error(data.error?.message || `RPC request failed at ${url}`);
+async function fetchTreasuryBalance() {
+    const response = await fetch(TREASURY_CONFIG.balanceApiUrl, {
+        headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
         }
+    });
 
-        return data;
-    } finally {
-        clearTimeout(timeout);
-    }
-}
+    const data = await response.json();
 
-function extractUsdcBalanceFromRpc(data) {
-    const accounts = data.result?.value || [];
-
-    return accounts.reduce((total, account) => {
-        const amount = account.account?.data?.parsed?.info?.tokenAmount?.uiAmount || 0;
-        return total + Number(amount);
-    }, 0);
-}
-
-async function fetchSolanaUsdcBalance(walletAddress) {
-    const payload = getSolanaRpcPayload(walletAddress);
-    let lastError = null;
-
-    for (const endpoint of SOLANA_RPC_ENDPOINTS) {
-        try {
-            const data = await fetchWithTimeout(endpoint, payload);
-            return extractUsdcBalanceFromRpc(data);
-        } catch (err) {
-            lastError = err;
-            console.warn(`Treasury RPC failed at ${endpoint}:`, err);
-        }
+    if (!response.ok) {
+        throw new Error(data.detail || "Treasury balance request failed");
     }
 
-    throw lastError || new Error("All Solana RPC endpoints failed");
+    return data;
 }
 
 async function loadTreasuryBalance() {
@@ -586,22 +527,23 @@ async function loadTreasuryBalance() {
     setTreasuryText("treasury-wallet-label", TREASURY_CONFIG.networkLabel);
     setTreasuryText("treasury-wallet-address", maskWallet(wallet));
     setTreasuryText("treasury-balance", "Loading...");
-    setTreasuryText("treasury-balance-subline", "Reading Solana USDC treasury wallet...");
+    setTreasuryText("treasury-balance-subline", "Reading live treasury balance...");
     setTreasuryText("treasury-status-text", "Syncing Treasury");
 
     try {
-        const usdcBalance = await fetchSolanaUsdcBalance(wallet);
+        const data = await fetchTreasuryBalance();
+        const balance = Number(data.usdc_balance || 0);
 
-        setTreasuryText("treasury-balance", formatTreasuryMoney(usdcBalance));
+        setTreasuryText("treasury-balance", formatTreasuryMoney(balance));
         setTreasuryText("treasury-balance-subline", "Live balance synced from the public Solana USDC treasury wallet.");
-        setTreasuryText("treasury-status-text", "Live Treasury Feed");
+        setTreasuryText("treasury-status-text", data.cached ? "Live Treasury Feed Cached" : "Live Treasury Feed");
 
         if (statusDot) statusDot.classList.add("live");
     } catch (err) {
         console.warn("Treasury balance load failed:", err);
         setTreasuryText("treasury-balance", "Balance Sync Pending");
-        setTreasuryText("treasury-balance-subline", "Treasury wallet is connected, but public Solana RPC access is not returning the balance yet.");
-        setTreasuryText("treasury-status-text", "RPC Sync Pending");
+        setTreasuryText("treasury-balance-subline", "Treasury wallet is connected, but the balance API is not returning yet.");
+        setTreasuryText("treasury-status-text", "Treasury API Pending");
     }
 }
 
