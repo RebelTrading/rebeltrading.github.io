@@ -648,10 +648,12 @@ async function devActivateChallenge() {
         theme: {"themeMode":"dark"},
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
-        onSuccess: () => {
+        onSuccess: async () => {
+          await confirmPaidChallenge();
+
           setTimeout(() => {
             window.location.href = getRedirectTargetFromUrl();
-          }, 5000);
+          }, 500);
         },
       }
     );
@@ -681,10 +683,12 @@ async function devActivateChallenge() {
         theme: {"themeMode":"dark"},
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
-        onSuccess: () => {
+        onSuccess: async () => {
+          await confirmPaidChallenge();
+
           setTimeout(() => {
             window.location.href = getRedirectTargetFromUrl();
-          }, 5000);
+          }, 500);
         },
       }
     );
@@ -714,10 +718,12 @@ async function devActivateChallenge() {
         theme: {"themeMode":"dark"},
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
-        onSuccess: () => {
+        onSuccess: async () => {
+          await confirmPaidChallenge();
+
           setTimeout(() => {
             window.location.href = getRedirectTargetFromUrl();
-          }, 5000);
+          }, 500);
         },
       }
     );
