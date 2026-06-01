@@ -621,8 +621,10 @@ async function devActivateChallenge() {
             
             <div class="widget-payload-frame">
                 <div id="helioCheckoutContainer1" style="width: 100%;"></div>
-                <script>
+<script>
   document.addEventListener("DOMContentLoaded", () => {
+    if (!requirePaymentLogin()) return;
+
     window.helioCheckout(
       document.getElementById("helioCheckoutContainer1"),
       {
@@ -652,8 +654,10 @@ async function devActivateChallenge() {
             
             <div class="widget-payload-frame">
                 <div id="helioCheckoutContainer2" style="width: 100%;"></div>
-                <script>
+<script>
   document.addEventListener("DOMContentLoaded", () => {
+    if (!requirePaymentLogin()) return;
+
     window.helioCheckout(
       document.getElementById("helioCheckoutContainer2"),
       {
@@ -683,8 +687,10 @@ async function devActivateChallenge() {
             
             <div class="widget-payload-frame">
                 <div id="helioCheckoutContainer3" style="width: 100%;"></div>
-                <script>
+<script>
   document.addEventListener("DOMContentLoaded", () => {
+    if (!requirePaymentLogin()) return;
+
     window.helioCheckout(
       document.getElementById("helioCheckoutContainer3"),
       {
