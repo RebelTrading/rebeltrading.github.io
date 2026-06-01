@@ -649,7 +649,8 @@ async function devActivateChallenge() {
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
         onSuccess: async () => {
-          await confirmPaidChallenge("T2");
+        onSuccess: async () => {
+          await confirmPaidChallenge("T1");
 
           setTimeout(() => {
             window.location.href = getRedirectTargetFromUrl();
@@ -684,7 +685,7 @@ async function devActivateChallenge() {
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
         onSuccess: async () => {
-          await confirmPaidChallenge();
+          await confirmPaidChallenge("T2");
 
           setTimeout(() => {
             window.location.href = getRedirectTargetFromUrl();
@@ -719,7 +720,7 @@ async function devActivateChallenge() {
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
         onSuccess: async () => {
-          await confirmPaidChallenge();
+          await confirmPaidChallenge("T3");
 
           setTimeout(() => {
             window.location.href = getRedirectTargetFromUrl();
