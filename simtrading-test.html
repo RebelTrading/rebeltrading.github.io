@@ -1219,7 +1219,12 @@ function applyActiveChallengeToSim() {
     DAILY_LOSS_LIMIT = Number(ACTIVE_CHALLENGE.daily_loss_limit) || DAILY_LOSS_LIMIT;
     EOD_TRAILING_LIMIT = Number(ACTIVE_CHALLENGE.trailing_limit) || EOD_TRAILING_LIMIT;
 
-    const accountButton = document.getElementById('my-account-btn');
+const activeChallengeSelect = document.getElementById('active-challenge-select');
+if (activeChallengeSelect) {
+    activeChallengeSelect.value = activeTierKey;
+}
+
+const accountButton = document.getElementById('my-account-btn');
 const userBadge = document.getElementById('trade-user-badge');
 const userLabel = document.getElementById('trade-user-label');
 const userAvatar = document.getElementById('trade-user-avatar');
@@ -1575,6 +1580,11 @@ function getCurrentPrice() {
 }
 
 function changeSimAccountTier(selectElement) {
+    if (ACTIVE_CHALLENGE) {
+        selectElement.value = activeTierKey;
+        return;
+    }
+
     activeTierKey = selectElement.value;
     const config = accountTiers[activeTierKey];
     
@@ -2381,11 +2391,11 @@ window.addEventListener('DOMContentLoaded', async function() {
             
             <div class="account-selector">
     <label style="font-size: 0.6rem; color: #555; text-transform: uppercase; display: block; margin-bottom: 4px;">ACTIVE CHALLENGE ACCOUNT</label>
-    <select onchange="changeSimAccountTier(this)">
-        <option value="T3" selected>Rebel Challenge: $3,000 Account</option>
-        <option value="T2">Raider Challenge: $2,000 Account</option>
-        <option value="T1">Recruit Challenge: $1,000 Account</option>
-    </select>
+    <select id="active-challenge-select" onchange="changeSimAccountTier(this)" disabled>
+    <option value="T3">Rebel Challenge: $3,000 Account</option>
+    <option value="T2">Raider Challenge: $2,000 Account</option>
+    <option value="T1">Recruit Challenge: $1,000 Account</option>
+</select>
 </div>
             
             <div class="order-tabs">
