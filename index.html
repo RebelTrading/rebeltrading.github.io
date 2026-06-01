@@ -1340,6 +1340,17 @@ function updateInteractiveCalculator(val) {
     document.getElementById("calc-sim-balance").innerText = data.balance;
     document.getElementById("calc-payout-cap").innerText = data.potential;
 }
+
+function buyChallenge(tier) {
+    const token = localStorage.getItem("rebel_auth_token");
+
+    if (!token) {
+        window.location.href = "membership.html?redirect=membersarea.html";
+        return;
+    }
+
+    window.location.href = `payments.html?tier=${tier}&redirect=membersarea.html`;
+}
 </script>
 
 </head>
