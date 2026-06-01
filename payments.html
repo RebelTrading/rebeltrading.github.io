@@ -508,9 +508,9 @@ function setDevPaymentStatus(message) {
     const status = document.getElementById("dev-payment-status");
     if (status) status.innerText = message;
 }
-    async function confirmPaidChallenge() {
+    async function confirmPaidChallenge(tierOverride) {
     const token = localStorage.getItem("rebel_auth_token");
-    const tier = getSelectedTierFromUrl();
+    const tier = tierOverride || getSelectedTierFromUrl();
 
     if (!token) return;
 
