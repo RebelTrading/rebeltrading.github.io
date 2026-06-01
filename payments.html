@@ -494,7 +494,16 @@ function getRedirectTargetFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get("redirect") || "membersarea.html";
 }
+function requirePaymentLogin() {
+    const token = localStorage.getItem("rebel_auth_token");
 
+    if (!token) {
+        window.location.href = "membership.html?redirect=payments.html%3Ftier%3DT1%26redirect%3Dmembersarea.html";
+        return false;
+    }
+
+    return true;
+}
 function setDevPaymentStatus(message) {
     const status = document.getElementById("dev-payment-status");
     if (status) status.innerText = message;
