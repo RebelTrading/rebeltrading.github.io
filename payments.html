@@ -508,6 +508,22 @@ function setDevPaymentStatus(message) {
     const status = document.getElementById("dev-payment-status");
     if (status) status.innerText = message;
 }
+    async function confirmPaidChallenge() {
+    const token = localStorage.getItem("rebel_auth_token");
+    const tier = getSelectedTierFromUrl();
+
+    if (!token) return;
+
+    await fetch(`${API_URL}/api/challenge/confirm-paid`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+            "ngrok-skip-browser-warning": "true"
+        },
+        body: JSON.stringify({ tier })
+    });
+}
 
 async function devActivateChallenge() {
     const token = localStorage.getItem("rebel_auth_token");
