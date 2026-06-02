@@ -884,6 +884,112 @@ header img {
         min-height: auto;
     }
 }
+    .roadmap-progress {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin: 34px 0 34px 0;
+    padding-top: 18px;
+}
+
+.roadmap-progress::before {
+    content: "";
+    position: absolute;
+    top: 27px;
+    left: 8%;
+    right: 8%;
+    height: 2px;
+    background: #1f1f1f;
+    z-index: 0;
+}
+
+.roadmap-progress-fill {
+    position: absolute;
+    top: 27px;
+    left: 8%;
+    width: 0%;
+    height: 2px;
+    background: #ff2a2a;
+    box-shadow: 0 0 12px rgba(255, 42, 42, 0.65);
+    z-index: 1;
+}
+
+.roadmap-progress-step {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    justify-items: center;
+    gap: 9px;
+    text-align: center;
+    color: #666;
+    font-family: monospace;
+    font-size: 0.66rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.roadmap-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0d0d0d;
+    border: 2px solid #303030;
+    box-sizing: border-box;
+}
+
+.roadmap-progress-step.current {
+    color: #fff;
+}
+
+.roadmap-progress-step.current .roadmap-dot {
+    background: #ff2a2a;
+    border-color: #ff2a2a;
+    box-shadow: 0 0 18px rgba(255, 42, 42, 0.9);
+    animation: roadmapCurrentPulse 1.2s infinite alternate;
+}
+
+.roadmap-progress-step.locked .roadmap-dot {
+    background: #080808;
+}
+
+@keyframes roadmapCurrentPulse {
+    from {
+        transform: scale(0.9);
+        box-shadow: 0 0 8px rgba(255, 42, 42, 0.55);
+    }
+    to {
+        transform: scale(1.18);
+        box-shadow: 0 0 22px rgba(255, 42, 42, 1);
+    }
+}
+
+@media (max-width: 700px) {
+    .roadmap-progress {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin: 26px 0;
+        padding-left: 12px;
+    }
+
+    .roadmap-progress::before,
+    .roadmap-progress-fill {
+        top: 0;
+        bottom: 0;
+        left: 19px;
+        right: auto;
+        width: 2px;
+        height: 100%;
+    }
+
+    .roadmap-progress-step {
+        grid-template-columns: 24px 1fr;
+        justify-items: start;
+        text-align: left;
+        align-items: center;
+    }
+}
     /* ROADMAP PREVIEW SECTION */
 .roadmap-preview-section {
     max-width: 1100px;
@@ -1691,7 +1797,34 @@ function buyChallenge(tier) {
             A compact view of Rebel's path from launch-stage crypto trading simulation to a broader Solana-based trading ecosystem.
         </p>
     </div>
+       <div class="roadmap-progress">
+        <div class="roadmap-progress-fill"></div>
 
+        <div class="roadmap-progress-step current">
+            <span class="roadmap-dot"></span>
+            <span>Phase 01<br>Current</span>
+        </div>
+
+        <div class="roadmap-progress-step locked">
+            <span class="roadmap-dot"></span>
+            <span>Phase 02<br>Next</span>
+        </div>
+
+        <div class="roadmap-progress-step locked">
+            <span class="roadmap-dot"></span>
+            <span>Phase 03<br>Queued</span>
+        </div>
+
+        <div class="roadmap-progress-step locked">
+            <span class="roadmap-dot"></span>
+            <span>Phase 04<br>Future</span>
+        </div>
+
+        <div class="roadmap-progress-step locked">
+            <span class="roadmap-dot"></span>
+            <span>Phase 05<br>Future</span>
+        </div>
+    </div>
     <div class="roadmap-mini-track">
         <div class="roadmap-mini-step active">
             <div class="roadmap-phase">Phase 01</div>
