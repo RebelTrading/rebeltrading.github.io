@@ -1256,6 +1256,9 @@ async function checkTradingAccess() {
 function applyActiveChallengeToSim() {
     if (!ACTIVE_CHALLENGE) return;
     ACCOUNT_STATUS = ACTIVE_CHALLENGE.status || "active";
+    if (ACCOUNT_STATUS === "failed") {
+    unlockArcadeBadge("ACCOUNT_FAILED");
+}
 
     activeTierKey = ACTIVE_CHALLENGE.tier || activeTierKey;
     STARTING_BALANCE = Number(ACTIVE_CHALLENGE.starting_balance) || STARTING_BALANCE;
@@ -1293,6 +1296,8 @@ if (AUTH_USER) {
     if (userLabel) userLabel.innerText = displayName;
     if (userAvatar) userAvatar.innerText = initials || 'RT';
 }
+unlockTierArcadeBadge();
+renderArcadeBadges();
 applyStageDisplay();
 initializeProgressMilestones();
 updateAccountMetrics();
@@ -1339,18 +1344,20 @@ async function syncChallengeSnapshot() {
         });
             const data = await response.json();
 
-        if (data.status === "failed") {
+                if (data.status === "failed") {
             ACCOUNT_STATUS = "failed";
+            unlockArcadeBadge("ACCOUNT_FAILED");
             setTradingAccessState(true);
             alert(`Account failed: ${data.failure_reason || "rule breach"}`);
             return;
         }
 
-        if (data.stage_changed && data.new_stage === "rebel_stage") {
+                if (data.stage_changed && data.new_stage === "rebel_stage") {
             triggerProgressMilestone(
                 "CHALLENGE COMPLETE",
                 "SIM FUNDED REBEL STAGE UNLOCKED",
-                "Challenge complete. Sim funded Rebel Stage unlocked."
+                "Challenge complete. Sim funded Rebel Stage unlocked.",
+                "SIM_FUNDED"
             );
 
             setTimeout(() => {
@@ -1409,7 +1416,79 @@ function initializeProgressMilestones() {
         progressMilestonesTriggered[level] = currentPct >= level;
     });
 }
+const arcadeBadgeDefinitions = {
+    T1_BOX: { label: "RECRUIT BOX", style: "green" },
+    T2_BOX: { label: "RAIDER BOX", style: "cyan" },
+    T3_BOX: { label: "REBEL BOX", style: "gold" },
 
+    FIRST_STRIKE: { label: "FIRST STRIKE", style: "green" },
+    SPEEDRUN_LIVE: { label: "SPEEDRUN LIVE", style: "gold" },
+    QUARTER_CLEAR: { label: "QUARTER CLEAR", style: "green" },
+    HALFWAY_HIT: { label: "HALFWAY HIT", style: "green" },
+    BOSS_LEVEL: { label: "BOSS LEVEL", style: "gold" },
+    FINAL_GATE: { label: "FINAL GATE", style: "gold" },
+    LEVEL_CLEARED: { label: "LEVEL CLEARED", style: "cyan" },
+
+    SIM_FUNDED: { label: "SIM FUNDED", style: "cyan" },
+    PAYOUT_RUNWAY: { label: "PAYOUT RUNWAY", style: "green" },
+    REBEL_MOMENTUM: { label: "REBEL MOMENTUM", style: "green" },
+    PAYOUT_ENGINE: { label: "PAYOUT ENGINE", style: "gold" },
+    EXTRACTION_WINDOW: { label: "EXTRACTION WINDOW", style: "gold" },
+    HIGH_WATERMARK: { label: "HIGH WATERMARK", style: "gold" },
+    REBEL_DOMINANCE: { label: "REBEL DOMINANCE", style: "cyan" },
+
+    ACCOUNT_FAILED: { label: "ACCOUNT FAILED", style: "red" }
+};
+
+function getArcadeBadgeStorageKey() {
+    const challengeId = ACTIVE_CHALLENGE?.id || "guest";
+    return `rebel_arcade_badges_${challengeId}`;
+}
+
+function getUnlockedArcadeBadges() {
+    try {
+        return JSON.parse(localStorage.getItem(getArcadeBadgeStorageKey()) || "[]");
+    } catch (err) {
+        return [];
+    }
+}
+
+function saveUnlockedArcadeBadges(badgeIds) {
+    localStorage.setItem(getArcadeBadgeStorageKey(), JSON.stringify(badgeIds));
+}
+
+function renderArcadeBadges() {
+    const container = document.getElementById("arcade-badge-container");
+    if (!container) return;
+
+    const unlocked = getUnlockedArcadeBadges();
+    const visibleBadges = unlocked.slice(-4);
+
+    container.innerHTML = visibleBadges.map(badgeId => {
+        const badge = arcadeBadgeDefinitions[badgeId];
+        if (!badge) return "";
+
+        return `<span class="arcade-earned-badge ${badge.style}">${badge.label}</span>`;
+    }).join("");
+}
+
+function unlockArcadeBadge(badgeId) {
+    if (!arcadeBadgeDefinitions[badgeId]) return;
+
+    const unlocked = getUnlockedArcadeBadges();
+
+    if (!unlocked.includes(badgeId)) {
+        unlocked.push(badgeId);
+        saveUnlockedArcadeBadges(unlocked);
+    }
+
+    renderArcadeBadges();
+}
+
+function unlockTierArcadeBadge() {
+    if (!ACTIVE_CHALLENGE?.tier) return;
+    unlockArcadeBadge(`${ACTIVE_CHALLENGE.tier}_BOX`);
+}
 function speakMilestone(text) {
     try {
         if (!('speechSynthesis' in window)) return;
@@ -1452,18 +1531,62 @@ function showMilestoneOverlay(title, subtitle) {
     }, 4200);
 }
 
-function triggerProgressMilestone(title, subtitle, voiceText) {
+function triggerProgressMilestone(title, subtitle, voiceText, badgeId = "") {
     triggerGhostLayerMilestoneFlash();
     showMilestoneOverlay(title, subtitle);
     speakMilestone(voiceText);
+
+    if (badgeId) {
+        unlockArcadeBadge(badgeId);
+    }
 }
 
 function checkProgressMilestones() {
     const currentPct = getChallengeProgressPct();
     const stage = ACTIVE_CHALLENGE?.stage || "challenge";
 
-    const milestones = stage === "rebel_stage"
-        ? [
+                {
+                level: 5,
+                title: 'PAYOUT RUNWAY ONLINE',
+                subtitle: 'FUNDED PROFIT BUFFER BUILDING',
+                voice: 'Payout runway online. Funded profit buffer is building.',
+                badge: 'PAYOUT_RUNWAY'
+            },
+            {
+                level: 10,
+                title: 'REBEL MOMENTUM',
+                subtitle: 'SIM FUNDED ACCOUNT PUSHING HIGHER',
+                voice: 'Rebel momentum confirmed. Stay disciplined.',
+                badge: 'REBEL_MOMENTUM'
+            },
+            {
+                level: 25,
+                title: 'PAYOUT ENGINE WARM',
+                subtitle: 'FUNDED PROFIT EXPANSION ACTIVE',
+                voice: 'Payout engine warming. Funded profit expansion active.',
+                badge: 'PAYOUT_ENGINE'
+            },
+            {
+                level: 50,
+                title: 'EXTRACTION WINDOW BUILDING',
+                subtitle: 'SIM FUNDED RUNWAY EXPANDING',
+                voice: 'Extraction window building. Keep risk controlled.',
+                badge: 'EXTRACTION_WINDOW'
+            },
+            {
+                level: 75,
+                title: 'HIGH WATERMARK PRESSURE',
+                subtitle: 'FUNDED RUNWAY EXTENDED',
+                voice: 'High watermark pressure. Funded runway extended.',
+                badge: 'HIGH_WATERMARK'
+            },
+            {
+                level: 100,
+                title: 'REBEL STAGE DOMINANCE',
+                subtitle: 'FUNDED PERFORMANCE MILESTONE CLEARED',
+                voice: 'Rebel Stage dominance. Funded performance milestone cleared.',
+                badge: 'REBEL_DOMINANCE'
+            }
             {
                 level: 5,
                 title: 'PAYOUT RUNWAY ONLINE',
@@ -1506,43 +1629,50 @@ function checkProgressMilestones() {
                 level: 5,
                 title: 'FIRST STRIKE',
                 subtitle: '5% CHECKPOINT CLEARED',
-                voice: 'First strike confirmed. Level one challenge is live.'
+                voice: 'First strike confirmed. Level one challenge is live.',
+                badge: 'FIRST_STRIKE'
             },
             {
                 level: 10,
                 title: 'SPEEDRUN ACTIVATED',
                 subtitle: '10% CHECKPOINT CLEARED',
-                voice: 'Speedrun activated. Ten percent checkpoint cleared.'
+                voice: 'Speedrun activated. Ten percent checkpoint cleared.',
+                badge: 'SPEEDRUN_LIVE'
             },
             {
                 level: 25,
                 title: 'QUARTER CHECKPOINT',
                 subtitle: '25% CHALLENGE PROGRESS',
-                voice: 'Quarter checkpoint cleared. Stay sharp.'
+                voice: 'Quarter checkpoint cleared. Stay sharp.',
+                badge: 'QUARTER_CLEAR'
             },
             {
                 level: 50,
                 title: 'HALFWAY CLEARED',
                 subtitle: '50% CHALLENGE COMPLETE',
-                voice: 'Level one challenge fifty percent complete.'
+                voice: 'Level one challenge fifty percent complete.',
+                badge: 'HALFWAY_HIT'
             },
             {
                 level: 75,
                 title: 'FINAL STRETCH',
                 subtitle: '75% CHALLENGE COMPLETE',
-                voice: 'Final stretch unlocked. Discipline mode engaged.'
+                voice: 'Final stretch unlocked. Discipline mode engaged.',
+                badge: 'BOSS_LEVEL'
             },
             {
                 level: 90,
                 title: 'FINISH LINE ARMED',
                 subtitle: '90% CHALLENGE COMPLETE',
-                voice: 'Finish line armed. Level one challenge is almost complete.'
+                voice: 'Finish line armed. Level one challenge is almost complete.',
+                badge: 'FINAL_GATE'
             },
             {
                 level: 100,
                 title: 'CHALLENGE COMPLETE',
                 subtitle: 'LEVEL ONE TARGET CLEARED',
-                voice: 'Challenge complete. Level one target cleared.'
+                voice: 'Challenge complete. Level one target cleared.',
+                badge: 'LEVEL_CLEARED'
             }
         ];
 
@@ -1551,7 +1681,7 @@ function checkProgressMilestones() {
 
         if (currentPct >= milestone.level && !progressMilestonesTriggered[milestoneKey]) {
             progressMilestonesTriggered[milestoneKey] = true;
-            triggerProgressMilestone(milestone.title, milestone.subtitle, milestone.voice);
+            triggerProgressMilestone(milestone.title, milestone.subtitle, milestone.voice, milestone.badge);
         }
     });
 }
