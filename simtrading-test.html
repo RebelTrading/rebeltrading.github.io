@@ -1462,14 +1462,15 @@ function renderArcadeBadges() {
     if (!container) return;
 
     const unlocked = getUnlockedArcadeBadges();
-    const visibleBadges = unlocked.slice(-4);
+    const badgeId = unlocked[unlocked.length - 1];
+    const badge = arcadeBadgeDefinitions[badgeId];
 
-    container.innerHTML = visibleBadges.map(badgeId => {
-        const badge = arcadeBadgeDefinitions[badgeId];
-        if (!badge) return "";
+    if (!badge) {
+        container.innerHTML = "";
+        return;
+    }
 
-        return `<span class="arcade-earned-badge ${badge.style}">${badge.label}</span>`;
-    }).join("");
+    container.innerHTML = `<span class="arcade-earned-badge ${badge.style}">${badge.label}</span>`;
 }
 
 function unlockArcadeBadge(badgeId) {
