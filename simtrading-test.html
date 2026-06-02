@@ -1545,7 +1545,9 @@ function checkProgressMilestones() {
     const currentPct = getChallengeProgressPct();
     const stage = ACTIVE_CHALLENGE?.stage || "challenge";
 
-                {
+    const milestones = stage === "rebel_stage"
+        ? [
+            {
                 level: 5,
                 title: 'PAYOUT RUNWAY ONLINE',
                 subtitle: 'FUNDED PROFIT BUFFER BUILDING',
