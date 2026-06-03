@@ -494,6 +494,7 @@ function getRedirectTargetFromUrl() {
     const params = new URLSearchParams(window.location.search);
     return params.get("redirect") || "membersarea.html";
 }
+
 function requirePaymentLogin() {
     const token = localStorage.getItem("rebel_auth_token");
 
@@ -504,11 +505,86 @@ function requirePaymentLogin() {
 
     return true;
 }
+
 function setDevPaymentStatus(message) {
     const status = document.getElementById("dev-payment-status");
     if (status) status.innerText = message;
 }
-    async function confirmPaidChallenge(tierOverride) {
+
+function markCheckoutStarted(tier) {
+    const pendingPayment = {
+        tier,
+        redirect: getRedirectTargetFromUrl(),
+        startedAt: Date.now()
+    };
+
+    localStorage.setItem("rebel_pending_payment", JSON.stringify(pendingPayment));
+    setDevPaymentStatus("Payment started. Waiting for confirmation...");
+    startPaymentReturnWatcher();
+}
+
+async function completePaidChallenge(tierOverride) {
+    const tier = tierOverride || getSelectedTierFromUrl();
+
+    setDevPaymentStatus("Payment confirmed. Activating challenge...");
+    await confirmPaidChallenge(tier);
+
+    localStorage.removeItem("rebel_pending_payment");
+    setDevPaymentStatus("Challenge activated. Redirecting...");
+    window.location.href = getRedirectTargetFromUrl();
+}
+
+let paymentWatcherStarted = false;
+
+function startPaymentReturnWatcher() {
+    if (paymentWatcherStarted) return;
+    paymentWatcherStarted = true;
+
+    const token = localStorage.getItem("rebel_auth_token");
+    if (!token) return;
+
+    const watcher = setInterval(async () => {
+        const rawPending = localStorage.getItem("rebel_pending_payment");
+
+        if (!rawPending) {
+            clearInterval(watcher);
+            return;
+        }
+
+        const pending = JSON.parse(rawPending);
+
+        if (Date.now() - pending.startedAt > 15 * 60 * 1000) {
+            localStorage.removeItem("rebel_pending_payment");
+            clearInterval(watcher);
+            setDevPaymentStatus("Payment check timed out. If payment completed, open Members Area.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/api/me`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "ngrok-skip-browser-warning": "true"
+                }
+            });
+
+            if (!response.ok) return;
+
+            const data = await response.json();
+
+            if (data.active_challenge) {
+                localStorage.removeItem("rebel_pending_payment");
+                clearInterval(watcher);
+                setDevPaymentStatus("Challenge detected. Redirecting...");
+                window.location.href = pending.redirect || "membersarea.html";
+            }
+        } catch (err) {
+            console.warn("Payment watcher check failed:", err);
+        }
+    }, 3000);
+}
+
+async function confirmPaidChallenge(tierOverride) {
     const token = localStorage.getItem("rebel_auth_token");
     const tier = tierOverride || getSelectedTierFromUrl();
 
@@ -537,7 +613,7 @@ async function devActivateChallenge() {
     setDevPaymentStatus("Activating test challenge...");
 
     try {
-    const response = await fetch(`${API_URL}/api/challenge/dev-activate`, {
+        const response = await fetch(`${API_URL}/api/challenge/dev-activate`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -560,6 +636,8 @@ async function devActivateChallenge() {
         setDevPaymentStatus("Connection failed. Check API server.");
     }
 }
+
+window.addEventListener("DOMContentLoaded", startPaymentReturnWatcher);
 </script>
 
 <script type="module" crossorigin src="https://embed.hel.io/assets/index-v1.js"></script>
@@ -640,8 +718,8 @@ async function devActivateChallenge() {
                 <div class="product-details">SOLANA • BASE • POLYGON ACCEPTED</div>
             </div>
             
-            <div class="widget-payload-frame">
-                <div id="helioCheckoutContainer1" style="width: 100%;"></div>
+            <div class="widget-payload-frame" onclick="markCheckoutStarted('T1')">
+    <div id="helioCheckoutContainer1" style="width: 100%;"></div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     if (!requirePaymentLogin()) return;
@@ -654,17 +732,13 @@ async function devActivateChallenge() {
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
         onSuccess: async () => {
-          await confirmPaidChallenge("T1");
-
-          setTimeout(() => {
-            window.location.href = getRedirectTargetFromUrl();
-          }, 500);
+          await completePaidChallenge("T1");
         },
       }
     );
   });
 </script>
-            </div>
+</div>
         </div>
 
         <div class="box">
@@ -675,7 +749,7 @@ async function devActivateChallenge() {
                 <div class="product-details">SOLANA • BASE • POLYGON ACCEPTED</div>
             </div>
             
-            <div class="widget-payload-frame">
+           <div class="widget-payload-frame" onclick="markCheckoutStarted('T2')">
                 <div id="helioCheckoutContainer2" style="width: 100%;"></div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -689,11 +763,7 @@ async function devActivateChallenge() {
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
         onSuccess: async () => {
-          await confirmPaidChallenge("T2");
-
-          setTimeout(() => {
-            window.location.href = getRedirectTargetFromUrl();
-          }, 500);
+          await completePaidChallenge("T2");
         },
       }
     );
@@ -710,7 +780,7 @@ async function devActivateChallenge() {
                 <div class="product-details">SOLANA • BASE • POLYGON ACCEPTED</div>
             </div>
             
-            <div class="widget-payload-frame">
+           <div class="widget-payload-frame" onclick="markCheckoutStarted('T3')">
                 <div id="helioCheckoutContainer3" style="width: 100%;"></div>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -724,11 +794,7 @@ async function devActivateChallenge() {
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
         onSuccess: async () => {
-          await confirmPaidChallenge("T3");
-
-          setTimeout(() => {
-            window.location.href = getRedirectTargetFromUrl();
-          }, 500);
+          await completePaidChallenge("T3");
         },
       }
     );
