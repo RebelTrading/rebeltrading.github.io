@@ -65,6 +65,24 @@ header img {
     box-shadow: 0 0 10px rgba(255, 42, 42, 0.4);
 }
 
+.header-signout-btn {
+    background: transparent;
+    border: 1px solid #1f1f23;
+    color: #8a8a93;
+    padding: 7px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.header-signout-btn:hover {
+    color: #fff;
+    border-color: #ff2a2a;
+}
+
 /* PERSISTENT SIDE NAVIGATION BAR */
 .sidebar-nav {
     width: 240px;
@@ -620,11 +638,16 @@ body.signed-out .user-profile-badge {
     }
 
     .user-profile-badge {
-        gap: 8px;
-        font-size: 0.72rem;
-        max-width: 190px;
-        overflow: hidden;
-    }
+    gap: 8px;
+    font-size: 0.72rem;
+    max-width: 245px;
+    overflow: hidden;
+}
+
+.header-signout-btn {
+    padding: 6px 8px;
+    font-size: 0.64rem;
+}
 
     #member-display-name {
         overflow: hidden;
@@ -1420,8 +1443,9 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 
 <header>
     <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo03.png" alt="Rebel Trading Logo">
-    <div class="user-profile-badge">
+   <div class="user-profile-badge">
     <span id="member-display-name">REBEL_TRADER_42</span>
+    <button class="header-signout-btn" onclick="logout()">Sign Out</button>
     <div class="user-avatar" id="member-avatar">RT</div>
 </div>
 </header>
@@ -1466,8 +1490,6 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <a href="#trades" class="nav-item" data-section="trade-history-section" onclick="showDashboardSection('trade-history-section')">Trade History</a>
     <a href="#payouts" class="nav-item" data-section="payouts-section" onclick="showDashboardSection('payouts-section')">Payouts</a>
     <a href="#support" class="nav-item" data-section="support-section" onclick="showDashboardSection('support-section')">Support Desk</a>
-        <div style="flex-grow: 1;"></div>
-        <button class="logout-btn" onclick="logout()">Sign Out</button>
     </nav>
 
     <div class="dashboard-content">
