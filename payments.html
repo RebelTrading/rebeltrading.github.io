@@ -637,7 +637,19 @@ async function devActivateChallenge() {
     }
 }
 
+async function handlePaymentReturn() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("payment_return") !== "1") return;
+
+    const tier = getSelectedTierFromUrl();
+
+    setDevPaymentStatus("Payment returned. Activating challenge...");
+    await completePaidChallenge(tier);
+}
+
 window.addEventListener("DOMContentLoaded", startPaymentReturnWatcher);
+window.addEventListener("DOMContentLoaded", handlePaymentReturn);
 </script>
 
 <script type="module" crossorigin src="https://embed.hel.io/assets/index-v1.js"></script>
@@ -727,7 +739,7 @@ window.addEventListener("DOMContentLoaded", startPaymentReturnWatcher);
     window.helioCheckout(
       document.getElementById("helioCheckoutContainer1"),
       {
-        paylinkId: "6a0a56cfea3219151cf81975",
+        paylinkId: "6a20cfc8456b79358753ceca",
         theme: {"themeMode":"dark"},
         primaryColor: "#6400CC",
         neutralColor: "#5A6578",
