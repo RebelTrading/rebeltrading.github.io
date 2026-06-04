@@ -47,10 +47,6 @@ body {
     object-fit: contain;
 }
 
-.brand-copy {
-    min-width: 0;
-}
-
 .brand-name {
     color: #fff;
     font-size: 1.05rem;
@@ -131,21 +127,6 @@ p {
     color: #00ff66;
 }
 
-.fallback-link {
-    display: inline-block;
-    margin-top: 20px;
-    color: #ffb703;
-    font-family: monospace;
-    font-size: 0.78rem;
-    font-weight: bold;
-    text-decoration: none;
-    text-transform: uppercase;
-}
-
-.fallback-link:hover {
-    color: #fff;
-}
-
 .footer-note {
     padding: 16px 22px 20px;
     border-top: 1px solid #171717;
@@ -194,7 +175,7 @@ p {
 <main class="return-shell">
     <div class="brand-row">
         <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
-        <div class="brand-copy">
+        <div>
             <div class="brand-name">Rebel Trading Group</div>
             <div class="brand-status">Payment Approved</div>
         </div>
@@ -202,27 +183,25 @@ p {
 
     <section class="content">
         <div class="success-mark">✓</div>
-        <h1>Challenge Access Confirmed</h1>
+        <h1>Payment Approved</h1>
         <div class="tier-line" id="tier-line">Level 1 Challenge</div>
 
         <p class="primary-instruction">
-            Your payment was approved and your Rebel challenge is ready to activate.
+            Your payment was approved.
         </p>
 
         <div class="instruction-panel">
             <p>
-                Please <strong>close this MoonPay window</strong> and return to your original Rebel Trading browser tab.
+                Please <strong>close this MoonPay window</strong> and return to the original Rebel Trading browser tab where you started checkout.
             </p>
             <p>
-                Once you return, you will be redirected to your dashboard to start trading.
+                Your challenge will finish activating there and you will be sent to your dashboard.
             </p>
         </div>
-
-        <a class="fallback-link" href="membersarea.html">Open Dashboard</a>
     </section>
 
     <div class="footer-note">
-        If your dashboard does not update immediately, return to the browser tab where you started checkout.
+        Do not open the dashboard from this MoonPay window. Return to your original browser tab.
     </div>
 </main>
 
