@@ -347,7 +347,131 @@ footer {
     color: #555;
     letter-spacing: 0.5px;
 }
+.payment-return-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background:
+        radial-gradient(circle at 50% 18%, rgba(100, 0, 204, 0.22), transparent 34%),
+        radial-gradient(circle at 80% 82%, rgba(0, 255, 102, 0.08), transparent 28%),
+        #000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+}
 
+.payment-return-card {
+    width: 100%;
+    max-width: 560px;
+    background: rgba(6, 6, 8, 0.94);
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    box-shadow: 0 0 34px rgba(100, 0, 204, 0.22);
+    overflow: hidden;
+}
+
+.payment-return-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #171717;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.payment-return-brand img {
+    width: 76px;
+    height: auto;
+    object-fit: contain;
+}
+
+.payment-return-brand-name {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.payment-return-brand-status {
+    color: #00ff66;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+.payment-return-content {
+    padding: 34px 28px 30px;
+    text-align: center;
+}
+
+.payment-return-check {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 22px;
+    border: 3px solid #00ff66;
+    border-radius: 50%;
+    color: #00ff66;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.7rem;
+    line-height: 1;
+    box-shadow: 0 0 22px rgba(0, 255, 102, 0.28);
+}
+
+.payment-return-content h2 {
+    color: #fff;
+    font-size: 1.55rem;
+    line-height: 1.15;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
+
+.payment-return-tier {
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+}
+
+.payment-return-content p {
+    color: #bdbdbd;
+    font-size: 0.96rem;
+    line-height: 1.58;
+    margin: 0 auto 16px;
+    max-width: 450px;
+}
+
+.payment-return-instruction {
+    margin-top: 24px;
+    padding: 18px;
+    background: #090909;
+    border: 1px dashed #2a2a2a;
+    border-radius: 6px;
+}
+
+.payment-return-instruction strong {
+    color: #00ff66;
+}
+
+.payment-return-footer {
+    padding: 16px 22px 20px;
+    border-top: 1px solid #171717;
+    color: #666;
+    font-family: monospace;
+    font-size: 0.68rem;
+    line-height: 1.45;
+    text-align: center;
+    text-transform: uppercase;
+}
 /* MOBILE RESPONSIVE REPAIR */
 @media (max-width: 700px) {
     header {
@@ -637,10 +761,37 @@ async function devActivateChallenge() {
     }
 }
 
+function showPaymentReturnOverlay() {
+    const tier = getSelectedTierFromUrl();
+    const overlay = document.getElementById("payment-return-overlay");
+    const tierLine = document.getElementById("payment-return-tier");
+
+    const tierLabels = {
+        T1: "Level 1 Challenge - $1,000 Sim Box",
+        T2: "Level 1 Challenge - $2,000 Sim Box",
+        T3: "Level 1 Challenge - $3,000 Sim Box"
+    };
+
+    if (tierLine) {
+        tierLine.innerText = tierLabels[tier] || tierLabels.T1;
+    }
+
+    if (overlay) {
+        overlay.style.display = "flex";
+    }
+}
+
 async function handlePaymentReturn() {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get("payment_return") !== "1") return;
+
+    const token = localStorage.getItem("rebel_auth_token");
+
+    if (!token) {
+        showPaymentReturnOverlay();
+        return;
+    }
 
     const tier = getSelectedTierFromUrl();
 
@@ -657,6 +808,41 @@ window.addEventListener("DOMContentLoaded", handlePaymentReturn);
 </head>
 
 <body>
+
+<div class="payment-return-overlay" id="payment-return-overlay">
+    <div class="payment-return-card">
+        <div class="payment-return-brand">
+            <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
+            <div>
+                <div class="payment-return-brand-name">Rebel Trading Group</div>
+                <div class="payment-return-brand-status">Payment Approved</div>
+            </div>
+        </div>
+
+        <div class="payment-return-content">
+            <div class="payment-return-check">✓</div>
+            <h2>Payment Approved</h2>
+            <div class="payment-return-tier" id="payment-return-tier">Level 1 Challenge</div>
+
+            <p>
+                Your payment was approved.
+            </p>
+
+            <div class="payment-return-instruction">
+                <p>
+                    Please <strong>close this MoonPay window</strong> and return to the original Rebel Trading browser tab where you started checkout.
+                </p>
+                <p>
+                    Your challenge will finish activating there and you will be sent to your dashboard.
+                </p>
+            </div>
+        </div>
+
+        <div class="payment-return-footer">
+            Do not open the dashboard from this MoonPay window. Return to your original browser tab.
+        </div>
+    </div>
+</div>
 
 <header>
     <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
