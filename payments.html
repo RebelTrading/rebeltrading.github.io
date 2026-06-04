@@ -625,12 +625,17 @@ function requirePaymentLogin() {
     const token = localStorage.getItem("rebel_auth_token");
 
     if (isPaymentReturn) {
-        if (!token) {
-            showPaymentReturnOverlay();
-        }
-
+        showPaymentReturnOverlay();
         return false;
     }
+
+    if (!token) {
+        window.location.href = "membership.html?redirect=payments.html%3Ftier%3DT1%26redirect%3Dmembersarea.html";
+        return false;
+    }
+
+    return true;
+}
 
     if (!token) {
         window.location.href = "membership.html?redirect=payments.html%3Ftier%3DT1%26redirect%3Dmembersarea.html";
@@ -791,22 +796,12 @@ function showPaymentReturnOverlay() {
     }
 }
 
-async function handlePaymentReturn() {
+function handlePaymentReturn() {
     const params = new URLSearchParams(window.location.search);
 
     if (params.get("payment_return") !== "1") return;
 
-    const token = localStorage.getItem("rebel_auth_token");
-
-    if (!token) {
-        showPaymentReturnOverlay();
-        return;
-    }
-
-    const tier = getSelectedTierFromUrl();
-
-    setDevPaymentStatus("Payment returned. Activating challenge...");
-    await completePaidChallenge(tier);
+    showPaymentReturnOverlay();
 }
 
 window.addEventListener("DOMContentLoaded", startPaymentReturnWatcher);
