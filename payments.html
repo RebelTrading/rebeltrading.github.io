@@ -620,7 +620,17 @@ function getRedirectTargetFromUrl() {
 }
 
 function requirePaymentLogin() {
+    const params = new URLSearchParams(window.location.search);
+    const isPaymentReturn = params.get("payment_return") === "1";
     const token = localStorage.getItem("rebel_auth_token");
+
+    if (isPaymentReturn) {
+        if (!token) {
+            showPaymentReturnOverlay();
+        }
+
+        return false;
+    }
 
     if (!token) {
         window.location.href = "membership.html?redirect=payments.html%3Ftier%3DT1%26redirect%3Dmembersarea.html";
