@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Approved | Rebel Trading Group</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 50% 18%, rgba(100, 0, 204, 0.22), transparent 34%),
+        radial-gradient(circle at 80% 82%, rgba(0, 255, 102, 0.08), transparent 28%),
+        #000;
+    color: #bdbdbd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.return-shell {
+    width: 100%;
+    max-width: 560px;
+    background: rgba(6, 6, 8, 0.92);
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    box-shadow: 0 0 34px rgba(100, 0, 204, 0.22);
+    overflow: hidden;
+}
+
+.brand-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 24px;
+    border-bottom: 1px solid #171717;
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.brand-row img {
+    width: 76px;
+    height: auto;
+    object-fit: contain;
+}
+
+.brand-copy {
+    min-width: 0;
+}
+
+.brand-name {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.brand-status {
+    color: #00ff66;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    margin-top: 4px;
+    text-transform: uppercase;
+}
+
+.content {
+    padding: 34px 28px 30px;
+    text-align: center;
+}
+
+.success-mark {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 22px;
+    border: 3px solid #00ff66;
+    border-radius: 50%;
+    color: #00ff66;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.7rem;
+    line-height: 1;
+    box-shadow: 0 0 22px rgba(0, 255, 102, 0.28);
+}
+
+h1 {
+    color: #fff;
+    font-size: 1.75rem;
+    line-height: 1.15;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
+
+.tier-line {
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.82rem;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+}
+
+p {
+    color: #bdbdbd;
+    font-size: 0.98rem;
+    line-height: 1.58;
+    margin: 0 auto 16px;
+    max-width: 450px;
+}
+
+.primary-instruction {
+    color: #fff;
+    font-weight: bold;
+}
+
+.instruction-panel {
+    margin-top: 24px;
+    padding: 18px;
+    background: #090909;
+    border: 1px dashed #2a2a2a;
+    border-radius: 6px;
+}
+
+.instruction-panel strong {
+    color: #00ff66;
+}
+
+.fallback-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.78rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.fallback-link:hover {
+    color: #fff;
+}
+
+.footer-note {
+    padding: 16px 22px 20px;
+    border-top: 1px solid #171717;
+    color: #666;
+    font-family: monospace;
+    font-size: 0.68rem;
+    line-height: 1.45;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+@media (max-width: 560px) {
+    body {
+        align-items: flex-start;
+        padding: 18px;
+    }
+
+    .brand-row {
+        padding: 18px;
+    }
+
+    .brand-row img {
+        width: 64px;
+    }
+
+    .brand-name {
+        font-size: 0.9rem;
+    }
+
+    .content {
+        padding: 28px 18px 26px;
+    }
+
+    h1 {
+        font-size: 1.42rem;
+    }
+
+    p {
+        font-size: 0.92rem;
+    }
+}
+</style>
+</head>
+
+<body>
+<main class="return-shell">
+    <div class="brand-row">
+        <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
+        <div class="brand-copy">
+            <div class="brand-name">Rebel Trading Group</div>
+            <div class="brand-status">Payment Approved</div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="success-mark">✓</div>
+        <h1>Challenge Access Confirmed</h1>
+        <div class="tier-line" id="tier-line">Level 1 Challenge</div>
+
+        <p class="primary-instruction">
+            Your payment was approved and your Rebel challenge is ready to activate.
+        </p>
+
+        <div class="instruction-panel">
+            <p>
+                Please <strong>close this MoonPay window</strong> and return to your original Rebel Trading browser tab.
+            </p>
+            <p>
+                Once you return, you will be redirected to your dashboard to start trading.
+            </p>
+        </div>
+
+        <a class="fallback-link" href="membersarea.html">Open Dashboard</a>
+    </section>
+
+    <div class="footer-note">
+        If your dashboard does not update immediately, return to the browser tab where you started checkout.
+    </div>
+</main>
+
+<script>
+const tierLabels = {
+    T1: "Level 1 Challenge - $1,000 Sim Box",
+    T2: "Level 1 Challenge - $2,000 Sim Box",
+    T3: "Level 1 Challenge - $3,000 Sim Box"
+};
+
+const params = new URLSearchParams(window.location.search);
+const tier = (params.get("tier") || "T1").toUpperCase();
+const tierLine = document.getElementById("tier-line");
+
+if (tierLine) {
+    tierLine.innerText = tierLabels[tier] || tierLabels.T1;
+}
+</script>
+</body>
+</html>
