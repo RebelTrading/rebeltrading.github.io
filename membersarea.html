@@ -518,6 +518,86 @@ header img {
     justify-content: center;
     flex-wrap: wrap;
 }
+    .member-auth-panel {
+    min-height: 100vh;
+    padding: 130px 20px 60px;
+    box-sizing: border-box;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 80% 20%, #160707 0%, #030305 40%, #000000 100%);
+}
+
+.member-auth-card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(8, 8, 12, 0.82);
+    border: 1px solid #141416;
+    border-radius: 8px;
+    padding: 28px;
+    box-sizing: border-box;
+}
+
+.member-auth-card h1 {
+    color: #fff;
+    margin: 0 0 10px;
+    font-size: 1.55rem;
+    text-transform: uppercase;
+}
+
+.member-auth-card p {
+    color: #8a8a93;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0 0 22px;
+}
+
+.member-auth-card label {
+    display: block;
+    color: #777;
+    font-size: 0.68rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.member-auth-card input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #09090b;
+    border: 1px solid #1f1f23;
+    color: #fff;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    outline: none;
+    margin-bottom: 14px;
+}
+
+.member-auth-card input:focus {
+    border-color: #ff2a2a;
+}
+
+.member-auth-status {
+    min-height: 18px;
+    margin-top: 12px;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+body:not(.signed-in) .dashboard-wrapper {
+    display: none;
+}
+
+body.signed-out .member-auth-panel {
+    display: flex;
+}
+
+body.signed-out .user-profile-badge {
+    display: none;
+}
 /* DEPRECATED PLACEHOLDER CONTROL FIELDS FROM SCRIPT SELECTION BLOCK */
 #login { display: none; }
 #dashboard { display: block; }
@@ -754,26 +834,33 @@ function dismissFundedUnlockOverlay() {
 async function loadMemberDashboard() {
     const token = localStorage.getItem("rebel_auth_token");
 
-        if (!token) {
-        setText("dashboard-status", "NO LOGIN TOKEN FOUND");
-        console.warn("No rebel_auth_token found in localStorage.");
+    if (!token) {
+        showSignedOut("Sign in to load your member dashboard.");
         return;
     }
 
-        const response = await fetch(`${API_URL}/api/me`, {
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "ngrok-skip-browser-warning": "true"
-        }
-    });
+    let response;
 
-        if (!response.ok) {
-        setText("dashboard-status", "BACKEND AUTH CHECK FAILED");
-        console.warn("Members API auth failed:", response.status);
+    try {
+        response = await fetch(`${API_URL}/api/me`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
+            }
+        });
+    } catch (err) {
+        showSignedOut("Connection failed. Please try again.");
         return;
     }
 
-        const data = await response.json();
+    if (!response.ok) {
+        localStorage.removeItem("rebel_auth_token");
+        showSignedOut("Session expired. Please sign in again.");
+        return;
+    }
+
+    const data = await response.json();
+    showSignedIn();
 
     if (!data.user) {
         console.warn("Backend response did not include user:", data);
@@ -1268,11 +1355,63 @@ async function savePayoutWallet() {
     }
 }
 
-function logout() {
-    localStorage.removeItem("rebel_auth_token");
-    window.location.href = "simtrading-test.html";
+function setMemberAuthStatus(message) {
+    const status = document.getElementById("member-auth-status");
+    if (status) status.innerText = message;
 }
 
+function showSignedOut(message) {
+    document.body.classList.remove("signed-in");
+    document.body.classList.add("signed-out");
+    setMemberAuthStatus(message || "");
+}
+
+function showSignedIn() {
+    document.body.classList.remove("signed-out");
+    document.body.classList.add("signed-in");
+    setMemberAuthStatus("");
+}
+
+async function loginMember(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("member-login-email")?.value || "";
+    const password = document.getElementById("member-login-password")?.value || "";
+
+    setMemberAuthStatus("Signing in...");
+
+    try {
+        const response = await fetch(`${API_URL}/api/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true"
+            },
+            body: JSON.stringify({
+                email: email.trim().toLowerCase(),
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setMemberAuthStatus(data.detail || "Sign in failed.");
+            return;
+        }
+
+        localStorage.setItem("rebel_auth_token", data.token);
+        setMemberAuthStatus("Signed in. Loading dashboard...");
+        await loadMemberDashboard();
+    } catch (err) {
+        setMemberAuthStatus("Connection failed. Please try again.");
+    }
+}
+
+function logout() {
+    localStorage.removeItem("rebel_auth_token");
+    showSignedOut("Signed out.");
+}
 window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </script>
 </head>
@@ -1300,6 +1439,26 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
         </div>
     </div>
 </div>
+
+<section class="member-auth-panel" id="member-auth-panel">
+    <form class="member-auth-card" onsubmit="loginMember(event)">
+        <h1>Member Sign In</h1>
+        <p>Sign in to load your Rebel dashboard, active challenge, trade history, and payout profile from the server.</p>
+
+        <label>Email</label>
+        <input type="email" id="member-login-email" placeholder="you@example.com" required>
+
+        <label>Password</label>
+        <input type="password" id="member-login-password" placeholder="Password" required>
+
+        <button class="action-btn" type="submit" style="width:100%;">
+            Sign In
+        </button>
+
+        <div class="member-auth-status" id="member-auth-status"></div>
+    </form>
+</section>
+
 <div class="dashboard-wrapper">
 
     <nav class="sidebar-nav">
@@ -1308,7 +1467,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <a href="#payouts" class="nav-item" data-section="payouts-section" onclick="showDashboardSection('payouts-section')">Payouts</a>
     <a href="#support" class="nav-item" data-section="support-section" onclick="showDashboardSection('support-section')">Support Desk</a>
         <div style="flex-grow: 1;"></div>
-        <button class="logout-btn" onclick="logout()">Reset View</button>
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
     </nav>
 
     <div class="dashboard-content">
@@ -1609,11 +1768,6 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
         </section>
 
     </div>
-</div>
-
-<div id="login">v id="login">
-    <input type="text" id="user"><input type="password" id="pass">
-    <button onclick="login()"></button>
 </div>
 
 </body>
