@@ -749,6 +749,30 @@ header img {
     border-color: #00ff66;
 }
 
+#add-horizontal-line-btn {
+    background: #001a0e !important;
+    color: #00ff66 !important;
+    border-color: #00ff66 !important;
+}
+
+#add-horizontal-line-btn.armed {
+    background: #00ff66 !important;
+    color: #000 !important;
+    border-color: #00ff66 !important;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.65);
+}
+
+#clear-horizontal-lines-btn {
+    background: #141414 !important;
+    color: #aaa !important;
+    border-color: #2a2a2a !important;
+}
+
+#clear-horizontal-lines-btn:hover {
+    color: #fff !important;
+    border-color: #ff2a2a !important;
+}
+
 #chart-toolbar label {
     margin-left: 4px;
     display: inline-flex;
@@ -2420,9 +2444,15 @@ window.addEventListener('DOMContentLoaded', async function() {
 </div>
 
 <div id="chart-toolbar">
+    <div id="chart-toolbar">
     <button class="tf-btn active" data-tf="1m">1M</button>
     <button class="tf-btn" data-tf="5m">5M</button>
     <button class="tf-btn" data-tf="1h">1H</button>
+
+    <span class="chart-toolbar-divider">|</span>
+
+    <button id="add-horizontal-line-btn" type="button">+ H LINE</button>
+    <button id="clear-horizontal-lines-btn" type="button">CLEAR LINES</button>
 
     <span class="chart-toolbar-divider">|</span>
 
