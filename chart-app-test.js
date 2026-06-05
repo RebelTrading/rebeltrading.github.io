@@ -1,4 +1,4 @@
-import { createChart } from 'https://esm.sh/lightweight-charts@4.2.1';
+import { createChart, CrosshairMode } from 'https://esm.sh/lightweight-charts@4.2.1';
 import { RSI, MACD } from 'https://esm.sh/technicalindicators@3.1.0';
 
 let currentTimeframe = '1m';
@@ -33,6 +33,9 @@ const commonOptions = {
     grid: { 
         vertLines: { color: '#141414' }, 
         horzLines: { color: '#141414' } 
+    },
+    crosshair: {
+        mode: CrosshairMode.Normal
     },
     rightPriceScale: { 
         autoScale: true, 
