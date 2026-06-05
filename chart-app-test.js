@@ -20,6 +20,9 @@ let entryPriceLine = null;
 let takeProfitPriceLine = null;
 let stopLossPriceLine = null;
 
+let horizontalLineMode = false;
+let manualHorizontalLines = [];
+
 // Shared configuration rules
 // Shared configuration rules
 const commonOptions = {
@@ -66,6 +69,45 @@ function makePriceLine(price, color, title, lineStyle = 2) {
         axisLabelVisible: true,
         title
     });
+}
+function setHorizontalLineMode(isActive) {
+    horizontalLineMode = Boolean(isActive);
+
+    const button = document.getElementById('add-horizontal-line-btn');
+    if (button) {
+        button.classList.toggle('armed', horizontalLineMode);
+        button.innerText = horizontalLineMode ? 'CLICK CHART' : '+ H LINE';
+    }
+}
+
+function addManualHorizontalLine(price) {
+    if (!candlestickSeries || !price || isNaN(price)) return;
+
+    const precision = currentAsset === 'XRP' ? 4 : 2;
+    const line = candlestickSeries.createPriceLine({
+        price,
+        color: '#00ff66',
+        lineWidth: 2,
+        lineStyle: 0,
+        axisLabelVisible: true,
+        title: `LEVEL $${Number(price).toFixed(precision)}`
+    });
+
+    manualHorizontalLines.push(line);
+}
+
+function clearManualHorizontalLines() {
+    if (!candlestickSeries) {
+        manualHorizontalLines = [];
+        return;
+    }
+
+    manualHorizontalLines.forEach(line => {
+        candlestickSeries.removePriceLine(line);
+    });
+
+    manualHorizontalLines = [];
+    setHorizontalLineMode(false);
 }
 function calculateEMA(data, period) {
     let emaData = [];
@@ -117,13 +159,20 @@ function initChartInstances() {
     candlestickSeries.applyOptions({
         priceFormat: { type: 'price', precision: currentAsset === 'XRP' ? 4 : 2, minMove: currentAsset === 'XRP' ? 0.0001 : 0.01 }
     });
-        mainChart.subscribeClick(param => {
+     mainChart.subscribeClick(param => {
         if (!param || param.point === undefined || !candlestickSeries) return;
-        if (window.ORDER_TYPE !== 'LIMIT') return;
-        if (typeof window.setExecutionPrice !== 'function') return;
 
         const price = candlestickSeries.coordinateToPrice(param.point.y);
         if (!price || isNaN(price)) return;
+
+        if (horizontalLineMode) {
+            addManualHorizontalLine(price);
+            setHorizontalLineMode(false);
+            return;
+        }
+
+        if (window.ORDER_TYPE !== 'LIMIT') return;
+        if (typeof window.setExecutionPrice !== 'function') return;
 
         window.setExecutionPrice(price);
     });
@@ -666,6 +715,13 @@ document.querySelectorAll('.tf-btn').forEach(button => {
         refreshChartOverlays();
         forceResyncAndFit();     // ← This is the important new line
     });
+});
+document.getElementById('add-horizontal-line-btn')?.addEventListener('click', () => {
+    setHorizontalLineMode(!horizontalLineMode);
+});
+
+document.getElementById('clear-horizontal-lines-btn')?.addEventListener('click', () => {
+    clearManualHorizontalLines();
 });
 
 
