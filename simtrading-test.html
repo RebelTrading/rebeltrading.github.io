@@ -772,6 +772,59 @@ header img {
     color: #fff !important;
     border-color: #ff2a2a !important;
 }
+    .indicator-menu {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+}
+
+.indicator-menu summary {
+    list-style: none;
+    background: #222;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+.indicator-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.indicator-menu[open] summary {
+    background: #00ff66;
+    color: #000;
+    border-color: #00ff66;
+}
+
+.indicator-dropdown {
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 0;
+    z-index: 250;
+    min-width: 165px;
+    background: #0b0b0b;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.75);
+    display: grid;
+    gap: 8px;
+}
+
+.indicator-dropdown label {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.72rem;
+    color: #bdbdbd;
+    white-space: nowrap;
+}
 
 #chart-toolbar label {
     margin-left: 4px;
@@ -2455,16 +2508,18 @@ window.addEventListener('DOMContentLoaded', async function() {
 
     <span class="chart-toolbar-divider">|</span>
 
-    <label><input type="checkbox" id="toggle-ema9"> 9 EMA</label>
-    <label><input type="checkbox" id="toggle-ema21"> 21 EMA</label>
-    <label><input type="checkbox" id="toggle-ema100"> 100 EMA</label>
-    <label><input type="checkbox" id="toggle-vwap"> VWAP</label>
-
-    <span class="chart-toolbar-divider">|</span>
-
-    <label><input type="checkbox" id="toggle-volume" checked> Volume</label>
-    <label><input type="checkbox" id="toggle-rsi" checked> RSI</label>
-    <label><input type="checkbox" id="toggle-macd" checked> MACD</label>
+    <details class="indicator-menu">
+        <summary>INDICATORS</summary>
+        <div class="indicator-dropdown">
+            <label><input type="checkbox" id="toggle-ema9"> 9 EMA</label>
+            <label><input type="checkbox" id="toggle-ema21"> 21 EMA</label>
+            <label><input type="checkbox" id="toggle-ema100"> 100 EMA</label>
+            <label><input type="checkbox" id="toggle-vwap"> VWAP</label>
+            <label><input type="checkbox" id="toggle-volume" checked> Volume</label>
+            <label><input type="checkbox" id="toggle-rsi" checked> RSI</label>
+            <label><input type="checkbox" id="toggle-macd" checked> MACD</label>
+        </div>
+    </details>
 </div>
 
 <div id="tv_chart_container">
