@@ -1083,30 +1083,38 @@ function setSupportStatus(message) {
 async function submitSupportRequest(event) {
     event.preventDefault();
 
+    const token = localStorage.getItem("rebel_auth_token");
     const form = document.getElementById("support-form");
     const name = document.getElementById("support-name")?.value || "";
     const email = document.getElementById("support-email")?.value || "";
     const message = document.getElementById("support-message")?.value || "";
 
+    if (!token) {
+        setSupportStatus("Session expired. Please sign in again.");
+        return;
+    }
+
     setSupportStatus("Sending support request...");
 
     try {
-        const response = await fetch("https://formspree.io/f/mbdwdwqd", {
+        const response = await fetch(`${API_URL}/api/support/request`, {
             method: "POST",
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "ngrok-skip-browser-warning": "true"
             },
             body: JSON.stringify({
                 name,
                 email,
-                message,
-                source: "membersarea.html support desk"
+                message
             })
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-            setSupportStatus("Support request failed. Please try again.");
+            setSupportStatus(data.detail || "Support request failed. Please try again.");
             return;
         }
 
@@ -1116,7 +1124,6 @@ async function submitSupportRequest(event) {
         setSupportStatus("Connection failed. Please try again.");
     }
 }
-
 async function loadTradeStats(token) {
     try {
                 const summaryResponse = await fetch(`${API_URL}/api/trades/summary`, {
