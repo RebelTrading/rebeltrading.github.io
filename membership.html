@@ -664,10 +664,19 @@ window.addEventListener("load", initializeGoogleSignIn);
                     </label>
                 </div>
 
-                <button class="action-btn" id="signup-submit-btn" type="submit">CREATE TEST CHALLENGE</button>
-                <div class="secondary-note">
-                    Test mode creates an active challenge immediately. Payment checkout will be inserted here later.
-                </div>
+                <button class="action-btn" id="signup-submit-btn" type="submit">CREATE ACCOUNT</button>
+
+<div style="display:flex; align-items:center; gap:10px; margin:18px 0; color:#555; font-size:0.72rem; font-weight:bold; text-transform:uppercase;">
+    <span style="height:1px; background:#222; flex:1;"></span>
+    OR
+    <span style="height:1px; background:#222; flex:1;"></span>
+</div>
+
+<div id="google-signup-button" style="display:flex; justify-content:center;"></div>
+
+<div class="secondary-note">
+    Create an account, then choose your challenge and checkout from the Rebel billing page.
+</div>
             </form>
 
             <form class="form-block" id="login-form" onsubmit="loginAccount(event)">
@@ -678,9 +687,18 @@ window.addEventListener("load", initializeGoogleSignIn);
                 <input type="password" id="login-password" placeholder="Your password" required>
 
                 <button class="action-btn" id="login-submit-btn" type="submit">LOGIN TO DASHBOARD</button>
-                <div class="secondary-note">
-                    Existing users can sign in and continue to their members dashboard.
-                </div>
+
+<div style="display:flex; align-items:center; gap:10px; margin:18px 0; color:#555; font-size:0.72rem; font-weight:bold; text-transform:uppercase;">
+    <span style="height:1px; background:#222; flex:1;"></span>
+    OR
+    <span style="height:1px; background:#222; flex:1;"></span>
+</div>
+
+<div id="google-login-button" style="display:flex; justify-content:center;"></div>
+
+<div class="secondary-note">
+    Existing users can sign in and continue to their members dashboard.
+</div>
             </form>
 
             <div class="status-message" id="status-message"></div>
