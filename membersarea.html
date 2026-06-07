@@ -858,9 +858,9 @@ async function loadMemberDashboard() {
     const token = localStorage.getItem("rebel_auth_token");
 
     if (!token) {
-        showSignedOut("Sign in to load your member dashboard.");
-        return;
-    }
+    window.location.href = "membership.html?redirect=membersarea.html";
+    return;
+}
 
     let response;
 
