@@ -525,18 +525,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
         <section class="login-panel" id="login-panel">
             <h1>Admin Login</h1>
-            <div class="subtext">Restricted payout operations console. Development access only.</div>
+            <div class="subtext">Restricted payout operations console. Authorized admin access only.</div>
 
             <form onsubmit="loginAdmin(event)">
                 <div class="input-block">
-                    <label>Username</label>
-                    <input type="text" id="admin-username" autocomplete="username" placeholder="admin">
-                </div>
-
-                <div class="input-block">
-                    <label>Password</label>
-                    <input type="password" id="admin-password" autocomplete="current-password" placeholder="Password">
-                </div>
+    <label>Admin API Key</label>
+    <input type="password" id="admin-api-key" autocomplete="off" placeholder="Paste admin API key">
+</div>
 
                 <div class="login-actions">
                     <button class="action-btn" type="submit">Enter Console</button>
