@@ -477,6 +477,136 @@ header img {
         font-size: 0.68rem;
     }
 }
+    /* REBEL COMPARISON BLOCK */
+.rebel-compare-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 30px 70px 30px;
+}
+
+.rebel-compare-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.rebel-compare-header h2 {
+    color: #fff;
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.rebel-compare-header p {
+    color: #888;
+    font-size: 0.94rem;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 760px;
+}
+
+.rebel-compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.rebel-compare-card {
+    background: rgba(7, 7, 10, 0.82);
+    border: 1px solid #171717;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.rebel-compare-card.traditional {
+    border-color: rgba(130, 130, 130, 0.22);
+}
+
+.rebel-compare-card.rebel {
+    border-color: rgba(255, 42, 42, 0.42);
+    box-shadow: 0 0 22px rgba(255, 42, 42, 0.08);
+}
+
+.rebel-compare-kicker {
+    font-family: monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.rebel-compare-card.rebel .rebel-compare-kicker {
+    color: #ff2a2a;
+}
+
+.rebel-compare-card h3 {
+    color: #fff;
+    font-size: 1.35rem;
+    margin: 0 0 18px 0;
+    text-transform: uppercase;
+}
+
+.rebel-compare-list {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rebel-compare-list li {
+    color: #9a9a9a;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border-bottom: 1px solid #141414;
+    padding-bottom: 12px;
+}
+
+.rebel-compare-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.rebel-compare-list strong {
+    color: #fff;
+}
+
+.rebel-compare-card.rebel .rebel-compare-list strong {
+    color: #00ff66;
+}
+
+@media (max-width: 700px) {
+    .rebel-compare-section {
+        padding: 0 18px 58px 18px;
+    }
+
+    .rebel-compare-header h2 {
+        font-size: 1.55rem;
+        line-height: 1.15;
+    }
+
+    .rebel-compare-header p {
+        font-size: 0.86rem;
+    }
+
+    .rebel-compare-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rebel-compare-card {
+        padding: 20px 16px;
+    }
+
+    .rebel-compare-card h3 {
+        font-size: 1.12rem;
+    }
+
+    .rebel-compare-list li {
+        font-size: 0.84rem;
+    }
+}
 /* SECTIONS */
 .section {
     padding: 120px 30px;
@@ -1673,6 +1803,38 @@ function buyChallenge(tier) {
                 <span class="rebel-edge-label">Cleaner Practice</span>
                 <div class="rebel-edge-copy">Clear rules, fast feedback, and a direct path into Sim Funded.</div>
             </div>
+        </div>
+    </div>
+</section>
+    <section class="rebel-compare-section">
+    <div class="rebel-compare-header">
+        <h2>Not Another Overpriced Eval</h2>
+        <p>
+            Rebel is built for traders who want a lower-cost, faster-moving crypto prop challenge without the bloated path.
+        </p>
+    </div>
+
+    <div class="rebel-compare-grid">
+        <div class="rebel-compare-card traditional">
+            <div class="rebel-compare-kicker">Traditional Crypto Evals</div>
+            <h3>The Old Grind</h3>
+
+            <ul class="rebel-compare-list">
+                <li><strong>Higher entry fees</strong> before you even start proving your edge.</li>
+                <li><strong>Longer paths</strong> with extra stages, extra waiting, and more friction.</li>
+                <li><strong>More pressure</strong> from oversized account sizes and expensive retries.</li>
+            </ul>
+        </div>
+
+        <div class="rebel-compare-card rebel">
+            <div class="rebel-compare-kicker">Rebel Trading Group</div>
+            <h3>The Micro Arena</h3>
+
+            <ul class="rebel-compare-list">
+                <li><strong>Micro entry</strong> with challenge tickets starting at $10.</li>
+                <li><strong>One-step pass</strong> with no Phase 2 evaluation delay.</li>
+                <li><strong>Instant Sim Funded unlock</strong> after you clear Level 1.</li>
+            </ul>
         </div>
     </div>
 </section>
