@@ -381,7 +381,102 @@ header img {
     0% { box-shadow: 0 0 5px rgba(255, 42, 42, 0.5); }
     100% { box-shadow: 0 0 15px rgba(255, 42, 42, 0.9); }
 }
+/* REBEL EDGE STRIP */
+.rebel-edge-section {
+    max-width: 1100px;
+    margin: -42px auto 0 auto;
+    padding: 0 30px 55px 30px;
+    position: relative;
+    z-index: 5;
+}
 
+.rebel-edge-panel {
+    background: rgba(7, 7, 10, 0.88);
+    border: 1px solid rgba(255, 42, 42, 0.28);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 0 24px rgba(255, 42, 42, 0.08);
+}
+
+.rebel-edge-headline {
+    color: #fff;
+    font-size: 1.08rem;
+    line-height: 1.45;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 22px;
+}
+
+.rebel-edge-headline span {
+    color: #ff2a2a;
+}
+
+.rebel-edge-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.rebel-edge-item {
+    background: #060606;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    padding: 16px 12px;
+    text-align: center;
+    font-family: monospace;
+}
+
+.rebel-edge-label {
+    color: #ffb703;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    display: block;
+    margin-bottom: 7px;
+}
+
+.rebel-edge-copy {
+    color: #8a8a8a;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 700px) {
+    .rebel-edge-section {
+        margin: -26px auto 0 auto;
+        padding: 0 18px 46px 18px;
+    }
+
+    .rebel-edge-panel {
+        padding: 20px 16px;
+    }
+
+    .rebel-edge-headline {
+        font-size: 0.9rem;
+        line-height: 1.55;
+        margin-bottom: 16px;
+    }
+
+    .rebel-edge-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .rebel-edge-item {
+        padding: 13px 8px;
+    }
+
+    .rebel-edge-label {
+        font-size: 0.64rem;
+    }
+
+    .rebel-edge-copy {
+        font-size: 0.68rem;
+    }
+}
 /* SECTIONS */
 .section {
     padding: 120px 30px;
@@ -1552,7 +1647,35 @@ function buyChallenge(tier) {
 
     </div>
 </div>
+<section class="rebel-edge-section">
+    <div class="rebel-edge-panel">
+        <div class="rebel-edge-headline">
+            <span>Rebel starts at $10.</span> One-step challenge. No Phase 2. Auto Sim Funded unlock.
+        </div>
 
+        <div class="rebel-edge-grid">
+            <div class="rebel-edge-item">
+                <span class="rebel-edge-label">Lower Entry Cost</span>
+                <div class="rebel-edge-copy">Start with micro tickets instead of oversized evaluation fees.</div>
+            </div>
+
+            <div class="rebel-edge-item">
+                <span class="rebel-edge-label">Faster Reps</span>
+                <div class="rebel-edge-copy">Trade more cycles, test your edge, and build execution rhythm.</div>
+            </div>
+
+            <div class="rebel-edge-item">
+                <span class="rebel-edge-label">Less Pressure</span>
+                <div class="rebel-edge-copy">Smaller sim boxes keep the challenge focused and manageable.</div>
+            </div>
+
+            <div class="rebel-edge-item">
+                <span class="rebel-edge-label">Cleaner Practice</span>
+                <div class="rebel-edge-copy">Clear rules, fast feedback, and a direct path into Sim Funded.</div>
+            </div>
+        </div>
+    </div>
+</section>
 <section id="rebel-path" class="section" style="padding-top: 90px; padding-bottom: 70px;">
     <h2>The Rebel Path: Challenge → Sim Funded</h2>
     <div class="section-subtitle">One entry ticket. One 10% challenge. Automatic Sim Funded unlock when you pass.</div>
