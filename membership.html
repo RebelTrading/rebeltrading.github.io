@@ -511,6 +511,72 @@ async function loginAccount(event) {
         setStatus("Connection failed. Check API server.");
     }
 }
+
+async function handleGoogleCredential(response) {
+    if (!response || !response.credential) {
+        setStatus("Google sign-in failed. Please try again.");
+        return;
+    }
+
+    setStatus("Signing in with Google...");
+
+    try {
+        const apiResponse = await fetch(`${API_URL}/api/auth/google`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                credential: response.credential
+            })
+        });
+
+        const data = await apiResponse.json();
+
+        if (!apiResponse.ok) {
+            setStatus(data.detail || "Google sign-in failed.");
+            return;
+        }
+
+        localStorage.setItem("rebel_auth_token", data.token);
+        window.location.href = getRedirectTarget();
+    } catch (err) {
+        setStatus("Google sign-in connection failed.");
+    }
+}
+
+function initializeGoogleSignIn() {
+    if (!window.google || !google.accounts || !google.accounts.id) {
+        return;
+    }
+
+    google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential
+    });
+
+    const signupButton = document.getElementById("google-signup-button");
+    if (signupButton) {
+        google.accounts.id.renderButton(signupButton, {
+            theme: "filled_black",
+            size: "large",
+            text: "signup_with",
+            shape: "rectangular",
+            width: 360
+        });
+    }
+
+    const loginButton = document.getElementById("google-login-button");
+    if (loginButton) {
+        google.accounts.id.renderButton(loginButton, {
+            theme: "filled_black",
+            size: "large",
+            text: "signin_with",
+            shape: "rectangular",
+            width: 360
+        });
+    }
+}
+
+window.addEventListener("load", initializeGoogleSignIn);
 </script>
 </head>
 
