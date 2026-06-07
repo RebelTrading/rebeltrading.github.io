@@ -348,15 +348,14 @@ function showDashboard() {
 function loginAdmin(event) {
     event.preventDefault();
 
-    const username = document.getElementById("admin-username").value.trim();
-    const password = document.getElementById("admin-password").value;
+    const adminKey = document.getElementById("admin-api-key").value.trim();
 
-    if (username !== TEMP_ADMIN_USERNAME || password !== TEMP_ADMIN_PASSWORD) {
-        setAdminStatus("Invalid admin login.");
+    if (!adminKey) {
+        setAdminStatus("Enter admin API key.");
         return;
     }
 
-    sessionStorage.setItem("rebel_admin_token", TEMP_ADMIN_API_KEY);
+    sessionStorage.setItem("rebel_admin_token", adminKey);
     showDashboard();
     loadPayoutRequests();
 }
