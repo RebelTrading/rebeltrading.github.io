@@ -1297,11 +1297,9 @@ async function checkTradingAccess() {
     const token = localStorage.getItem("rebel_auth_token");
 
     if (!token) {
-        AUTH_USER = null;
-        ACTIVE_CHALLENGE = null;
-        setTradingAccessState(false);
-        return;
-    }
+    window.location.href = "membership.html?redirect=simtrading-test.html";
+    return;
+}
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/me`, {
@@ -1312,12 +1310,10 @@ async function checkTradingAccess() {
 });
 
         if (!response.ok) {
-            localStorage.removeItem("rebel_auth_token");
-            AUTH_USER = null;
-            ACTIVE_CHALLENGE = null;
-            setTradingAccessState(false);
-            return;
-        }
+    localStorage.removeItem("rebel_auth_token");
+    window.location.href = "membership.html?redirect=simtrading-test.html";
+    return;
+}
 
         const data = await response.json();
         AUTH_USER = data.user;
