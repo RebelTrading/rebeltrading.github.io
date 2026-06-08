@@ -187,23 +187,85 @@ header img {
 /* ASSET TOGGLE BAR */
 .asset-bar {
     display: flex;
+    align-items: center;
     background: #0e0e0e;
     border-bottom: 1px solid #1f1f1f;
     padding: 6px;
-    gap: 6px;
+    gap: 8px;
+    position: relative;
+    z-index: 350;
 }
 
-.asset-btn {
+.asset-menu {
+    position: relative;
+    display: inline-flex;
+}
+
+.asset-menu summary {
+    list-style: none;
     background: #141414;
-    border: 1px solid #222;
-    color: #888;
-    padding: 6px 14px;
-    font-size: 0.75rem;
+    border: 1px solid #2a2a2a;
+    color: #fff;
+    padding: 7px 12px;
+    font-size: 0.72rem;
     font-weight: bold;
+    font-family: monospace;
     border-radius: 4px;
     cursor: pointer;
+    user-select: none;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
-.asset-btn.active { background: #ff2a2a; border-color: #ff2a2a; color: #fff; }
+
+.asset-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.asset-menu[open] summary {
+    background: #ff2a2a;
+    border-color: #ff2a2a;
+    color: #fff;
+}
+
+.asset-dropdown {
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 0;
+    z-index: 500;
+    min-width: 190px;
+    background: #0b0b0b;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 10px 22px rgba(0,0,0,0.75);
+    display: grid;
+    gap: 7px;
+}
+
+.asset-option {
+    background: #111;
+    border: 1px solid #222;
+    color: #aaa;
+    padding: 8px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    font-weight: bold;
+    font-family: monospace;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.asset-option:hover,
+.asset-option.active {
+    background: rgba(255, 42, 42, 0.14);
+    border-color: rgba(255, 42, 42, 0.55);
+    color: #fff;
+}
+
+.asset-menu-label {
+    color: #ffb703;
+}
 
 /* LIVE STATS TOP BAR */
 .stats-bar {
@@ -1050,11 +1112,20 @@ header img {
         padding: 7px;
     }
 
-    .asset-btn {
-        flex: 0 0 auto;
-        padding: 7px 12px;
-        font-size: 0.72rem;
-    }
+    .asset-menu summary {
+    max-width: calc(100vw - 38px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.asset-dropdown {
+    min-width: 180px;
+}
+
+.asset-option {
+    padding: 9px 10px;
+    font-size: 0.72rem;
+}
 
     .stats-bar {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1283,10 +1354,14 @@ const assetMap = {
 };
 
 let localAssetPrices = {
-    "BTC-USD": 79130.00,
-    "ETH-USD": 3450.00,
-    "SOL-USD": 145.00,
-    "XRP-USD": 1.4350
+    "BTC-USD": 63532.03,
+    "ETH-USD": 1687.30,
+    "SOL-USD": 66.83,
+    "XRP-USD": 1.1618,
+    "XLM-USD": 0.202594,
+    "HYPE-USD": 64.51,
+    "DOGE-USD": 0.08633,
+    "BNB-USD": 600.37
 };
 
 let pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
@@ -1766,10 +1841,21 @@ function changeSimAccountTier(selectElement) {
 }
 
 function switchAsset(assetKey, element) {
-    document.querySelectorAll('.asset-bar button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.asset-option').forEach(btn => btn.classList.remove('active'));
     if (element) element.classList.add('active');
+
+    const assetMenuLabel = document.getElementById('active-asset-menu-label');
+    if (assetMenuLabel && element) {
+        assetMenuLabel.innerText = element.innerText;
+    }
+
+    const assetMenu = document.getElementById('asset-menu');
+    if (assetMenu) {
+        assetMenu.open = false;
+    }
     
     const config = assetMap[assetKey];
+    if (!config) return;
     CURRENT_ASSET = config.api;
     document.getElementById('active-ticker-label').innerText = config.display;
     const currentLivePrice = localAssetPrices[CURRENT_ASSET];
@@ -2451,11 +2537,21 @@ window.addEventListener('DOMContentLoaded', async function() {
     
     <div class="panel">
         <div class="asset-bar">
-            <button class="asset-btn active" id="default-asset" onclick="switchAsset('BTC', this)">BTC/USD</button>
-            <button class="asset-btn" onclick="switchAsset('ETH', this)">ETH/USD</button>
-            <button class="asset-btn" onclick="switchAsset('SOL', this)">SOL/USD</button>
-            <button class="asset-btn" onclick="switchAsset('XRP', this)">XRP/USD</button>
+    <details class="asset-menu" id="asset-menu">
+        <summary>TRADEABLE ASSETS: <span class="asset-menu-label" id="active-asset-menu-label">BTC/USD</span></summary>
+
+        <div class="asset-dropdown">
+            <button class="asset-option active" id="default-asset" onclick="switchAsset('BTC', this)" type="button">BTC/USD</button>
+            <button class="asset-option" onclick="switchAsset('ETH', this)" type="button">ETH/USD</button>
+            <button class="asset-option" onclick="switchAsset('SOL', this)" type="button">SOL/USD</button>
+            <button class="asset-option" onclick="switchAsset('XRP', this)" type="button">XRP/USD</button>
+            <button class="asset-option" onclick="switchAsset('XLM', this)" type="button">XLM/USD</button>
+            <button class="asset-option" onclick="switchAsset('HYPE', this)" type="button">HYPE/USD</button>
+            <button class="asset-option" onclick="switchAsset('DOGE', this)" type="button">DOGE/USD</button>
+            <button class="asset-option" onclick="switchAsset('BNB', this)" type="button">BNB/USD</button>
         </div>
+    </details>
+</div>
         
         <div class="stats-bar">
             <div class="stat-box">
