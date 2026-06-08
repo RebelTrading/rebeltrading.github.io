@@ -268,7 +268,7 @@ function getAssetMinMove(asset) {
 }
 function extractPriceFromFeed(matrix, assetKey) {
     if (!matrix) return null;
-    const targets = [assetKey, assetKey.toLowerCase(), `${assetKey}/USD`, `${assetKey}USD`];
+    const targets = [assetKey, assetKey.toLowerCase(), `${assetKey}-USD`, `${assetKey}/USD`, `${assetKey}USD`];
     for (const t of targets) {
         if (matrix[t] !== undefined && matrix[t] !== null) {
             const parsed = parseFloat(matrix[t]);
