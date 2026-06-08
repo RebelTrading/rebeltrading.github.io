@@ -313,7 +313,7 @@ function generateHistoricalBars(timeframe, asset, startingPrice) {
     if (isNaN(basePrice)) basePrice = getAssetFallbackPrice(asset);
 
     const now = Math.floor(Date.now() / 1000);
-    const interval = timeframe === '5m' ? 300 : timeframe === '1h' ? 3600 : timeframe === '1d' ? 86400 : 60;
+    const interval = timeframe === '5m' ? 300 : timeframe === '15m' ? 900 : timeframe === '1d' ? 86400 : 60;
     const volatilityFactor = basePrice * 0.0015;
     const bars = [];
 
@@ -518,7 +518,7 @@ function initPriceLoop() {
 
             if (!livePrice || isNaN(livePrice)) return;
 
-            let interval = currentTimeframe === '5m' ? 300 : currentTimeframe === '1h' ? 3600 : currentTimeframe === '1d' ? 86400 : 60;
+            let interval = currentTimeframe === '5m' ? 300 : currentTimeframe === '15m' ? 900 : currentTimeframe === '1d' ? 86400 : 60;
             const nowSeconds = Math.floor(Date.now() / 1000);
             const currentBarTime = Math.floor(nowSeconds / interval) * interval;
 
