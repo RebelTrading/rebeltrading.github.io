@@ -1845,9 +1845,9 @@ function switchAsset(assetKey, element) {
     if (element) element.classList.add('active');
 
     const assetMenuLabel = document.getElementById('active-asset-menu-label');
-    if (assetMenuLabel && element) {
-        assetMenuLabel.innerText = element.innerText;
-    }
+    if (assetMenuLabel) {
+    assetMenuLabel.innerText = element?.innerText || `${assetKey}/USD`;
+}
 
     const assetMenu = document.getElementById('asset-menu');
     if (assetMenu) {
