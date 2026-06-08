@@ -86,7 +86,7 @@ function setHorizontalLineMode(isActive) {
 function addManualHorizontalLine(price) {
     if (!candlestickSeries || !price || isNaN(price)) return;
 
-    const precision = currentAsset === 'XRP' ? 4 : 2;
+    const precision = getAssetPrecision(currentAsset);
     const line = candlestickSeries.createPriceLine({
         price,
         color: '#00ff66',
@@ -160,7 +160,7 @@ function initChartInstances() {
 });
 
     candlestickSeries.applyOptions({
-        priceFormat: { type: 'price', precision: currentAsset === 'XRP' ? 4 : 2, minMove: currentAsset === 'XRP' ? 0.0001 : 0.01 }
+        priceFormat: { type: 'price', precision: getAssetPrecision(currentAsset), minMove: getAssetMinMove(currentAsset) }
     });
      mainChart.subscribeClick(param => {
         if (!param || param.point === undefined || !candlestickSeries) return;
@@ -237,7 +237,35 @@ function getAssetFallbackPrice(asset) {
     if (asset === 'BNB') return 600;
     return 100;
 }
+function getAssetPrecision(asset) {
+    const precisionMap = {
+        BTC: 2,
+        ETH: 2,
+        SOL: 2,
+        XRP: 4,
+        XLM: 6,
+        HYPE: 2,
+        DOGE: 5,
+        BNB: 2
+    };
 
+    return precisionMap[asset] || 2;
+}
+
+function getAssetMinMove(asset) {
+    const minMoveMap = {
+        BTC: 0.01,
+        ETH: 0.01,
+        SOL: 0.01,
+        XRP: 0.0001,
+        XLM: 0.000001,
+        HYPE: 0.01,
+        DOGE: 0.00001,
+        BNB: 0.01
+    };
+
+    return minMoveMap[asset] || 0.01;
+}
 function extractPriceFromFeed(matrix, assetKey) {
     if (!matrix) return null;
     const targets = [assetKey, assetKey.toLowerCase(), `${assetKey}/USD`, `${assetKey}USD`];
