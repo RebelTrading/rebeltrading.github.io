@@ -227,10 +227,14 @@ function initChartInstances() {
 }
 
 function getAssetFallbackPrice(asset) {
-    if (asset === 'BTC') return 76500;
-    if (asset === 'ETH') return 2100;
-    if (asset === 'SOL') return 145;
-    if (asset === 'XRP') return 1.39; 
+    if (asset === 'BTC') return 63500;
+    if (asset === 'ETH') return 1700;
+    if (asset === 'SOL') return 67;
+    if (asset === 'XRP') return 1.16;
+    if (asset === 'XLM') return 0.20;
+    if (asset === 'HYPE') return 64;
+    if (asset === 'DOGE') return 0.086;
+    if (asset === 'BNB') return 600;
     return 100;
 }
 
