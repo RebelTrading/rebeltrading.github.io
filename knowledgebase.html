@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Base | Rebel Trading Group</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #000;
+    color: #bdbdbd;
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #1a1a1a;
+    z-index: 1000;
+}
+
+header img {
+    height: 62px;
+}
+
+.header-cta-group {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sim-challenge-btn {
+    background: linear-gradient(135deg, #ff2a2a 0%, #990000 100%);
+    color: #fff;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ff5555;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(255, 42, 42, 0.4);
+    transition: 0.2s;
+}
+
+.sim-challenge-btn:hover {
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    box-shadow: 0 0 18px rgba(255, 42, 42, 0.7);
+    transform: scale(1.02);
+    border-color: #fff;
+}
+
+.hamburger {
+    cursor: pointer;
+    width: 35px;
+}
+
+.hamburger div {
+    height: 2px;
+    background: #fff;
+    margin: 5px 0;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 260px;
+    height: 100%;
+    background: #0a0a0a;
+    padding-top: 120px;
+    transition: 0.3s;
+    z-index: 999;
+    border-left: 1px solid #1a1a1a;
+}
+
+.menu a {
+    display: block;
+    padding: 15px 25px;
+    color: #aaa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    color: #ff2a2a;
+}
+
+.network-status-bar {
+    position: fixed;
+    top: 86px;
+    width: 100%;
+    background: #050505;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #141414;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    align-items: center;
+    z-index: 998;
+    font-family: monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    color: #666;
+}
+
+.network-status-bar strong {
+    color: #fff;
+}
+
+.terminal-node {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.terminal-node.center {
+    justify-content: center;
+}
+
+.terminal-node.right {
+    justify-content: flex-end;
+}
+
+.ping-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #00ff66;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px #00ff66;
+    animation: network-ping 1.2s infinite alternate;
+}
+
+.terminal-tag {
+    background: rgba(255, 42, 42, 0.1);
+    color: #ff2a2a;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 42, 42, 0.2);
+    font-size: 0.6rem;
+    font-weight: bold;
+}
+
+@keyframes network-ping {
+    0% { transform: scale(0.9); opacity: 0.4; box-shadow: 0 0 2px #00ff66; }
+    100% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 10px #00ff66; }
+}
+
+.kb-hero {
+    min-height: 52vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(circle at center, #150303 0%, #000 70%);
+    padding: 175px 24px 60px;
+    box-sizing: border-box;
+}
+
+.kb-hero h1 {
+    color: #ff2a2a;
+    font-size: 4rem;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin: 0;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(255, 42, 42, 0.2);
+}
+
+.kb-hero p {
+    color: #fff;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    line-height: 1.6;
+    margin: 18px auto 0;
+    max-width: 820px;
+    text-transform: uppercase;
+}
+
+.kb-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 70px 30px 110px;
+    box-sizing: border-box;
+}
+
+.kb-tools {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.kb-search {
+    width: 100%;
+    box-sizing: border-box;
+    background: #090909;
+    border: 1px solid #242424;
+    color: #fff;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    outline: none;
+}
+
+.kb-search:focus {
+    border-color: #ff2a2a;
+}
+
+.kb-updated {
+    color: #777;
+    font-family: monospace;
+    font-size: 0.72rem;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.kb-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.kb-sidebar {
+    position: sticky;
+    top: 145px;
+    background: rgba(8, 8, 12, 0.78);
+    border: 1px solid #141416;
+    border-radius: 8px;
+    padding: 14px;
+}
+
+.kb-sidebar a {
+    display: block;
+    padding: 10px 12px;
+    color: #8a8a93;
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.kb-sidebar a:hover {
+    background: rgba(255, 42, 42, 0.08);
+    color: #fff;
+}
+
+.kb-category {
+    margin-bottom: 38px;
+}
+
+.kb-category h2 {
+    color: #ff2a2a;
+    font-size: 2rem;
+    margin: 0 0 18px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.kb-article {
+    background: rgba(8, 8, 12, 0.78);
+    border: 1px solid #141416;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 14px;
+}
+
+.kb-article h3 {
+    color: #fff;
+    font-size: 1.18rem;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
+
+.kb-article p,
+.kb-article li {
+    color: #9a9a9a;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.kb-article p {
+    margin: 0 0 14px;
+}
+
+.kb-article ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.kb-article strong {
+    color: #fff;
+}
+
+.article-id {
+    display: inline-block;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.kb-empty {
+    display: none;
+    background: rgba(8, 8, 12, 0.78);
+    border: 1px solid #141416;
+    border-radius: 8px;
+    padding: 24px;
+    color: #777;
+    font-family: monospace;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #050505;
+    border-top: 1px solid #111;
+    font-size: 0.8rem;
+    color: #555;
+    letter-spacing: 0.5px;
+}
+
+footer a {
+    color: #ff2a2a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 800px) {
+    header {
+        height: 76px;
+        padding: 8px 10px;
+    }
+
+    header img {
+        height: 58px;
+        max-width: 135px;
+        object-fit: contain;
+    }
+
+    .header-cta-group {
+        position: static;
+        transform: none;
+        margin-left: auto;
+        margin-right: 10px;
+    }
+
+    .sim-challenge-btn {
+        padding: 6px 8px;
+        font-size: 0.62rem;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+
+    .network-status-bar {
+        display: none;
+    }
+
+    .menu {
+        padding-top: 90px;
+    }
+
+    .kb-hero {
+        min-height: auto;
+        padding: 118px 16px 52px;
+    }
+
+    .kb-hero h1 {
+        font-size: 2.35rem;
+        line-height: 1.05;
+    }
+
+    .kb-hero p {
+        font-size: 0.82rem;
+        letter-spacing: 1px;
+    }
+
+    .kb-shell {
+        padding: 52px 16px 76px;
+    }
+
+    .kb-tools,
+    .kb-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .kb-updated {
+        white-space: normal;
+    }
+
+    .kb-sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+    }
+
+    .kb-sidebar a {
+        font-size: 0.72rem;
+        padding: 9px;
+    }
+
+    .kb-category h2 {
+        font-size: 1.45rem;
+    }
+
+    .kb-article {
+        padding: 20px 16px;
+    }
+}
+</style>
+
+<script>
+function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
+}
+
+function filterKnowledgeBase() {
+    const query = (document.getElementById("kb-search")?.value || "").toLowerCase().trim();
+    const articles = document.querySelectorAll(".kb-article");
+    const categories = document.querySelectorAll(".kb-category");
+    let visibleCount = 0;
+
+    articles.forEach(article => {
+        const haystack = [
+            article.innerText,
+            article.dataset.keywords || "",
+            article.id || ""
+        ].join(" ").toLowerCase();
+
+        const isVisible = !query || haystack.includes(query);
+        article.style.display = isVisible ? "block" : "none";
+        if (isVisible) visibleCount += 1;
+    });
+
+    categories.forEach(category => {
+        const hasVisibleArticle = Array.from(category.querySelectorAll(".kb-article"))
+            .some(article => article.style.display !== "none");
+        category.style.display = hasVisibleArticle ? "block" : "none";
+    });
+
+    const empty = document.getElementById("kb-empty");
+    if (empty) empty.style.display = visibleCount ? "none" : "block";
+}
+</script>
+</head>
+
+<body>
+
+<header>
+    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo03.png" alt="Rebel Trading Logo">
+
+    <div class="header-cta-group">
+        <a href="membership.html?redirect=membersarea.html" class="sim-challenge-btn">GET STARTED</a>
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</header>
+
+<div id="menu" class="menu">
+    <a href="#" onclick="toggleMenu()">Close Panel</a>
+    <a href="index.html" style="color:#ff2a2a;">Home</a>
+    <a href="membership.html?redirect=membersarea.html">Sign Up</a>
+    <a href="index.html#rebel-path">How It Works</a>
+    <a href="index.html#packages">Sim Boxes Tiers</a>
+    <a href="payouts.html">Payouts</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="treasury.html">Treasury</a>
+    <a href="knowledgebase.html" style="color:#ffb703;">Knowledge Base</a>
+    <a href="https://rebel-trading-group.gitbook.io/rebel-trading-group-docs/documentation/" target="_blank">Docs</a>
+    <a href="simtrading-test.html" style="color:#ff2a2a;">Trade Simulator</a>
+</div>
+
+<div class="network-status-bar">
+    <div class="terminal-node">
+        <span class="ping-dot"></span>
+        <span>CONSOLE // <span style="color:#00ff66; font-weight:bold;">KNOWLEDGE_BASE_ONLINE</span></span>
+        <span class="terminal-tag">PUBLIC SUPPORT</span>
+    </div>
+
+    <div class="terminal-node center">
+        <span class="terminal-tag" style="background:rgba(0, 255, 102, 0.1); color:#00ff66; border-color:rgba(0, 255, 102, 0.2);">AI AGENT READY</span>
+        <span>TOPICS: <strong style="color:#ffb703;">CHALLENGES / TRADE DESK / PAYOUTS</strong></span>
+    </div>
+
+    <div class="terminal-node right">
+        <span>SUPPORT: <strong style="color:#00ff66;">support@rebeltrading.io</strong></span>
+    </div>
+</div>
+
+<section class="kb-hero">
+    <div>
+        <h1>Knowledge Base</h1>
+        <p>Clear answers for Rebel challenges, browser-based simulated trading, risk rules, Sim Funded access, and USDC payout workflows.</p>
+    </div>
+</section>
+
+<main class="kb-shell">
+    <div class="kb-tools">
+        <input class="kb-search" id="kb-search" type="search" placeholder="Search Rebel knowledge base..." oninput="filterKnowledgeBase()">
+        <div class="kb-updated">Launch Version / Updated June 2026</div>
+    </div>
+
+    <div class="kb-layout">
+        <nav class="kb-sidebar">
+            <a href="#getting-started">Getting Started</a>
+            <a href="#challenge-rules">Challenge Rules</a>
+            <a href="#trade-desk">Trade Desk</a>
+            <a href="#sim-funded">Sim Funded</a>
+            <a href="#payouts">Payouts</a>
+            <a href="#accounts">Accounts</a>
+            <a href="#troubleshooting">Troubleshooting</a>
+            <a href="#support">Support</a>
+        </nav>
+
+        <div>
+            <div class="kb-empty" id="kb-empty">No matching articles found.</div>
+
+            <section class="kb-category" id="getting-started">
+                <h2>Getting Started</h2>
+
+                <article class="kb-article" id="kb-001" data-keywords="what is rebel trading micro prop arcade simulated evaluation">
+                    <div class="article-id">KB-001 / Platform Overview</div>
+                    <h3>What is Rebel Trading Group?</h3>
+                    <p>Rebel Trading Group is a simulated micro crypto prop evaluation platform. Traders purchase a low-entry challenge ticket, trade in a browser-based simulated crypto perpetual environment, and can unlock a Sim Funded Rebel Stage after passing the one-step challenge.</p>
+                    <p>The Rebel experience is built with an arcade-style progression layer, but the account rules, risk guardrails, dashboard tracking, and payout workflows are structured like a professional prop-style evaluation.</p>
+                </article>
+
+                <article class="kb-article" id="kb-002" data-keywords="challenge tiers recruit raider rebel 1k 2k 3k prices">
+                    <div class="article-id">KB-002 / Challenge Tiers</div>
+                    <h3>Which challenge sizes are available?</h3>
+                    <p>Rebel currently offers three simulated challenge tiers:</p>
+                    <ul>
+                        <li><strong>Recruit Box:</strong> $1,000 simulated account.</li>
+                        <li><strong>Raider Box:</strong> $2,000 simulated account.</li>
+                        <li><strong>Rebel Box:</strong> $3,000 simulated account.</li>
+                    </ul>
+                    <p>Each tier has its own starting balance, profit target, daily loss guard, trailing drawdown wall, and max position margin limit.</p>
+                </article>
+
+                <article class="kb-article" id="kb-003" data-keywords="account creation google login email password members dashboard">
+                    <div class="article-id">KB-003 / Account Access</div>
+                    <h3>How do traders create or access an account?</h3>
+                    <p>Traders can create an account through the Rebel membership page using email and password or Google sign-in. After signing in, the members dashboard loads account status, active challenge data, trade history, payout profile, and support access.</p>
+                </article>
+            </section>
+
+            <section class="kb-category" id="challenge-rules">
+                <h2>Challenge Rules</h2>
+
+                <article class="kb-article" id="kb-004" data-keywords="one step phase 2 evaluation pass target">
+                    <div class="article-id">KB-004 / One-Step Path</div>
+                    <h3>Is there a Phase 2 evaluation?</h3>
+                    <p>No. Rebel uses a one-step challenge. Once a trader reaches the required profit target while respecting the rules, the account automatically transitions into the Sim Funded Rebel Stage.</p>
+                    <p>There is no second evaluation stage, no extra activation fee after passing, and no manual unlock queue.</p>
+                </article>
+
+                <article class="kb-article" id="kb-005" data-keywords="profit target 10 percent pass challenge level 1">
+                    <div class="article-id">KB-005 / Profit Target</div>
+                    <h3>What is the Level 1 profit target?</h3>
+                    <p>The Rebel Challenge target is 10% of the selected simulated account balance. A $1,000 account has a $100 target, a $2,000 account has a $200 target, and a $3,000 account has a $300 target.</p>
+                </article>
+
+                <article class="kb-article" id="kb-006" data-keywords="daily loss safeguard max daily loss drawdown fail">
+                    <div class="article-id">KB-006 / Daily Loss Guard</div>
+                    <h3>How does the daily loss safeguard work?</h3>
+                    <p>The daily loss safeguard limits how much the simulated account can lose from its starting balance threshold. If the account breaches the daily loss rule, the challenge can be marked failed and trading is locked for that account.</p>
+                </article>
+
+                <article class="kb-article" id="kb-007" data-keywords="eod trailing drawdown end of day floor wall">
+                    <div class="article-id">KB-007 / EOD Trailing Drawdown</div>
+                    <h3>How does the EOD trailing drawdown work?</h3>
+                    <p>The EOD trailing drawdown updates after the trading day closes, based on the account end-of-day high. It is not a tick-by-tick liquidation trap during open trades. If the account later falls below the EOD floor, the challenge can be marked failed.</p>
+                </article>
+
+                <article class="kb-article" id="kb-008" data-keywords="max position margin guard contract size notional leverage">
+                    <div class="article-id">KB-008 / Max Position Margin</div>
+                    <h3>What is the max position margin guard?</h3>
+                    <p>The max position margin guard limits how much of the simulated account can be allocated to a single position. The trade panel calculates notional value, margin allocated at 1:50 leverage, and remaining buying power before order entry.</p>
+                    <p>If the selected contract size requires too much margin, the guard shows the position as over limit and blocks the order.</p>
+                </article>
+            </section>
+
+            <section class="kb-category" id="trade-desk">
+                <h2>Trade Desk</h2>
+
+                <article class="kb-article" id="kb-009" data-keywords="browser trade sim desktop mobile no download">
+                    <div class="article-id">KB-009 / Browser-Based Trading</div>
+                    <h3>Does the trade simulator work in the browser?</h3>
+                    <p>Yes. The Rebel trade desk is browser-based and works across desktop and mobile. Traders can access charts, market orders, limit orders, order book depth, time and sales, position tracking, and live account rule status without downloading software.</p>
+                </article>
+
+                <article class="kb-article" id="kb-010" data-keywords="assets perpetuals btc eth sol xrp xlm hype doge bnb">
+                    <div class="article-id">KB-010 / Supported Perpetuals</div>
+                    <h3>Which markets can traders simulate?</h3>
+                    <p>The trade desk supports simulated crypto perpetual markets. Current supported markets include BTC, ETH, SOL, XRP, XLM, HYPE, DOGE, and BNB.</p>
+                    <p>Prices and chart candles are sourced from live market data feeds, while all Rebel orders and balances remain simulated inside the evaluation environment.</p>
+                </article>
+
+                <article class="kb-article" id="kb-011" data-keywords="market order limit order take profit stop loss brackets">
+                    <div class="article-id">KB-011 / Order Types</div>
+                    <h3>What order types are available?</h3>
+                    <p>The trade desk supports market orders and limit orders. Traders can also attach take profit and stop loss bracket parameters before entering a simulated position.</p>
+                </article>
+
+                <article class="kb-article" id="kb-012" data-keywords="leverage 1:50 notional margin contract size">
+                    <div class="article-id">KB-012 / Contract Size And Margin</div>
+                    <h3>How does contract size affect margin?</h3>
+                    <p>The trade panel calculates notional value using asset price, selected contract size, and the asset multiplier. Margin allocated is calculated at 1:50 leverage. Higher-priced assets usually hit margin limits with fewer contracts, while lower-priced assets allow larger contract counts.</p>
+                </article>
+            </section>
+
+            <section class="kb-category" id="sim-funded">
+                <h2>Sim Funded</h2>
+
+                <article class="kb-article" id="kb-013" data-keywords="sim funded unlock pass challenge automatic">
+                    <div class="article-id">KB-013 / Sim Funded Unlock</div>
+                    <h3>What happens after passing Level 1?</h3>
+                    <p>After a trader passes the Level 1 challenge, the system automatically unlocks the Sim Funded Rebel Stage. The account resets to the original selected balance size, the profit target becomes unlimited, and funded-stage payout tracking becomes active.</p>
+                </article>
+
+                <article class="kb-article" id="kb-014" data-keywords="speedrun 48 hours 90 percent payout split">
+                    <div class="article-id">KB-014 / Speedrun Split</div>
+                    <h3>How does the Speedrun split work?</h3>
+                    <p>Standard Sim Funded accounts receive an 80% trader split. Traders who pass the Level 1 challenge within the Speedrun window can unlock a boosted 90% funded-stage payout split.</p>
+                </article>
+            </section>
+
+            <section class="kb-category" id="payouts">
+                <h2>Payouts</h2>
+
+                <article class="kb-article" id="kb-015" data-keywords="payout eligibility usdc sim funded profits buffer">
+                    <div class="article-id">KB-015 / Payout Eligibility</div>
+                    <h3>When can a trader request a payout?</h3>
+                    <p>Payouts are only available from Sim Funded profits. Challenge-stage profits unlock funded access but are not directly withdrawable.</p>
+                    <p>To request a payout, the account must be in Sim Funded status, profits must be above the required buffer floor, the request must meet the minimum request amount, and the funded trading day requirement must be satisfied.</p>
+                </article>
+
+                <article class="kb-article" id="kb-016" data-keywords="buffer floor 4.2 minimum payout 25 usdc">
+                    <div class="article-id">KB-016 / Buffer Floor</div>
+                    <h3>What is the payout buffer?</h3>
+                    <p>The payout buffer is the starting balance plus 4.2%. Only funded-stage profit above that buffer can become withdrawable. Payout requests must also meet the minimum request threshold.</p>
+                </article>
+
+                <article class="kb-article" id="kb-017" data-keywords="usdc wallet payout network solana ethereum base polygon arbitrum bnb">
+                    <div class="article-id">KB-017 / USDC Wallet Setup</div>
+                    <h3>How are payout wallets saved?</h3>
+                    <p>Traders save a USDC payout wallet inside the members dashboard. Rebel supports USDC payout routing across available checkout-style networks, including Solana, Ethereum, Base, Polygon, Arbitrum, and BNB.</p>
+                    <p>Traders should always confirm that their wallet supports the selected payout network before submitting a request.</p>
+                </article>
+
+                <article class="kb-article" id="kb-018" data-keywords="manual review 24 hour processing pending paid rejected">
+                    <div class="article-id">KB-018 / Payout Processing</div>
+                    <h3>How are payouts processed?</h3>
+                    <p>Payout requests enter manual review. Approved payout requests are processed in USDC, and the payout history table tracks request status, network, wallet, and transaction hash when available.</p>
+                </article>
+            </section>
+
+            <section class="kb-category" id="accounts">
+                <h2>Accounts</h2>
+
+                <article class="kb-article" id="kb-019" data-keywords="members dashboard account overview trade history payouts support">
+                    <div class="article-id">KB-019 / Members Dashboard</div>
+                    <h3>What is available in the members dashboard?</h3>
+                    <p>The members dashboard displays account stage, equity, realized P&L, drawdown floor, daily loss buffer, trade history, payout eligibility, payout wallet setup, payout history, and support desk access.</p>
+                </article>
+
+                <article class="kb-article" id="kb-020" data-keywords="google sign in login auth token session account">
+                    <div class="article-id">KB-020 / Sign-In Options</div>
+                    <h3>Can traders sign in with Google?</h3>
+                    <p>Yes. Rebel supports Google sign-in and standard email/password sign-in. After login, the user receives a Rebel session token used by the members dashboard, trade desk, payout tools, and support desk.</p>
+                </article>
+            </section>
+
+            <section class="kb-category" id="troubleshooting">
+                <h2>Troubleshooting</h2>
+
+                <article class="kb-article" id="kb-021" data-keywords="no active challenge buy challenge trade locked">
+                    <div class="article-id">KB-021 / No Active Challenge</div>
+                    <h3>Why does my dashboard say no active challenge?</h3>
+                    <p>This means the account is signed in but does not currently have an active challenge. The trader should purchase a challenge or confirm that payment processing completed successfully.</p>
+                </article>
+
+                <article class="kb-article" id="kb-022" data-keywords="trading locked account failed rule breach">
+                    <div class="article-id">KB-022 / Trading Locked</div>
+                    <h3>Why is trading locked?</h3>
+                    <p>Trading can lock if the account failed a risk rule, if there is no active challenge, or if the session is invalid. Failed accounts cannot continue trading and require a new challenge to restart the path.</p>
+                </article>
+
+                <article class="kb-article" id="kb-023" data-keywords="chart price feed candles live data not loading">
+                    <div class="article-id">KB-023 / Chart Or Price Feed Issues</div>
+                    <h3>What should traders do if chart data does not load?</h3>
+                    <p>Traders should refresh the browser, confirm they are signed in, and verify their internet connection. If the issue continues, they should contact support with the asset, browser, device type, and approximate time of the issue.</p>
+                </article>
+            </section>
+
+            <section class="kb-category" id="support">
+                <h2>Support</h2>
+
+                <article class="kb-article" id="kb-024" data-keywords="contact support request help desk email">
+                    <div class="article-id">KB-024 / Contact Support</div>
+                    <h3>How do traders contact Rebel support?</h3>
+                    <p>Signed-in traders can submit a support request from the members dashboard. Support requests are routed to the Rebel Trading support team.</p>
+                    <p>For direct contact, traders can email <strong>support@rebeltrading.io</strong>.</p>
+                </article>
+
+                <article class="kb-article" id="kb-025" data-keywords="ai agent discord knowledge base modelfile">
+                    <div class="article-id">KB-025 / AI Support Agent Source</div>
+                    <h3>How should this knowledge base support the AI agent?</h3>
+                    <p>This page is structured with stable article IDs, categories, and keyword metadata so Rebel can reuse the content in a local AI support agent. When new platform rules, payout steps, or trade desk behavior changes, update the relevant knowledge base article first, then refresh the local agent source material.</p>
+                </article>
+            </section>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div style="margin-bottom:12px; color:#777; font-family:monospace; font-size:0.72rem; letter-spacing:0.8px; text-transform:uppercase;">
+        SSL Secured | Non-Custodial Payments | USDC Settlement
+    </div>
+    © 2026 Rebel Trading Group - Private Micro-Prop Crypto Evaluation & Asset Simulation Network
+    <br><br>
+    <a href="termsofuse.html">Terms of Use</a>
+    <span style="color:#333; margin:0 10px;">|</span>
+    <a href="privacypolicy.html">Privacy Policy</a>
+</footer>
+
+</body>
+</html>
