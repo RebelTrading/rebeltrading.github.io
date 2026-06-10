@@ -879,6 +879,180 @@ header img {
 .calc-val.highlight {
     color: #ffb703;
 }
+    /* AVAILABLE PERPETUALS SECTION */
+.perps-section {
+    background: #050505;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+    padding: 90px 24px;
+}
+
+.perps-shell {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.perps-section .section-label {
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.perps-section h2 {
+    color: #fff;
+    font-size: 2.7rem;
+    line-height: 1.05;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+.perps-intro {
+    max-width: 780px;
+    color: #9a9a9a;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 18px 0 34px;
+}
+
+.perps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.perp-card {
+    position: relative;
+    min-height: 155px;
+    background: linear-gradient(180deg, #101010 0%, #070707 100%);
+    border: 1px solid #202020;
+    border-radius: 8px;
+    padding: 18px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.perp-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255, 42, 42, 0.18), transparent 48%);
+    pointer-events: none;
+}
+
+.perp-card span {
+    display: inline-flex;
+    color: #00ff66;
+    background: rgba(0, 255, 102, 0.08);
+    border: 1px solid rgba(0, 255, 102, 0.22);
+    border-radius: 4px;
+    padding: 4px 7px;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.perp-card strong {
+    display: block;
+    color: #fff;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.perp-card p {
+    color: #858585;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.perp-card.btc span,
+.perp-card.hype span {
+    color: #ffb703;
+    background: rgba(255, 183, 3, 0.08);
+    border-color: rgba(255, 183, 3, 0.25);
+}
+
+.perp-card.doge span,
+.perp-card.xlm span {
+    color: #00d2ff;
+    background: rgba(0, 210, 255, 0.08);
+    border-color: rgba(0, 210, 255, 0.25);
+}
+
+.leverage-strip {
+    margin-top: 18px;
+    background: #0b0b0b;
+    border: 1px solid #242424;
+    border-radius: 8px;
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+}
+
+.leverage-strip strong {
+    display: block;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+}
+
+.leverage-strip span {
+    color: #aaa;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.leverage-strip a {
+    color: #000;
+    background: #00ff66;
+    border: 1px solid #00ff66;
+    border-radius: 5px;
+    padding: 11px 15px;
+    text-decoration: none;
+    font-size: 0.76rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .perps-section {
+        padding: 64px 16px;
+    }
+
+    .perps-section h2 {
+        font-size: 2rem;
+    }
+
+    .perps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .leverage-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .leverage-strip a {
+        text-align: center;
+    }
+}
+
+@media (max-width: 520px) {
+    .perps-grid {
+        grid-template-columns: 1fr;
+    }
+}
 /* LEADERBOARD PREVIEW SECTION */
 .leaderboard-preview {
     max-width: 1200px;
@@ -1865,6 +2039,73 @@ function buyChallenge(tier) {
         <div class="box">
             <h3>Quick USDC Payout Loop</h3>
             <p>Funded-stage payout requests are built for micro-scale USDC settlement. Once the payout rules are met and the request is approved, traders can receive fast stablecoin payouts without waiting on bank rails.</p>
+        </div>
+    </div>
+</section>
+    <section class="perps-section" id="perpetuals">
+    <div class="perps-shell">
+        <div class="section-label">LIVE SIM MARKETS</div>
+        <h2>Crypto Perpetuals Built For Fast Execution</h2>
+        <p class="perps-intro">
+            Trade simulated crypto perpetuals with built-in 1:50 leverage, live pricing, asset-specific contract sizing, and Rebel's margin guard watching every order before it fires.
+        </p>
+
+        <div class="perps-grid">
+            <div class="perp-card btc">
+                <span>BTC</span>
+                <strong>BTC Perps</strong>
+                <p>High-notional flagship market for disciplined size control.</p>
+            </div>
+
+            <div class="perp-card eth">
+                <span>ETH</span>
+                <strong>ETH Perps</strong>
+                <p>Core crypto perp with balanced volatility and liquidity feel.</p>
+            </div>
+
+            <div class="perp-card sol">
+                <span>SOL</span>
+                <strong>SOL Perps</strong>
+                <p>Fast-moving market for sharp entries and active management.</p>
+            </div>
+
+            <div class="perp-card xrp">
+                <span>XRP</span>
+                <strong>XRP Perps</strong>
+                <p>Lower-priced contract structure for larger contract counts.</p>
+            </div>
+
+            <div class="perp-card doge">
+                <span>DOGE</span>
+                <strong>DOGE Perps</strong>
+                <p>Meme-market velocity with Rebel risk rules still enforced.</p>
+            </div>
+
+            <div class="perp-card hype">
+                <span>HYPE</span>
+                <strong>HYPE Perps</strong>
+                <p>New-school momentum market with arcade-style pressure.</p>
+            </div>
+
+            <div class="perp-card xlm">
+                <span>XLM</span>
+                <strong>XLM Perps</strong>
+                <p>Low-price precision market for contract sizing practice.</p>
+            </div>
+
+            <div class="perp-card bnb">
+                <span>BNB</span>
+                <strong>BNB Perps</strong>
+                <p>Large-cap exchange token exposure inside the sim desk.</p>
+            </div>
+        </div>
+
+        <div class="leverage-strip">
+            <div>
+                <strong>1:50 CROSS LEVERAGE ENGINE</strong>
+                <span>Every asset uses built-in simulated leverage with notional value, margin allocated, and remaining buying power calculated before entry.</span>
+            </div>
+            <a href="simtrading-test.html">Launch Trade Desk →</a>
         </div>
     </div>
 </section>
