@@ -436,6 +436,101 @@ header img {
         font-size: 0.68rem;
     }
 }
+    /* COMPACT ARCADE INFRASTRUCTURE STRIP */
+.arcade-strip-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 30px 58px 30px;
+    position: relative;
+    z-index: 5;
+}
+
+.arcade-strip-panel {
+    background: rgba(7, 7, 10, 0.86);
+    border: 1px solid rgba(0, 255, 102, 0.20);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 0 24px rgba(0, 255, 102, 0.05);
+}
+
+.arcade-strip-headline {
+    color: #fff;
+    font-size: 1.02rem;
+    line-height: 1.45;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 22px;
+}
+
+.arcade-strip-headline span {
+    color: #00ff66;
+}
+
+.arcade-strip-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.arcade-strip-item {
+    background: #060606;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    padding: 16px 12px;
+    text-align: center;
+    font-family: monospace;
+}
+
+.arcade-strip-label {
+    color: #ffb703;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    display: block;
+    margin-bottom: 7px;
+}
+
+.arcade-strip-copy {
+    color: #8a8a8a;
+    font-size: 0.78rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 700px) {
+    .arcade-strip-section {
+        padding: 0 18px 46px 18px;
+    }
+
+    .arcade-strip-panel {
+        padding: 20px 16px;
+    }
+
+    .arcade-strip-headline {
+        font-size: 0.9rem;
+        line-height: 1.55;
+        margin-bottom: 16px;
+    }
+
+    .arcade-strip-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .arcade-strip-item {
+        padding: 13px 8px;
+    }
+
+    .arcade-strip-label {
+        font-size: 0.64rem;
+    }
+
+    .arcade-strip-copy {
+        font-size: 0.68rem;
+    }
+}
     /* REBEL COMPARISON BLOCK */
 .rebel-compare-section {
     max-width: 1100px;
@@ -2022,44 +2117,32 @@ function buyChallenge(tier) {
     </div>
 </section>
 
-<section id="infrastructure" class="section">
-    <h2>The Arcade Infrastructure</h2>
-    <div class="section-subtitle">A fast-entry trading arcade built around instant challenge activation, live console feedback, and quick USDC micro-payout cycles.</div>
-
-    <div class="box-container">
-        <div class="box">
-            <h3>Instant Box Activation</h3>
-            <p>Choose your Recruit, Raider, or Rebel Box, complete checkout, and drop into Level 1 within moments after payment confirmation. No manual onboarding queue, no waiting for account credentials, and no dead time between entry and execution.</p>
+<section id="infrastructure" class="arcade-strip-section">
+    <div class="arcade-strip-panel">
+        <div class="arcade-strip-headline">
+            <span>Browser-based trade sim.</span> Live charts, order book depth, fast execution, and rule tracking in one Rebel desk.
         </div>
 
-        <div class="box">
-            <h3>Coin-In Challenge Flow</h3>
-            <p>Rebel is built like a trading arcade: insert your entry ticket, load your sim balance, and start attacking the market board. Each box gives you a clear account size, objective target, risk wall, and payout path.</p>
-        </div>
+        <div class="arcade-strip-grid">
+            <div class="arcade-strip-item">
+                <span class="arcade-strip-label">No Download</span>
+                <div class="arcade-strip-copy">Trade directly in-browser across desktop and mobile.</div>
+            </div>
 
-        <div class="box">
-    <h3>Browser-Based Trade Sim</h3>
-    <p>The Rebel trade desk runs directly in your browser across desktop and mobile, giving you a no-download control room with charts, order book depth, market orders, limit orders, time and sales, position tracking, and real-time account status all in one screen.</p>
-        </div>
+            <div class="arcade-strip-item">
+                <span class="arcade-strip-label">Live Sim Markets</span>
+                <div class="arcade-strip-copy">BTC, ETH, SOL, XRP, DOGE, HYPE, XLM, and BNB perpetuals.</div>
+            </div>
 
-        <div class="box">
-            <h3>Fast Crypto Perp Arena</h3>
-            <p>Trade simulated BTC, ETH, SOL, XRP, DOGE, HYPE, XLM, and BNB perpetual markets with high-speed execution and 1:50 leverage. The experience is tuned for scalpers, day traders, and high-focus session traders.</p>
-        </div>
+            <div class="arcade-strip-item">
+                <span class="arcade-strip-label">Fast Execution</span>
+                <div class="arcade-strip-copy">Market orders, limit orders, order book depth, and time and sales.</div>
+            </div>
 
-        <div class="box">
-            <h3>Real-Time Progress Feedback</h3>
-            <p>Your dashboard and trade desk track equity, P&L, challenge progress, drawdown room, trade history, and rule status as you play. You always know how close you are to clearing the current level.</p>
-        </div>
-
-        <div class="box">
-            <h3>Risk Walls, Not Guesswork</h3>
-            <p>Daily loss limits, EOD trailing drawdown, and max position margin rules act like arcade boundaries. The system keeps the game fast while making the failure conditions clear before you start trading.</p>
-        </div>
-
-        <div class="box">
-            <h3>Quick USDC Payout Loop</h3>
-            <p>Funded-stage payout requests are built for micro-scale USDC settlement. Once the payout rules are met and the request is approved, traders can receive fast stablecoin payouts without waiting on bank rails.</p>
+            <div class="arcade-strip-item">
+                <span class="arcade-strip-label">Rule Tracking</span>
+                <div class="arcade-strip-copy">Equity, P&L, drawdown room, margin guard, and challenge progress.</div>
+            </div>
         </div>
     </div>
 </section>
