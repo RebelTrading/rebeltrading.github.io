@@ -1525,6 +1525,20 @@ header img {
 .faq-item strong {
     color: #fff;
 }
+    /* ELFSIGHT CHATBOT POSITION */
+.elfsight-chatbot-wrap {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 2005;
+}
+
+@media (max-width: 700px) {
+    .elfsight-chatbot-wrap {
+        right: 12px;
+        bottom: 12px;
+    }
+}
 /* FOOTER STANDARD */
 footer {
     text-align: center;
@@ -2410,6 +2424,11 @@ function buyChallenge(tier) {
     Privacy Policy
 </a>
 </footer>
+    <!-- Elfsight AI Chatbot | Rebel AI Chatbot -->
+<div class="elfsight-chatbot-wrap">
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <div class="elfsight-app-fd8cccd3-8377-4b52-893c-0b94e1c18fbd" data-elfsight-app-lazy></div>
+</div>
     
 
 </body>
