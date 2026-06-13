@@ -1106,11 +1106,21 @@ header img {
         order: 2;
     }
 
-    .asset-bar {
-        overflow-x: auto;
+        .asset-bar {
+        overflow: visible;
         white-space: nowrap;
         padding: 7px;
+        z-index: 900;
     }
+
+    .asset-menu {
+        z-index: 950;
+    }
+
+    .asset-dropdown {
+    min-width: 180px;
+    max-width: calc(100vw - 32px);
+}
 
     .asset-menu summary {
     max-width: calc(100vw - 38px);
