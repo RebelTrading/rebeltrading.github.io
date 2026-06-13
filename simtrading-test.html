@@ -1544,13 +1544,21 @@ async function testLogin() {
     localStorage.setItem("rebel_auth_token", data.token);
     await checkTradingAccess();
 }
+function getNetLiquidationValue() {
+    return ACCOUNT_BALANCE + FLOATING_PNL;
+}
+
+function getChallengeProfitValue() {
+    return getNetLiquidationValue() - STARTING_BALANCE;
+}
+
 function getChallengeProgressPct() {
-    const combinedTotalProfit = REALIZED_PNL + FLOATING_PNL;
     const stage = ACTIVE_CHALLENGE?.stage || "challenge";
+    const challengeProfit = getChallengeProfitValue();
 
     if (stage === "rebel_stage") {
         const fundedProfitPct = STARTING_BALANCE > 0
-            ? ((ACCOUNT_BALANCE + FLOATING_PNL - STARTING_BALANCE) / STARTING_BALANCE) * 100
+            ? (challengeProfit / STARTING_BALANCE) * 100
             : 0;
 
         return Math.max(0, fundedProfitPct);
@@ -1558,7 +1566,7 @@ function getChallengeProgressPct() {
 
     if (!PROFIT_TARGET || PROFIT_TARGET <= 0) return 0;
 
-    return Math.max(0, Math.min(100, (combinedTotalProfit / PROFIT_TARGET) * 100));
+    return Math.max(0, Math.min(100, (challengeProfit / PROFIT_TARGET) * 100));
 }
 
 function initializeProgressMilestones() {
@@ -2075,12 +2083,10 @@ function updateAccountMetrics() {
         }
     }
 
-    let combinedTotalProfit = REALIZED_PNL + FLOATING_PNL;
-    let accountProgressPct = (combinedTotalProfit / PROFIT_TARGET) * 100;
+        let netLiquidationValue = getNetLiquidationValue();
+    let challengeProfit = getChallengeProfitValue();
 
     checkProgressMilestones();
-    
-    let netLiquidationValue = ACCOUNT_BALANCE + FLOATING_PNL;
     if (netLiquidationValue > PEAK_BALANCE) {
         PEAK_BALANCE = netLiquidationValue;
     }
@@ -2128,7 +2134,7 @@ function updateAccountMetrics() {
         targetField.innerText = "UNLIMITED";
         targetField.className = "pass";
     } else {
-        const targetLeft = PROFIT_TARGET - combinedTotalProfit;
+        const targetLeft = (STARTING_BALANCE + PROFIT_TARGET) - netLiquidationValue;
 
         if (targetLeft <= 0) {
             targetField.innerText = "TARGET MET! (PASSED)";
@@ -2147,8 +2153,7 @@ function updateAccountMetrics() {
         document.getElementById('header-progress-fill').style.width = "100%";
         document.getElementById('header-progress-pct').innerText = `${Number(ACTIVE_CHALLENGE?.payout_split || 80).toFixed(0)}% SPLIT`;
     } else {
-        let challengePct = PROFIT_TARGET > 0 ? (combinedTotalProfit / PROFIT_TARGET) * 100 : 0;
-        challengePct = Math.max(0, Math.min(100, challengePct));
+        let challengePct = getChallengeProgressPct();
         document.getElementById('header-progress-fill').style.width = `${challengePct.toFixed(1)}%`;
         document.getElementById('header-progress-pct').innerText = `${challengePct.toFixed(0)}%`;
     }
