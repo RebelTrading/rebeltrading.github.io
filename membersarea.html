@@ -937,7 +937,7 @@ async function loadMemberDashboard() {
     const marginRate = getMaxPositionMarginRate(challenge.tier);
     const eodHighBalance = Number(challenge.eod_high_balance) || starting;
     const drawdownFloor = eodHighBalance - trailingLimit;
-    const pnl = realized + floating;
+    const pnl = equity - starting;
     const targetBalance = starting + target;
     const targetRemaining = Math.max(0, targetBalance - equity);
     const stage = challenge.stage || "challenge";
