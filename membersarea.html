@@ -938,7 +938,8 @@ async function loadMemberDashboard() {
     const eodHighBalance = Number(challenge.eod_high_balance) || starting;
     const drawdownFloor = eodHighBalance - trailingLimit;
     const pnl = realized + floating;
-    const targetRemaining = Math.max(0, target - pnl);
+    const targetBalance = starting + target;
+    const targetRemaining = Math.max(0, targetBalance - equity);
     const stage = challenge.stage || "challenge";
     const accountStatus = challenge.status || "active";
     const failureReason = challenge.failure_reason || "";
