@@ -1020,7 +1020,118 @@ header img {
                     0 0 45px rgba(0, 255, 102, 0.55) !important;
     }
 }
+/* JULY 4 BUY CHALLENGE LOCK OVERLAY */
+.prelaunch-buy-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    box-sizing: border-box;
+    background:
+        radial-gradient(circle at 50% 35%, rgba(255, 42, 42, 0.18), transparent 34%),
+        rgba(0, 0, 0, 0.84);
+    backdrop-filter: blur(8px);
+}
 
+.prelaunch-buy-overlay.active {
+    display: flex;
+}
+
+.prelaunch-buy-card {
+    width: 100%;
+    max-width: 520px;
+    background: rgba(6, 6, 8, 0.94);
+    border: 1px solid rgba(255, 42, 42, 0.58);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    box-shadow:
+        0 0 28px rgba(255, 42, 42, 0.26),
+        inset 0 0 22px rgba(255, 42, 42, 0.05);
+    box-sizing: border-box;
+}
+
+.prelaunch-buy-kicker {
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.prelaunch-buy-card h2 {
+    color: #fff;
+    margin: 0 0 12px 0;
+    font-size: 1.85rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.prelaunch-buy-card h2 span {
+    color: #ff2a2a;
+}
+
+.prelaunch-buy-card p {
+    color: #bdbdbd;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+}
+
+.prelaunch-buy-card strong {
+    color: #00ff66;
+}
+
+.prelaunch-buy-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.prelaunch-buy-actions button,
+.prelaunch-buy-actions a {
+    border-radius: 5px;
+    padding: 13px 10px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.prelaunch-buy-actions button {
+    background: #111;
+    color: #aaa;
+    border: 1px solid #2a2a2a;
+}
+
+.prelaunch-buy-actions a {
+    background: #00ff66;
+    color: #000;
+    border: 1px solid #00ff66;
+}
+
+@media (max-width: 800px) {
+    .prelaunch-buy-card {
+        padding: 24px 18px;
+    }
+
+    .prelaunch-buy-card h2 {
+        font-size: 1.45rem;
+        line-height: 1.15;
+    }
+
+    .prelaunch-buy-actions {
+        grid-template-columns: 1fr;
+    }
+}
 /* MOBILE TRADE DESK LAYOUT ONLY */
 @media (max-width: 800px) {
     body {
@@ -1380,6 +1491,19 @@ let activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.
 function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
+}
+    function showPrelaunchBuyOverlay() {
+    const overlay = document.getElementById("prelaunch-buy-overlay");
+    if (!overlay) return;
+
+    overlay.classList.add("active");
+}
+
+function closePrelaunchBuyOverlay() {
+    const overlay = document.getElementById("prelaunch-buy-overlay");
+    if (!overlay) return;
+
+    overlay.classList.remove("active");
 }
 
 async function checkTradingAccess() {
@@ -1782,8 +1906,8 @@ function setTradingAccessState(hasAccess) {
         return;
     }
 
-    actions.innerHTML = `
-        <button class="exec-btn buy" style="grid-column: 1 / -1;" onclick="window.location.href='payments.html?redirect=membersarea.html'">
+       actions.innerHTML = `
+        <button class="exec-btn buy" style="grid-column: 1 / -1;" onclick="showPrelaunchBuyOverlay()">
             GET NEW CHALLENGE
         </button>
         <button class="exec-btn sell" style="grid-column: 1 / -1; background:#141414; border:1px solid #2a2a2a;" onclick="window.location.href='membersarea.html'">
@@ -2486,6 +2610,27 @@ window.addEventListener('DOMContentLoaded', async function() {
 </head>
 
 <body>
+    <div class="prelaunch-buy-overlay" id="prelaunch-buy-overlay">
+    <div class="prelaunch-buy-card">
+        <div class="prelaunch-buy-kicker">Challenge Checkout Locked</div>
+
+        <h2>Live Trading Starts <span>July 4</span></h2>
+
+        <p>
+            The Rebel trade desk is open for preview, charting, live prices, asset switching, and account testing.
+            New challenge purchases open on <strong>July 4.</strong>
+        </p>
+
+        <p>
+            Existing test accounts with active challenges can continue trading during prelaunch testing.
+        </p>
+
+        <div class="prelaunch-buy-actions">
+            <button type="button" onclick="closePrelaunchBuyOverlay()">Back To Trade Desk</button>
+            <a href="membership.html?redirect=membersarea.html">Create Account Early</a>
+        </div>
+    </div>
+</div>
 
 <header>
     <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo03.png" alt="Rebel Trading Logo">
@@ -2542,7 +2687,7 @@ window.addEventListener('DOMContentLoaded', async function() {
 <div class="menu" id="menu">
     <a href="membersarea.html" style="color:#00ff66;">Sign In / Dashboard</a>
     <a href="membership.html?redirect=payments.html%3Fredirect%3Dmembersarea.html" style="color:#ffb703;">Create Account</a>
-    <a href="payments.html?redirect=membersarea.html">Buy Challenge</a>
+    <a href="#" onclick="showPrelaunchBuyOverlay(); return false;">Buy Challenge</a>
 </div>
 
 <div class="desk-container">
