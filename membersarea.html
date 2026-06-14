@@ -149,6 +149,63 @@ header img {
 .account-selector-bar select:focus {
     border-color: #ff2a2a;
 }
+    .current-badge-panel {
+    min-width: 190px;
+    background: #09090b;
+    border: 1px solid #1f1f23;
+    border-radius: 6px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+.current-badge-label {
+    color: #777;
+    font-size: 0.58rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.current-badge-value {
+    display: inline-flex;
+    align-items: center;
+    min-height: 20px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    background: #101010;
+    color: #aaa;
+    border: 1px solid #2a2a2a;
+}
+
+.current-badge-value.green {
+    background: #001a0e;
+    color: #00ff66;
+    border-color: #00ff66;
+}
+
+.current-badge-value.gold {
+    background: #1d1600;
+    color: #ffb703;
+    border-color: #ffb703;
+}
+
+.current-badge-value.cyan {
+    background: #001f24;
+    color: #00d2ff;
+    border-color: #00d2ff;
+}
+
+.current-badge-value.red {
+    background: #220505;
+    color: #ff2a2a;
+    border-color: #ff2a2a;
+}
 
 /* DASHBOARD TILES GRID MATRIX */
 .grid {
@@ -826,6 +883,51 @@ function setText(id, value) {
     const element = document.getElementById(id);
     if (element) element.innerText = value;
 }
+    const arcadeBadgeDefinitions = {
+    T1_BOX: { label: "RECRUIT BOX", style: "green" },
+    T2_BOX: { label: "RAIDER BOX", style: "cyan" },
+    T3_BOX: { label: "REBEL BOX", style: "gold" },
+    FIRST_STRIKE: { label: "FIRST STRIKE", style: "green" },
+    SPEEDRUN_LIVE: { label: "SPEEDRUN LIVE", style: "gold" },
+    QUARTER_CLEAR: { label: "QUARTER CLEAR", style: "green" },
+    HALFWAY_HIT: { label: "HALFWAY HIT", style: "green" },
+    BOSS_LEVEL: { label: "BOSS LEVEL", style: "gold" },
+    FINAL_GATE: { label: "FINAL GATE", style: "gold" },
+    LEVEL_CLEARED: { label: "LEVEL CLEARED", style: "cyan" },
+    SIM_FUNDED: { label: "SIM FUNDED", style: "cyan" },
+    PAYOUT_RUNWAY: { label: "PAYOUT RUNWAY", style: "green" },
+    REBEL_MOMENTUM: { label: "REBEL MOMENTUM", style: "green" },
+    PAYOUT_ENGINE: { label: "PAYOUT ENGINE", style: "gold" },
+    EXTRACTION_WINDOW: { label: "EXTRACTION WINDOW", style: "gold" },
+    HIGH_WATERMARK: { label: "HIGH WATERMARK", style: "gold" },
+    REBEL_DOMINANCE: { label: "REBEL DOMINANCE", style: "cyan" },
+    ACCOUNT_FAILED: { label: "ACCOUNT FAILED", style: "red" }
+};
+
+function renderCurrentBadgeStatus(challenge) {
+    const badgeEl = document.getElementById("dashboard-current-badge");
+    if (!badgeEl || !challenge?.id) return;
+
+    let unlocked = [];
+
+    try {
+        unlocked = JSON.parse(localStorage.getItem(`rebel_arcade_badges_${challenge.id}`) || "[]");
+    } catch (err) {
+        unlocked = [];
+    }
+
+    const badgeId = unlocked[unlocked.length - 1];
+    const badge = arcadeBadgeDefinitions[badgeId];
+
+    if (!badge) {
+        badgeEl.innerText = "No Badge Yet";
+        badgeEl.className = "current-badge-value";
+        return;
+    }
+
+    badgeEl.innerText = badge.label;
+    badgeEl.className = `current-badge-value ${badge.style}`;
+}
     function shouldShowFundedUnlockOverlay(challenge) {
     if (!challenge || challenge.stage !== "rebel_stage" || !challenge.funded_started_at) {
         return false;
@@ -893,6 +995,8 @@ async function loadMemberDashboard() {
 
     const user = data.user;
     const challenge = data.active_challenge;
+
+    renderCurrentBadgeStatus(challenge);
 
     setText("member-display-name", user.display_name || user.email);
     setText("member-avatar", (user.display_name || user.email || "RT").slice(0, 2).toUpperCase());
@@ -1511,10 +1615,15 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
     <select id="account-dropdown">
-        <option value="active-challenge" selected>Active Rebel Challenge</option>
-    </select>
+    <option value="active-challenge" selected>Active Rebel Challenge</option>
+</select>
 
-    <button class="action-btn" onclick="window.location.href='simtrading-test.html'">
+<div class="current-badge-panel">
+    <div class="current-badge-label">Current Badge Status</div>
+    <div class="current-badge-value" id="dashboard-current-badge">No Badge Yet</div>
+</div>
+
+<button class="action-btn" onclick="window.location.href='simtrading-test.html'">
     Launch Trade Sim
 </button>
 
