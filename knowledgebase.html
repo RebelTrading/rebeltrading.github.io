@@ -344,6 +344,54 @@ footer {
     letter-spacing: 0.5px;
 }
 
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin: 18px 0 8px 0;
+}
+
+.footer-social-link {
+    width: 38px;
+    height: 38px;
+    border: 1px solid #1f1f1f;
+    border-radius: 6px;
+    background: #0b0b0b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.footer-social-link:hover {
+    border-color: #ff2a2a;
+    box-shadow: 0 0 14px rgba(255, 42, 42, 0.28);
+    transform: translateY(-2px);
+}
+
+.footer-social-link img {
+    width: 19px;
+    height: 19px;
+    display: block;
+}
+
+.footer-social-label {
+    color: #777;
+    font-size: 0.72rem;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 16px;
+}
+
+.elfsight-chatbot-wrap {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 2005;
+}
+
 footer a {
     color: #ff2a2a;
     text-decoration: none;
@@ -428,8 +476,44 @@ footer a {
         font-size: 1.45rem;
     }
 
-    .kb-article {
+        .kb-article {
         padding: 20px 16px;
+    }
+
+    footer {
+        padding: 34px 18px;
+        line-height: 1.6;
+    }
+
+    .footer-socials {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 18px 0 8px 0;
+    }
+
+    .footer-social-link {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer-social-link img {
+        width: 19px !important;
+        height: 19px !important;
+        max-width: 19px !important;
+        max-height: 19px !important;
+        display: block;
+    }
+
+    .elfsight-chatbot-wrap {
+        right: 12px;
+        bottom: 12px;
     }
 }
 </style>
