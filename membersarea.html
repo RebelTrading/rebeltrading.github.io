@@ -593,6 +593,139 @@ header img {
     justify-content: center;
     flex-wrap: wrap;
 }
+    /* JULY 4 MEMBER PRELAUNCH OVERLAY */
+.member-prelaunch-overlay {
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 35%, rgba(255, 42, 42, 0.18), transparent 34%),
+        rgba(0, 0, 0, 0.84);
+    backdrop-filter: blur(8px);
+    z-index: 2990;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.member-prelaunch-overlay.active {
+    display: flex;
+}
+
+.member-prelaunch-card {
+    width: 100%;
+    max-width: 560px;
+    background: rgba(6, 6, 8, 0.94);
+    border: 1px solid rgba(255, 42, 42, 0.58);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    box-shadow:
+        0 0 28px rgba(255, 42, 42, 0.26),
+        inset 0 0 22px rgba(255, 42, 42, 0.05);
+    box-sizing: border-box;
+}
+
+.member-prelaunch-kicker {
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.member-prelaunch-card h2 {
+    color: #fff;
+    margin: 0 0 12px 0;
+    font-size: 1.85rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.member-prelaunch-card h2 span {
+    color: #ff2a2a;
+}
+
+.member-prelaunch-card p {
+    color: #bdbdbd;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+}
+
+.member-prelaunch-card strong {
+    color: #00ff66;
+}
+
+.member-prelaunch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.member-prelaunch-stat {
+    background: #090909;
+    border: 1px solid #1f1f1f;
+    border-radius: 5px;
+    padding: 11px 8px;
+    font-family: monospace;
+}
+
+.member-prelaunch-stat strong {
+    display: block;
+    color: #ffb703;
+    font-size: 0.82rem;
+    margin-bottom: 4px;
+}
+
+.member-prelaunch-stat span {
+    display: block;
+    color: #888;
+    font-size: 0.64rem;
+    text-transform: uppercase;
+}
+
+.member-prelaunch-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.member-prelaunch-actions button,
+.member-prelaunch-actions a {
+    border-radius: 5px;
+    padding: 13px 10px;
+    font-size: 0.78rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.member-prelaunch-actions button {
+    background: #111;
+    color: #aaa;
+    border: 1px solid #2a2a2a;
+}
+
+.member-prelaunch-actions a {
+    background: #ff2a2a;
+    color: #fff;
+    border: 1px solid #ff2a2a;
+}
+
+.member-prelaunch-actions .green {
+    background: #00ff66;
+    color: #000;
+    border-color: #00ff66;
+}
     .member-auth-panel {
     min-height: 100vh;
     padding: 130px 20px 60px;
@@ -854,8 +987,26 @@ body.signed-out .user-profile-badge {
         line-height: 1.15;
     }
 
-    .funded-unlock-actions {
+        .funded-unlock-actions {
         display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .member-prelaunch-card {
+        padding: 24px 18px;
+    }
+
+    .member-prelaunch-card h2 {
+        font-size: 1.45rem;
+        line-height: 1.15;
+    }
+
+    .member-prelaunch-card p {
+        font-size: 0.88rem;
+    }
+
+    .member-prelaunch-grid,
+    .member-prelaunch-actions {
         grid-template-columns: 1fr;
     }
 }
@@ -955,6 +1106,29 @@ function dismissFundedUnlockOverlay() {
 
     overlay.style.display = "none";
 }
+    function shouldShowMemberPrelaunchOverlay() {
+    const launchDate = new Date("2026-07-04T00:00:00");
+    const dismissed = localStorage.getItem("rebel_member_prelaunch_seen");
+
+    return Date.now() < launchDate.getTime() && dismissed !== "1";
+}
+
+function showMemberPrelaunchOverlay() {
+    const overlay = document.getElementById("member-prelaunch-overlay");
+    if (!overlay || !shouldShowMemberPrelaunchOverlay()) return;
+
+    setTimeout(() => {
+        overlay.classList.add("active");
+    }, 500);
+}
+
+function dismissMemberPrelaunchOverlay() {
+    const overlay = document.getElementById("member-prelaunch-overlay");
+    if (!overlay) return;
+
+    localStorage.setItem("rebel_member_prelaunch_seen", "1");
+    overlay.classList.remove("active");
+}
 
 async function loadMemberDashboard() {
     const token = localStorage.getItem("rebel_auth_token");
@@ -1002,6 +1176,7 @@ async function loadMemberDashboard() {
     setText("member-avatar", (user.display_name || user.email || "RT").slice(0, 2).toUpperCase());
 
     if (!challenge) {
+    showMemberPrelaunchOverlay();
     setText("dashboard-stage", "No Challenge");
     setText("dashboard-stage-detail", "Buy a challenge to unlock live simulated trading");
     setText("dashboard-equity", "--");
@@ -1129,8 +1304,10 @@ async function loadMemberDashboard() {
     await loadTradeStats(token);
     await loadPayoutStatus(token);
 
-    if (shouldShowFundedUnlockOverlay(challenge)) {
+        if (shouldShowFundedUnlockOverlay(challenge)) {
         showFundedUnlockOverlay(challenge);
+    } else {
+        showMemberPrelaunchOverlay();
     }
 }
 function updatePayoutEligibility(challenge, equity) {
@@ -1572,6 +1749,43 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
         <div class="funded-unlock-actions">
             <button class="action-btn" onclick="dismissFundedUnlockOverlay()">View Dashboard</button>
             <button class="action-btn" onclick="window.location.href='simtrading-test.html'">Launch Trade Desk</button>
+        </div>
+    </div>
+</div>
+    <div class="member-prelaunch-overlay" id="member-prelaunch-overlay">
+    <div class="member-prelaunch-card">
+        <div class="member-prelaunch-kicker">Account Ready / Launch Pending</div>
+
+        <h2>Trading Opens <span>July 4</span></h2>
+
+        <p>
+            Your Rebel member dashboard is live. You can view your account status, badge progress,
+            payout profile, support tools, and trade history here before launch.
+        </p>
+
+        <p>
+            The trade desk is available for preview, but <strong>live challenge trading is disabled until July 4.</strong>
+        </p>
+
+        <div class="member-prelaunch-grid">
+            <div class="member-prelaunch-stat">
+                <strong>Dashboard</strong>
+                <span>Available Now</span>
+            </div>
+            <div class="member-prelaunch-stat">
+                <strong>Trade Desk</strong>
+                <span>Preview Mode</span>
+            </div>
+            <div class="member-prelaunch-stat">
+                <strong>July 4</strong>
+                <span>Trading Opens</span>
+            </div>
+        </div>
+
+        <div class="member-prelaunch-actions">
+            <button type="button" onclick="dismissMemberPrelaunchOverlay()">View Dashboard</button>
+            <a href="simtrading-test.html">Preview Trade Desk</a>
+            <a class="green" href="payments.html?redirect=membersarea.html">Buy Challenge Early</a>
         </div>
     </div>
 </div>
