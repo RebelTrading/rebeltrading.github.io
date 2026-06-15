@@ -1461,6 +1461,7 @@ let REALIZED_PNL = 0.00;
 let PROFIT_TARGET = 300.00;
 let DAILY_LOSS_LIMIT = 150.00;
 let EOD_TRAILING_LIMIT = 300.00;
+let EOD_HIGH_BALANCE = 3000.00;
 
 // High-Fidelity Crypto Perp Multipliers & Fixed Decimals Configurations
 const assetMap = {
@@ -1560,6 +1561,7 @@ function applyActiveChallengeToSim() {
     : PROFIT_TARGET;
     DAILY_LOSS_LIMIT = Number(ACTIVE_CHALLENGE.daily_loss_limit) || DAILY_LOSS_LIMIT;
     EOD_TRAILING_LIMIT = Number(ACTIVE_CHALLENGE.trailing_limit) || EOD_TRAILING_LIMIT;
+    EOD_HIGH_BALANCE = Number(ACTIVE_CHALLENGE.eod_high_balance) || STARTING_BALANCE;
 
 const activeChallengeSelect = document.getElementById('active-challenge-select');
 if (activeChallengeSelect) {
@@ -2226,7 +2228,7 @@ function updateAccountMetrics() {
     }
 
     let accumulatedLoss = STARTING_BALANCE - netLiquidationValue;
-    let currentTrailingDrawdown = PEAK_BALANCE - netLiquidationValue;
+    let currentTrailingDrawdown = Math.max(0, EOD_HIGH_BALANCE - netLiquidationValue);
 
     document.getElementById('display-balance').innerText = `$${netLiquidationValue.toFixed(2)}`;
     
@@ -2302,11 +2304,13 @@ function updateAccountMetrics() {
     }
 
     const trailingGuard = document.getElementById('metric-trailing');
-    if (currentTrailingDrawdown >= EOD_TRAILING_LIMIT) {
-        trailingGuard.innerText = `VIOLATED ($${currentTrailingDrawdown.toFixed(2)} / $${EOD_TRAILING_LIMIT})`;
+    const eodDrawdownFloor = EOD_HIGH_BALANCE - EOD_TRAILING_LIMIT;
+
+    if (netLiquidationValue <= eodDrawdownFloor) {
+        trailingGuard.innerText = `VIOLATED (Floor: $${eodDrawdownFloor.toFixed(2)})`;
         trailingGuard.className = "fail";
     } else {
-        trailingGuard.innerText = `PASSED ($${currentTrailingDrawdown.toFixed(2)} / $${EOD_TRAILING_LIMIT})`;
+        trailingGuard.innerText = `PASSED (Floor: $${eodDrawdownFloor.toFixed(2)})`;
         trailingGuard.className = "pass";
     }
 
