@@ -2070,8 +2070,10 @@ async function submitLaunchInterest(event) {
             status.innerText = "You're on the July 4 launch list.";
         }
 
+        localStorage.setItem("rebel_launch_overlay_dismissed", "1");
+
         setTimeout(() => {
-            window.location.href = "membership.html?redirect=membersarea.html";
+            closeLaunchOverlay(false);
         }, 900);
     } catch (error) {
         console.error("Waitlist signup failed:", error);
