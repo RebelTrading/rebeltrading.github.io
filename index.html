@@ -2024,34 +2024,67 @@ function closeLaunchOverlay(remember = true) {
     }
 }
 
-function submitLaunchInterest(event) {
+async function submitLaunchInterest(event) {
     event.preventDefault();
 
     const name = document.getElementById("launch-waitlist-name")?.value || "";
     const email = document.getElementById("launch-waitlist-email")?.value || "";
     const status = document.getElementById("launch-waitlist-status");
+    const submitButton = event.target.querySelector('button[type="submit"]');
 
-    if (!email.trim()) {
-        if (status) status.innerText = "Enter your email to join the July 4 list.";
+    if (!email.trim() || !email.includes("@")) {
+        if (status) status.innerText = "Enter a valid email to join the July 4 list.";
         return;
     }
 
-    const pendingLead = {
-        name: name.trim(),
-        email: email.trim().toLowerCase(),
-        source: "homepage_launch_overlay",
-        created_at: Math.floor(Date.now() / 1000)
-    };
-
-    localStorage.setItem("rebel_pending_waitlist_lead", JSON.stringify(pendingLead));
-
     if (status) {
-        status.innerText = "Saved locally for now. Backend waitlist connection comes next.";
+        status.innerText = "Joining launch list...";
     }
 
-    setTimeout(() => {
-        window.location.href = "membership.html?redirect=membersarea.html";
-    }, 900);
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.innerText = "Joining...";
+    }
+
+    try {
+        const response = await fetch("https://api.rebeltrading.io/api/waitlist/subscribe", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: name.trim(),
+                email: email.trim().toLowerCase(),
+                source: "homepage_launch_overlay"
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error("Waitlist request failed");
+        }
+
+        localStorage.setItem("rebel_waitlist_joined", "1");
+        localStorage.removeItem("rebel_pending_waitlist_lead");
+
+        if (status) {
+            status.innerText = "You're on the July 4 launch list.";
+        }
+
+        setTimeout(() => {
+            window.location.href = "membership.html?redirect=membersarea.html";
+        }, 900);
+    } catch (error) {
+        console.error("Waitlist signup failed:", error);
+
+        if (status) {
+            status.innerText = "Could not join the list. Please try again.";
+        }
+
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerText = "Join July 4 Waitlist";
+        }
+    }
 }
 
 window.addEventListener("DOMContentLoaded", showLaunchOverlay);
