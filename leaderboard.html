@@ -426,6 +426,29 @@ footer {
     letter-spacing: 1px;
     margin-top: 16px;
 }
+    .cloudflare-security-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 2px 0 14px 0;
+    padding: 7px 12px;
+    background: #090909;
+    border: 1px solid #242424;
+    border-radius: 5px;
+    color: #aaa;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.cloudflare-security-badge img {
+    height: 18px;
+    width: auto;
+    display: block;
+}
 
 @media (max-width: 900px) {
     header {
@@ -757,6 +780,10 @@ function toggleMenu() {
 
     <div style="margin: 18px 0 12px 0; color:#777; font-family:monospace; font-size:0.72rem; letter-spacing:0.8px; text-transform:uppercase;">
         SSL Secured | Non-Custodial Payments | USDC Settlement
+    </div>
+    <div class="cloudflare-security-badge">
+    <img src="https://cdn.simpleicons.org/cloudflare/F38020" alt="Cloudflare">
+    <span>Secured By Cloudflare</span>
     </div>
 
     © 2026 Rebel Trading Group — Private Micro-Prop Crypto Evaluation & Asset Simulation Network
