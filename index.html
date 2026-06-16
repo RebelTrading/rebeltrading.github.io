@@ -2090,7 +2090,7 @@ async function submitLaunchInterest(event) {
         localStorage.removeItem("rebel_pending_waitlist_lead");
 
         if (status) {
-            status.innerText = "You're on the July 4 launch list.";
+            status.innerText = "You're on the early access list.";
         }
 
         localStorage.setItem("rebel_launch_overlay_dismissed", "1");
@@ -2107,7 +2107,7 @@ async function submitLaunchInterest(event) {
 
         if (submitButton) {
             submitButton.disabled = false;
-            submitButton.innerText = "Join July 4 Waitlist";
+            submitButton.innerText = "Reserve Early Access";
         }
     }
 }
@@ -2148,41 +2148,41 @@ function buyChallenge(tier) {
     <div class="launch-card">
         <button class="launch-close" type="button" onclick="closeLaunchOverlay(true)">×</button>
 
-        <div class="launch-kicker">Rebel Launch Sequence</div>
-        <h2>Trading Opens <span>July 4</span></h2>
+        <div class="launch-kicker">Early Access Waitlist</div>
+<h2>Get Early Access <span>Before July 4</span></h2>
 
-        <p class="launch-copy">
-            Rebel Trading Group is opening the arena July 4 with low-cost crypto prop-style sim challenges,
-            browser-based perpetuals, arcade badges, and USDC payout rails for Sim Funded traders.
-        </p>
+<p class="launch-copy">
+    Join the Rebel waitlist for early access updates, beta trade terminal previews,
+    and first notice when $10, $20, and $30 crypto sim challenges open before launch.
+</p>
 
-        <div class="launch-points">
-            <div class="launch-point">
-                <strong>$10</strong>
-                <span>Recruit Box</span>
-            </div>
-            <div class="launch-point">
-                <strong>One Step</strong>
-                <span>No Phase 2</span>
-            </div>
-            <div class="launch-point">
-                <strong>90%</strong>
-                <span>Speedrun Split</span>
-            </div>
-        </div>
+<div class="launch-points">
+    <div class="launch-point">
+        <strong>Beta Desk</strong>
+        <span>Preview Access</span>
+    </div>
+    <div class="launch-point">
+        <strong>$10 Entry</strong>
+        <span>Micro Challenges</span>
+    </div>
+    <div class="launch-point">
+        <strong>Launch Alert</strong>
+        <span>Before July 4</span>
+    </div>
+</div>
 
-        <form class="launch-form" onsubmit="submitLaunchInterest(event)">
-            <input id="launch-waitlist-name" type="text" placeholder="Name">
-            <input id="launch-waitlist-email" type="email" placeholder="Email" required>
-            <button type="submit">Join July 4 Waitlist</button>
-        </form>
+<form class="launch-form" onsubmit="submitLaunchInterest(event)">
+    <input id="launch-waitlist-name" type="text" placeholder="Name">
+    <input id="launch-waitlist-email" type="email" placeholder="Email" required>
+    <button type="submit">Reserve Early Access</button>
+</form>
 
-        <div class="launch-status" id="launch-waitlist-status"></div>
+<div class="launch-status" id="launch-waitlist-status"></div>
 
-        <div class="launch-actions">
-            <a href="membership.html?redirect=membersarea.html">Create Account Early</a>
-            <button type="button" onclick="closeLaunchOverlay(true)">Preview The Site</button>
-        </div>
+<div class="launch-actions">
+    <a href="membership.html?redirect=membersarea.html">Create Account Early</a>
+    <button type="button" onclick="closeLaunchOverlay(true)">Continue Browsing</button>
+</div>
     </div>
 </div>
 
