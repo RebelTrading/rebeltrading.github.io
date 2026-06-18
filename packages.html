@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rebel Trading Group | Sim Box Packages</title>
+
+<style>
+html {
+    background:
+        linear-gradient(115deg, rgba(255, 42, 42, 0.10) 0%, transparent 28%),
+        linear-gradient(245deg, rgba(0, 255, 102, 0.055) 0%, transparent 24%),
+        linear-gradient(180deg, #000 0%, #050202 45%, #000 100%);
+    background-attachment: fixed;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: transparent;
+    color: #bdbdbd;
+    overflow-x: hidden;
+}
+
+.site-glare {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.38;
+    mix-blend-mode: screen;
+    background:
+        radial-gradient(circle at 18% 22%, rgba(255, 42, 42, 0.22), transparent 28%),
+        radial-gradient(circle at 82% 38%, rgba(0, 255, 102, 0.12), transparent 24%),
+        linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.035) 42%, transparent 58%);
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 78px;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #1a1a1a;
+    z-index: 1000;
+}
+
+header img {
+    height: 56px;
+    max-width: 155px;
+    object-fit: contain;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.header-actions a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+}
+
+.header-actions a:hover {
+    color: #ff2a2a;
+}
+
+.header-actions .primary {
+    background: #ff2a2a;
+    color: #fff;
+    border: 1px solid #ff5555;
+    border-radius: 5px;
+    padding: 10px 12px;
+    box-shadow: 0 0 14px rgba(255, 42, 42, 0.26);
+}
+
+.page-shell {
+    position: relative;
+    z-index: 5;
+}
+
+.hero {
+    min-height: 86vh;
+    display: grid;
+    align-items: center;
+    padding: 132px 24px 58px 24px;
+    box-sizing: border-box;
+    background:
+        radial-gradient(circle at 72% 32%, rgba(255, 42, 42, 0.16), transparent 34%),
+        radial-gradient(circle at 30% 55%, rgba(0, 255, 102, 0.07), transparent 32%),
+        rgba(0, 0, 0, 0.35);
+}
+
+.hero-inner {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+    gap: 34px;
+    align-items: center;
+}
+
+.kicker {
+    color: #00ff66;
+    font-family: monospace;
+    font-size: 0.74rem;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+h1 {
+    color: #fff;
+    font-size: clamp(2.8rem, 7vw, 5.8rem);
+    line-height: 0.95;
+    margin: 0;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+}
+
+h1 span {
+    color: #ff2a2a;
+    text-shadow: 0 0 22px rgba(255, 42, 42, 0.28);
+}
+
+.hero-copy {
+    max-width: 680px;
+    color: #aaa;
+    font-size: 1rem;
+    line-height: 1.75;
+    margin: 22px 0 28px 0;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+
+.btn.red {
+    background: #ff2a2a;
+    color: #fff;
+    border: 1px solid #ff5555;
+    box-shadow: 0 0 18px rgba(255, 42, 42, 0.28);
+}
+
+.btn.green {
+    background: #00ff66;
+    color: #000;
+    border: 1px solid #00ff66;
+    box-shadow: 0 0 18px rgba(0, 255, 102, 0.18);
+}
+
+.btn.dark {
+    background: #0b0b0b;
+    color: #aaa;
+    border: 1px solid #242424;
+}
+
+.hero-terminal {
+    background: linear-gradient(180deg, rgba(10, 10, 12, 0.95), rgba(3, 3, 4, 0.98));
+    border: 1px solid rgba(255, 42, 42, 0.34);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.42), 0 0 28px rgba(255, 42, 42, 0.08);
+}
+
+.terminal-header {
+    height: 44px;
+    background: #0d0d0d;
+    border-bottom: 1px solid #1f1f1f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    box-sizing: border-box;
+    color: #777;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.terminal-led {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #00ff66;
+}
+
+.terminal-led::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00ff66;
+    box-shadow: 0 0 10px #00ff66;
+}
+
+.terminal-body {
+    padding: 22px;
+    display: grid;
+    gap: 12px;
+}
+
+.terminal-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    background: #070707;
+}
+
+.terminal-row span {
+    color: #777;
+    font-size: 0.78rem;
+    font-family: monospace;
+    text-transform: uppercase;
+}
+
+.terminal-row strong {
+    color: #fff;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.terminal-row strong.green {
+    color: #00ff66;
+}
+
+.terminal-row strong.gold {
+    color: #ffb703;
+}
+
+.section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 82px 24px;
+    box-sizing: border-box;
+}
+
+.section.compact {
+    padding-top: 34px;
+}
+
+.section-header {
+    max-width: 850px;
+    margin-bottom: 34px;
+}
+
+.section-label {
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #fff;
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.section-header p {
+    color: #999;
+    line-height: 1.75;
+    font-size: 0.98rem;
+    margin: 16px 0 0 0;
+}
+
+.tier-stack {
+    display: grid;
+    gap: 28px;
+}
+
+.tier-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(260px, 0.42fr) minmax(0, 0.58fr);
+    gap: 22px;
+    align-items: stretch;
+    background: rgba(7, 7, 10, 0.86);
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 26px rgba(255, 42, 42, 0.04);
+}
+
+.tier-card.featured {
+    border-color: rgba(255, 183, 3, 0.58);
+    box-shadow: 0 0 34px rgba(255, 183, 3, 0.09);
+}
+
+.tier-summary {
+    padding: 30px;
+    background:
+        radial-gradient(circle at top right, rgba(255, 42, 42, 0.16), transparent 44%),
+        #080808;
+    border-right: 1px solid #181818;
+}
+
+.tier-card.featured .tier-summary {
+    background:
+        radial-gradient(circle at top right, rgba(255, 183, 3, 0.18), transparent 44%),
+        #080808;
+}
+
+.tier-tag {
+    display: inline-flex;
+    padding: 5px 9px;
+    border: 1px solid rgba(0, 255, 102, 0.28);
+    background: rgba(0, 255, 102, 0.08);
+    color: #00ff66;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.66rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+.tier-card.featured .tier-tag {
+    border-color: rgba(255, 183, 3, 0.45);
+    background: rgba(255, 183, 3, 0.10);
+    color: #ffb703;
+}
+
+.tier-summary h3 {
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+
+.tier-size {
+    color: #aaa;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tier-price {
+    color: #ff2a2a;
+    font-family: monospace;
+    font-size: 3.4rem;
+    font-weight: bold;
+    line-height: 1;
+    margin: 24px 0 12px 0;
+}
+
+.tier-card.featured .tier-price {
+    color: #ffb703;
+}
+
+.tier-price span {
+    color: #444;
+    font-size: 1.2rem;
+    text-decoration: line-through;
+    margin-right: 8px;
+}
+
+.tier-note {
+    color: #888;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.tier-details {
+    padding: 30px;
+    display: grid;
+    gap: 18px;
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.metric {
+    background: #080808;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    padding: 14px;
+}
+
+.metric span {
+    display: block;
+    color: #666;
+    font-family: monospace;
+    font-size: 0.64rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 7px;
+}
+
+.metric strong {
+    display: block;
+    color: #fff;
+    font-family: monospace;
+    font-size: 1.02rem;
+}
+
+.metric strong.green {
+    color: #00ff66;
+}
+
+.metric strong.gold {
+    color: #ffb703;
+}
+
+.rule-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.rule-box {
+    background: #060606;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    padding: 14px;
+}
+
+.rule-box strong {
+    display: block;
+    color: #fff;
+    font-size: 0.86rem;
+    margin-bottom: 6px;
+}
+
+.rule-box p {
+    color: #8a8a8a;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.compare-panel,
+.rules-panel {
+    background: rgba(7, 7, 10, 0.84);
+    border: 1px solid #181818;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.compare-table th,
+.compare-table td {
+    padding: 15px 14px;
+    border-bottom: 1px solid #141414;
+    text-align: left;
+    font-size: 0.86rem;
+}
+
+.compare-table th {
+    color: #777;
+    background: #0d0d0d;
+    font-family: monospace;
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.compare-table td {
+    color: #aaa;
+}
+
+.compare-table td strong {
+    color: #fff;
+    font-family: monospace;
+}
+
+.compare-table tr:last-child td {
+    border-bottom: none;
+}
+
+.rules-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.rules-card {
+    background: #080808;
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.rules-card strong {
+    display: block;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.rules-card p {
+    color: #8a8a8a;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.flow-band {
+    background: #050505;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+}
+
+.flow-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.flow-step {
+    position: relative;
+    background: #080808;
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.flow-step span {
+    display: inline-flex;
+    color: #ff2a2a;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.flow-step h3 {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0 0 8px 0;
+    text-transform: uppercase;
+}
+
+.flow-step p {
+    color: #858585;
+    font-size: 0.83rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.cta-band {
+    text-align: center;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255, 42, 42, 0.18), transparent 38%),
+        rgba(0, 0, 0, 0.18);
+}
+
+.cta-band p {
+    color: #999;
+    max-width: 720px;
+    margin: 16px auto 26px auto;
+    line-height: 1.7;
+}
+
+footer {
+    text-align: center;
+    padding: 40px 18px;
+    background: #050505;
+    border-top: 1px solid #111;
+    font-size: 0.8rem;
+    color: #555;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 5;
+}
+
+.footer-social-label {
+    color: #777;
+    font-size: 0.72rem;
+    font-family: monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.trust-line {
+    margin: 18px 0 10px 0;
+    color: #777;
+    font-family: monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.cloudflare-security-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 2px 0 14px 0;
+    padding: 7px 12px;
+    background: #090909;
+    border: 1px solid #242424;
+    border-radius: 5px;
+    color: #aaa;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.cloudflare-security-badge img {
+    height: 18px;
+    width: auto;
+    display: block;
+}
+
+footer a {
+    color: #ff2a2a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 980px) {
+    .hero-inner,
+    .tier-card {
+        grid-template-columns: 1fr;
+    }
+
+    .tier-summary {
+        border-right: none;
+        border-bottom: 1px solid #181818;
+    }
+
+    .rules-grid,
+    .flow-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    header {
+        height: auto;
+        min-height: 76px;
+        padding: 8px 10px;
+    }
+
+    header img {
+        height: 58px;
+        max-width: 132px;
+    }
+
+    .header-actions {
+        gap: 8px;
+    }
+
+    .header-actions a:not(.primary) {
+        display: none;
+    }
+
+    .header-actions .primary {
+        padding: 8px 9px;
+        font-size: 0.64rem;
+    }
+
+    .hero {
+        min-height: auto;
+        padding: 118px 16px 46px 16px;
+    }
+
+    h1 {
+        font-size: 2.65rem;
+        letter-spacing: 0;
+    }
+
+    .hero-copy {
+        font-size: 0.92rem;
+    }
+
+    .section {
+        padding: 60px 16px;
+    }
+
+    .terminal-body,
+    .tier-summary,
+    .tier-details {
+        padding: 20px 16px;
+    }
+
+    .metric-grid,
+    .rule-grid,
+    .rules-grid,
+    .flow-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .compare-panel {
+        overflow-x: auto;
+    }
+
+    .compare-table {
+        min-width: 760px;
+    }
+
+    .tier-price {
+        font-size: 2.8rem;
+    }
+
+    .hero-actions,
+    .btn {
+        width: 100%;
+    }
+}
+</style>
+
+<script>
+function buyChallenge(tier) {
+    const token = localStorage.getItem("rebel_auth_token");
+
+    if (!token) {
+        window.location.href = "membership.html?redirect=membersarea.html";
+        return;
+    }
+
+    window.location.href = `payments.html?tier=${tier}&redirect=membersarea.html`;
+}
+</script>
+</head>
+
+<body>
+<div class="site-glare"></div>
+
+<header>
+    <a href="index.html" aria-label="Rebel Trading Group home">
+        <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo03.png" alt="Rebel Trading Logo">
+    </a>
+
+    <div class="header-actions">
+        <a href="index.html">Home</a>
+        <a href="simtrading-test.html">Trade Desk</a>
+        <a href="membership.html?redirect=membersarea.html" class="primary">Get Started</a>
+    </div>
+</header>
+
+<main class="page-shell">
+    <section class="hero">
+        <div class="hero-inner">
+            <div>
+                <div class="kicker">Rebel Sim Box Packages</div>
+                <h1>Choose Your <span>Challenge Box</span></h1>
+                <p class="hero-copy">
+                    Rebel boxes are low-cost simulated crypto prop challenges built for fast reps,
+                    clear risk limits, and a direct path into Sim Funded. Pick a $1K, $2K, or $3K
+                    simulated account, pass the 10% Level 1 target, and unlock funded-stage payout eligibility.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn red" href="#tiers">Compare Packages</a>
+                    <a class="btn green" href="membership.html?redirect=membersarea.html">Create Account</a>
+                    <a class="btn dark" href="simtrading-test.html">Preview Trade Desk</a>
+                </div>
+            </div>
+
+            <div class="hero-terminal" aria-label="Rebel package summary">
+                <div class="terminal-header">
+                    <span>Package Engine</span>
+                    <span class="terminal-led">Online</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-row">
+                        <span>Entry Tickets</span>
+                        <strong>$10 / $20 / $30</strong>
+                    </div>
+                    <div class="terminal-row">
+                        <span>Level 1 Target</span>
+                        <strong class="green">10% To Pass</strong>
+                    </div>
+                    <div class="terminal-row">
+                        <span>Challenge Risk</span>
+                        <strong>5% Daily / 10% EOD Trail</strong>
+                    </div>
+                    <div class="terminal-row">
+                        <span>Funded Split</span>
+                        <strong class="gold">80% Standard / 90% Speedrun</strong>
+                    </div>
+                    <div class="terminal-row">
+                        <span>Trading Venue</span>
+                        <strong>Browser Crypto Perp Sim</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section compact" id="tiers">
+        <div class="section-header">
+            <div class="section-label">The Three Rebel Boxes</div>
+            <h2>Same Rule Set, Different Account Scale</h2>
+            <p>
+                Every Rebel challenge uses the same core path: one-step Level 1, 10% target,
+                5% daily loss guard, EOD trailing drawdown, and a max position margin guard.
+                The package you choose controls your simulated balance, target amount, payout buffer,
+                and maximum position margin.
+            </p>
+        </div>
+
+        <div class="tier-stack">
+            <article class="tier-card">
+                <div class="tier-summary">
+                    <div class="tier-tag">Starter Box</div>
+                    <h3>Recruit Box</h3>
+                    <div class="tier-size">$1,000 Sim Account</div>
+                    <div class="tier-price"><span>$20</span>$10</div>
+                    <p class="tier-note">
+                        The lowest-cost Rebel path. Built for traders who want fast reps, smaller
+                        account pressure, and a compact target before entering Sim Funded.
+                    </p>
+                    <a href="#" onclick="buyChallenge('T1'); return false;" class="btn red">Buy Recruit Box</a>
+                </div>
+
+                <div class="tier-details">
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <span>Challenge Target</span>
+                            <strong class="green">$100.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Daily Loss Guard</span>
+                            <strong>$50.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>EOD Trail Limit</span>
+                            <strong>$100.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Funded Buffer Floor</span>
+                            <strong>$1,042</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Min Payout Request</span>
+                            <strong>$25</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Max Position Margin</span>
+                            <strong class="gold">25%</strong>
+                        </div>
+                    </div>
+
+                    <div class="rule-grid">
+                        <div class="rule-box">
+                            <strong>Best Fit</strong>
+                            <p>Good for first-time Rebel traders who want to learn the dashboard, rules, and execution flow with the smallest ticket.</p>
+                        </div>
+                        <div class="rule-box">
+                            <strong>Funded Stage</strong>
+                            <p>After passing, your balance resets to $1,000 and funded-stage profits above the $1,042 floor can become payout eligible.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="tier-card featured">
+                <div class="tier-summary">
+                    <div class="tier-tag">Featured Tier</div>
+                    <h3>Rebel Box</h3>
+                    <div class="tier-size">$3,000 Sim Account</div>
+                    <div class="tier-price"><span>$40</span>$30</div>
+                    <p class="tier-note">
+                        The largest launch-stage Rebel box. More simulated account room, a larger
+                        target, a higher payout buffer, and the highest max position margin allowance.
+                    </p>
+                    <a href="#" onclick="buyChallenge('T3'); return false;" class="btn green">Buy Rebel Box</a>
+                </div>
+
+                <div class="tier-details">
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <span>Challenge Target</span>
+                            <strong class="green">$300.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Daily Loss Guard</span>
+                            <strong>$150.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>EOD Trail Limit</span>
+                            <strong>$300.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Funded Buffer Floor</span>
+                            <strong>$3,126</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Min Payout Request</span>
+                            <strong>$25</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Max Position Margin</span>
+                            <strong class="gold">35%</strong>
+                        </div>
+                    </div>
+
+                    <div class="rule-grid">
+                        <div class="rule-box">
+                            <strong>Best Fit</strong>
+                            <p>Good for traders who want the largest launch box, more simulated capital, and more room for position sizing.</p>
+                        </div>
+                        <div class="rule-box">
+                            <strong>Funded Stage</strong>
+                            <p>After passing, your balance resets to $3,000 and funded-stage profits above the $3,126 floor can become payout eligible.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="tier-card">
+                <div class="tier-summary">
+                    <div class="tier-tag">Middle Path</div>
+                    <h3>Raider Box</h3>
+                    <div class="tier-size">$2,000 Sim Account</div>
+                    <div class="tier-price"><span>$30</span>$20</div>
+                    <p class="tier-note">
+                        The balanced Rebel package. More room than Recruit, lower cost than Rebel,
+                        and a clean middle lane for traders who want moderate simulated exposure.
+                    </p>
+                    <a href="#" onclick="buyChallenge('T2'); return false;" class="btn red">Buy Raider Box</a>
+                </div>
+
+                <div class="tier-details">
+                    <div class="metric-grid">
+                        <div class="metric">
+                            <span>Challenge Target</span>
+                            <strong class="green">$200.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Daily Loss Guard</span>
+                            <strong>$100.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>EOD Trail Limit</span>
+                            <strong>$200.00</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Funded Buffer Floor</span>
+                            <strong>$2,084</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Min Payout Request</span>
+                            <strong>$25</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Max Position Margin</span>
+                            <strong class="gold">30%</strong>
+                        </div>
+                    </div>
+
+                    <div class="rule-grid">
+                        <div class="rule-box">
+                            <strong>Best Fit</strong>
+                            <p>Good for traders who want a middle-sized challenge target and a little more margin room than the starter box.</p>
+                        </div>
+                        <div class="rule-box">
+                            <strong>Funded Stage</strong>
+                            <p>After passing, your balance resets to $2,000 and funded-stage profits above the $2,084 floor can become payout eligible.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <div class="section-label">Package Comparison</div>
+            <h2>Quick Spec Sheet</h2>
+            <p>
+                Use this table when you want the raw numbers without the arcade noise.
+            </p>
+        </div>
+
+        <div class="compare-panel">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Ticket</th>
+                        <th>Sim Balance</th>
+                        <th>10% Target</th>
+                        <th>Daily Loss</th>
+                        <th>EOD Trail</th>
+                        <th>Funded Floor</th>
+                        <th>Max Margin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Recruit Box</strong></td>
+                        <td>$10</td>
+                        <td>$1,000</td>
+                        <td>$100</td>
+                        <td>$50</td>
+                        <td>$100</td>
+                        <td>$1,042</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Raider Box</strong></td>
+                        <td>$20</td>
+                        <td>$2,000</td>
+                        <td>$200</td>
+                        <td>$100</td>
+                        <td>$200</td>
+                        <td>$2,084</td>
+                        <td>30%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rebel Box</strong></td>
+                        <td>$30</td>
+                        <td>$3,000</td>
+                        <td>$300</td>
+                        <td>$150</td>
+                        <td>$300</td>
+                        <td>$3,126</td>
+                        <td>35%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="flow-band">
+        <div class="section">
+            <div class="section-header">
+                <div class="section-label">Challenge Path</div>
+                <h2>From Ticket To Sim Funded</h2>
+                <p>
+                    Rebel keeps the path simple: choose a box, clear Level 1, unlock Sim Funded,
+                    then build payout eligibility inside the funded-stage rules.
+                </p>
+            </div>
+
+            <div class="flow-grid">
+                <div class="flow-step">
+                    <span>Step 01</span>
+                    <h3>Choose A Box</h3>
+                    <p>Pick Recruit, Raider, or Rebel depending on your preferred ticket cost and simulated account scale.</p>
+                </div>
+                <div class="flow-step">
+                    <span>Step 02</span>
+                    <h3>Clear Level 1</h3>
+                    <p>Reach the 10% challenge target while respecting daily loss, EOD trailing drawdown, and max position margin.</p>
+                </div>
+                <div class="flow-step">
+                    <span>Step 03</span>
+                    <h3>Enter Sim Funded</h3>
+                    <p>After passing, your account resets to the selected balance and profit potential becomes unlimited.</p>
+                </div>
+                <div class="flow-step">
+                    <span>Step 04</span>
+                    <h3>Request Payouts</h3>
+                    <p>Funded-stage profits above the buffer floor can become payout eligible after 5 funded trading days and a $25 minimum request.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <div class="section-label">Rules That Matter</div>
+            <h2>Risk Guard Breakdown</h2>
+            <p>
+                The rules are built to protect the sim environment while keeping the path understandable.
+                Your dashboard and trade desk track the important metrics as you trade.
+            </p>
+        </div>
+
+        <div class="rules-grid">
+            <div class="rules-card">
+                <strong>5% Daily Loss</strong>
+                <p>The intraday drawdown guard stays active through the challenge and funded-stage path.</p>
+            </div>
+            <div class="rules-card">
+                <strong>10% Challenge EOD Trail</strong>
+                <p>The Level 1 EOD trailing drawdown is 10% of the selected simulated account size.</p>
+            </div>
+            <div class="rules-card">
+                <strong>8% Funded EOD Trail</strong>
+                <p>After passing into Sim Funded, the EOD trailing drawdown tightens to 8% of the selected account size.</p>
+            </div>
+            <div class="rules-card">
+                <strong>Position Margin Guard</strong>
+                <p>Recruit allows 25%, Raider allows 30%, and Rebel allows 35% max position margin exposure.</p>
+            </div>
+            <div class="rules-card">
+                <strong>Speedrun Boost</strong>
+                <p>Clear Level 1 within the Speedrun window to unlock a 90% funded split instead of the standard 80% split.</p>
+            </div>
+            <div class="rules-card">
+                <strong>No Phase 2</strong>
+                <p>Rebel uses a one-step challenge. Pass Level 1 and the Sim Funded stage unlocks automatically.</p>
+            </div>
+            <div class="rules-card">
+                <strong>USDC Payout Rails</strong>
+                <p>Payout requests are designed around approved funded-stage profits and stablecoin settlement.</p>
+            </div>
+            <div class="rules-card">
+                <strong>Crypto Perp Sim</strong>
+                <p>Trade simulated BTC, ETH, SOL, XRP, DOGE, HYPE, XLM, and BNB perpetual markets.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section cta-band">
+        <div class="section-label">Ready For The Arena?</div>
+        <h2>Pick Your Box And Start Building Reps</h2>
+        <p>
+            Start small, scale up, or choose the full Rebel box from day one. Every path uses the same
+            one-step challenge structure and the same Sim Funded unlock flow.
+        </p>
+        <div class="hero-actions" style="justify-content:center;">
+            <a class="btn green" href="membership.html?redirect=membersarea.html">Create Account</a>
+            <a class="btn red" href="#tiers">Review Tiers Again</a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="footer-social-label">Rebel Trading Group</div>
+
+    <div class="trust-line">
+        SSL Secured | Non-Custodial Payments | USDC Settlement
+    </div>
+
+    <div class="cloudflare-security-badge">
+        <img src="https://cdn.simpleicons.org/cloudflare/F38020" alt="Cloudflare">
+        <span>Secured By Cloudflare</span>
+    </div>
+
+    &copy; 2026 Rebel Trading Group - Private Micro-Prop Crypto Evaluation & Asset Simulation Network
+    <br><br>
+    <a href="termsofuse.html">Terms of Use</a>
+    <span style="color:#333; margin:0 10px;">|</span>
+    <a href="privacypolicy.html">Privacy Policy</a>
+</footer>
+</body>
+</html>
