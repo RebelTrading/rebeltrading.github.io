@@ -267,6 +267,49 @@ header img {
     color: #ffb703;
 }
 
+.trade-beta-badge {
+    margin-left: auto;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 30px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    background: rgba(0, 255, 102, 0.08);
+    border: 1px solid rgba(0, 255, 102, 0.38);
+    border-radius: 4px;
+    color: #00ff66;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.trade-beta-dot {
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: #00ff66;
+    box-shadow: 0 0 8px #00ff66;
+}
+
+@media (max-width: 520px) {
+    .trade-beta-public {
+        display: none;
+    }
+
+    .trade-beta-badge {
+        min-height: 28px;
+        padding: 4px 8px;
+        font-size: 0.62rem;
+    }
+}
+
 /* LIVE STATS TOP BAR */
 .stats-bar {
     display: grid;
@@ -2567,6 +2610,11 @@ window.addEventListener('DOMContentLoaded', async function() {
             <button class="asset-option" onclick="switchAsset('BNB', this)" type="button">BNB/USD</button>
         </div>
     </details>
+
+    <div class="trade-beta-badge">
+        <span class="trade-beta-dot"></span>
+        <span class="trade-beta-public">PUBLIC </span>BETA
+    </div>
 </div>
         
         <div class="stats-bar">
