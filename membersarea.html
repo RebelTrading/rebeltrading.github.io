@@ -1106,30 +1106,7 @@ function dismissFundedUnlockOverlay() {
 
     overlay.style.display = "none";
 }
-    function shouldShowMemberPrelaunchOverlay() {
-    const launchDate = new Date("2026-07-04T00:00:00");
-    const dismissed = localStorage.getItem("rebel_member_prelaunch_seen");
-
-    return Date.now() < launchDate.getTime() && dismissed !== "1";
-}
-
-function showMemberPrelaunchOverlay() {
-    const overlay = document.getElementById("member-prelaunch-overlay");
-    if (!overlay || !shouldShowMemberPrelaunchOverlay()) return;
-
-    setTimeout(() => {
-        overlay.classList.add("active");
-    }, 500);
-}
-
-function dismissMemberPrelaunchOverlay() {
-    const overlay = document.getElementById("member-prelaunch-overlay");
-    if (!overlay) return;
-
-    localStorage.setItem("rebel_member_prelaunch_seen", "1");
-    overlay.classList.remove("active");
-}
-
+    
 async function loadMemberDashboard() {
     const token = localStorage.getItem("rebel_auth_token");
 
