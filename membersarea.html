@@ -1176,7 +1176,6 @@ async function loadMemberDashboard() {
     setText("member-avatar", (user.display_name || user.email || "RT").slice(0, 2).toUpperCase());
 
     if (!challenge) {
-    showMemberPrelaunchOverlay();
     setText("dashboard-stage", "No Challenge");
     setText("dashboard-stage-detail", "Buy a challenge to unlock live simulated trading");
     setText("dashboard-equity", "--");
@@ -1305,9 +1304,7 @@ async function loadMemberDashboard() {
     await loadPayoutStatus(token);
 
         if (shouldShowFundedUnlockOverlay(challenge)) {
-        showFundedUnlockOverlay(challenge);
-    } else {
-        showMemberPrelaunchOverlay();
+    showFundedUnlockOverlay(challenge);
     }
 }
 function updatePayoutEligibility(challenge, equity) {
