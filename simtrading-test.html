@@ -1909,8 +1909,8 @@ function setTradingAccessState(hasAccess) {
     }
 
        actions.innerHTML = `
-        <button class="exec-btn buy" style="grid-column: 1 / -1;" onclick="showPrelaunchBuyOverlay()">
-            GET NEW CHALLENGE
+        <button class="exec-btn buy" style="grid-column: 1 / -1;" onclick="window.location.href='payments.html?redirect=membersarea.html'">
+        GET NEW CHALLENGE
         </button>
         <button class="exec-btn sell" style="grid-column: 1 / -1; background:#141414; border:1px solid #2a2a2a;" onclick="window.location.href='membersarea.html'">
             OPEN DASHBOARD
@@ -2692,7 +2692,7 @@ window.addEventListener('DOMContentLoaded', async function() {
 <div class="menu" id="menu">
     <a href="membersarea.html" style="color:#00ff66;">Sign In / Dashboard</a>
     <a href="membership.html?redirect=payments.html%3Fredirect%3Dmembersarea.html" style="color:#ffb703;">Create Account</a>
-    <a href="#" onclick="showPrelaunchBuyOverlay(); return false;">Buy Challenge</a>
+    <a href="payments.html?redirect=membersarea.html">Buy Challenge</a>
 </div>
 
 <div class="desk-container">
