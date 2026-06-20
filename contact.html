@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Contact Rebel Trading Group support with questions about accounts, simulation challenges, payouts, or the trade desk.">
+<title>Contact Support | Rebel Trading Group</title>
+
+<style>
+:root {
+    color-scheme: dark;
+    --red: #ff2a2a;
+    --green: #00ff66;
+    --gold: #ffb703;
+    --panel: #09090b;
+    --border: #202024;
+    --muted: #8a8a93;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background:
+        linear-gradient(115deg, rgba(255, 42, 42, 0.10) 0%, transparent 28%),
+        linear-gradient(245deg, rgba(0, 255, 102, 0.055) 0%, transparent 24%),
+        linear-gradient(180deg, #000 0%, #050202 45%, #000 100%);
+    background-attachment: fixed;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: transparent;
+    color: #bdbdbd;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+.site-glare {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.34;
+    mix-blend-mode: screen;
+    background:
+        radial-gradient(circle at 18% 22%, rgba(255, 42, 42, 0.18), transparent 28%),
+        radial-gradient(circle at 82% 38%, rgba(0, 255, 102, 0.10), transparent 24%);
+}
+
+header {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    min-height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.92);
+    border-bottom: 1px solid #1a1a1a;
+    backdrop-filter: blur(10px);
+}
+
+header img {
+    height: 52px;
+    max-width: 150px;
+    object-fit: contain;
+}
+
+.header-contact-status {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--green);
+    font-family: monospace;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 9px var(--green);
+}
+
+.hamburger {
+    width: 36px;
+    padding: 5px 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    margin: 6px 0;
+    background: #fff;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    z-index: 999;
+    width: 280px;
+    height: 100%;
+    padding-top: 96px;
+    background: #0a0a0a;
+    border-left: 1px solid #1a1a1a;
+    transition: right 0.25s ease;
+}
+
+.menu.open {
+    right: 0;
+}
+
+.menu a {
+    display: block;
+    padding: 14px 25px;
+    color: #aaa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.menu a:hover,
+.menu a.active {
+    color: var(--red);
+}
+
+main {
+    position: relative;
+    z-index: 2;
+    min-height: calc(100vh - 250px);
+    padding: 142px 24px 90px;
+}
+
+.contact-shell {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+}
+
+.contact-heading {
+    max-width: 760px;
+    margin-bottom: 42px;
+}
+
+.contact-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    color: var(--green);
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.contact-heading h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.2rem, 6vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.contact-heading h1 span {
+    color: var(--red);
+}
+
+.contact-heading p {
+    max-width: 680px;
+    margin: 20px 0 0;
+    color: #a3a3aa;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.contact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.contact-form-panel {
+    padding: 30px;
+    background: rgba(8, 8, 10, 0.94);
+    border: 1px solid rgba(255, 42, 42, 0.32);
+    border-radius: 8px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.34);
+}
+
+.panel-label {
+    margin-bottom: 24px;
+    color: #fff;
+    font-family: monospace;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.field {
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #82828a;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    border: 1px solid #242429;
+    border-radius: 6px;
+    outline: none;
+    background: #09090b;
+    color: #fff;
+    padding: 12px 13px;
+    font: inherit;
+}
+
+.field input:focus,
+.field textarea:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 2px rgba(255, 42, 42, 0.09);
+}
+
+.field textarea {
+    min-height: 190px;
+    resize: vertical;
+    line-height: 1.55;
+}
+
+.website-field {
+    position: absolute !important;
+    left: -10000px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+}
+
+.submit-row {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.submit-button {
+    min-height: 46px;
+    padding: 12px 22px;
+    border: 1px solid var(--red);
+    border-radius: 6px;
+    background: var(--red);
+    color: #fff;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.submit-button:hover {
+    background: #d91f1f;
+}
+
+.submit-button:disabled {
+    cursor: wait;
+    opacity: 0.55;
+}
+
+.contact-status {
+    min-height: 20px;
+    color: var(--gold);
+    font-family: monospace;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.contact-status.success {
+    color: var(--green);
+}
+
+.contact-status.error {
+    color: var(--red);
+}
+
+.contact-aside {
+    display: grid;
+    gap: 24px;
+    padding: 8px 0;
+}
+
+.contact-aside section {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #1d1d21;
+}
+
+.contact-aside h2 {
+    margin: 0 0 10px;
+    color: #fff;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.contact-aside p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+.support-email {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--red);
+    font-family: monospace;
+    font-size: 0.82rem;
+    font-weight: bold;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+footer {
+    position: relative;
+    z-index: 2;
+    padding: 40px 20px;
+    background: #050505;
+    border-top: 1px solid #111;
+    color: #555;
+    text-align: center;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+}
+
+.footer-social-label {
+    margin-top: 16px;
+    color: #777;
+    font-family: monospace;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    margin: 18px 0 8px;
+}
+
+.footer-social-link {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #0b0b0b;
+    border: 1px solid #1f1f1f;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.footer-social-link:hover {
+    border-color: var(--red);
+    transform: translateY(-2px);
+    box-shadow: 0 0 14px rgba(255, 42, 42, 0.28);
+}
+
+.footer-social-link img {
+    width: 19px;
+    height: 19px;
+    display: block;
+}
+
+.cloudflare-security-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 2px 0 14px;
+    padding: 7px 12px;
+    background: #090909;
+    border: 1px solid #242424;
+    border-radius: 5px;
+    color: #aaa;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.cloudflare-security-badge img {
+    width: auto;
+    height: 18px;
+}
+
+.footer-link {
+    color: var(--red);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-separator {
+    margin: 0 10px;
+    color: #333;
+}
+
+@media (max-width: 760px) {
+    .header-contact-status {
+        display: none;
+    }
+
+    header {
+        min-height: 76px;
+        padding: 8px 10px;
+    }
+
+    header img {
+        height: 62px;
+        max-width: 135px;
+    }
+
+    main {
+        padding: 118px 16px 64px;
+    }
+
+    .contact-heading {
+        margin-bottom: 30px;
+    }
+
+    .contact-heading h1 {
+        font-size: 2.35rem;
+        line-height: 1.05;
+    }
+
+    .contact-layout,
+    .contact-form {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-layout {
+        gap: 38px;
+    }
+
+    .contact-form-panel {
+        padding: 22px 17px;
+    }
+
+    .field.full,
+    .submit-row {
+        grid-column: auto;
+    }
+
+    .submit-button {
+        width: 100%;
+    }
+
+    footer {
+        padding: 34px 18px;
+    }
+}
+</style>
+
+<script>
+const API_URL = "https://api.rebeltrading.io";
+
+function toggleMenu() {
+    const menu = document.getElementById("menu");
+    const button = document.getElementById("menu-button");
+    const isOpen = menu.classList.toggle("open");
+    button.setAttribute("aria-expanded", String(isOpen));
+}
+
+function setContactStatus(message, type = "") {
+    const status = document.getElementById("contact-status");
+    status.textContent = message;
+    status.className = `contact-status ${type}`.trim();
+}
+
+async function submitContactRequest(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const button = document.getElementById("contact-submit");
+    const name = document.getElementById("contact-name").value.trim();
+    const email = document.getElementById("contact-email").value.trim().toLowerCase();
+    const message = document.getElementById("contact-message").value.trim();
+    const website = document.getElementById("contact-website").value;
+
+    button.disabled = true;
+    button.textContent = "Sending...";
+    setContactStatus("Sending your message...");
+
+    try {
+        const response = await fetch(`${API_URL}/api/contact/request`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, message, website })
+        });
+
+        let data = {};
+        try {
+            data = await response.json();
+        } catch (error) {
+            data = {};
+        }
+
+        if (!response.ok) {
+            throw new Error(data.detail || "Your message could not be sent. Please try again.");
+        }
+
+        form.reset();
+        setContactStatus("Message sent. Rebel Support will follow up by email.", "success");
+    } catch (error) {
+        setContactStatus(error.message || "Connection failed. Please try again.", "error");
+    } finally {
+        button.disabled = false;
+        button.textContent = "Send Message";
+    }
+}
+</script>
+</head>
+
+<body>
+<div class="site-glare"></div>
+
+<header>
+    <a href="index.html" aria-label="Rebel Trading Group home">
+        <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo03.png" alt="Rebel Trading Logo">
+    </a>
+
+    <div class="header-contact-status">
+        <span class="status-dot"></span>
+        Public Beta Support Online
+    </div>
+
+    <button class="hamburger" id="menu-button" type="button" onclick="toggleMenu()" aria-label="Open navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+<nav class="menu" id="menu" aria-label="Site navigation">
+    <a href="index.html">Home</a>
+    <a href="packages.html">Sim Package Details</a>
+    <a href="treasury.html">Treasury</a>
+    <a href="payouts.html">Payouts</a>
+    <a href="knowledgebase.html">Knowledge Base</a>
+    <a href="contact.html" class="active">Contact Support</a>
+    <a href="membership.html?redirect=membersarea.html" style="color:#00ff66;">Sign Up / Sign In</a>
+    <a href="simtrading.html" style="color:#ff2a2a;">Trade Simulator</a>
+</nav>
+
+<main>
+    <div class="contact-shell">
+        <div class="contact-heading">
+            <div class="contact-kicker">
+                <span class="status-dot"></span>
+                Rebel Support Desk
+            </div>
+            <h1>How Can We <span>Help?</span></h1>
+            <p>
+                Send Rebel Trading Group a question about account access, simulation challenges,
+                payments, payout rules, or the trade terminal. You do not need an account to contact us.
+            </p>
+        </div>
+
+        <div class="contact-layout">
+            <section class="contact-form-panel" aria-labelledby="contact-form-title">
+                <div class="panel-label" id="contact-form-title">Send A Message</div>
+
+                <form class="contact-form" id="contact-form" onsubmit="submitContactRequest(event)">
+                    <div class="field">
+                        <label for="contact-name">Name</label>
+                        <input id="contact-name" name="name" type="text" maxlength="100" autocomplete="name" placeholder="Your name" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="contact-email">Email</label>
+                        <input id="contact-email" name="email" type="email" maxlength="254" autocomplete="email" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="field full">
+                        <label for="contact-message">Question Or Description</label>
+                        <textarea id="contact-message" name="message" minlength="10" maxlength="5000" placeholder="Tell us what you need help with..." required></textarea>
+                    </div>
+
+                    <div class="website-field" aria-hidden="true">
+                        <label for="contact-website">Website</label>
+                        <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div class="submit-row">
+                        <button class="submit-button" id="contact-submit" type="submit">Send Message</button>
+                        <div class="contact-status" id="contact-status" role="status" aria-live="polite"></div>
+                    </div>
+                </form>
+            </section>
+
+            <aside class="contact-aside" aria-label="Support information">
+                <section>
+                    <h2>Direct Email</h2>
+                    <p>You can also reach the Rebel support team directly at:</p>
+                    <a class="support-email" href="mailto:support@rebeltrading.io">support@rebeltrading.io</a>
+                </section>
+
+                <section>
+                    <h2>Member Support</h2>
+                    <p>Existing members can also submit account-specific requests from the Support Desk inside their member dashboard.</p>
+                </section>
+
+                <section>
+                    <h2>Security Reminder</h2>
+                    <p>Rebel Support will never ask for your password, private keys, wallet seed phrase, or authentication codes.</p>
+                </section>
+            </aside>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-social-label">Join The Rebel Network</div>
+
+    <div class="footer-socials">
+        <a class="footer-social-link" href="https://x.com/rebeltradedesk" target="_blank" rel="noopener noreferrer" aria-label="Rebel Trading Desk on X">
+            <img src="https://cdn.simpleicons.org/x/ffffff" alt="X">
+        </a>
+        <a class="footer-social-link" href="https://www.facebook.com/profile.php?id=61588917463169" target="_blank" rel="noopener noreferrer" aria-label="Rebel Trading Group on Facebook">
+            <img src="https://cdn.simpleicons.org/facebook/1877F2" alt="Facebook">
+        </a>
+        <a class="footer-social-link" href="https://www.youtube.com/@RebelTradingGroup" target="_blank" rel="noopener noreferrer" aria-label="Rebel Trading Group on YouTube">
+            <img src="https://cdn.simpleicons.org/youtube/ff2a2a" alt="YouTube">
+        </a>
+        <a class="footer-social-link" href="https://www.instagram.com/rebeltradesim" target="_blank" rel="noopener noreferrer" aria-label="Rebel Trading Group on Instagram">
+            <img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram">
+        </a>
+        <a class="footer-social-link" href="https://discord.gg/vdjU2YW4w" target="_blank" rel="noopener noreferrer" aria-label="Join Rebel Trading Group on Discord">
+            <img src="https://cdn.simpleicons.org/discord/ffffff" alt="Discord">
+        </a>
+    </div>
+
+    <div style="margin:18px 0 10px; color:#777; font-family:monospace; font-size:0.72rem; letter-spacing:0.8px; text-transform:uppercase;">
+        SSL Secured | Non-Custodial Payments | USDC Settlement
+    </div>
+
+    <div class="cloudflare-security-badge">
+        <img src="https://cdn.simpleicons.org/cloudflare/F38020" alt="Cloudflare">
+        <span>Secured By Cloudflare</span>
+    </div>
+
+    <div>© 2026 Rebel Trading Group — Private Micro-Prop Crypto Evaluation &amp; Asset Simulation Network</div>
+    <div style="margin-top:14px;">
+        <a class="footer-link" href="termsofuse.html">Terms of Use</a>
+        <span class="footer-separator">|</span>
+        <a class="footer-link" href="privacypolicy.html">Privacy Policy</a>
+        <span class="footer-separator">|</span>
+        <span style="color:#ff2a2a; font-weight:bold;">support@rebeltrading.io</span>
+    </div>
+</footer>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6a36ac52af26101d489dc54c/1jrip28u2';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>
