@@ -2128,60 +2128,169 @@ function buyChallenge(tier) {
 <section id="packages" class="section">
     <h2>Select Your Simulation Challenge</h2>
     <div class="section-subtitle">Instant ticket deployment. Clear objective milestones. Micro scale payouts in USDC.</div>
-    <div class="packages-grid">
-            <div class="package">
-            <div class="box-activity-tag"><span class="pulse-dot"></span>142 Active</div>
+    <div class="tier-stack">
+    <article class="tier-card">
+        <div class="tier-summary">
+            <div class="tier-tag">Starter Box</div>
             <h3>Recruit Box</h3>
-            <div class="account-size-badge">$1K Sim Account</div>
-            <div class="price"><span>$20</span>$10</div>
-            <div class="split-tag">80/20 FUNDED PROFIT SPLIT</div>
-            <div class="boost-tag">⚡ 48H SPEEDRUN BOOST ELIGIBLE</div>
-            <hr>
-            <p>• <strong>Simulated Balance:</strong> $1,000.00</p>
-            <p>• <strong>Rebel Challenge Target:</strong> 10% / $100.00</p>
-            <p>• <strong>Challenge Risk:</strong> 5% daily loss / 10% EOD trailing drawdown</p>
-            <p>• <strong>Funded Payout Buffer:</strong> $1,042 floor, $25 minimum request</p>
-            <p>• <strong>Payout Access:</strong> Every 5 trading days from funded-stage profits</p>
-            <p>• <strong>Max Position Margin:</strong> 25% of account equity</p>
-            <a href="#" onclick="buyChallenge('T1'); return false;" class="cta-btn">Buy Challenge ($10)</a>
+            <div class="tier-size">$1,000 Sim Account</div>
+            <div class="tier-price"><span>$20</span>$10</div>
+            <p class="tier-note">
+                The lowest-cost Rebel path. Built for traders who want fast reps, smaller
+                account pressure, and a compact target before entering Sim Funded.
+            </p>
+            <a href="#" onclick="buyChallenge('T1'); return false;" class="btn red">Buy Recruit Box</a>
         </div>
 
-        <div class="package featured">
-            <div class="box-activity-tag" style="color: #ffb703;"><span class="pulse-dot"></span>🔥 HOT TIER</div>
+        <div class="tier-details">
+            <div class="metric-grid">
+                <div class="metric">
+                    <span>Challenge Target</span>
+                    <strong class="green">$100.00</strong>
+                </div>
+                <div class="metric">
+                    <span>Daily Loss Guard</span>
+                    <strong>$50.00</strong>
+                </div>
+                <div class="metric">
+                    <span>EOD Trail Limit</span>
+                    <strong>$100.00</strong>
+                </div>
+                <div class="metric">
+                    <span>Funded Buffer Floor</span>
+                    <strong>$1,042</strong>
+                </div>
+                <div class="metric">
+                    <span>Min Payout Request</span>
+                    <strong>$25</strong>
+                </div>
+                <div class="metric">
+                    <span>Max Position Margin</span>
+                    <strong class="gold">25%</strong>
+                </div>
+            </div>
+
+            <div class="rule-grid">
+                <div class="rule-box">
+                    <strong>Best Fit</strong>
+                    <p>Good for first-time Rebel traders who want to learn the dashboard, rules, and execution flow with the smallest ticket.</p>
+                </div>
+                <div class="rule-box">
+                    <strong>Funded Stage</strong>
+                    <p>After passing, your balance resets to $1,000 and funded-stage profits above the $1,042 floor can become payout eligible.</p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article class="tier-card featured">
+        <div class="tier-summary">
+            <div class="tier-tag">Featured Tier</div>
             <h3>Rebel Box</h3>
-            <div class="account-size-badge">$3K Sim Account</div>
-            <div class="price" style="color: #ffb703;"><span>$40</span>$30</div>
-            <div class="split-tag" style="color: #000; background: #ffb703; border-color: #ffb703;">80/20 FUNDED PROFIT SPLIT</div>
-            <div class="boost-tag" style="color:#000; background:#ffb703; border-color:#ffb703;">⚡ PROFIT BOOST ELIGIBLE</div>
-            <hr>
-            <p>• <strong>Simulated Balance:</strong> $3,000.00</p>
-            <p>• <strong>Rebel Challenge Target:</strong> 10% / $300.00</p>
-            <p>• <strong>Challenge Risk:</strong> 5% daily loss / 10% EOD trailing drawdown</p>
-            <p>• <strong>Funded Payout Buffer:</strong> $3,126 floor, $25 minimum request</p>
-            <p>• <strong>Payout Access:</strong> Every 5 trading days from funded-stage profits</p>
-            <p>• <strong>Max Position Margin:</strong> 35% of account equity</p>
-            <a href="#" onclick="buyChallenge('T3'); return false;" class="cta-btn" style="background: #ffb703; color: #000;">Buy Challenge ($30)</a>
+            <div class="tier-size">$3,000 Sim Account</div>
+            <div class="tier-price"><span>$40</span>$30</div>
+            <p class="tier-note">
+                The largest launch-stage Rebel box. More simulated account room, a larger
+                target, a higher payout buffer, and the highest max position margin allowance.
+            </p>
+            <a href="#" onclick="buyChallenge('T3'); return false;" class="btn green">Buy Rebel Box</a>
         </div>
 
-        <div class="package">
-            <div class="box-activity-tag"><span class="pulse-dot"></span>89 Active</div>
+        <div class="tier-details">
+            <div class="metric-grid">
+                <div class="metric">
+                    <span>Challenge Target</span>
+                    <strong class="green">$300.00</strong>
+                </div>
+                <div class="metric">
+                    <span>Daily Loss Guard</span>
+                    <strong>$150.00</strong>
+                </div>
+                <div class="metric">
+                    <span>EOD Trail Limit</span>
+                    <strong>$300.00</strong>
+                </div>
+                <div class="metric">
+                    <span>Funded Buffer Floor</span>
+                    <strong>$3,126</strong>
+                </div>
+                <div class="metric">
+                    <span>Min Payout Request</span>
+                    <strong>$25</strong>
+                </div>
+                <div class="metric">
+                    <span>Max Position Margin</span>
+                    <strong class="gold">35%</strong>
+                </div>
+            </div>
+
+            <div class="rule-grid">
+                <div class="rule-box">
+                    <strong>Best Fit</strong>
+                    <p>Good for traders who want the largest launch box, more simulated capital, and more room for position sizing.</p>
+                </div>
+                <div class="rule-box">
+                    <strong>Funded Stage</strong>
+                    <p>After passing, your balance resets to $3,000 and funded-stage profits above the $3,126 floor can become payout eligible.</p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <article class="tier-card">
+        <div class="tier-summary">
+            <div class="tier-tag">Middle Path</div>
             <h3>Raider Box</h3>
-            <div class="account-size-badge">$2K Sim Account</div>
-            <div class="price"><span>$30</span>$20</div>
-            <div class="split-tag">80/20 FUNDED PROFIT SPLIT</div>
-            <div class="boost-tag">⚡ 48H SPEEDRUN BOOST ELIGIBLE</div>
-            <hr>
-            <p>• <strong>Simulated Balance:</strong> $2,000.00</p>
-            <p>• <strong>Rebel Challenge Target:</strong> 10% / $200.00</p>
-            <p>• <strong>Challenge Risk:</strong> 5% daily loss / 10% EOD trailing drawdown</p>
-            <p>• <strong>Funded Payout Buffer:</strong> $2,084 floor, $25 minimum request</p>
-            <p>• <strong>Payout Access:</strong> Every 5 trading days from funded-stage profits</p>
-            <p>• <strong>Max Position Margin:</strong> 30% of account equity</p>
-            <a href="#" onclick="buyChallenge('T2'); return false;" class="cta-btn">Buy Challenge ($20)</a>
+            <div class="tier-size">$2,000 Sim Account</div>
+            <div class="tier-price"><span>$30</span>$20</div>
+            <p class="tier-note">
+                The balanced Rebel package. More room than Recruit, lower cost than Rebel,
+                and a clean middle lane for traders who want moderate simulated exposure.
+            </p>
+            <a href="#" onclick="buyChallenge('T2'); return false;" class="btn red">Buy Raider Box</a>
         </div>
 
-        </div>
+        <div class="tier-details">
+            <div class="metric-grid">
+                <div class="metric">
+                    <span>Challenge Target</span>
+                    <strong class="green">$200.00</strong>
+                </div>
+                <div class="metric">
+                    <span>Daily Loss Guard</span>
+                    <strong>$100.00</strong>
+                </div>
+                <div class="metric">
+                    <span>EOD Trail Limit</span>
+                    <strong>$200.00</strong>
+                </div>
+                <div class="metric">
+                    <span>Funded Buffer Floor</span>
+                    <strong>$2,084</strong>
+                </div>
+                <div class="metric">
+                    <span>Min Payout Request</span>
+                    <strong>$25</strong>
+                </div>
+                <div class="metric">
+                    <span>Max Position Margin</span>
+                    <strong class="gold">30%</strong>
+                </div>
+            </div>
 
+            <div class="rule-grid">
+                <div class="rule-box">
+                    <strong>Best Fit</strong>
+                    <p>Good for traders who want a middle-sized challenge target and a little more margin room than the starter box.</p>
+                </div>
+                <div class="rule-box">
+                    <strong>Funded Stage</strong>
+                    <p>After passing, your balance resets to $2,000 and funded-stage profits above the $2,084 floor can become payout eligible.</p>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
     <div style="max-width: 420px; margin: 34px auto 0; text-align: center;">
         <a href="packages.html" style="
             display: inline-block;
