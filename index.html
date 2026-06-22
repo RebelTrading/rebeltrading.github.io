@@ -795,6 +795,241 @@ header img {
     transform: translateY(-1px);
     box-shadow: 0 6px 15px rgba(255, 42, 42, 0.25);
 }
+    /* VERTICAL SIM PACKAGE TIERS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: monospace;
+    font-size: 0.78rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+
+.btn.red {
+    background: #ff2a2a;
+    color: #fff;
+    border: 1px solid #ff5555;
+    box-shadow: 0 0 18px rgba(255, 42, 42, 0.28);
+}
+
+.btn.green {
+    background: #00ff66;
+    color: #000;
+    border: 1px solid #00ff66;
+    box-shadow: 0 0 18px rgba(0, 255, 102, 0.18);
+}
+
+.tier-stack {
+    display: grid;
+    gap: 28px;
+    margin-top: 40px;
+}
+
+.tier-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(260px, 0.42fr) minmax(0, 0.58fr);
+    gap: 22px;
+    align-items: stretch;
+    background: rgba(7, 7, 10, 0.86);
+    border: 1px solid #1f1f1f;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 26px rgba(255, 42, 42, 0.04);
+}
+
+.tier-card.featured {
+    border-color: rgba(255, 183, 3, 0.58);
+    box-shadow: 0 0 34px rgba(255, 183, 3, 0.09);
+}
+
+.tier-summary {
+    padding: 30px;
+    background:
+        radial-gradient(circle at top right, rgba(255, 42, 42, 0.16), transparent 44%),
+        #080808;
+    border-right: 1px solid #181818;
+}
+
+.tier-card.featured .tier-summary {
+    background:
+        radial-gradient(circle at top right, rgba(255, 183, 3, 0.18), transparent 44%),
+        #080808;
+}
+
+.tier-tag {
+    display: inline-flex;
+    padding: 5px 9px;
+    border: 1px solid rgba(0, 255, 102, 0.28);
+    background: rgba(0, 255, 102, 0.08);
+    color: #00ff66;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.66rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+.tier-card.featured .tier-tag {
+    border-color: rgba(255, 183, 3, 0.45);
+    background: rgba(255, 183, 3, 0.10);
+    color: #ffb703;
+}
+
+.tier-summary h3 {
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+}
+
+.tier-size {
+    color: #aaa;
+    font-family: monospace;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tier-price {
+    color: #ff2a2a;
+    font-family: monospace;
+    font-size: 3.4rem;
+    font-weight: bold;
+    line-height: 1;
+    margin: 24px 0 12px 0;
+}
+
+.tier-card.featured .tier-price {
+    color: #ffb703;
+}
+
+.tier-price span {
+    color: #444;
+    font-size: 1.2rem;
+    text-decoration: line-through;
+    margin-right: 8px;
+}
+
+.tier-note {
+    color: #888;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.tier-details {
+    padding: 30px;
+    display: grid;
+    gap: 18px;
+}
+
+.metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.metric {
+    background: #080808;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    padding: 14px;
+}
+
+.metric span {
+    display: block;
+    color: #666;
+    font-family: monospace;
+    font-size: 0.64rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 7px;
+}
+
+.metric strong {
+    display: block;
+    color: #fff;
+    font-family: monospace;
+    font-size: 1.02rem;
+}
+
+.metric strong.green {
+    color: #00ff66;
+}
+
+.metric strong.gold {
+    color: #ffb703;
+}
+
+.rule-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.rule-box {
+    background: #060606;
+    border: 1px solid #181818;
+    border-radius: 6px;
+    padding: 14px;
+}
+
+.rule-box strong {
+    display: block;
+    color: #fff;
+    font-size: 0.86rem;
+    margin-bottom: 6px;
+}
+
+.rule-box p {
+    color: #8a8a8a;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+@media (max-width: 980px) {
+    .tier-card {
+        grid-template-columns: 1fr;
+    }
+
+    .tier-summary {
+        border-right: none;
+        border-bottom: 1px solid #181818;
+    }
+}
+
+@media (max-width: 720px) {
+    .tier-summary,
+    .tier-details {
+        padding: 20px 16px;
+    }
+
+    .metric-grid,
+    .rule-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tier-price {
+        font-size: 2.8rem;
+    }
+
+    .tier-summary .btn {
+        width: 100%;
+    }
+}
 
 /* INTERACTIVE SCALE CALCULATOR WIDGET */
 .calc-wrapper {
