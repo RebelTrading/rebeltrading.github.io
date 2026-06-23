@@ -575,7 +575,7 @@ function initializeGoogleSignIn() {
             size: "large",
             text: "signup_with",
             shape: "rectangular",
-            width: 360
+            width: window.innerWidth <= 900 ? window.innerWidth - 72 : 360
         });
     }
 
@@ -586,7 +586,7 @@ function initializeGoogleSignIn() {
             size: "large",
             text: "signin_with",
             shape: "rectangular",
-            width: 360
+            width: window.innerWidth <= 900 ? window.innerWidth - 72 : 360
         });
     }
 }
