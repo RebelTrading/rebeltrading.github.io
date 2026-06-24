@@ -236,6 +236,68 @@ header img {
         rgba(9, 10, 13, 0.64);
     padding-top: 170px;
     box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner::before {
+    content: "";
+    position: absolute;
+    inset: -25%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.75;
+    mix-blend-mode: screen;
+    background: linear-gradient(
+        108deg,
+        transparent 38%,
+        rgba(255, 42, 42, 0.04) 44%,
+        rgba(255, 255, 255, 0.11) 49%,
+        rgba(0, 210, 255, 0.06) 53%,
+        transparent 60%
+    );
+    animation: heroScannerSheen 11s ease-in-out infinite;
+}
+
+.banner::after {
+    content: "";
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    height: 1px;
+    pointer-events: none;
+    z-index: 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 42, 42, 0.65),
+        rgba(0, 210, 255, 0.45),
+        transparent
+    );
+    box-shadow: 0 0 16px rgba(255, 42, 42, 0.28);
+}
+
+.banner > div {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes heroScannerSheen {
+    0%, 18% {
+        transform: translateX(-65%);
+    }
+
+    58%, 100% {
+        transform: translateX(65%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .banner::before {
+        animation: none;
+        transform: translateX(0);
+    }
 }
 .banner h1 {
     font-size: 4.5rem;
