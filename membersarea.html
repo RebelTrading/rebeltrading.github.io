@@ -206,7 +206,40 @@ header img {
     color: #ff2a2a;
     border-color: #ff2a2a;
 }
+.promo-code-panel {
+    display: grid;
+    grid-template-columns: 170px auto;
+    gap: 8px;
+    align-items: center;
+}
 
+.promo-code-panel input {
+    width: 100%;
+    background: #09090b;
+    border: 1px solid #1f1f23;
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    outline: none;
+    box-sizing: border-box;
+    text-transform: uppercase;
+}
+
+.promo-code-panel input:focus {
+    border-color: #00ff66;
+    box-shadow: 0 0 10px rgba(0, 255, 102, 0.18);
+}
+
+.promo-code-status {
+    grid-column: 1 / -1;
+    min-height: 16px;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+}
 /* DASHBOARD TILES GRID MATRIX */
 .grid {
     display: grid;
@@ -956,7 +989,51 @@ function dismissFundedUnlockOverlay() {
 
     overlay.style.display = "none";
 }
-    
+  async function redeemPromoCode() {
+    const token = localStorage.getItem("rebel_auth_token");
+    const code = document.getElementById("promo-code-input")?.value || "";
+    const status = document.getElementById("promo-code-status");
+
+    if (!token) {
+        window.location.href = "membership.html?redirect=membersarea.html";
+        return;
+    }
+
+    if (!code.trim()) {
+        if (status) status.innerText = "Enter your promo code.";
+        return;
+    }
+
+    if (status) status.innerText = "Activating free 1K challenge...";
+
+    try {
+        const response = await fetch(`${API_URL}/api/promo/free-t1`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
+            },
+            body: JSON.stringify({
+                code: code.trim()
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.detail || "Promo activation failed");
+        }
+
+        if (status) status.innerText = "Free 1K Level 1 challenge activated.";
+
+        setTimeout(() => {
+            loadMemberDashboard();
+        }, 700);
+    } catch (err) {
+        if (status) status.innerText = err.message || "Promo activation failed.";
+    }
+} 
 async function loadMemberDashboard() {
     const token = localStorage.getItem("rebel_auth_token");
 
@@ -1626,6 +1703,14 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 <button class="action-btn" onclick="window.location.href='simtrading-test.html'">
     Launch Trade Sim
 </button>
+
+<div class="promo-code-panel">
+    <input id="promo-code-input" type="text" placeholder="Promo Code">
+    <button class="action-btn" type="button" onclick="redeemPromoCode()">
+        Activate Free 1K
+    </button>
+    <div class="promo-code-status" id="promo-code-status"></div>
+</div>
 
 <button class="action-btn" onclick="window.location.href='payments.html?redirect=membersarea.html'" style="background:#00ff66; color:#000;">
     Buy New Challenge
