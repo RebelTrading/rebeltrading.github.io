@@ -2344,11 +2344,52 @@ function executeDevOrder(side) {
     }
     
     let targetTP = 0.0;
-    let targetSL = 0.0;
-    if (document.getElementById('bracket-toggle-check').checked) {
-        targetTP = parseFloat(document.getElementById('bracket-tp-input').value) || 0.0;
-        targetSL = parseFloat(document.getElementById('bracket-sl-input').value) || 0.0;
+let targetSL = 0.0;
+
+const bracketEnabled = document.getElementById('bracket-toggle-check').checked;
+const intendedEntryPrice = ORDER_TYPE === "LIMIT"
+    ? parseFloat(document.getElementById('target-execution-price').value)
+    : getCurrentPrice();
+
+if (bracketEnabled) {
+    const tpRaw = document.getElementById('bracket-tp-input').value.trim();
+    const slRaw = document.getElementById('bracket-sl-input').value.trim();
+
+    targetTP = tpRaw === "" ? 0.0 : parseFloat(tpRaw);
+    targetSL = slRaw === "" ? 0.0 : parseFloat(slRaw);
+
+    if (!Number.isFinite(targetTP)) targetTP = 0.0;
+    if (!Number.isFinite(targetSL)) targetSL = 0.0;
+
+    if (targetTP <= 0 && targetSL <= 0) {
+        alert("Enter a valid take profit or stop loss price, or turn off TP / SL brackets.");
+        return;
     }
+
+    if (side === "BUY") {
+        if (targetTP > 0 && targetTP <= intendedEntryPrice) {
+            alert("For a BUY / LONG trade, take profit must be above the entry price.");
+            return;
+        }
+
+        if (targetSL > 0 && targetSL >= intendedEntryPrice) {
+            alert("For a BUY / LONG trade, stop loss must be below the entry price.");
+            return;
+        }
+    }
+
+    if (side === "SELL") {
+        if (targetTP > 0 && targetTP >= intendedEntryPrice) {
+            alert("For a SELL / SHORT trade, take profit must be below the entry price.");
+            return;
+        }
+
+        if (targetSL > 0 && targetSL <= intendedEntryPrice) {
+            alert("For a SELL / SHORT trade, stop loss must be above the entry price.");
+            return;
+        }
+    }
+}
 
     if (activePosition.hasPosition) {
         closeActivePosition();
