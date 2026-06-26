@@ -1431,15 +1431,15 @@ let ACTIVE_CHALLENGE = null;
 let ACCOUNT_STATUS = "active";
 let lastSnapshotSyncAt = 0;
 let progressMilestonesTriggered = {};
-const LEVERAGE_FACTOR = 50.0;
+const LEVERAGE_FACTOR = 10.0;
 const maxPositionMarginRates = {
-    "T1": 0.25,
-    "T2": 0.30,
-    "T3": 0.35
+    "T1": 0.05,
+    "T2": 0.075,
+    "T3": 0.10
 };
 
 function getMaxPositionMarginRate() {
-    return maxPositionMarginRates[activeTierKey] || 0.35;
+    return maxPositionMarginRates[activeTierKey] || 0.10;
 }
 
 const accountTiers = {
@@ -2820,7 +2820,7 @@ window.addEventListener('DOMContentLoaded', async function() {
             </div>
             <div class="stat-box">
                 <div class="stat-label">Max Leverage Engine</div>
-                <div class="stat-value" style="color: #ffb703;">1:50 CROSS</div>
+                <div class="stat-value" style="color: #ffb703;">1:10 CROSS</div>
             </div>
         </div>
         
@@ -2939,7 +2939,7 @@ window.addEventListener('DOMContentLoaded', async function() {
             
             <div class="spec-metrics-display">
                 <div class="spec-row">Notional Contract Value:<strong id="spec-calc-notional">$0.00</strong></div>
-                <div class="spec-row">Margin Allocated (1:50):<strong id="spec-calc-margin">$0.00</strong></div>
+                <div class="spec-row">Margin Allocated (1:10):<strong id="spec-calc-margin">$0.00</strong></div>
                 <div class="spec-row">Remaining Buying Power:<strong id="spec-calc-buyingpower">$5,000.00</strong></div>
             </div>
             
