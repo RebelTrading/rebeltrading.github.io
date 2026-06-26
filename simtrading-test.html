@@ -1589,7 +1589,7 @@ async function checkTradingAccess() {
 function applyActiveChallengeToSim() {
     if (!ACTIVE_CHALLENGE) return;
     ACCOUNT_STATUS = ACTIVE_CHALLENGE.status || "active";
-    if (ACCOUNT_STATUS === "failed") {
+    if (ACCOUNT_STATUS === "failed" || ACCOUNT_STATUS === "promo_completed") {
     unlockArcadeBadge("ACCOUNT_FAILED");
 }
 
@@ -1920,14 +1920,23 @@ function setTradingAccessState(hasAccess) {
     const actions = document.querySelector('.execution-actions');
     if (!actions) return;
 
-    if (hasAccess && ACCOUNT_STATUS === "failed") {
-        actions.innerHTML = `
-            <button class="exec-btn sell" style="grid-column: 1 / -1; cursor: not-allowed; opacity: 0.65;" disabled>
-                ACCOUNT FAILED - TRADING LOCKED
-            </button>
-        `;
-        return;
-    }
+    if (hasAccess && ACCOUNT_STATUS === "promo_completed") {
+    actions.innerHTML = `
+        <button class="exec-btn sell" style="grid-column: 1 / -1; cursor: not-allowed; opacity: 0.65;" disabled>
+            PROMO PAYOUT COMPLETE - TRADING LOCKED
+        </button>
+    `;
+    return;
+}
+
+if (hasAccess && ACCOUNT_STATUS === "failed") {
+    actions.innerHTML = `
+        <button class="exec-btn sell" style="grid-column: 1 / -1; cursor: not-allowed; opacity: 0.65;" disabled>
+            ACCOUNT FAILED - TRADING LOCKED
+        </button>
+    `;
+    return;
+}
 
     if (hasAccess) {
         actions.innerHTML = `
