@@ -1402,6 +1402,108 @@ header img {
         grid-template-columns: 1fr;
     }
 }
+    /* PROMO TRADING SECTION */
+.promo-trading-section {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 18px 30px 82px 30px;
+    box-sizing: border-box;
+}
+
+.promo-trading-panel {
+    background:
+        linear-gradient(135deg, rgba(255, 42, 42, 0.12), transparent 34%),
+        linear-gradient(245deg, rgba(0, 255, 102, 0.08), transparent 30%),
+        rgba(8, 8, 10, 0.9);
+    border: 1px solid rgba(255, 42, 42, 0.38);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 0 28px rgba(255, 42, 42, 0.08);
+}
+
+.promo-trading-kicker {
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.promo-trading-panel h2 {
+    color: #fff;
+    font-size: 2.3rem;
+    line-height: 1.1;
+    margin: 0 0 14px;
+    text-transform: uppercase;
+}
+
+.promo-trading-panel h2 span {
+    color: #ff2a2a;
+}
+
+.promo-trading-copy {
+    color: #a5a9b1;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin: 0 0 22px;
+    max-width: 900px;
+}
+
+.promo-trading-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.promo-trading-item {
+    background: rgba(5, 5, 5, 0.68);
+    border: 1px solid #242424;
+    border-radius: 6px;
+    padding: 16px 14px;
+    font-family: monospace;
+}
+
+.promo-trading-item strong {
+    display: block;
+    color: #00ff66;
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.promo-trading-item span {
+    color: #8a8a8a;
+    font-size: 0.74rem;
+    line-height: 1.45;
+}
+
+@media (max-width: 800px) {
+    .promo-trading-section {
+        padding: 10px 18px 62px 18px;
+    }
+
+    .promo-trading-panel {
+        padding: 22px 16px;
+    }
+
+    .promo-trading-panel h2 {
+        font-size: 1.65rem;
+    }
+
+    .promo-trading-copy {
+        font-size: 0.88rem;
+    }
+
+    .promo-trading-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .promo-trading-item {
+        padding: 13px 10px;
+    }
+}
     /* TRADE TERMINAL PREVIEW */
 .trade-preview-section {
     max-width: 1180px;
@@ -2515,6 +2617,49 @@ function buyChallenge(tier) {
         >
         <span class="trade-preview-action">Watch Terminal Walkthrough</span>
     </a>
+</section>
+
+<section class="promo-trading-section" id="promo-trading">
+    <div class="promo-trading-panel">
+        <div class="promo-trading-kicker">June Promo Trading</div>
+
+        <h2>Free Level 1 <span>Promo Challenge</span></h2>
+
+        <p class="promo-trading-copy">
+            During the June promo, eligible users can enter promo code <strong style="color:#fff;">REBELJUNE</strong>
+            inside the member dashboard to activate one free $1K Level 1 Sim Challenge. Promo challenges follow the
+            same trading rules as standard Rebel accounts, including drawdown rules, max position margin limits,
+            the payout buffer, and the 5 funded trading day requirement.
+        </p>
+
+        <p class="promo-trading-copy">
+            Each user can redeem the promo one time only. Promo accounts are capped at one $25 gross USDC payout request,
+            regardless of how much simulated profit the promo account reaches. To continue trading with full payout
+            eligibility and non-promo status, traders can purchase a $1K, $2K, or $3K Sim Challenge from their dashboard.
+        </p>
+
+        <div class="promo-trading-grid">
+            <div class="promo-trading-item">
+                <strong>1 Use</strong>
+                <span>One promo redemption per user account.</span>
+            </div>
+
+            <div class="promo-trading-item">
+                <strong>$1K Sim</strong>
+                <span>Activates a free Recruit Box Level 1 challenge.</span>
+            </div>
+
+            <div class="promo-trading-item">
+                <strong>$25 Cap</strong>
+                <span>Promo payout requests are capped at $25 gross USDC.</span>
+            </div>
+
+            <div class="promo-trading-item">
+                <strong>5 Days</strong>
+                <span>Funded-stage payout access requires 5 funded trading days.</span>
+            </div>
+        </div>
+    </div>
 </section>
 
 <section class="perps-section" id="perpetuals">
