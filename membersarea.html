@@ -962,14 +962,14 @@ body.signed-out .user-profile-badge {
 
 <script>
 const API_URL = "https://api.rebeltrading.io";
-    const maxPositionMarginRates = {
-    "T1": 0.25,
-    "T2": 0.30,
-    "T3": 0.35
+const maxPositionMarginRates = {
+    "T1": 0.05,
+    "T2": 0.075,
+    "T3": 0.10
 };
 
 function getMaxPositionMarginRate(tier) {
-    return maxPositionMarginRates[tier] || 0.35;
+    return maxPositionMarginRates[tier] || 0.10;
 }
 
 function formatMoney(value) {
@@ -1866,7 +1866,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </div>
             <div class="card">
     <h3>Max Position Margin</h3>
-    <div class="value neutral" id="dashboard-margin-rate">35%</div>
+    <div class="value neutral" id="dashboard-margin-rate">10%</div>
     <span class="status-badge" id="dashboard-margin-detail">Tier-based order guard</span>
 </div>
 
@@ -1906,7 +1906,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </div>
             <div class="metric-row">
                 <span class="metric-name">Max Position Margin Guard</span>
-                <span class="metric-target" id="metric-margin-target">35% Max Position Margin</span>
+                <span class="metric-target" id="metric-margin-target">10% Max Position Margin</span>
                 <span class="metric-current passed-text" id="metric-margin-status">Active</span>
             </div>
             <div class="metric-row">
