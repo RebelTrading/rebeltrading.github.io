@@ -1351,7 +1351,71 @@ header img {
         line-height: 1.35;
     }
 }
+.maintenance-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    box-sizing: border-box;
+    background:
+        radial-gradient(circle at 50% 30%, rgba(255, 42, 42, 0.18), transparent 34%),
+        rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(8px);
+}
 
+.maintenance-card {
+    width: 100%;
+    max-width: 560px;
+    background: rgba(8, 8, 10, 0.96);
+    border: 1px solid rgba(255, 42, 42, 0.55);
+    border-radius: 8px;
+    padding: 30px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 0 28px rgba(255, 42, 42, 0.24);
+}
+
+.maintenance-kicker {
+    color: #00ff66;
+    font-family: monospace;
+    font-size: 0.72rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.maintenance-card h2 {
+    color: #fff;
+    margin: 0 0 12px 0;
+    font-size: 1.9rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.maintenance-card p {
+    color: #bdbdbd;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+}
+
+.maintenance-card strong {
+    color: #ffb703;
+}
+
+@media (max-width: 700px) {
+    .maintenance-card {
+        padding: 24px 18px;
+    }
+
+    .maintenance-card h2 {
+        font-size: 1.45rem;
+    }
+}
 </style>
     
 
@@ -2643,6 +2707,20 @@ window.addEventListener('DOMContentLoaded', async function() {
 </head>
 
 <body>
+    <div class="maintenance-overlay">
+    <div class="maintenance-card">
+        <div class="maintenance-kicker">Scheduled Maintenance</div>
+        <h2>Trade Terminal Temporarily Paused</h2>
+        <p>
+            Rebel Trading is undergoing maintenance while we update Beta risk controls,
+            payout rules, and trade terminal stability.
+        </p>
+        <p>
+            Active trading will return at <strong>7:00 PM MST</strong>. Account data,
+            trade history, and challenge progress remain saved.
+        </p>
+    </div>
+</div>
 
 <header>
     <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo03.png" alt="Rebel Trading Logo">
