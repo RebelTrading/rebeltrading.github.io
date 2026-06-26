@@ -1420,6 +1420,7 @@ let localAssetPrices = {
 
 let pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
 let activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
+let SUPPRESS_RESTORE_MILESTONES = false;
 function getActivePositionStorageKey() {
     const challengeId = ACTIVE_CHALLENGE?.id || "guest";
     return `rebel_active_position_${challengeId}`;
@@ -1466,9 +1467,15 @@ function restoreActivePositionState() {
             ACCOUNT_BALANCE = ACCOUNT_BALANCE - storedFloating;
         }
 
-        showActivePositionOverlays();
-        updateAccountMetrics();
-        recalculateSpecInterface();
+        SUPPRESS_RESTORE_MILESTONES = true;
+
+showActivePositionOverlays();
+updateAccountMetrics();
+recalculateSpecInterface();
+
+setTimeout(() => {
+    SUPPRESS_RESTORE_MILESTONES = false;
+}, 1500);
     } catch (err) {
         console.warn("Could not restore active position:", err);
         localStorage.removeItem(getActivePositionStorageKey());
@@ -2194,7 +2201,9 @@ function updateAccountMetrics() {
         let netLiquidationValue = getNetLiquidationValue();
     let challengeProfit = getChallengeProfitValue();
 
+    if (!SUPPRESS_RESTORE_MILESTONES) {
     checkProgressMilestones();
+}
     if (netLiquidationValue > PEAK_BALANCE) {
         PEAK_BALANCE = netLiquidationValue;
     }
