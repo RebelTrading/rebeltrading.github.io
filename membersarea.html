@@ -1525,8 +1525,21 @@ async function savePayoutWallet() {
         const walletInput = document.getElementById("payout-wallet-address");
         const networkSelect = document.getElementById("payout-network");
 
-        if (bufferFloor) bufferFloor.innerText = formatMoney(data.buffer_floor || 0);
-        if (withdrawable) withdrawable.innerText = formatMoney(data.withdrawable || 0);
+        const isPromoPayout = data.is_promo_challenge === true || data.promo_payout_cap === 25;
+        const rawWithdrawable = Number(data.withdrawable || 0);
+        const displayWithdrawable = isPromoPayout
+    ? Math.min(rawWithdrawable, 25)
+    : rawWithdrawable;
+
+if (bufferFloor) bufferFloor.innerText = formatMoney(data.buffer_floor || 0);
+
+if (withdrawable) {
+    withdrawable.innerText = formatMoney(displayWithdrawable);
+
+    if (isPromoPayout && rawWithdrawable > 25) {
+        withdrawable.title = `${formatMoney(rawWithdrawable)} is above buffer, but promo payouts are capped at $25 gross.`;
+    }
+}
         if (tradingDays) {
         const fundedDays = Number(data.funded_trading_days || 0);
         const requiredDays = Number(data.required_trading_days || 5);
@@ -1968,8 +1981,8 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 </div>
 
                 <div class="metric-row">
-                    <span class="metric-name">Withdrawable Above Buffer</span>
-                    <span class="metric-target">$25 Minimum Request</span>
+                    <span class="metric-name">Eligible Payout Amount</span>
+                    <span class="metric-target">$25 Min / Promo Cap Applies</span>
                     <span class="metric-current running-text" id="payout-withdrawable">--</span>
                 </div>
                 <div class="metric-row">
