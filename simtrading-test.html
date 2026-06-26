@@ -1420,7 +1420,60 @@ let localAssetPrices = {
 
 let pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
 let activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
+function getActivePositionStorageKey() {
+    const challengeId = ACTIVE_CHALLENGE?.id || "guest";
+    return `rebel_active_position_${challengeId}`;
+}
 
+function saveActivePositionState() {
+    if (!ACTIVE_CHALLENGE) return;
+
+    if (activePosition.hasPosition) {
+        localStorage.setItem(getActivePositionStorageKey(), JSON.stringify(activePosition));
+    } else {
+        localStorage.removeItem(getActivePositionStorageKey());
+    }
+}
+
+function restoreActivePositionState() {
+    if (!ACTIVE_CHALLENGE) return;
+
+    try {
+        const stored = localStorage.getItem(getActivePositionStorageKey());
+        if (!stored) return;
+
+        const parsed = JSON.parse(stored);
+
+        if (!parsed || !parsed.hasPosition) {
+            localStorage.removeItem(getActivePositionStorageKey());
+            return;
+        }
+
+        activePosition = {
+            hasPosition: true,
+            side: parsed.side,
+            entryPrice: Number(parsed.entryPrice) || 0,
+            size: Number(parsed.size) || 0,
+            asset: parsed.asset || CURRENT_ASSET,
+            tpPrice: Number(parsed.tpPrice) || 0,
+            slPrice: Number(parsed.slPrice) || 0,
+            largestTradeProfit: Number(parsed.largestTradeProfit) || 0,
+            openedAt: parsed.openedAt || Math.floor(Date.now() / 1000)
+        };
+
+        const storedFloating = Number(ACTIVE_CHALLENGE?.floating_pnl || 0);
+        if (storedFloating !== 0) {
+            ACCOUNT_BALANCE = ACCOUNT_BALANCE - storedFloating;
+        }
+
+        showActivePositionOverlays();
+        updateAccountMetrics();
+        recalculateSpecInterface();
+    } catch (err) {
+        console.warn("Could not restore active position:", err);
+        localStorage.removeItem(getActivePositionStorageKey());
+    }
+}
 function toggleMenu() {
     const menu = document.getElementById("menu");
     menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
@@ -2408,6 +2461,7 @@ if (bracketEnabled) {
             openedAt: Math.floor(Date.now() / 1000)
         };
         showActivePositionOverlays();
+        saveActivePositionState();
         playOrderFilledSFX();
     } else {
         const limitPriceVal = parseFloat(document.getElementById('target-execution-price').value);
@@ -2448,6 +2502,7 @@ function closeActivePosition() {
     
     activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0, openedAt: null };
     FLOATING_PNL = 0.00;
+    saveActivePositionState();
     
     clearAllChartOverlays();
     updateAccountMetrics();
@@ -2567,6 +2622,11 @@ async function fetchRebelEnginePrices() {
 window.addEventListener('DOMContentLoaded', async function() {
     await checkTradingAccess();
     switchAsset('BTC', document.getElementById('default-asset'));
+
+    setTimeout(() => {
+        restoreActivePositionState();
+    }, 500);
+
     setInterval(fetchRebelEnginePrices, 1000);
     setInterval(recalculateSpecInterface, 1000);
 });
