@@ -2363,6 +2363,100 @@ footer {
         line-height: 1.6;
     }
 }
+    .rules-preview-section {
+    background:
+        radial-gradient(circle at 18% 20%, rgba(255, 42, 42, 0.14), transparent 30%),
+        radial-gradient(circle at 82% 28%, rgba(0, 255, 102, 0.08), transparent 28%),
+        linear-gradient(180deg, #080808 0%, #0b0b0d 100%);
+    border-top: 1px solid rgba(255, 42, 42, 0.18);
+    border-bottom: 1px solid rgba(255, 42, 42, 0.18);
+}
+
+.rules-preview-header {
+    max-width: 900px;
+    margin: 0 auto 28px auto;
+    text-align: center;
+}
+
+.rules-preview-header h2 {
+    color: #ff2a2a;
+    font-size: 2.25rem;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rules-preview-header p {
+    color: #bdbdbd;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 auto;
+    max-width: 760px;
+}
+
+.rules-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.rule-card {
+    background: rgba(10, 10, 12, 0.86);
+    border: 1px solid rgba(255, 42, 42, 0.22);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: inset 0 0 18px rgba(255, 42, 42, 0.035);
+}
+
+.rule-card strong {
+    display: block;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.rule-card span {
+    display: block;
+    color: #f2f2f2;
+    font-size: 1.05rem;
+    font-weight: bold;
+    line-height: 1.35;
+}
+
+.rule-card p {
+    color: #8e8e8e;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    margin: 10px 0 0 0;
+}
+
+.rules-note {
+    max-width: 900px;
+    margin: 24px auto 0 auto;
+    color: #888;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .rules-preview-header h2 {
+        font-size: 1.65rem;
+    }
+
+    .rules-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .rule-card {
+        padding: 18px;
+    }
+}
 </style>
 
 <script>
@@ -2420,6 +2514,7 @@ function buyChallenge(tier) {
     <a href="membership.html?redirect=membersarea.html" style="color:#ff2a2a;">Sign Up/Sign In</a>
     <a href="#rebel-path">How It Works</a>
     <a href="#packages">Sim Boxes Tiers</a>
+    <a href="#rules">Trading Rules</a>
     <a href="packages.html" style="color:#00ff66;">Sim Package Details</a>
     <a href="#leaderboard">Leaderboard</a>
     <a href="#roadmap">Roadmap</a>
@@ -2956,6 +3051,74 @@ function buyChallenge(tier) {
                        <p style="margin-top: 40px; text-align: center; font-size: 0.95rem; color: #ff2a2a; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase;">
             ⚠️ Risk Guard Note: EOD trailing drawdown updates at the end of the trading day, not tick-by-tick during open trades. Protect your closing balance.
         </p>
+</section>
+    <section id="rules" class="section rules-preview-section">
+    <div class="rules-preview-header">
+        <h2>Trading Rules</h2>
+        <p>
+            Rebel uses one clear rule set across the arena so traders know exactly what matters before they enter a Sim Challenge.
+        </p>
+    </div>
+
+    <div class="rules-grid">
+        <div class="rule-card">
+            <strong>Challenge Target</strong>
+            <span>10% To Pass Level 1</span>
+            <p>Hit the 10% target while respecting the drawdown and margin rules to unlock the Sim Funded stage.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>Risk Guard</strong>
+            <span>5% Daily Loss Limit</span>
+            <p>Each account has a daily loss guard based on starting balance: $50, $100, or $150.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>EOD Drawdown</strong>
+            <span>10% End-Of-Day Trail</span>
+            <p>The trailing drawdown updates from end-of-day balances, not tick-by-tick open trade movement.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>Leverage Engine</strong>
+            <span>1:10 Simulated Leverage</span>
+            <p>All challenge tiers use the same 1:10 simulated leverage model.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>Max Position Margin</strong>
+            <span>5% / 7.5% / 10%</span>
+            <p>Recruit, Raider, and Rebel boxes each have tier-based max position margin limits.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>Funded Payout Rules</strong>
+            <span>5 Days + 10 Closed Trades</span>
+            <p>Funded-stage payouts require 5 funded trading days and at least 10 funded-stage closed trades.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>Buffer Floor</strong>
+            <span>Starting Balance + 5%</span>
+            <p>Payout eligibility begins above the funded buffer floor: $1,050, $2,100, or $3,150.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>Minimum Request</strong>
+            <span>$25 USDC Minimum</span>
+            <p>Approved payout requests are sent through USDC rails after eligibility checks are met.</p>
+        </div>
+
+        <div class="rule-card">
+            <strong>Promo Accounts</strong>
+            <span>One $25 Gross USDC Cap</span>
+            <p>Promo-code accounts are capped at one $25 gross USDC payout and lock after the first paid promo payout.</p>
+        </div>
+    </div>
+
+    <p class="rules-note">
+        Rebel Trading is a simulated trading and evaluation environment. All trading activity, balances, and account stages are simulated and subject to Rebel rules and payout terms.
+    </p>
 </section>
 <section id="leaderboard" class="section leaderboard-preview">
     <div class="leaderboard-header">
