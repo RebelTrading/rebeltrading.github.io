@@ -1431,7 +1431,7 @@ let ACTIVE_CHALLENGE = null;
 let ACCOUNT_STATUS = "active";
 let lastSnapshotSyncAt = 0;
 let progressMilestonesTriggered = {};
-const LEVERAGE_FACTOR = 10.0;
+const LEVERAGE_FACTOR = 20.0;
 const maxPositionMarginRates = {
     "T1": 0.125,
     "T2": 0.15,
@@ -2821,7 +2821,7 @@ window.addEventListener('DOMContentLoaded', async function() {
             </div>
             <div class="stat-box">
                 <div class="stat-label">Max Leverage Engine</div>
-                <div class="stat-value" style="color: #ffb703;">1:10 CROSS</div>
+                <div class="stat-value" style="color: #ffb703;">1:20 CROSS</div>
             </div>
         </div>
         
