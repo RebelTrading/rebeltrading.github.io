@@ -1656,6 +1656,7 @@ function applyStageDisplay() {
 async function syncChallengeSnapshot() {
     const token = localStorage.getItem("rebel_auth_token");
     if (!token || !ACTIVE_CHALLENGE) return;
+    if (ACCOUNT_STATUS === "promo_completed") return;
 
     const now = Date.now();
     if (now - lastSnapshotSyncAt < 5000) return;
@@ -2461,10 +2462,15 @@ async function recordClosedTrade(tradePayload) {
     }
 }
 function executeDevOrder(side) {
-    if (ACCOUNT_STATUS === "failed") {
-        alert("This account has failed its trading rules. Trading is locked.");
-        return;
-    }
+    if (ACCOUNT_STATUS === "promo_completed") {
+    alert("Promo payout complete. Trading is locked on this promo account. Buy a new challenge from your dashboard to continue trading.");
+    return;
+}
+
+if (ACCOUNT_STATUS === "failed") {
+    alert("This account has failed its trading rules. Trading is locked.");
+    return;
+}
 
     const contractSize = parseFloat(document.getElementById('position-contract-size').value);
     const currentAssetKeyForMargin = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
