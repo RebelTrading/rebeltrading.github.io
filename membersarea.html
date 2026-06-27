@@ -1585,6 +1585,7 @@ async function savePayoutWallet() {
         const bufferFloor = document.getElementById("payout-buffer-floor");
         const withdrawable = document.getElementById("payout-withdrawable");
         const tradingDays = document.getElementById("payout-trading-days");
+        const fundedTrades = document.getElementById("payout-funded-trades");
         const summary = document.getElementById("payout-eligibility-summary");
         const requestButton = document.getElementById("request-payout-btn");
         const walletInput = document.getElementById("payout-wallet-address");
@@ -1613,6 +1614,14 @@ if (withdrawable) {
                 ? "metric-current passed-text"
                 : "metric-current running-text";
         }
+        if (fundedTrades) {
+    const closedTrades = Number(data.funded_trade_count || 0);
+    const requiredTrades = Number(data.required_funded_trades || 10);
+    fundedTrades.innerText = `${closedTrades} / ${requiredTrades}`;
+    fundedTrades.className = closedTrades >= requiredTrades
+        ? "metric-current passed-text"
+        : "metric-current running-text";
+}
 
         if (data.wallet) {
             if (walletInput) walletInput.value = data.wallet.wallet_address || "";
