@@ -1244,9 +1244,9 @@ async function loadMemberDashboard() {
     setText("dashboard-drawdown", formatMoney(drawdownFloor));
     setText("metric-max-target", `EOD Floor ${formatMoney(drawdownFloor)}`);
     setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
-    setText("dashboard-margin-rate", `${(marginRate * 100).toFixed(0)}%`);
+    setText("dashboard-margin-rate", `${(marginRate * 100).toFixed(1).replace(".0", "")}%`);
     setText("dashboard-margin-detail", `${challenge.tier || "T3"} max position margin guard`);
-    setText("metric-margin-target", `${(marginRate * 100).toFixed(0)}% Max Position Margin`);
+    setText("metric-margin-target", `${(marginRate * 100).toFixed(1).replace(".0", "")}% Max Position Margin`);
     setText("metric-margin-status", "Active");
         const currentLoss = Math.max(0, starting - equity);
     const dailyStatusEl = document.getElementById("metric-daily-status");
