@@ -2128,9 +2128,9 @@ function toggleBracketInputBlock() {
 
 function changeContractSizeValue(change) {
     const sizeInput = document.getElementById('position-contract-size');
-    let currentVal = parseFloat(sizeInput.value) || 1.0;
-    currentVal = Math.max(0.1, currentVal + change);
-    sizeInput.value = currentVal.toFixed(1);
+    let currentVal = parseFloat(sizeInput.value) || 0.05;
+    currentVal = Math.max(0.01, currentVal + change);
+    sizeInput.value = currentVal.toFixed(2);
     recalculateSpecInterface();
 }
 
@@ -2932,9 +2932,9 @@ window.addEventListener('DOMContentLoaded', async function() {
             <div class="input-block">
                 <label>Position Contract Size</label>
                 <div class="input-wrapper">
-                    <button onclick="changeContractSizeValue(-0.1)">-</button>
-                    <input type="text" id="position-contract-size" value="1.0" oninput="recalculateSpecInterface()">
-                    <button onclick="changeContractSizeValue(0.1)">+</button>
+                    <button onclick="changeContractSizeValue(-0.01)">-</button>
+                    <input type="text" id="position-contract-size" value="0.05" oninput="recalculateSpecInterface()">
+                    <button onclick="changeContractSizeValue(0.01)">+</button>
                 </div>
             </div>
             
