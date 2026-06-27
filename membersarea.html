@@ -1633,8 +1633,8 @@ if (withdrawable) {
             } else {
                 requestButton.disabled = !data.eligible;
                 requestButton.innerText = data.eligible
-                    ? "Request Payout"
-                    : "Payout Floor Not Met";
+                   ? (data.is_promo_challenge ? "Request Promo Payout $25" : "Request Payout")
+                   : "Payout Floor Not Met";
                 requestButton.style.opacity = data.eligible ? "1" : "0.45";
                 requestButton.style.cursor = data.eligible ? "pointer" : "not-allowed";
             }
