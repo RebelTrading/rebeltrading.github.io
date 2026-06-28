@@ -2309,8 +2309,7 @@ function checkAutomatedRulesAndExits() {
         }
 
         if (shouldClose) {
-            localAssetPrices[CURRENT_ASSET] = finalExitPrice;
-            closeActivePosition();
+            closeActivePosition(finalExitPrice);
         }
     }
 }
@@ -2680,22 +2679,40 @@ if (bracketEnabled) {
     recalculateSpecInterface();
 }
 
-function closeActivePosition() {
+function closeActivePosition(exitPriceOverride = null) {
     if (!activePosition.hasPosition) return;
     playPositionClosedSFX();
 
-        const closedTrade = {
-        asset: activePosition.asset || CURRENT_ASSET,
+    const positionAsset = activePosition.asset || CURRENT_ASSET;
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === positionAsset);
+    const spec = assetMap[currentAssetKey];
+
+    const exitPrice = Number(exitPriceOverride) > 0
+        ? Number(exitPriceOverride)
+        : getCurrentPrice();
+
+    let finalPnl = 0.00;
+
+    if (activePosition.side === 'BUY') {
+        finalPnl = (exitPrice - activePosition.entryPrice) * activePosition.size * spec.multiplier;
+    } else {
+        finalPnl = (activePosition.entryPrice - exitPrice) * activePosition.size * spec.multiplier;
+    }
+
+    FLOATING_PNL = finalPnl;
+
+    const closedTrade = {
+        asset: positionAsset,
         side: activePosition.side,
         size: activePosition.size,
         entry_price: activePosition.entryPrice,
-        exit_price: getCurrentPrice(),
-        pnl: FLOATING_PNL,
+        exit_price: exitPrice,
+        pnl: finalPnl,
         opened_at: activePosition.openedAt || null
     };
 
-    ACCOUNT_BALANCE += FLOATING_PNL;
-    REALIZED_PNL += FLOATING_PNL;
+    ACCOUNT_BALANCE += finalPnl;
+    REALIZED_PNL += finalPnl;
 
     recordClosedTrade(closedTrade);
     
