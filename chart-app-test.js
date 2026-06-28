@@ -143,7 +143,16 @@ function calculateVWAP(data) {
 
 function initChartInstances() {
     // Clear old instances explicitly
-    if (mainChart) { mainChart.remove(); rsiChart.remove(); macdChart.remove(); }
+    if (mainChart) {
+    mainChart.remove();
+    rsiChart.remove();
+    macdChart.remove();
+
+    limitPriceLine = null;
+    entryPriceLine = null;
+    takeProfitPriceLine = null;
+    stopLossPriceLine = null;
+}
 
     const mainDiv = document.getElementById('main-container');
     const rsiDiv = document.getElementById('rsi-container');
@@ -857,6 +866,31 @@ window.RebelChart = {
             `ENTRY ${sideLabel} $${Number(position.entryPrice).toFixed(precision)}`,
             0
         );
+        activeTradeLineState = {
+    side: position.side,
+    entryPrice: Number(position.entryPrice) || 0,
+    tpPrice: Number(position.tpPrice) || 0,
+    slPrice: Number(position.slPrice) || 0,
+    precision
+};
+
+if (position.tpPrice > 0 && !takeProfitPriceLine) {
+    takeProfitPriceLine = makePriceLine(
+        position.tpPrice,
+        '#00ff66',
+        `TP $${Number(position.tpPrice).toFixed(precision)}`,
+        2
+    );
+}
+
+if (position.slPrice > 0 && !stopLossPriceLine) {
+    stopLossPriceLine = makePriceLine(
+        position.slPrice,
+        '#ff2a2a',
+        `SL $${Number(position.slPrice).toFixed(precision)}`,
+        2
+    );
+}
 
         if (position.tpPrice > 0) {
             takeProfitPriceLine = makePriceLine(
