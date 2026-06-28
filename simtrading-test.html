@@ -640,6 +640,44 @@ header img {
     gap: 8px;
     display: none;
 }
+    .bracket-preview-box {
+    display: none;
+    background: #090909;
+    border: 1px solid #202020;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 0.68rem;
+    font-family: monospace;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bracket-preview-title {
+    color: #ffb703;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.bracket-preview-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    color: #777;
+}
+
+.bracket-preview-row strong {
+    color: #fff;
+}
+
+.bracket-preview-row strong.positive {
+    color: #00ff66;
+}
+
+.bracket-preview-row strong.negative {
+    color: #ff2a2a;
+}
 
 .execution-actions {
     display: grid;
@@ -2098,6 +2136,7 @@ function setOrderType(type, element) {
     cancelPendingLimit();
     clearAllChartOverlays();
     recalculateSpecInterface();
+    updateBracketPreview();
 }
 
 function setExecutionPrice(targetPrice) {
@@ -2114,6 +2153,7 @@ function setExecutionPrice(targetPrice) {
 
         priceInputField.value = numericPrice.toFixed(precision);
         recalculateSpecInterface();
+        updateBracketPreview();
         triggerLimitWorkingLine();
     }
 }
@@ -2123,7 +2163,15 @@ function setExecutionPrice(targetPrice) {
 function toggleBracketInputBlock() {
     const isChecked = document.getElementById('bracket-toggle-check').checked;
     const inputGrid = document.getElementById('bracket-input-box-wrapper');
+    const previewBox = document.getElementById('bracket-preview-box');
+
     inputGrid.style.display = isChecked ? 'grid' : 'none';
+
+    if (previewBox) {
+        previewBox.style.display = isChecked ? 'flex' : 'none';
+    }
+
+    updateBracketPreview();
 }
 
 function changeContractSizeValue(change) {
@@ -2132,6 +2180,7 @@ function changeContractSizeValue(change) {
     currentVal = Math.max(0.01, currentVal + change);
     sizeInput.value = currentVal.toFixed(2);
     recalculateSpecInterface();
+    updateBracketPreview();
 }
 
 function recalculateSpecInterface() {
@@ -2154,6 +2203,68 @@ function recalculateSpecInterface() {
     document.getElementById('spec-calc-notional').innerText = `$${notionalValue.toFixed(2)}`;
     document.getElementById('spec-calc-margin').innerText = `$${marginRequired.toFixed(2)}`;
     document.getElementById('spec-calc-buyingpower').innerText = `$${freeMarginAvailable.toFixed(2)}`;
+
+    updateBracketPreview();
+}
+    function formatPreviewPnl(value) {
+    if (!isFinite(value)) return "--";
+
+    const sign = value >= 0 ? "+" : "-";
+    return `${sign}$${Math.abs(value).toFixed(2)}`;
+}
+
+function setPreviewValue(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+
+    element.innerText = formatPreviewPnl(value);
+    element.classList.toggle("positive", value >= 0);
+    element.classList.toggle("negative", value < 0);
+}
+
+function updateBracketPreview() {
+    const previewBox = document.getElementById('bracket-preview-box');
+    const bracketToggle = document.getElementById('bracket-toggle-check');
+
+    if (!previewBox || !bracketToggle || !bracketToggle.checked) return;
+
+    const size = parseFloat(document.getElementById('position-contract-size').value) || 0;
+    const tpPrice = parseFloat(document.getElementById('bracket-tp-input').value);
+    const slPrice = parseFloat(document.getElementById('bracket-sl-input').value);
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const spec = assetMap[currentAssetKey];
+
+    let entryPrice = getCurrentPrice();
+
+    if (ORDER_TYPE === "LIMIT") {
+        const limitPrice = parseFloat(document.getElementById('target-execution-price').value);
+        if (!isNaN(limitPrice) && limitPrice > 0) {
+            entryPrice = limitPrice;
+        }
+    }
+
+    const multiplier = spec.multiplier;
+
+    const longTp = !isNaN(tpPrice) && tpPrice > 0
+        ? (tpPrice - entryPrice) * size * multiplier
+        : NaN;
+
+    const longSl = !isNaN(slPrice) && slPrice > 0
+        ? (slPrice - entryPrice) * size * multiplier
+        : NaN;
+
+    const shortTp = !isNaN(tpPrice) && tpPrice > 0
+        ? (entryPrice - tpPrice) * size * multiplier
+        : NaN;
+
+    const shortSl = !isNaN(slPrice) && slPrice > 0
+        ? (entryPrice - slPrice) * size * multiplier
+        : NaN;
+
+    setPreviewValue('preview-long-tp', longTp);
+    setPreviewValue('preview-long-sl', longSl);
+    setPreviewValue('preview-short-tp', shortTp);
+    setPreviewValue('preview-short-sl', shortSl);
 }
 
 function checkAutomatedRulesAndExits() {
@@ -2703,6 +2814,7 @@ async function fetchRebelEnginePrices() {
         renderSyntheticOrderBook(currentPrice);
         checkAutomatedRulesAndExits();
         updateAccountMetrics();
+        updateBracketPreview();
         syncChallengeSnapshot();
     }
 }
@@ -2933,7 +3045,7 @@ window.addEventListener('DOMContentLoaded', async function() {
                 <label>Position Contract Size</label>
                 <div class="input-wrapper">
                     <button onclick="changeContractSizeValue(-0.01)">-</button>
-                    <input type="text" id="position-contract-size" value="0.05" oninput="recalculateSpecInterface()">
+                    <input type="text" id="position-contract-size" value="0.05" oninput="recalculateSpecInterface(); updateBracketPreview();">
                     <button onclick="changeContractSizeValue(0.01)">+</button>
                 </div>
             </div>
@@ -2950,15 +3062,36 @@ window.addEventListener('DOMContentLoaded', async function() {
             </div>
             
             <div class="bracket-inputs-grid" id="bracket-input-box-wrapper">
-                <div class="input-block">
-                    <label>Take Profit Price</label>
-                    <div class="input-wrapper"><input type="number" step="any" id="bracket-tp-input" value="0.00"></div>
-                </div>
-                <div class="input-block">
-                    <label>Stop Loss Price</label>
-                    <div class="input-wrapper"><input type="number" step="any" id="bracket-sl-input" value="0.00"></div>
-                </div>
-            </div>
+    <div class="input-block">
+        <label>Take Profit Price</label>
+        <div class="input-wrapper"><input type="number" step="any" id="bracket-tp-input" value="0.00" oninput="updateBracketPreview()"></div>
+    </div>
+    <div class="input-block">
+        <label>Stop Loss Price</label>
+        <div class="input-wrapper"><input type="number" step="any" id="bracket-sl-input" value="0.00" oninput="updateBracketPreview()"></div>
+    </div>
+</div>
+            <div class="bracket-preview-box" id="bracket-preview-box">
+    <div class="bracket-preview-title">Bracket Risk / Reward Preview</div>
+
+    <div class="bracket-preview-row">
+        <span>BUY / LONG TP</span>
+        <strong class="positive" id="preview-long-tp">--</strong>
+    </div>
+    <div class="bracket-preview-row">
+        <span>BUY / LONG SL</span>
+        <strong class="negative" id="preview-long-sl">--</strong>
+    </div>
+
+    <div class="bracket-preview-row">
+        <span>SELL / SHORT TP</span>
+        <strong class="positive" id="preview-short-tp">--</strong>
+    </div>
+    <div class="bracket-preview-row">
+        <span>SELL / SHORT SL</span>
+        <strong class="negative" id="preview-short-sl">--</strong>
+    </div>
+</div>
             
             <div class="execution-actions">
                 <button class="exec-btn buy" onclick="executeDevOrder('BUY')">BUY / LONG</button>
