@@ -842,40 +842,40 @@ window.RebelChart = {
     },
 
     showPositionLines(position, precision = 2) {
-        limitPriceLine = removePriceLine(limitPriceLine);
-        entryPriceLine = removePriceLine(entryPriceLine);
-        takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
-        stopLossPriceLine = removePriceLine(stopLossPriceLine);
+    limitPriceLine = removePriceLine(limitPriceLine);
+    entryPriceLine = removePriceLine(entryPriceLine);
+    takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
+    stopLossPriceLine = removePriceLine(stopLossPriceLine);
 
-        if (!position || !position.hasPosition) return;
+    if (!position || !position.hasPosition) return;
 
-        const sideLabel = position.side === 'BUY' ? 'LONG' : 'SHORT';
+    const sideLabel = position.side === 'BUY' ? 'LONG' : 'SHORT';
 
-        entryPriceLine = makePriceLine(
-            position.entryPrice,
+    entryPriceLine = makePriceLine(
+        position.entryPrice,
+        '#00ff66',
+        `ENTRY ${sideLabel} $${Number(position.entryPrice).toFixed(precision)}`,
+        0
+    );
+
+    if (position.tpPrice > 0) {
+        takeProfitPriceLine = makePriceLine(
+            position.tpPrice,
             '#00ff66',
-            `ENTRY ${sideLabel} $${Number(position.entryPrice).toFixed(precision)}`,
-            0
+            `TP $${Number(position.tpPrice).toFixed(precision)}`,
+            2
         );
+    }
 
-        if (position.tpPrice > 0) {
-            takeProfitPriceLine = makePriceLine(
-                position.tpPrice,
-                '#00ff66',
-                `TP $${Number(position.tpPrice).toFixed(precision)}`,
-                2
-            );
-        }
-
-        if (position.slPrice > 0) {
-            stopLossPriceLine = makePriceLine(
-                position.slPrice,
-                '#ff2a2a',
-                `SL $${Number(position.slPrice).toFixed(precision)}`,
-                2
-            );
-        }
-    },
+    if (position.slPrice > 0) {
+        stopLossPriceLine = makePriceLine(
+            position.slPrice,
+            '#ff2a2a',
+            `SL $${Number(position.slPrice).toFixed(precision)}`,
+            2
+        );
+    }
+},
 
     updateEntryLine(position, floatingPnl, precision = 2) {
         if (!position || !position.hasPosition) return;
