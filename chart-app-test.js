@@ -24,6 +24,24 @@ let activeTradeLinePrecision = 2;
 let draggedTradeLineType = null;
 const TRADE_LINE_DRAG_PIXEL_RADIUS = 10;
 
+function setMainChartInteractionEnabled(isEnabled) {
+    if (!mainChart) return;
+
+    mainChart.applyOptions({
+        handleScroll: {
+            mouseWheel: isEnabled,
+            pressedMouseMove: isEnabled,
+            horzTouchDrag: isEnabled,
+            vertTouchDrag: isEnabled
+        },
+        handleScale: {
+            axisPressedMouseMove: isEnabled,
+            mouseWheel: isEnabled,
+            pinch: isEnabled
+        }
+    });
+}
+
 let horizontalLineMode = false;
 let manualHorizontalLines = [];
 
@@ -284,7 +302,10 @@ function initChartInstances() {
 
         draggedTradeLineType = nearestLineType;
         mainDiv.style.cursor = 'ns-resize';
+        setMainChartInteractionEnabled(false);
+
         event.preventDefault();
+        event.stopPropagation();
     });
 
     mainDiv.addEventListener('mousemove', event => {
@@ -306,6 +327,7 @@ function initChartInstances() {
 
         draggedTradeLineType = null;
         mainDiv.style.cursor = '';
+        setMainChartInteractionEnabled(true);
     });
 
     // Overlays
