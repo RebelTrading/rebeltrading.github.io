@@ -2543,6 +2543,32 @@ function updatePositionOverlayLines() {
     }
 }
 
+window.updateActiveBracketFromChart = function(type, price) {
+    if (!activePosition.hasPosition) return;
+
+    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+    const precision = assetMap[currentAssetKey].precision;
+    const cleanPrice = Number(Number(price).toFixed(precision));
+
+    if (!Number.isFinite(cleanPrice) || cleanPrice <= 0) return;
+
+    if (type === 'tp') {
+        activePosition.tpPrice = cleanPrice;
+        const tpInput = document.getElementById('bracket-tp-input');
+        if (tpInput) tpInput.value = cleanPrice.toFixed(precision);
+    }
+
+    if (type === 'sl') {
+        activePosition.slPrice = cleanPrice;
+        const slInput = document.getElementById('bracket-sl-input');
+        if (slInput) slInput.value = cleanPrice.toFixed(precision);
+    }
+
+    saveActivePositionState();
+    showActivePositionOverlays();
+    updateBracketPreview();
+};
+
 function clearAllChartOverlays() {
     document.getElementById('limit-order-line').style.display = 'none';
     document.getElementById('active-position-line').style.display = 'none';
