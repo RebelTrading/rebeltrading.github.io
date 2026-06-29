@@ -78,7 +78,6 @@ function makePriceLine(price, color, title, lineStyle = 2) {
     });
 }
 function restoreActiveTradeLines() {
-    function restoreActiveTradeLines() {
     if (!activeTradeLineState || !activeTradeLineState.hasPosition) return;
 
     const position = activeTradeLineState;
