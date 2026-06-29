@@ -1806,15 +1806,15 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </button>
 
 <div class="promo-code-panel">
-    <input id="promo-code-input" type="text" placeholder="Promo Code">
+    <input id="promo-code-input" type="hidden" value="RebelJune">
     <button class="action-btn" type="button" onclick="redeemPromoCode()">
-        Activate Free 1K
+        Activate Free Trial
     </button>
     <div class="promo-code-status" id="promo-code-status"></div>
 </div>
 
 <div style="
-    max-width: 280px;
+    max-width: 300px;
     color: #ffb703;
     font-family: monospace;
     font-size: 0.68rem;
@@ -1822,7 +1822,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     line-height: 1.35;
     text-transform: uppercase;
 ">
-    Promo accounts are capped at one $25 gross USDC payout. After the first promo payout, open a paid challenge to continue payout eligibility.
+    Free trial accounts are for platform testing only. Trial accounts are not eligible for USDC payouts. Pass the trial, then buy a Sim Challenge to continue.
 </div>
 
 <button class="action-btn" onclick="window.location.href='payments.html?redirect=membersarea.html'" style="background:#00ff66; color:#000;">
