@@ -1090,7 +1090,17 @@ function dismissFundedUnlockOverlay() {
             throw new Error(data.detail || "Promo activation failed");
         }
 
-        if (status) status.innerText = "Free 3K Level 1 challenge activated.";
+        localStorage.setItem("rebel_free_trial_challenge_id", data.challenge_id || "");
+
+        const trialButton = document.getElementById("free-trial-activate-btn");
+        if (trialButton) {
+            trialButton.innerText = "Free Trial Active";
+            trialButton.disabled = true;
+            trialButton.style.opacity = "0.65";
+            trialButton.style.cursor = "not-allowed";
+        }
+
+        if (status) status.innerText = "Free 3K trial activated.";
 
         setTimeout(() => {
             loadMemberDashboard();
@@ -1138,6 +1148,15 @@ async function loadMemberDashboard() {
 
     const user = data.user;
     const challenge = data.active_challenge;
+    const trialButton = document.getElementById("free-trial-activate-btn");
+    const storedTrialChallengeId = localStorage.getItem("rebel_free_trial_challenge_id");
+
+    if (trialButton && challenge && storedTrialChallengeId && challenge.id === storedTrialChallengeId) {
+        trialButton.innerText = "Free Trial Active";
+        trialButton.disabled = true;
+        trialButton.style.opacity = "0.65";
+        trialButton.style.cursor = "not-allowed";
+    }
 
     renderCurrentBadgeStatus(challenge);
 
@@ -1793,7 +1812,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 
 <div class="promo-code-panel">
     <input id="promo-code-input" type="hidden" value="RebelJune">
-    <button class="action-btn" type="button" onclick="redeemPromoCode()">
+    <button class="action-btn" id="free-trial-activate-btn" type="button" onclick="redeemPromoCode()">
         Activate Free Trial
     </button>
     <div class="promo-code-status" id="promo-code-status"></div>
