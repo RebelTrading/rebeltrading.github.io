@@ -21,6 +21,8 @@ let takeProfitPriceLine = null;
 let stopLossPriceLine = null;
 let activeTradeLineState = null;
 let activeTradeLinePrecision = 2;
+let draggedTradeLineType = null;
+const TRADE_LINE_DRAG_PIXEL_RADIUS = 10;
 
 let horizontalLineMode = false;
 let manualHorizontalLines = [];
@@ -76,6 +78,7 @@ function makePriceLine(price, color, title, lineStyle = 2) {
     });
 }
 function restoreActiveTradeLines() {
+    function restoreActiveTradeLines() {
     if (!activeTradeLineState || !activeTradeLineState.hasPosition) return;
 
     const position = activeTradeLineState;
@@ -115,6 +118,52 @@ function restoreActiveTradeLines() {
             `SL $${slPrice.toFixed(precision)}`,
             2
         );
+    }
+}
+
+function getNearestDraggableTradeLineType(yCoordinate) {
+    if (!candlestickSeries || !activeTradeLineState || !activeTradeLineState.hasPosition) return null;
+
+    const candidates = [
+        { type: 'tp', price: Number(activeTradeLineState.tpPrice) },
+        { type: 'sl', price: Number(activeTradeLineState.slPrice) }
+    ];
+
+    for (const candidate of candidates) {
+        if (!Number.isFinite(candidate.price) || candidate.price <= 0) continue;
+
+        const lineY = candlestickSeries.priceToCoordinate(candidate.price);
+        if (lineY === null || lineY === undefined) continue;
+
+        if (Math.abs(lineY - yCoordinate) <= TRADE_LINE_DRAG_PIXEL_RADIUS) {
+            return candidate.type;
+        }
+    }
+
+    return null;
+}
+
+function updateDraggedTradeLine(type, yCoordinate) {
+    if (!candlestickSeries || !activeTradeLineState || !activeTradeLineState.hasPosition) return;
+
+    const rawPrice = candlestickSeries.coordinateToPrice(yCoordinate);
+    if (!Number.isFinite(rawPrice) || rawPrice <= 0) return;
+
+    const precision = activeTradeLinePrecision;
+    const nextPrice = Number(rawPrice.toFixed(precision));
+
+    if (type === 'tp') {
+        activeTradeLineState.tpPrice = nextPrice;
+    }
+
+    if (type === 'sl') {
+        activeTradeLineState.slPrice = nextPrice;
+    }
+
+    restoreActiveTradeLines();
+
+    if (typeof window.updateActiveBracketFromChart === 'function') {
+        window.updateActiveBracketFromChart(type, nextPrice);
     }
 }
 function setHorizontalLineMode(isActive) {
@@ -206,8 +255,9 @@ function initChartInstances() {
     candlestickSeries.applyOptions({
         priceFormat: { type: 'price', precision: getAssetPrecision(currentAsset), minMove: getAssetMinMove(currentAsset) }
     });
-     mainChart.subscribeClick(param => {
+          mainChart.subscribeClick(param => {
         if (!param || param.point === undefined || !candlestickSeries) return;
+        if (draggedTradeLineType) return;
 
         const price = candlestickSeries.coordinateToPrice(param.point.y);
         if (!price || isNaN(price)) return;
@@ -222,6 +272,41 @@ function initChartInstances() {
         if (typeof window.setExecutionPrice !== 'function') return;
 
         window.setExecutionPrice(price);
+    });
+
+    mainDiv.addEventListener('mousedown', event => {
+        if (!candlestickSeries || horizontalLineMode) return;
+
+        const rect = mainDiv.getBoundingClientRect();
+        const yCoordinate = event.clientY - rect.top;
+        const nearestLineType = getNearestDraggableTradeLineType(yCoordinate);
+
+        if (!nearestLineType) return;
+
+        draggedTradeLineType = nearestLineType;
+        mainDiv.style.cursor = 'ns-resize';
+        event.preventDefault();
+    });
+
+    mainDiv.addEventListener('mousemove', event => {
+        const rect = mainDiv.getBoundingClientRect();
+        const yCoordinate = event.clientY - rect.top;
+
+        if (draggedTradeLineType) {
+            updateDraggedTradeLine(draggedTradeLineType, yCoordinate);
+            event.preventDefault();
+            return;
+        }
+
+        const nearestLineType = getNearestDraggableTradeLineType(yCoordinate);
+        mainDiv.style.cursor = nearestLineType ? 'ns-resize' : '';
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (!draggedTradeLineType) return;
+
+        draggedTradeLineType = null;
+        mainDiv.style.cursor = '';
     });
 
     // Overlays
