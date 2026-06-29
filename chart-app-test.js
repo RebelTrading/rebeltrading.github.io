@@ -19,6 +19,8 @@ let limitPriceLine = null;
 let entryPriceLine = null;
 let takeProfitPriceLine = null;
 let stopLossPriceLine = null;
+let activeTradeLineState = null;
+let activeTradeLinePrecision = 2;
 
 let horizontalLineMode = false;
 let manualHorizontalLines = [];
@@ -72,6 +74,48 @@ function makePriceLine(price, color, title, lineStyle = 2) {
         axisLabelVisible: true,
         title
     });
+}
+function restoreActiveTradeLines() {
+    if (!activeTradeLineState || !activeTradeLineState.hasPosition) return;
+
+    const position = activeTradeLineState;
+    const precision = activeTradeLinePrecision;
+    const sideLabel = position.side === 'BUY' ? 'LONG' : 'SHORT';
+
+    entryPriceLine = removePriceLine(entryPriceLine);
+    takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
+    stopLossPriceLine = removePriceLine(stopLossPriceLine);
+
+    const entryPrice = Number(position.entryPrice);
+    const tpPrice = Number(position.tpPrice);
+    const slPrice = Number(position.slPrice);
+
+    if (Number.isFinite(entryPrice) && entryPrice > 0) {
+        entryPriceLine = makePriceLine(
+            entryPrice,
+            '#00ff66',
+            `ENTRY ${sideLabel} $${entryPrice.toFixed(precision)}`,
+            0
+        );
+    }
+
+    if (Number.isFinite(tpPrice) && tpPrice > 0) {
+        takeProfitPriceLine = makePriceLine(
+            tpPrice,
+            '#00ff66',
+            `TP $${tpPrice.toFixed(precision)}`,
+            2
+        );
+    }
+
+    if (Number.isFinite(slPrice) && slPrice > 0) {
+        stopLossPriceLine = makePriceLine(
+            slPrice,
+            '#ff2a2a',
+            `SL $${slPrice.toFixed(precision)}`,
+            2
+        );
+    }
 }
 function setHorizontalLineMode(isActive) {
     horizontalLineMode = Boolean(isActive);
@@ -364,8 +408,9 @@ async function loadChartWorkspace() {
         currentHistoricalBars = await fetchRealCandles(currentTimeframe, currentAsset);
         
         refreshChartOverlays();
-        updateRowLayouts(); 
-        
+        updateRowLayouts();
+        restoreActiveTradeLines();
+
         mainChart.priceScale('right').applyOptions({ autoScale: true });
         mainChart.timeScale().fitContent();
 
@@ -822,7 +867,9 @@ window.RebelChart = {
     }
 },
 
-    clearTradeLines() {
+        clearTradeLines() {
+        activeTradeLineState = null;
+        activeTradeLinePrecision = 2;
         limitPriceLine = removePriceLine(limitPriceLine);
         entryPriceLine = removePriceLine(entryPriceLine);
         takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
@@ -842,40 +889,22 @@ window.RebelChart = {
     },
 
     showPositionLines(position, precision = 2) {
-    limitPriceLine = removePriceLine(limitPriceLine);
-    entryPriceLine = removePriceLine(entryPriceLine);
-    takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
-    stopLossPriceLine = removePriceLine(stopLossPriceLine);
+        limitPriceLine = removePriceLine(limitPriceLine);
 
-    if (!position || !position.hasPosition) return;
+        if (!position || !position.hasPosition) {
+            activeTradeLineState = null;
+            activeTradeLinePrecision = precision;
+            entryPriceLine = removePriceLine(entryPriceLine);
+            takeProfitPriceLine = removePriceLine(takeProfitPriceLine);
+            stopLossPriceLine = removePriceLine(stopLossPriceLine);
+            return;
+        }
 
-    const sideLabel = position.side === 'BUY' ? 'LONG' : 'SHORT';
+        activeTradeLineState = { ...position };
+        activeTradeLinePrecision = precision;
 
-    entryPriceLine = makePriceLine(
-        position.entryPrice,
-        '#00ff66',
-        `ENTRY ${sideLabel} $${Number(position.entryPrice).toFixed(precision)}`,
-        0
-    );
-
-    if (position.tpPrice > 0) {
-        takeProfitPriceLine = makePriceLine(
-            position.tpPrice,
-            '#00ff66',
-            `TP $${Number(position.tpPrice).toFixed(precision)}`,
-            2
-        );
-    }
-
-    if (position.slPrice > 0) {
-        stopLossPriceLine = makePriceLine(
-            position.slPrice,
-            '#ff2a2a',
-            `SL $${Number(position.slPrice).toFixed(precision)}`,
-            2
-        );
-    }
-},
+        restoreActiveTradeLines();
+    },
 
     updateEntryLine(position, floatingPnl, precision = 2) {
         if (!position || !position.hasPosition) return;
