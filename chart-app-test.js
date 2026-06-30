@@ -22,6 +22,9 @@ let stopLossPriceLine = null;
 let activeTradeLineState = null;
 let activeTradeLinePrecision = 2;
 let draggedTradeLineType = null;
+let takeProfitDragHandle = null;
+let stopLossDragHandle = null;
+let activeTradeDragShield = null;
 const TRADE_LINE_DRAG_PIXEL_RADIUS = 10;
 
 let horizontalLineMode = false;
@@ -64,6 +67,22 @@ function removePriceLine(lineRef) {
     }
     return null;
 }
+function removeTradeDragHandles() {
+    if (takeProfitDragHandle) {
+        takeProfitDragHandle.remove();
+        takeProfitDragHandle = null;
+    }
+
+    if (stopLossDragHandle) {
+        stopLossDragHandle.remove();
+        stopLossDragHandle = null;
+    }
+
+    if (activeTradeDragShield) {
+        activeTradeDragShield.remove();
+        activeTradeDragShield = null;
+    }
+}
 
 function makePriceLine(price, color, title, lineStyle = 2) {
     if (!candlestickSeries || !price || isNaN(price)) return null;
@@ -77,7 +96,90 @@ function makePriceLine(price, color, title, lineStyle = 2) {
         title
     });
 }
+function createTradeDragHandle(type, price, color) {
+    const mainDiv = document.getElementById('main-container');
+    if (!mainDiv || !candlestickSeries || !Number.isFinite(price) || price <= 0) return null;
+
+    const yCoordinate = candlestickSeries.priceToCoordinate(price);
+    if (yCoordinate === null || yCoordinate === undefined) return null;
+
+    const handle = document.createElement('button');
+    handle.type = 'button';
+    handle.dataset.tradeLineType = type;
+    handle.setAttribute('aria-label', type === 'tp' ? 'Drag take profit line' : 'Drag stop loss line');
+
+    Object.assign(handle.style, {
+        position: 'absolute',
+        left: '0',
+        right: '80px',
+        top: `${Math.max(0, yCoordinate - 9)}px`,
+        height: '18px',
+        padding: '0',
+        margin: '0',
+        border: '0',
+        background: 'transparent',
+        cursor: 'ns-resize',
+        zIndex: '20'
+    });
+
+    handle.addEventListener('mousedown', event => {
+        beginTradeLineOverlayDrag(type, event);
+    });
+
+    mainDiv.appendChild(handle);
+    return handle;
+}
+function beginTradeLineOverlayDrag(type, startEvent) {
+    const mainDiv = document.getElementById('main-container');
+    if (!mainDiv || !candlestickSeries) return;
+
+    draggedTradeLineType = type;
+
+    activeTradeDragShield = document.createElement('div');
+    Object.assign(activeTradeDragShield.style, {
+        position: 'absolute',
+        inset: '0',
+        zIndex: '30',
+        cursor: 'ns-resize',
+        background: 'transparent'
+    });
+
+    const moveHandler = event => {
+        const rect = mainDiv.getBoundingClientRect();
+        const yCoordinate = event.clientY - rect.top;
+        updateDraggedTradeLine(type, yCoordinate);
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    const endHandler = event => {
+        draggedTradeLineType = null;
+
+        if (activeTradeDragShield) {
+            activeTradeDragShield.remove();
+            activeTradeDragShield = null;
+        }
+
+        window.removeEventListener('mousemove', moveHandler, true);
+        window.removeEventListener('mouseup', endHandler, true);
+
+        event.preventDefault();
+        event.stopPropagation();
+    };
+
+    activeTradeDragShield.addEventListener('mousemove', moveHandler);
+    activeTradeDragShield.addEventListener('mouseup', endHandler);
+    window.addEventListener('mousemove', moveHandler, true);
+    window.addEventListener('mouseup', endHandler, true);
+
+    mainDiv.appendChild(activeTradeDragShield);
+
+    startEvent.preventDefault();
+    startEvent.stopPropagation();
+}
 function restoreActiveTradeLines() {
+    removeTradeDragHandles();
+
     if (!activeTradeLineState || !activeTradeLineState.hasPosition) return;
 
     const position = activeTradeLineState;
@@ -101,22 +203,26 @@ function restoreActiveTradeLines() {
         );
     }
 
-    if (Number.isFinite(tpPrice) && tpPrice > 0) {
+        if (Number.isFinite(tpPrice) && tpPrice > 0) {
         takeProfitPriceLine = makePriceLine(
             tpPrice,
             '#00ff66',
             `TP $${tpPrice.toFixed(precision)}`,
             2
         );
+
+        takeProfitDragHandle = createTradeDragHandle('tp', tpPrice, '#00ff66');
     }
 
-    if (Number.isFinite(slPrice) && slPrice > 0) {
+        if (Number.isFinite(slPrice) && slPrice > 0) {
         stopLossPriceLine = makePriceLine(
             slPrice,
             '#ff2a2a',
             `SL $${slPrice.toFixed(precision)}`,
             2
         );
+
+        stopLossDragHandle = createTradeDragHandle('sl', slPrice, '#ff2a2a');
     }
 }
 
@@ -273,7 +379,7 @@ function initChartInstances() {
         window.setExecutionPrice(price);
     });
 
-    mainDiv.addEventListener('mousedown', event => {
+       mainDiv.addEventListener('mousedown', event => {
         if (!candlestickSeries || horizontalLineMode) return;
 
         const rect = mainDiv.getBoundingClientRect();
@@ -282,28 +388,18 @@ function initChartInstances() {
 
         if (!nearestLineType) return;
 
-        draggedTradeLineType = nearestLineType;
-        mainDiv.style.cursor = 'ns-resize';
-        event.preventDefault();
+        beginTradeLineOverlayDrag(nearestLineType, event);
     });
 
-    mainDiv.addEventListener('mousemove', event => {
+        mainDiv.addEventListener('mousemove', event => {
         const rect = mainDiv.getBoundingClientRect();
         const yCoordinate = event.clientY - rect.top;
-
-        if (draggedTradeLineType) {
-            updateDraggedTradeLine(draggedTradeLineType, yCoordinate);
-            event.preventDefault();
-            return;
-        }
-
         const nearestLineType = getNearestDraggableTradeLineType(yCoordinate);
+
         mainDiv.style.cursor = nearestLineType ? 'ns-resize' : '';
     });
 
-    window.addEventListener('mouseup', () => {
-        if (!draggedTradeLineType) return;
-
+        window.addEventListener('mouseup', () => {
         draggedTradeLineType = null;
         mainDiv.style.cursor = '';
     });
