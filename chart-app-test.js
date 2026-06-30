@@ -161,10 +161,20 @@ function updateDraggedTradeLine(type, yCoordinate) {
 
     restoreActiveTradeLines();
 
-    if (typeof window.updateActiveBracketFromChart === 'function') {
+        if (typeof window.updateActiveBracketFromChart === 'function') {
         window.updateActiveBracketFromChart(type, nextPrice);
     }
 }
+
+function setMainChartInteractionLocked(isLocked) {
+    if (!mainChart) return;
+
+    mainChart.applyOptions({
+        handleScroll: !isLocked,
+        handleScale: !isLocked
+    });
+}
+
 function setHorizontalLineMode(isActive) {
     horizontalLineMode = Boolean(isActive);
 
@@ -273,7 +283,7 @@ function initChartInstances() {
         window.setExecutionPrice(price);
     });
 
-    mainDiv.addEventListener('mousedown', event => {
+        mainDiv.addEventListener('mousedown', event => {
         if (!candlestickSeries || horizontalLineMode) return;
 
         const rect = mainDiv.getBoundingClientRect();
@@ -283,17 +293,20 @@ function initChartInstances() {
         if (!nearestLineType) return;
 
         draggedTradeLineType = nearestLineType;
+        setMainChartInteractionLocked(true);
         mainDiv.style.cursor = 'ns-resize';
         event.preventDefault();
+        event.stopPropagation();
     });
 
-    mainDiv.addEventListener('mousemove', event => {
+        mainDiv.addEventListener('mousemove', event => {
         const rect = mainDiv.getBoundingClientRect();
         const yCoordinate = event.clientY - rect.top;
 
         if (draggedTradeLineType) {
             updateDraggedTradeLine(draggedTradeLineType, yCoordinate);
             event.preventDefault();
+            event.stopPropagation();
             return;
         }
 
@@ -301,11 +314,14 @@ function initChartInstances() {
         mainDiv.style.cursor = nearestLineType ? 'ns-resize' : '';
     });
 
-    window.addEventListener('mouseup', () => {
+        window.addEventListener('mouseup', event => {
         if (!draggedTradeLineType) return;
 
         draggedTradeLineType = null;
+        setMainChartInteractionLocked(false);
         mainDiv.style.cursor = '';
+        event.preventDefault();
+        event.stopPropagation();
     });
 
     // Overlays
