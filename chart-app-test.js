@@ -137,35 +137,51 @@ function beginTradeLineOverlayDrag(type, startEvent) {
 
     activeTradeDragShield = document.createElement('div');
     Object.assign(activeTradeDragShield.style, {
-        position: 'absolute',
+        position: 'fixed',
         inset: '0',
-        zIndex: '30',
+        zIndex: '999999',
         cursor: 'ns-resize',
         background: 'transparent'
     });
 
+    let didCleanup = false;
+
+    const stopDragEvent = event => {
+        if (!event) return;
+        if (typeof event.preventDefault === 'function') event.preventDefault();
+        if (typeof event.stopPropagation === 'function') event.stopPropagation();
+        if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+    };
+
     const cleanup = event => {
+        if (didCleanup) return;
+        didCleanup = true;
+
         draggedTradeLineType = null;
+
+        window.removeEventListener('mousemove', moveHandler, true);
+        window.removeEventListener('mouseup', cleanup, true);
+        window.removeEventListener('mouseleave', cleanup, true);
+        window.removeEventListener('blur', cleanup, true);
+        document.removeEventListener('mouseup', cleanup, true);
+        document.removeEventListener('visibilitychange', visibilityCleanup, true);
 
         if (activeTradeDragShield) {
             activeTradeDragShield.remove();
             activeTradeDragShield = null;
         }
 
-        window.removeEventListener('mousemove', moveHandler, true);
-        window.removeEventListener('mouseup', cleanup, true);
-        window.removeEventListener('blur', cleanup, true);
-
+        mainDiv.style.cursor = '';
         restoreActiveTradeLines();
+        stopDragEvent(event);
+    };
 
-        if (event && typeof event.preventDefault === 'function') {
-            event.preventDefault();
-            event.stopPropagation();
-        }
+    const visibilityCleanup = event => {
+        if (document.hidden) cleanup(event);
     };
 
     const moveHandler = event => {
-        if (!draggedTradeLineType) {
+        if (!draggedTradeLineType || event.buttons === 0) {
             cleanup(event);
             return;
         }
@@ -173,20 +189,22 @@ function beginTradeLineOverlayDrag(type, startEvent) {
         const rect = mainDiv.getBoundingClientRect();
         const yCoordinate = event.clientY - rect.top;
         updateDraggedTradeLine(type, yCoordinate);
-
-        event.preventDefault();
-        event.stopPropagation();
+        stopDragEvent(event);
     };
 
     activeTradeDragShield.addEventListener('mouseup', cleanup, true);
+    activeTradeDragShield.addEventListener('mouseleave', cleanup, true);
     window.addEventListener('mousemove', moveHandler, true);
     window.addEventListener('mouseup', cleanup, true);
+    window.addEventListener('mouseleave', cleanup, true);
     window.addEventListener('blur', cleanup, true);
+    document.addEventListener('mouseup', cleanup, true);
+    document.addEventListener('visibilitychange', visibilityCleanup, true);
 
-    mainDiv.appendChild(activeTradeDragShield);
+    document.body.appendChild(activeTradeDragShield);
+    mainDiv.style.cursor = 'ns-resize';
 
-    startEvent.preventDefault();
-    startEvent.stopPropagation();
+    stopDragEvent(startEvent);
 }
 function restoreActiveTradeLines() {
     removeTradeDragHandles();
