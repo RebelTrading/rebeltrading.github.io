@@ -135,6 +135,11 @@ function beginTradeLineOverlayDrag(type, startEvent) {
 
     draggedTradeLineType = type;
 
+    if (activeTradeDragShield) {
+        activeTradeDragShield.remove();
+        activeTradeDragShield = null;
+    }
+
     activeTradeDragShield = document.createElement('div');
     Object.assign(activeTradeDragShield.style, {
         position: 'absolute',
@@ -144,15 +149,7 @@ function beginTradeLineOverlayDrag(type, startEvent) {
         background: 'transparent'
     });
 
-    const moveHandler = event => {
-        const rect = mainDiv.getBoundingClientRect();
-        const yCoordinate = event.clientY - rect.top;
-        updateDraggedTradeLine(type, yCoordinate);
-        event.preventDefault();
-        event.stopPropagation();
-    };
-
-    const endHandler = event => {
+    const cleanup = event => {
         draggedTradeLineType = null;
 
         if (activeTradeDragShield) {
@@ -161,16 +158,35 @@ function beginTradeLineOverlayDrag(type, startEvent) {
         }
 
         window.removeEventListener('mousemove', moveHandler, true);
-        window.removeEventListener('mouseup', endHandler, true);
+        window.removeEventListener('mouseup', cleanup, true);
+        window.removeEventListener('blur', cleanup, true);
+
+        restoreActiveTradeLines();
+
+        if (event && typeof event.preventDefault === 'function') {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    };
+
+    const moveHandler = event => {
+        if (!draggedTradeLineType) {
+            cleanup(event);
+            return;
+        }
+
+        const rect = mainDiv.getBoundingClientRect();
+        const yCoordinate = event.clientY - rect.top;
+        updateDraggedTradeLine(type, yCoordinate);
 
         event.preventDefault();
         event.stopPropagation();
     };
 
-    activeTradeDragShield.addEventListener('mousemove', moveHandler);
-    activeTradeDragShield.addEventListener('mouseup', endHandler);
+    activeTradeDragShield.addEventListener('mouseup', cleanup, true);
     window.addEventListener('mousemove', moveHandler, true);
-    window.addEventListener('mouseup', endHandler, true);
+    window.addEventListener('mouseup', cleanup, true);
+    window.addEventListener('blur', cleanup, true);
 
     mainDiv.appendChild(activeTradeDragShield);
 
