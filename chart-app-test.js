@@ -297,7 +297,7 @@ function initChartInstances() {
         mainDiv.style.cursor = 'ns-resize';
         event.preventDefault();
         event.stopPropagation();
-    });
+    }, true);
 
         mainDiv.addEventListener('mousemove', event => {
         const rect = mainDiv.getBoundingClientRect();
@@ -312,7 +312,7 @@ function initChartInstances() {
 
         const nearestLineType = getNearestDraggableTradeLineType(yCoordinate);
         mainDiv.style.cursor = nearestLineType ? 'ns-resize' : '';
-    });
+    }, true);
 
         window.addEventListener('mouseup', event => {
         if (!draggedTradeLineType) return;
