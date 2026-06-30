@@ -77,11 +77,6 @@ function removeTradeDragHandles() {
         stopLossDragHandle.remove();
         stopLossDragHandle = null;
     }
-
-    if (activeTradeDragShield) {
-        activeTradeDragShield.remove();
-        activeTradeDragShield = null;
-    }
 }
 
 function makePriceLine(price, color, title, lineStyle = 2) {
