@@ -117,9 +117,18 @@ function createTradeDragHandle(type, price, color) {
         zIndex: '20'
     });
 
-    handle.addEventListener('mousedown', event => {
-        beginTradeLineOverlayDrag(type, event);
-    });
+const startTradeLineDrag = event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (typeof event.stopImmediatePropagation === 'function') {
+        event.stopImmediatePropagation();
+    }
+
+    beginTradeLineOverlayDrag(type, event);
+};
+
+handle.addEventListener('mousedown', startTradeLineDrag, true);
 
     mainDiv.appendChild(handle);
     return handle;
@@ -408,7 +417,7 @@ function initChartInstances() {
         window.setExecutionPrice(price);
     });
 
-       mainDiv.addEventListener('mousedown', event => {
+        mainDiv.addEventListener('mousedown', event => {
         if (!candlestickSeries || horizontalLineMode) return;
 
         const rect = mainDiv.getBoundingClientRect();
@@ -417,8 +426,15 @@ function initChartInstances() {
 
         if (!nearestLineType) return;
 
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (typeof event.stopImmediatePropagation === 'function') {
+            event.stopImmediatePropagation();
+        }
+
         beginTradeLineOverlayDrag(nearestLineType, event);
-    });
+    }, true);
 
         mainDiv.addEventListener('mousemove', event => {
         const rect = mainDiv.getBoundingClientRect();
