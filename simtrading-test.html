@@ -1537,7 +1537,21 @@ function saveActivePositionState() {
         localStorage.removeItem(getActivePositionStorageKey());
     }
 }
+function getSavedActivePositionAssetKey() {
+    if (!ACTIVE_CHALLENGE) return null;
 
+    try {
+        const stored = localStorage.getItem(getActivePositionStorageKey());
+        if (!stored) return null;
+
+        const parsed = JSON.parse(stored);
+        if (!parsed || !parsed.hasPosition || !parsed.asset) return null;
+
+        return Object.keys(assetMap).find(key => assetMap[key].api === parsed.asset) || null;
+    } catch (err) {
+        return null;
+    }
+}
 function restoreActivePositionState() {
     if (!ACTIVE_CHALLENGE) return;
 
@@ -2109,9 +2123,14 @@ function switchAsset(assetKey, element) {
         cancelPendingLimit();
     clearAllChartOverlays();
 
-    if (window.RebelChart) {
+        if (window.RebelChart) {
         window.RebelChart.switchAsset(assetKey);
     }
+
+    setTimeout(() => {
+        showActivePositionOverlays();
+        updatePositionOverlayLines();
+    }, 150);
     
     fetchRebelEnginePrices();
     setTimeout(recalculateSpecInterface, 100);
@@ -2529,8 +2548,19 @@ function showActivePositionOverlays() {
     document.getElementById('tv-target-line').style.display = 'none';
     document.getElementById('sl-risk-line').style.display = 'none';
 
+    const positionMatchesCurrentAsset =
+        activePosition.hasPosition &&
+        activePosition.asset === CURRENT_ASSET;
+
     if (window.RebelChart) {
-        window.RebelChart.showPositionLines(activePosition, precision);
+        window.RebelChart.showPositionLines(
+            positionMatchesCurrentAsset ? activePosition : null,
+            precision
+        );
+    }
+
+    if (!positionMatchesCurrentAsset) {
+        return;
     }
 }
 
@@ -2864,7 +2894,12 @@ async function fetchRebelEnginePrices() {
 
 window.addEventListener('DOMContentLoaded', async function() {
     await checkTradingAccess();
-    switchAsset('BTC', document.getElementById('default-asset'));
+
+    const savedAssetKey = getSavedActivePositionAssetKey();
+    const startupAssetKey = savedAssetKey || 'BTC';
+    const startupAssetButton = document.querySelector(`.asset-option[onclick*="switchAsset('${startupAssetKey}'"]`);
+
+    switchAsset(startupAssetKey, startupAssetButton || document.getElementById('default-asset'));
 
     setTimeout(() => {
         restoreActivePositionState();
