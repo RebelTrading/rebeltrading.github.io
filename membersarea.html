@@ -1321,7 +1321,7 @@ function updatePayoutEligibility(challenge, equity) {
         if (withdrawableEl) withdrawableEl.className = "metric-current passed-text";
         if (requestButton) requestButton.style.display = "inline-block";
     } else {
-        if (summary) summary.innerText = "Sim Funded active. Build at least $25 above the 4.2% buffer floor to request payout.";
+        if (summary) summary.innerText = "Sim Funded active. Build at least $25 above the 5.0% buffer floor to request payout.";
         if (withdrawableEl) withdrawableEl.className = "metric-current running-text";
         if (requestButton) requestButton.style.display = "none";
     }
