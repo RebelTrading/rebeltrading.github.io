@@ -1661,7 +1661,7 @@ if (withdrawable) {
             } else {
                 requestButton.disabled = !data.eligible;
                 requestButton.innerText = data.eligible
-                   ? (data.is_promo_challenge ? "Request Promo Payout $25" : "Request Payout")
+                   ? (data.is_promo_challenge ? "Free Trial Not Payout Eligible" : "Request Payout")
                    : "Payout Floor Not Met";
                 requestButton.style.opacity = data.eligible ? "1" : "0.45";
                 requestButton.style.cursor = data.eligible ? "pointer" : "not-allowed";
@@ -2028,7 +2028,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 <p class="payout-copy" id="payout-eligibility-summary">
                     Payout requests unlock after your account reaches Sim Funded Rebel Stage.
                 </p>
-                <div style="
+                                <div style="
     margin: 14px 0 18px 0;
     padding: 14px 16px;
     background: rgba(255, 183, 3, 0.06);
@@ -2047,26 +2047,25 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
         text-transform: uppercase;
         margin-bottom: 7px;
     ">
-        Promo Account Payout Cap
+        Free Trial Payout Notice
     </div>
 
     <p style="margin: 0 0 8px 0; color: #aaa;">
-        Promo-code accounts are capped at <strong style="color:#fff;">one $25 gross USDC payout request</strong>, regardless of how much simulated profit the promo account reaches.
+        Free trial accounts are for platform testing only and are <strong style="color:#fff;">not eligible for USDC payouts</strong>.
     </p>
 
     <p style="margin: 0 0 8px 0; color: #aaa;">
-        Example: if your promo account reaches <strong style="color:#00ff66;">$100</strong> above the payout buffer, the promo payout request is still capped at <strong style="color:#ffb703;">$25 gross</strong>.
+        Trial accounts let you experience the Rebel Trading simulator, risk controls, chart tools, and Level 1 challenge flow before buying a package.
     </p>
 
     <p style="margin: 0 0 8px 0; color: #aaa;">
-        After the first approved promo payout is marked paid, trading on that promo account is locked and payout eligibility ends for that promo challenge.
+        If you pass or fail the free trial, that trial account ends and trading on that trial account is locked.
     </p>
 
     <p style="margin: 0; color: #aaa;">
-        To request payouts on full eligible profits and continue trading with non-promo status, buy a $1K, $2K, or $3K Sim Challenge from your dashboard.
+        To continue trading and become eligible for Sim Funded payouts, buy a $1K, $2K, or $3K Sim Challenge from your dashboard.
     </p>
 </div>
-
                 <div class="metric-row">
                     <span class="metric-name">Funded Buffer Floor</span>
                     <span class="metric-target">Starting Balance + 4.2%</span>
@@ -2075,7 +2074,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 
                 <div class="metric-row">
                     <span class="metric-name">Eligible Payout Amount</span>
-                    <span class="metric-target">$25 Min / Promo Cap Applies</span>
+                    <span class="metric-target">Paid Challenges Only</span>
                     <span class="metric-current running-text" id="payout-withdrawable">--</span>
                 </div>
                 <div class="metric-row">
