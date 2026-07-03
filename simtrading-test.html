@@ -982,6 +982,17 @@ header img {
     color: #777;
     font-weight: bold;
 }
+.tp-sl-drag-hint {
+    margin-left: auto;
+    color: #00ff66;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(0, 255, 102, 0.75);
+    white-space: normal;
+    text-align: right;
+}
 
 /* --- CHASSIS AMBIENT POSITION FEEDBACK GLOWS --- */
 #tv_chart_container {
@@ -1263,6 +1274,13 @@ header img {
     #chart-toolbar label {
         flex: 0 0 auto;
         font-size: 0.68rem;
+    }
+    .tp-sl-drag-hint {
+        margin-left: 0;
+        width: 100%;
+        text-align: left;
+        font-size: 0.62rem;
+        line-height: 1.25;
     }
 
     #tv_chart_container {
@@ -3063,6 +3081,8 @@ window.addEventListener('DOMContentLoaded', async function() {
             <label><input type="checkbox" id="toggle-macd" checked> MACD</label>
         </div>
     </details>
+
+    <span class="tp-sl-drag-hint">Double-click TP / SL lines to readjust bracket</span>
 </div>
 
 <div id="tv_chart_container">
