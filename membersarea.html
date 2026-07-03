@@ -333,6 +333,55 @@ header img {
 .metric-name {
     color: #fff;
     font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    position: relative;
+}
+    .rule-info-btn {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 1px solid #00ff66;
+    background: rgba(0, 255, 102, 0.08);
+    color: #00ff66;
+    font-size: 0.68rem;
+    font-weight: 900;
+    line-height: 15px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(0, 255, 102, 0.35);
+    padding: 0;
+}
+
+.rule-info-btn:focus {
+    outline: none;
+    border-color: #ffaa00;
+    color: #ffaa00;
+}
+
+.rule-info-popover {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 24px;
+    z-index: 50;
+    width: min(330px, 78vw);
+    padding: 12px 14px;
+    background: #090909;
+    border: 1px solid rgba(0, 255, 102, 0.45);
+    border-radius: 6px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75), 0 0 14px rgba(0, 255, 102, 0.22);
+    color: #d7d7d7;
+    font-size: 0.74rem;
+    line-height: 1.45;
+    font-weight: 600;
+    text-transform: none;
+}
+
+.rule-info-btn:focus + .rule-info-popover,
+.metric-name:hover .rule-info-popover {
+    display: block;
 }
 
 .metric-target {
@@ -848,7 +897,7 @@ body.signed-out .user-profile-badge {
         margin-bottom: 18px;
     }
 
-    .metric-row {
+        .metric-row {
         grid-template-columns: 1fr;
         gap: 6px;
         padding: 14px 0;
@@ -857,6 +906,12 @@ body.signed-out .user-profile-badge {
 
     .metric-current {
         text-align: left;
+    }
+
+    .rule-info-popover {
+        left: 0;
+        top: 26px;
+        width: min(310px, 86vw);
     }
 
     .payout-copy {
@@ -1960,25 +2015,41 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <span class="metric-current running-text" id="metric-profit-status">$3,000.00 ($300.00 Remaining)</span>
 </div>
                         <div class="metric-row">
-                <span class="metric-name">Max Position Margin Guard</span>
+                <span class="metric-name">
+    Max Position Margin Guard
+    <button class="rule-info-btn" type="button" aria-label="Max position margin info">i</button>
+    <span class="rule-info-popover">Limits how much margin one position can use. This prevents over-sizing and keeps each trade inside the account risk rules.</span>
+</span>
                 <span class="metric-target" id="metric-margin-target">10% Max Position Margin</span>
                 <span class="metric-current passed-text" id="metric-margin-status">Active</span>
             </div>
 
             <div class="metric-row">
-                <span class="metric-name">Trading Days Requirement</span>
+                <span class="metric-name">
+    Trading Days Requirement
+    <button class="rule-info-btn" type="button" aria-label="Trading days requirement info">i</button>
+    <span class="rule-info-popover">You must place closed trades across at least 5 separate trading days before Level 1 can be cleared.</span>
+</span>
                 <span class="metric-target" id="metric-trading-days-target">5 Days Required</span>
                 <span class="metric-current running-text" id="metric-trading-days-status">0 / 5</span>
             </div>
 
             <div class="metric-row">
-                <span class="metric-name">Closed Trades Requirement</span>
+                <span class="metric-name">
+    Closed Trades Requirement
+    <button class="rule-info-btn" type="button" aria-label="Closed trades requirement info">i</button>
+    <span class="rule-info-popover">You must close at least 10 trades before Level 1 can be cleared. Open positions do not count until closed.</span>
+</span>
                 <span class="metric-target" id="metric-closed-trades-target">10 Trades Required</span>
                 <span class="metric-current running-text" id="metric-closed-trades-status">0 / 10</span>
             </div>
 
             <div class="metric-row">
-                <span class="metric-name">Best Day Rule</span>
+                <span class="metric-name">
+    Best Day Rule
+    <button class="rule-info-btn" type="button" aria-label="Best Day Rule info">i</button>
+    <span class="rule-info-popover">Your best profitable day cannot be more than 50% of total positive profit. If it is above 50%, you do not fail, but must keep trading until the ratio drops to 50% or lower.</span>
+</span>
                 <span class="metric-target">50% Max Profit Concentration</span>
                 <span class="metric-current running-text" id="metric-best-day-status">Awaiting Data</span>
             </div>
