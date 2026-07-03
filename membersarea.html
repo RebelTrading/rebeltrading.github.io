@@ -1409,8 +1409,17 @@ async function loadTradeStats(token) {
             const tradingDaysEl = document.getElementById("metric-trading-days-status");
             if (tradingDaysEl) {
                 const tradingDays = Number(summary.trading_days || 0);
-                tradingDaysEl.innerText = `${tradingDays} / 4 Days Active`;
-                tradingDaysEl.className = tradingDays >= 4
+                tradingDaysEl.innerText = `${tradingDays} / 5`;
+                tradingDaysEl.className = tradingDays >= 5
+                    ? "metric-current passed-text"
+                    : "metric-current running-text";
+            }
+
+            const closedTradesEl = document.getElementById("metric-closed-trades-status");
+            if (closedTradesEl) {
+                const closedTrades = Number(summary.total_trades || 0);
+                closedTradesEl.innerText = `${closedTrades} / 10`;
+                closedTradesEl.className = closedTrades >= 10
                     ? "metric-current passed-text"
                     : "metric-current running-text";
             }
@@ -1918,11 +1927,30 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <span class="metric-target" id="metric-profit-target">Reach $3,300.00 (+$300.00)</span>
     <span class="metric-current running-text" id="metric-profit-status">$3,000.00 ($300.00 Remaining)</span>
 </div>
-            <div class="metric-row">
+                        <div class="metric-row">
                 <span class="metric-name">Max Position Margin Guard</span>
                 <span class="metric-target" id="metric-margin-target">10% Max Position Margin</span>
                 <span class="metric-current passed-text" id="metric-margin-status">Active</span>
             </div>
+
+            <div class="metric-row">
+                <span class="metric-name">Trading Days Requirement</span>
+                <span class="metric-target" id="metric-trading-days-target">5 Days Required</span>
+                <span class="metric-current running-text" id="metric-trading-days-status">0 / 5</span>
+            </div>
+
+            <div class="metric-row">
+                <span class="metric-name">Closed Trades Requirement</span>
+                <span class="metric-target" id="metric-closed-trades-target">10 Trades Required</span>
+                <span class="metric-current running-text" id="metric-closed-trades-status">0 / 10</span>
+            </div>
+
+            <div class="metric-row">
+                <span class="metric-name">Best Day Rule</span>
+                <span class="metric-target">50% Max Profit Concentration</span>
+                <span class="metric-current running-text" id="metric-best-day-status">Awaiting Data</span>
+            </div>
+
             <div class="metric-row">
                 <span class="metric-name">Account Milestone Clearance Status</span>
                 <span class="metric-target">Phase 1 Status</span>
