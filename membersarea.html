@@ -1423,6 +1423,22 @@ async function loadTradeStats(token) {
                     ? "metric-current passed-text"
                     : "metric-current running-text";
             }
+                        const bestDayEl = document.getElementById("metric-best-day-status");
+            if (bestDayEl) {
+                const bestDayRatio = Number(summary.best_day_ratio || 0);
+                const bestDayPercent = bestDayRatio * 100;
+                const hasPositivePnl = Number(summary.total_positive_pnl || 0) > 0;
+
+                if (!hasPositivePnl) {
+                    bestDayEl.innerText = "Awaiting Profit";
+                    bestDayEl.className = "metric-current running-text";
+                } else {
+                    bestDayEl.innerText = `${bestDayPercent.toFixed(1)}% / 50%`;
+                    bestDayEl.className = bestDayRatio <= 0.50
+                        ? "metric-current passed-text"
+                        : "metric-current running-text";
+                }
+        }
         }
 
                 const historyResponse = await fetch(`${API_URL}/api/trades/history`, {
@@ -1650,6 +1666,22 @@ if (withdrawable) {
         ? "metric-current passed-text"
         : "metric-current running-text";
 }
+                const payoutBestDay = document.getElementById("payout-best-day");
+        if (payoutBestDay) {
+            const fundedBestDayRatio = Number(data.funded_best_day_ratio || 0);
+            const fundedBestDayPercent = fundedBestDayRatio * 100;
+            const fundedHasBestDayData = fundedBestDayRatio > 0 || data.funded_best_day_rule_passed === false;
+
+            if (!fundedHasBestDayData) {
+                payoutBestDay.innerText = "Awaiting Funded Profit";
+                payoutBestDay.className = "metric-current running-text";
+            } else {
+                payoutBestDay.innerText = `${fundedBestDayPercent.toFixed(1)}% / 50%`;
+                payoutBestDay.className = fundedBestDayRatio <= 0.50
+                    ? "metric-current passed-text"
+                    : "metric-current running-text";
+            }
+        }
 
         if (data.wallet) {
             if (walletInput) walletInput.value = data.wallet.wallet_address || "";
@@ -2110,10 +2142,16 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                     <span class="metric-target">5 Days Required</span>
                     <span class="metric-current running-text" id="payout-trading-days">0 / 5</span>
                 </div>
-                <div class="metric-row">
+                                <div class="metric-row">
     <span class="metric-name">Funded Closed Trades</span>
     <span class="metric-target">10 Trades Required</span>
     <span class="metric-current running-text" id="payout-funded-trades">0 / 10</span>
+</div>
+
+                <div class="metric-row">
+    <span class="metric-name">Funded Best Day Rule</span>
+    <span class="metric-target">50% Max Profit Concentration</span>
+    <span class="metric-current running-text" id="payout-best-day">Awaiting Data</span>
 </div>
 
                 <div style="height: 28px;"></div>
