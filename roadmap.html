@@ -33,6 +33,14 @@ header {
 header img {
     height: 80px;
 }
+    .site-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 1001;
+}
 
 /* HAMBURGER */
 .hamburger {
@@ -356,8 +364,9 @@ function toggleMenu() {
 <body>
 
 <header>
-    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
-    
+        <a href="index.html" class="site-logo-link" aria-label="Rebel Trading home">
+        <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebeltradelogo2.png" alt="Rebel Trading Logo">
+    </a>    
     <a href="payments.html" class="sim-challenge-btn">🎮 GET SIM CHALLENGE →</a>
     
     <div class="hamburger" onclick="toggleMenu()">
