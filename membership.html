@@ -32,6 +32,14 @@ header {
 header img {
     height: 50px;
 }
+    .site-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 1001;
+}
 
 .hamburger {
     cursor: pointer;
@@ -598,7 +606,9 @@ window.addEventListener("load", initializeGoogleSignIn);
 <body>
 
 <header>
-    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo6.png" alt="Rebel Trading Logo">
+       <a href="index.html" class="site-logo-link" aria-label="Rebel Trading home">
+        <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo6.png" alt="Rebel Trading Logo">
+    </a>
     <div class="hamburger" onclick="toggleMenu()">
         <div></div>
         <div></div>
