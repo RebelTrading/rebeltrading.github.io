@@ -42,6 +42,14 @@ header {
 header img {
     height: 50px;
 }
+    .site-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 1001;
+}
 
 .user-profile-badge {
     display: flex;
@@ -1834,8 +1842,10 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 <body>
     
 <header>
-    <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo6.png" alt="Rebel Trading Logo">
-   <div class="user-profile-badge">
+       <a href="index.html" class="site-logo-link" aria-label="Rebel Trading home">
+        <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo6.png" alt="Rebel Trading Logo">
+    </a>
+    <div class="user-profile-badge">
     <span id="member-display-name">REBEL_TRADER_42</span>
     <button class="header-signout-btn" onclick="logout()">Sign Out</button>
     <div class="user-avatar" id="member-avatar">RT</div>
