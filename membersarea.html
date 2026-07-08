@@ -1059,13 +1059,13 @@ body.signed-out .user-profile-badge {
 <script>
 const API_URL = "https://api.rebeltrading.io";
 const maxPositionMarginRates = {
-    "T1": 0.05,
-    "T2": 0.06,
-    "T3": 0.07
+    "T1": 0.10,
+    "T2": 0.10,
+    "T3": 0.10
 };
 
 function getMaxPositionMarginRate(tier) {
-    return maxPositionMarginRates[tier] || 0.07;
+    return maxPositionMarginRates[tier] || 0.10;
 }
 
 function formatMoney(value) {
