@@ -1514,13 +1514,13 @@ let lastSnapshotSyncAt = 0;
 let progressMilestonesTriggered = {};
 const LEVERAGE_FACTOR = 20.0;
 const maxPositionMarginRates = {
-    "T1": 0.125,
-    "T2": 0.15,
-    "T3": 0.20
+    "T1": 0.05,
+    "T2": 0.06,
+    "T3": 0.07
 };
 
 function getMaxPositionMarginRate() {
-    return maxPositionMarginRates[activeTierKey] || 0.20;
+    return maxPositionMarginRates[activeTierKey] || 0.07;
 }
 
 const accountTiers = {
@@ -3265,6 +3265,6 @@ window.addEventListener('DOMContentLoaded', async function() {
     </div>
     
 </div>
-<script type="module" src="./chart-app-test.js?v=prod-api-3"></script>
+<script type="module" src="./chart-app-test.js?v=prod-api-35margin"></script>
 </body>
 </html>
