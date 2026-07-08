@@ -1059,13 +1059,13 @@ body.signed-out .user-profile-badge {
 <script>
 const API_URL = "https://api.rebeltrading.io";
 const maxPositionMarginRates = {
-    "T1": 0.125,
-    "T2": 0.15,
-    "T3": 0.20
+    "T1": 0.05,
+    "T2": 0.06,
+    "T3": 0.07
 };
 
 function getMaxPositionMarginRate(tier) {
-    return maxPositionMarginRates[tier] || 0.20;
+    return maxPositionMarginRates[tier] || 0.07;
 }
 
 function formatMoney(value) {
@@ -1529,8 +1529,8 @@ async function loadTradeStats(token) {
                     bestDayEl.innerText = "Awaiting Profit";
                     bestDayEl.className = "metric-current running-text";
                 } else {
-                    bestDayEl.innerText = `${bestDayPercent.toFixed(1)}% / 50%`;
-                    bestDayEl.className = bestDayRatio <= 0.50
+                    bestDayEl.innerText = `${bestDayPercent.toFixed(1)}% / 35%`;
+                    bestDayEl.className = bestDayRatio <= 0.35
                         ? "metric-current passed-text"
                         : "metric-current running-text";
                 }
@@ -1772,8 +1772,8 @@ if (withdrawable) {
                 payoutBestDay.innerText = "Awaiting Funded Profit";
                 payoutBestDay.className = "metric-current running-text";
             } else {
-                payoutBestDay.innerText = `${fundedBestDayPercent.toFixed(1)}% / 50%`;
-                payoutBestDay.className = fundedBestDayRatio <= 0.50
+                payoutBestDay.innerText = `${fundedBestDayPercent.toFixed(1)}% / 35%`;
+                payoutBestDay.className = fundedBestDayRatio <= 0.35
                     ? "metric-current passed-text"
                     : "metric-current running-text";
             }
@@ -2109,9 +2109,9 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 <span class="metric-name">
     Best Day Rule
     <button class="rule-info-btn" type="button" aria-label="Best Day Rule info">i</button>
-    <span class="rule-info-popover">Your best profitable day cannot be more than 50% of total positive profit. If it is above 50%, you do not fail, but must keep trading until the ratio drops to 50% or lower.</span>
+    <span class="rule-info-popover">Your best profitable day cannot be more than 35% of total positive profit. If it is above 35%, you do not fail, but must keep trading until the ratio drops to 35% or lower.</span>
 </span>
-                <span class="metric-target">50% Max Profit Concentration</span>
+                <span class="metric-target">35% Max Profit Concentration</span>
                 <span class="metric-current running-text" id="metric-best-day-status">Awaiting Data</span>
             </div>
 
@@ -2282,7 +2282,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 
                 <div class="metric-row">
     <span class="metric-name">Funded Best Day Rule</span>
-    <span class="metric-target">50% Max Profit Concentration</span>
+    <span class="metric-target">35% Max Profit Concentration</span>
     <span class="metric-current running-text" id="payout-best-day">Awaiting Data</span>
 </div>
 
