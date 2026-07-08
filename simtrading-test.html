@@ -1514,13 +1514,13 @@ let lastSnapshotSyncAt = 0;
 let progressMilestonesTriggered = {};
 const LEVERAGE_FACTOR = 10.0;
 const maxPositionMarginRates = {
-    "T1": 0.05,
-    "T2": 0.06,
-    "T3": 0.07
+    "T1": 0.10,
+    "T2": 0.10,
+    "T3": 0.10
 };
 
 function getMaxPositionMarginRate() {
-    return maxPositionMarginRates[activeTierKey] || 0.07;
+    return maxPositionMarginRates[activeTierKey] || 0.10;
 }
 
 const accountTiers = {
