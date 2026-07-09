@@ -1398,11 +1398,11 @@ function updatePayoutEligibility(challenge, equity) {
     const stage = challenge.stage || "challenge";
     const starting = Number(challenge.starting_balance) || 0;
     const payoutSplit = Number(challenge.payout_split || 80);
-    const bufferFloor = starting * 1.042;
+    const bufferFloor = starting * 1.05;
     const withdrawable = Math.max(0, equity - bufferFloor);
 
     setText("payout-buffer-floor", formatMoney(bufferFloor));
-    setText("payout-withdrawable", formatMoney(withdrawable));
+    setText("payout-withdrawable", `${withdrawable.toFixed(0)} XP`);
 
     const summary = document.getElementById("payout-eligibility-summary");
     const withdrawableEl = document.getElementById("payout-withdrawable");
@@ -1416,11 +1416,11 @@ function updatePayoutEligibility(challenge, equity) {
     }
 
         if (withdrawable >= 25) {
-        if (summary) summary.innerText = `Payout request eligible. ${payoutSplit.toFixed(0)}% split applies to approved funded-stage profits above the buffer.`;
+        if (summary) summary.innerText = `XP redemption eligible. Rebel XP can be converted to USDC rewards after approval.`;
         if (withdrawableEl) withdrawableEl.className = "metric-current passed-text";
         if (requestButton) requestButton.style.display = "inline-block";
     } else {
-        if (summary) summary.innerText = "Sim Funded active. Build at least $25 above the 5.0% buffer floor to request payout.";
+        if (summary) summary.innerText = "Sim Funded active. Build Rebel XP above the 5.0% buffer floor. Minimum redemption is 1,000 XP.";
         if (withdrawableEl) withdrawableEl.className = "metric-current running-text";
         if (requestButton) requestButton.style.display = "none";
     }
@@ -1614,14 +1614,15 @@ function renderTradeHistory(trades) {
             ? new Date(Number(payout.created_at) * 1000).toLocaleString()
             : "--";
 
-        const wallet = payout.wallet_address
+                const wallet = payout.wallet_address
             ? `${payout.wallet_address.slice(0, 6)}...${payout.wallet_address.slice(-6)}`
             : "--";
+        const requestedXp = Number(payout.requested_xp || payout.requested_amount || 0);
 
         return `
             <tr>
                 <td>${createdAt}</td>
-                <td>$${Number(payout.payout_amount || 0).toFixed(2)} (${Number(payout.payout_split || 0).toFixed(0)}%)</td>
+                <td>${requestedXp.toFixed(0)} XP -> $${Number(payout.payout_amount || 0).toFixed(2)} USDC</td>
                 <td>${payout.network || "--"}</td>
                 <td>${wallet}</td>
                 <td>${payout.status || "--"}</td>
@@ -1639,7 +1640,7 @@ async function requestPayout() {
         return;
     }
 
-    if (status) status.innerText = "Submitting payout request...";
+    if (status) status.innerText = "Submitting XP redemption request...";
 
     try {
         const response = await fetch(`${API_URL}/api/payout/request`, {
@@ -1648,20 +1649,22 @@ async function requestPayout() {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({})
+                        body: JSON.stringify({
+                requested_xp: 1000
+            })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            if (status) status.innerText = data.detail || "Payout request failed.";
+            if (status) status.innerText = data.detail || "XP redemption request failed.";
             return;
         }
 
         const payout = data.payout_request;
 
         if (status) {
-            status.innerText = `Payout request submitted. Estimated payout: $${Number(payout.payout_amount || 0).toFixed(2)} USDC.`;
+            status.innerText = `XP redemption submitted. ${Number(payout.requested_xp || 0).toFixed(0)} XP requested for $${Number(payout.payout_amount || 0).toFixed(2)} USDC reward review.`;
         }
 
         await loadPayoutStatus(token);
@@ -1707,7 +1710,7 @@ async function savePayoutWallet() {
             return;
         }
 
-        if (status) status.innerText = "Wallet saved to payout profile.";
+        if (status) status.innerText = "Wallet saved to USDC reward profile.";
         await loadPayoutStatus(token);
     } catch (err) {
         if (status) status.innerText = "Connection failed. Please try again.";
@@ -1734,21 +1737,26 @@ async function savePayoutWallet() {
         const walletInput = document.getElementById("payout-wallet-address");
         const networkSelect = document.getElementById("payout-network");
 
-        const isPromoPayout = data.is_promo_challenge === true || data.promo_payout_cap === 25;
-        const rawWithdrawable = Number(data.withdrawable || 0);
-        const displayWithdrawable = isPromoPayout
-    ? Math.min(rawWithdrawable, 25)
-    : rawWithdrawable;
+                const redeemableXp = Number(data.redeemable_xp || 0);
+        const maxXpReward = Number(data.max_xp_usdc_reward || 0);
+        const minimumXpRequest = Number(data.minimum_xp_request || 1000);
 
-if (bufferFloor) bufferFloor.innerText = formatMoney(data.buffer_floor || 0);
+        if (bufferFloor) bufferFloor.innerText = formatMoney(data.buffer_floor || 0);
 
-if (withdrawable) {
-    withdrawable.innerText = formatMoney(displayWithdrawable);
+        if (withdrawable) {
+            withdrawable.innerText = `${redeemableXp.toFixed(0)} XP`;
+            withdrawable.title = `${redeemableXp.toFixed(0)} XP currently redeemable for up to ${formatMoney(maxXpReward)} USDC reward value. Minimum request is ${minimumXpRequest.toFixed(0)} XP.`;
+            withdrawable.className = redeemableXp >= minimumXpRequest
+                ? "metric-current passed-text"
+                : "metric-current running-text";
+        }
 
-    if (isPromoPayout && rawWithdrawable > 25) {
-        withdrawable.title = `${formatMoney(rawWithdrawable)} is above buffer, but promo payouts are capped at $25 gross.`;
-    }
-}
+        setText("dashboard-xp", `${redeemableXp.toFixed(0)} XP`);
+        setText("dashboard-xp-detail", redeemableXp >= minimumXpRequest
+            ? `Eligible For ${formatMoney(maxXpReward)} USDC Reward`
+            : `${minimumXpRequest.toFixed(0)} XP Minimum To Redeem`
+        );
+        setText("metric-xp-status", `${redeemableXp.toFixed(0)} XP / ${minimumXpRequest.toFixed(0)} XP`);
         if (tradingDays) {
         const fundedDays = Number(data.funded_trading_days || 0);
         const requiredDays = Number(data.required_trading_days || 5);
@@ -1795,16 +1803,20 @@ if (withdrawable) {
 
             if (hasPendingPayout) {
                 requestButton.disabled = true;
-                requestButton.innerText = "Payout Pending Review";
+                requestButton.innerText = "XP Redemption Pending";
                 requestButton.style.opacity = "0.45";
                 requestButton.style.cursor = "not-allowed";
             } else {
-                requestButton.disabled = !data.eligible;
-                requestButton.innerText = data.eligible
-                   ? (data.is_promo_challenge ? "Free Trial Not Payout Eligible" : "Request Payout")
-                   : "Payout Floor Not Met";
-                requestButton.style.opacity = data.eligible ? "1" : "0.45";
-                requestButton.style.cursor = data.eligible ? "pointer" : "not-allowed";
+                const redeemableXp = Number(data.redeemable_xp || 0);
+                const minimumXpRequest = Number(data.minimum_xp_request || 1000);
+                const xpEligible = data.eligible && redeemableXp >= minimumXpRequest;
+
+                requestButton.disabled = !xpEligible;
+                requestButton.innerText = xpEligible
+                   ? "Redeem XP For USDC"
+                   : "1,000 XP Minimum";
+                requestButton.style.opacity = xpEligible ? "1" : "0.45";
+                requestButton.style.cursor = xpEligible ? "pointer" : "not-allowed";
             }
         }
 
@@ -2195,7 +2207,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
             <div class="account-selector-bar">
                 <div>
                     <h2 class="glow-title">Payouts</h2>
-                    <div style="font-size: 0.8rem; color: #8a8a93; margin-top: 4px;">USDC wallet setup and payout history</div>
+                    <div style="font-size: 0.8rem; color: #8a8a93; margin-top: 4px;">XP redemption wallet and USDC reward history</div>
                 </div>
                 <button class="action-btn" onclick="showDashboardSection('overview-section')">
                     Back To Overview
@@ -2205,9 +2217,9 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
             <div class="performance-table-panel" style="margin-bottom: 28px;">
                                 <div class="panel-header-title">Payout Eligibility</div>
 
-                <p class="payout-copy" id="payout-eligibility-summary">
-                    Payout requests unlock after your account reaches Sim Funded Rebel Stage.
-                </p>
+ <p class="payout-copy" id="payout-eligibility-summary">
+    XP redemptions unlock after your account reaches Sim Funded Rebel Stage and meets all reward eligibility checks.
+</p>
                                 <div style="
     margin: 14px 0 18px 0;
     padding: 14px 16px;
@@ -2307,10 +2319,10 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </div>
 
                 <div style="height: 28px;"></div>
-                <div class="panel-header-title">USDC Payout Wallet</div>
+                <div class="panel-header-title">USDC Reward Wallet</div>
 
                 <p class="payout-copy">
-                    Rebel Trading pays approved challenge profits in USDC to keep settlement fast, simple, and free from traditional bank delays. Save the wallet address where you want approved payouts sent.
+                    Rebel Trading sends approved XP reward conversions in USDC to keep settlement fast, simple, and free from traditional bank delays. Save the wallet address where you want approved USDC rewards sent.
                 </p>
 
                 <p class="payout-copy">
@@ -2319,7 +2331,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 
                 <div class="payout-form-grid">
                     <div>
-                        <label>Payout Network</label>
+                        <label>USDC Reward Network</label>
                         <select id="payout-network">
                             <option value="Solana">Solana</option>
                             <option value="Ethereum">Ethereum</option>
@@ -2332,14 +2344,14 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 
                     <div>
                         <label>USDC Wallet Address</label>
-                        <input type="text" id="payout-wallet-address" placeholder="Paste your USDC receiving address">
+                        <input type="text" id="payout-wallet-address" placeholder="Paste your USDC reward wallet address">
                     </div>
 
                     <button class="action-btn" onclick="savePayoutWallet()">
-                        Save Wallet
-                    </button>
+                        Save Reward Wallet
+                   </button>
                     <button class="action-btn" id="request-payout-btn" onclick="requestPayout()" style="display:none;">
-                        Request Payout
+                       Redeem XP For USDC
                     </button>
                 </div>
 
@@ -2347,13 +2359,13 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
             </div>
 
             <div class="performance-table-panel">
-                <div class="panel-header-title">Payout History</div>
+                <div class="panel-header-title">XP Reward History</div>
 
                 <table class="payout-history-table">
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Amount</th>
+                            <th>XP Reward</th>
                             <th>Network</th>
                             <th>Wallet</th>
                             <th>Status</th>
