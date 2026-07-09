@@ -1265,6 +1265,9 @@ async function loadMemberDashboard() {
     setText("dashboard-equity", "--");
     setText("dashboard-starting", "No active challenge selected");
     setText("dashboard-pnl", "--");
+    setText("dashboard-xp", "0 XP");
+    setText("dashboard-xp-detail", "Sim Funded Required");
+    setText("metric-xp-status", "0 XP");
     setText("dashboard-drawdown", "--");
     setText("dashboard-daily", "--");
     setText("dashboard-trade-count", "0");
@@ -1991,10 +1994,10 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <span class="status-badge" id="dashboard-starting">Starting Balance: $10,000.00</span>
 </div>
 
-            <div class="card">
-    <h3>Net Realized P&L</h3>
-    <div class="value positive" id="dashboard-pnl">+$142.50</div>
-    <span class="status-badge">All-Time Live Track</span>
+<div class="card">
+    <h3>Rebel XP</h3>
+    <div class="value positive" id="dashboard-xp">0 XP</div>
+    <span class="status-badge" id="dashboard-xp-detail">Earned Above Funded Buffer</span>
 </div>
 
             <div class="card">
@@ -2056,12 +2059,12 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 </div>
 
             <div class="metric-row">
-    <span class="metric-name">Profit Target Metric Milestone</span>
-    <span class="metric-target" id="metric-profit-target">Reach $3,300.00 (+$300.00)</span>
-    <span class="metric-current running-text" id="metric-profit-status">$3,000.00 ($300.00 Remaining)</span>
+    <span class="metric-name">Rebel XP Rewards</span>
+    <span class="metric-target">Earned Above Funded Buffer</span>
+    <span class="metric-current running-text" id="metric-xp-status">0 XP</span>
 </div>
-                        <div class="metric-row">
-                <span class="metric-name">
+            <div class="metric-row">
+    <span class="metric-name">
     Max Position Margin Guard
     <button class="rule-info-btn" type="button" aria-label="Max position margin info">i</button>
     <span class="rule-info-popover">Limits how much margin one position can use. This prevents over-sizing and keeps each trade inside the account risk rules.</span>
@@ -2239,8 +2242,40 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
         If you pass or fail the free trial, that trial account ends and trading on that trial account is locked.
     </p>
 
-    <p style="margin: 0; color: #aaa;">
+        <p style="margin: 0; color: #aaa;">
         To continue trading and become eligible for Sim Funded payouts, buy a $1K, $2K, or $3K Sim Challenge from your dashboard.
+    </p>
+</div>
+
+<div style="
+    border: 1px solid rgba(0, 255, 102, 0.35);
+    background: rgba(0, 255, 102, 0.06);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 0 0 22px 0;
+">
+    <div style="
+        color: #00ff66;
+        font-family: monospace;
+        font-size: 0.72rem;
+        font-weight: bold;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+    ">
+        Rebel XP Rewards
+    </div>
+
+    <p style="margin: 0 0 8px 0; color: #aaa;">
+        Sim Funded traders earn Rebel XP from eligible simulated profit above the 5% funded buffer floor.
+    </p>
+
+    <p style="margin: 0 0 8px 0; color: #aaa;">
+        <strong style="color:#fff;">1 XP = $1</strong> of eligible simulated profit above the buffer. <strong style="color:#fff;">1,000 XP minimum</strong> is required to request a USDC reward conversion.
+    </p>
+
+    <p style="margin: 0; color: #aaa;">
+        Current conversion rate: <strong style="color:#00ff66;">1,000 XP = $25 USDC</strong>, pending eligibility checks and manual review.
     </p>
 </div>
                 <div class="metric-row">
@@ -2250,8 +2285,8 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 </div>
 
                 <div class="metric-row">
-                    <span class="metric-name">Eligible Payout Amount</span>
-                    <span class="metric-target">Paid Challenges Only</span>
+                    <span class="metric-name">Redeemable Rebel XP</span>
+                    <span class="metric-target">1,000 XP Minimum</span>
                     <span class="metric-current running-text" id="payout-withdrawable">--</span>
                 </div>
                 <div class="metric-row">
