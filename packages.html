@@ -894,6 +894,14 @@ function buyChallenge(tier) {
                             <span>Max Position Margin</span>
                             <strong class="gold">10%</strong>
                         </div>
+                        <div class="metric">
+                            <span>Trading Days</span>
+                            <strong>5 Qualifying Days</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Best Day Rule</span>
+                            <strong>30% Max</strong>
+                        </div>
                     </div>
 
                     <div class="rule-grid">
@@ -948,6 +956,14 @@ function buyChallenge(tier) {
                             <span>Max Position Margin</span>
                             <strong class="gold">10%</strong>
                         </div>
+                        <div class="metric">
+                            <span>Trading Days</span>
+                            <strong>5 Qualifying Days</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Best Day Rule</span>
+                            <strong>30% Max</strong>
+                        </div>
                     </div>
 
                     <div class="rule-grid">
@@ -1001,6 +1017,14 @@ function buyChallenge(tier) {
                         <div class="metric">
                             <span>Max Position Margin</span>
                             <strong class="gold">10%</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Trading Days</span>
+                            <strong>5 Qualifying Days</strong>
+                        </div>
+                        <div class="metric">
+                            <span>Best Day Rule</span>
+                            <strong>30% Max</strong>
                         </div>
                     </div>
 
@@ -1098,7 +1122,7 @@ function buyChallenge(tier) {
                 <div class="flow-step">
                     <span>Step 02</span>
                     <h3>Clear Level 1</h3>
-                    <p>Reach the 10% challenge target while respecting daily loss, EOD trailing drawdown, and max position margin.</p>
+                    <p>Reach the 10% challenge target while respecting daily loss, EOD trailing drawdown, max position margin, 5 qualifying trading days, 10 closed trades, and the 30% Best Day Rule.</p>
                 </div>
                 <div class="flow-step">
                     <span>Step 03</span>
@@ -1108,7 +1132,7 @@ function buyChallenge(tier) {
                 <div class="flow-step">
                     <span>Step 04</span>
                     <h3>Request Payouts</h3>
-                    <p>Funded-stage profits above the buffer floor can become payout eligible after 5 funded trading days, 10 funded-stage closed trades, and a $25 minimum request.</p>
+                    <p>Funded-stage profits above the buffer floor can become payout eligible after 5 qualifying funded trading days, 10 funded-stage closed trades, the 30% Best Day Rule, and a $25 minimum request.</p>
                 </div>
             </div>
         </div>
@@ -1139,11 +1163,20 @@ function buyChallenge(tier) {
             </div>
             <div class="rules-card">
     <strong>Position Margin Guard</strong>
-    <p>Recruit allows 12.5%, Raider allows 15%, and Rebel allows 20% max position margin exposure.</p>
+    <p>All account tiers use a 10% max position margin guard with 1:10 simulated leverage.</p>
 </div>
             <div class="rules-card">
                 <strong>Speedrun Boost</strong>
                 <p>Clear Level 1 within the Speedrun window to unlock a 90% funded split instead of the standard 80% split.</p>
+            </div>
+            <div class="rules-card">
+                <strong>Qualifying Trading Days</strong>
+                <p>Level 1 and Sim Funded both require 5 qualifying trading days. A day qualifies when at least one trade is held for 2 minutes or longer.</p>
+            </div>
+
+            <div class="rules-card">
+                <strong>Best Day Rule</strong>
+                <p>Your best profitable trading day cannot account for more than 30% of total positive profit. If it is above 30%, keep trading until the ratio drops back to 30% or lower.</p>
             </div>
             <div class="rules-card">
                 <strong>No Phase 2</strong>
