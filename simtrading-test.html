@@ -829,6 +829,22 @@ header img {
     border-color: #ff2a2a;
     color: #ff2a2a;
 }
+    .trade-xp-badge {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: #101000;
+    border: 1px solid #ffb703;
+    color: #ffb703;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.68rem;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
+    text-transform: uppercase;
+}
 .trade-user-badge {
     display: none;
     align-items: center;
@@ -1680,7 +1696,39 @@ async function checkTradingAccess() {
         setTradingAccessState(false);
     }
 }
+async function loadTradeXpStatus() {
+    const token = localStorage.getItem("rebel_auth_token");
+    const xpBadge = document.getElementById("trade-xp-badge");
+    const xpValue = document.getElementById("trade-xp-value");
 
+    if (!token || !xpBadge || !xpValue) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/payout/status`, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
+            }
+        });
+
+        if (!response.ok) {
+            xpBadge.style.display = "none";
+            return;
+        }
+
+        const data = await response.json();
+        const redeemableXp = Number(data.redeemable_xp || 0);
+
+        xpValue.innerText = redeemableXp.toLocaleString(undefined, {
+            maximumFractionDigits: 1
+        });
+
+        xpBadge.style.display = "inline-flex";
+    } catch (err) {
+        console.warn("Rebel XP status failed:", err);
+        xpBadge.style.display = "none";
+    }
+}
 function applyActiveChallengeToSim() {
     if (!ACTIVE_CHALLENGE) return;
     ACCOUNT_STATUS = ACTIVE_CHALLENGE.status || "active";
@@ -1731,6 +1779,7 @@ applyStageDisplay();
 initializeProgressMilestones();
 updateAccountMetrics();
 recalculateSpecInterface();
+loadTradeXpStatus();
 }
 function applyStageDisplay() {
     const stage = ACTIVE_CHALLENGE?.stage || "challenge";
@@ -3011,6 +3060,9 @@ window.addEventListener('DOMContentLoaded', async function() {
 </div>
 
 <a class="my-account-btn" id="my-account-btn" href="membersarea.html">MY ACCOUNT</a>
+<div class="trade-xp-badge" id="trade-xp-badge">
+    REBEL XP: <span id="trade-xp-value">0</span>
+</div>
 
 <div class="trade-user-badge" id="trade-user-badge">
     <div class="trade-user-avatar" id="trade-user-avatar">RT</div>
