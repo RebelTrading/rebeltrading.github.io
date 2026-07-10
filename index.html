@@ -2552,9 +2552,9 @@ function toggleMenu() {
 let activeCalcIndex = 0;
 
 const configMatrix = [
-    { entry: "$10", balance: "$1,000.00", target: "$100.00", potential: "$1,050 buffer / 1,000 XP min", tierName: "Recruit Box", xpPerDollar: 3.0 },
-    { entry: "$20", balance: "$2,000.00", target: "$200.00", potential: "$2,100 buffer / 1,000 XP min", tierName: "Raider Box", xpPerDollar: 1.5 },
-    { entry: "$30", balance: "$3,000.00", target: "$300.00", potential: "$3,150 buffer / 1,000 XP min", tierName: "Rebel Box", xpPerDollar: 1.0 }
+    { entry: "$10", balance: "$1,000.00", target: "$100.00", potential: "$1,050 buffer / 1,000 XP min", tierName: "Recruit Box", xpPerDollar: 2.6087 },
+    { entry: "$20", balance: "$2,000.00", target: "$200.00", potential: "$2,100 buffer / 1,000 XP min", tierName: "Raider Box", xpPerDollar: 1.30435 },
+    { entry: "$30", balance: "$3,000.00", target: "$300.00", potential: "$3,150 buffer / 1,000 XP min", tierName: "Rebel Box", xpPerDollar: 0.869565 }
 ];
 
 function updateInteractiveCalculator(val) {
@@ -3191,7 +3191,6 @@ function buyChallenge(tier) {
                         oninput="updateXpConverter()"
                     >
                 </div>
-                <div>
                 <div>
                     <label>Estimated USDC Value</label>
                     <div id="xp-converter-output" class="xp-converter-output">$25.00 USDC</div>
