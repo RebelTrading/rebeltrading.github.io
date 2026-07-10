@@ -1236,6 +1236,81 @@ header img {
 .calc-val.highlight {
     color: #ffb703;
 }
+    .xp-converter {
+    max-width: 520px;
+    margin: 28px auto 0;
+    padding: 20px;
+    background: rgba(0, 255, 102, 0.05);
+    border: 1px solid rgba(0, 255, 102, 0.22);
+    border-radius: 8px;
+    text-align: left;
+}
+
+.xp-converter-title {
+    color: #00ff66;
+    font-family: monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.xp-converter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: end;
+}
+
+.xp-converter label {
+    display: block;
+    color: #8f949d;
+    font-size: 0.72rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 7px;
+}
+
+.xp-converter input {
+    width: 100%;
+    box-sizing: border-box;
+    background: #0b0d10;
+    border: 1px solid #2a2e35;
+    border-radius: 6px;
+    color: #fff;
+    font-family: monospace;
+    font-size: 1.05rem;
+    font-weight: bold;
+    padding: 12px;
+    outline: none;
+}
+
+.xp-converter input:focus {
+    border-color: #00ff66;
+    box-shadow: 0 0 12px rgba(0, 255, 102, 0.18);
+}
+
+.xp-converter-output {
+    background: #0b0d10;
+    border: 1px solid rgba(255, 183, 3, 0.35);
+    border-radius: 6px;
+    color: #ffb703;
+    font-family: monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 12px;
+    min-height: 47px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 640px) {
+    .xp-converter-row {
+        grid-template-columns: 1fr;
+    }
+}
     /* AVAILABLE PERPETUALS SECTION */
 .perps-section {
     background: rgba(14, 16, 20, 0.92);
@@ -2486,6 +2561,17 @@ function updateInteractiveCalculator(val) {
     document.getElementById("calc-sim-balance").innerText = data.balance;
     document.getElementById("calc-payout-cap").innerText = data.potential;
 }
+    function updateXpConverter() {
+    const input = document.getElementById("xp-converter-input");
+    const output = document.getElementById("xp-converter-output");
+
+    if (!input || !output) return;
+
+    const xpAmount = Number(input.value || 0);
+    const usdcAmount = xpAmount * 0.025;
+
+    output.innerText = `$${usdcAmount.toFixed(2)} USDC`;
+}
 
 function buyChallenge(tier) {
     const token = localStorage.getItem("rebel_auth_token");
@@ -3080,6 +3166,26 @@ function buyChallenge(tier) {
             <div class="calc-card">
                 <div class="calc-label">Funded XP Buffer</div>
                 <div id="calc-payout-cap" class="calc-val highlight">$1,050 buffer / 1,000 XP min</div>
+            </div>
+        </div>
+                <div class="xp-converter">
+            <div class="xp-converter-title">Rebel XP → USDC Converter</div>
+            <div class="xp-converter-row">
+                <div>
+                    <label for="xp-converter-input">Enter Rebel XP</label>
+                    <input
+                        type="number"
+                        id="xp-converter-input"
+                        min="0"
+                        step="1"
+                        value="1000"
+                        oninput="updateXpConverter()"
+                    >
+                </div>
+                <div>
+                    <label>Estimated USDC Value</label>
+                    <div id="xp-converter-output" class="xp-converter-output">$25.00 USDC</div>
+                </div>
             </div>
         </div>
     </div>
