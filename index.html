@@ -2549,28 +2549,37 @@ function toggleMenu() {
 }
 
 // Interactive Box Parameter Configuration matrix
+let activeCalcIndex = 0;
+
 const configMatrix = [
-    { entry: "$10", balance: "$1,000.00", target: "$100.00", potential: "$1,050 buffer / 1,000 XP min" },
-    { entry: "$20", balance: "$2,000.00", target: "$200.00", potential: "$2,100 buffer / 1,000 XP min" },
-    { entry: "$30", balance: "$3,000.00", target: "$300.00", potential: "$3,150 buffer / 1,000 XP min" }
+    { entry: "$10", balance: "$1,000.00", target: "$100.00", potential: "$1,050 buffer / 1,000 XP min", tierName: "Recruit Box", xpPerDollar: 3.0 },
+    { entry: "$20", balance: "$2,000.00", target: "$200.00", potential: "$2,100 buffer / 1,000 XP min", tierName: "Raider Box", xpPerDollar: 1.5 },
+    { entry: "$30", balance: "$3,000.00", target: "$300.00", potential: "$3,150 buffer / 1,000 XP min", tierName: "Rebel Box", xpPerDollar: 1.0 }
 ];
 
 function updateInteractiveCalculator(val) {
-    const data = configMatrix[parseInt(val)];
+    activeCalcIndex = parseInt(val);
+    const data = configMatrix[activeCalcIndex];
+
     document.getElementById("calc-entry-cost").innerText = data.entry;
     document.getElementById("calc-sim-balance").innerText = data.balance;
     document.getElementById("calc-payout-cap").innerText = data.potential;
+
+    updateXpConverter();
 }
-    function updateXpConverter() {
+
+function updateXpConverter() {
     const input = document.getElementById("xp-converter-input");
     const output = document.getElementById("xp-converter-output");
 
     if (!input || !output) return;
 
+    const data = configMatrix[activeCalcIndex] || configMatrix[0];
     const xpAmount = Number(input.value || 0);
     const usdcAmount = xpAmount * 0.025;
+    const eligibleProfitNeeded = xpAmount / data.xpPerDollar;
 
-    output.innerText = `$${usdcAmount.toFixed(2)} USDC`;
+    output.innerText = `$${usdcAmount.toFixed(2)} USDC | ${data.tierName}: $${eligibleProfitNeeded.toFixed(2)} eligible profit`;
 }
 
 function buyChallenge(tier) {
