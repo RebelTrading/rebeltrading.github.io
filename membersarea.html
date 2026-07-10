@@ -1058,6 +1058,8 @@ body.signed-out .user-profile-badge {
 
 <script>
 const API_URL = "https://api.rebeltrading.io";
+let CURRENT_REDEEMABLE_XP = 0;
+let CURRENT_XP_USDC_RATE = 0.025;
 const maxPositionMarginRates = {
     "T1": 0.10,
     "T2": 0.10,
@@ -1631,6 +1633,22 @@ function renderTradeHistory(trades) {
         `;
     }).join("");
 }
+    function updateXpRedemptionEstimate() {
+    const xpInput = document.getElementById("payout-xp-request");
+    const estimateEl = document.getElementById("payout-xp-estimate");
+    const maxEl = document.getElementById("payout-xp-max");
+
+    if (!xpInput || !estimateEl) return;
+
+    const requestedXp = Number(xpInput.value || 0);
+    const estimatedUsdc = requestedXp * CURRENT_XP_USDC_RATE;
+
+    estimateEl.innerText = `${requestedXp.toFixed(0)} XP = ${formatMoney(estimatedUsdc)} USDC`;
+
+    if (maxEl) {
+        maxEl.innerText = `Available: ${CURRENT_REDEEMABLE_XP.toFixed(0)} XP`;
+    }
+}
 async function requestPayout() {
     const token = localStorage.getItem("rebel_auth_token");
     const status = document.getElementById("payout-status");
@@ -1640,9 +1658,22 @@ async function requestPayout() {
         return;
     }
 
-    if (status) status.innerText = "Submitting XP redemption request...";
+const xpInput = document.getElementById("payout-xp-request");
+const requestedXp = Number(xpInput?.value || 0);
 
-    try {
+if (requestedXp < 1000) {
+    if (status) status.innerText = "Minimum redemption is 1,000 Rebel XP.";
+    return;
+}
+
+if (requestedXp > CURRENT_REDEEMABLE_XP) {
+    if (status) status.innerText = "Requested XP exceeds your redeemable XP balance.";
+    return;
+}
+
+if (status) status.innerText = "Submitting XP redemption request...";
+
+try {
         const response = await fetch(`${API_URL}/api/payout/request`, {
             method: "POST",
             headers: {
@@ -1650,7 +1681,7 @@ async function requestPayout() {
                 "Content-Type": "application/json"
             },
                         body: JSON.stringify({
-                requested_xp: 1000
+                requested_xp: requestedXp
             })
         });
 
@@ -1737,9 +1768,27 @@ async function savePayoutWallet() {
         const walletInput = document.getElementById("payout-wallet-address");
         const networkSelect = document.getElementById("payout-network");
 
-                const redeemableXp = Number(data.redeemable_xp || 0);
+        const redeemableXp = Number(data.redeemable_xp || 0);
         const maxXpReward = Number(data.max_xp_usdc_reward || 0);
         const minimumXpRequest = Number(data.minimum_xp_request || 1000);
+        CURRENT_REDEEMABLE_XP = redeemableXp;
+CURRENT_XP_USDC_RATE = Number(data.xp_usdc_rate || 0.025);
+
+const xpRequestInput = document.getElementById("payout-xp-request");
+const xpRedemptionBox = document.getElementById("xp-redemption-box");
+
+if (xpRequestInput) {
+    xpRequestInput.max = Math.floor(redeemableXp);
+    xpRequestInput.value = redeemableXp >= minimumXpRequest
+        ? Math.floor(redeemableXp)
+        : "";
+}
+
+if (xpRedemptionBox) {
+    xpRedemptionBox.style.display = redeemableXp >= minimumXpRequest ? "block" : "none";
+}
+
+updateXpRedemptionEstimate();
 
         if (bufferFloor) bufferFloor.innerText = formatMoney(data.buffer_floor || 0);
 
@@ -2350,9 +2399,23 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                     <button class="action-btn" onclick="savePayoutWallet()">
                         Save Reward Wallet
                    </button>
-                    <button class="action-btn" id="request-payout-btn" onclick="requestPayout()" style="display:none;">
-                       Redeem XP For USDC
-                    </button>
+                    <div class="form-group" id="xp-redemption-box" style="display:none;">
+    <label>Rebel XP To Redeem</label>
+    <input
+        type="number"
+        id="payout-xp-request"
+        min="1000"
+        step="1"
+        placeholder="Enter XP amount"
+        oninput="updateXpRedemptionEstimate()"
+    >
+    <div id="payout-xp-max" style="margin-top:6px; color:#8a8a93; font-size:0.8rem;">Available: 0 XP</div>
+    <div id="payout-xp-estimate" style="margin-top:4px; color:#00ff66; font-weight:800; font-size:0.9rem;">0 XP = $0.00 USDC</div>
+</div>
+
+<button class="action-btn" id="request-payout-btn" onclick="requestPayout()" style="display:none;">
+   Redeem XP For USDC
+</button>
                 </div>
 
                 <div class="payout-status" id="payout-status"></div>
