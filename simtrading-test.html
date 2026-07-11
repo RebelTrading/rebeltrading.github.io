@@ -1540,21 +1540,19 @@ function getMaxPositionMarginRate() {
 }
 
 const accountTiers = {
-    "T1": { name: "Recruit Arcade: $1,000 Sim Box ($10 Ticket)", start: 1000.00, target: 100.00, dailyLimit: 50.00, eodLimit: 100.00 },
-    "T2": { name: "Raider Arcade: $2,000 Sim Box ($20 Ticket)", start: 2000.00, target: 200.00, dailyLimit: 100.00, eodLimit: 200.00 },
-    "T3": { name: "Rebel Arcade: $3,000 Sim Box ($30 Ticket)", start: 3000.00, target: 300.00, dailyLimit: 150.00, eodLimit: 300.00 }
+    "T1": { name: "Recruit Arcade: $10,000 Sim Box ($10 Ticket)", start: 10000.00, target: 1000.00, dailyLimit: 500.00, eodLimit: 1000.00 },
+    "T2": { name: "Raider Arcade: $25,000 Sim Box ($20 Ticket)", start: 25000.00, target: 2500.00, dailyLimit: 1250.00, eodLimit: 2500.00 },
+    "T3": { name: "Rebel Arcade: $50,000 Sim Box ($30 Ticket)", start: 50000.00, target: 5000.00, dailyLimit: 2500.00, eodLimit: 5000.00 }
 };
 
 let activeTierKey = "T3";
-let STARTING_BALANCE = 3000.00;
-let ACCOUNT_BALANCE = 3000.00;
-let PEAK_BALANCE = 3000.00;
-let FLOATING_PNL = 0.00;
-let REALIZED_PNL = 0.00;
-let PROFIT_TARGET = 300.00;
-let DAILY_LOSS_LIMIT = 150.00;
-let EOD_TRAILING_LIMIT = 300.00;
-let EOD_HIGH_BALANCE = 3000.00;
+let STARTING_BALANCE = 50000.00;
+let ACCOUNT_BALANCE = 50000.00;
+let PEAK_BALANCE = 50000.00;
+let PROFIT_TARGET = 5000.00;
+let DAILY_LOSS_LIMIT = 2500.00;
+let EOD_TRAILING_LIMIT = 5000.00;
+let EOD_HIGH_BALANCE = 50000.00;
 
 // High-Fidelity Crypto Perp Multipliers & Fixed Decimals Configurations
 const assetMap = {
@@ -2182,6 +2180,7 @@ function changeSimAccountTier(selectElement) {
     PROFIT_TARGET = config.target;
     DAILY_LOSS_LIMIT = config.dailyLimit;
     EOD_TRAILING_LIMIT = config.eodLimit;
+    EOD_HIGH_BALANCE = config.start;
     
     cancelPendingLimit();
     activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0, openedAt: null };
@@ -2613,7 +2612,7 @@ function updateAccountMetrics() {
 
         const consistencyField = document.getElementById('metric-consistency');
     const netLiquidationForMargin = ACCOUNT_BALANCE + FLOATING_PNL;
-    const maxPositionMargin = Math.max(0, netLiquidationForMargin * getMaxPositionMarginRate());
+    const maxPositionMargin = Math.max(0, STARTING_BALANCE * getMaxPositionMarginRate());
     const currentSize = parseFloat(document.getElementById('position-contract-size').value) || 0;
     const currentAssetKeyForMargin = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
     const marginSpec = assetMap[currentAssetKeyForMargin];
@@ -2756,7 +2755,7 @@ if (ACCOUNT_STATUS === "failed") {
     const marginSpec = assetMap[currentAssetKeyForMargin];
     const estimatedNotional = getCurrentPrice() * contractSize * marginSpec.multiplier;
     const estimatedMargin = estimatedNotional / LEVERAGE_FACTOR;
-    const maxPositionMargin = (ACCOUNT_BALANCE + FLOATING_PNL) * getMaxPositionMarginRate();
+    const maxPositionMargin = STARTING_BALANCE * getMaxPositionMarginRate();
 
     if (estimatedMargin > maxPositionMargin) {
         alert(`Order blocked: margin required $${estimatedMargin.toFixed(2)} exceeds ${(getMaxPositionMarginRate() * 100).toFixed(0)}% max position margin $${maxPositionMargin.toFixed(2)}.`);
@@ -3218,10 +3217,10 @@ window.addEventListener('DOMContentLoaded', async function() {
             
             <div class="account-selector">
     <label style="font-size: 0.6rem; color: #555; text-transform: uppercase; display: block; margin-bottom: 4px;">ACTIVE CHALLENGE ACCOUNT</label>
-    <select id="active-challenge-select" onchange="changeSimAccountTier(this)" disabled>
-    <option value="T3">Rebel Challenge: $3,000 Account</option>
-    <option value="T2">Raider Challenge: $2,000 Account</option>
-    <option value="T1">Recruit Challenge: $1,000 Account</option>
+<select id="active-challenge-select" onchange="changeSimAccountTier(this)" disabled>
+    <option value="T3">Rebel Challenge: $50,000 Account</option>
+    <option value="T2">Raider Challenge: $25,000 Account</option>
+    <option value="T1">Recruit Challenge: $10,000 Account</option>
 </select>
 </div>
             
@@ -3249,7 +3248,7 @@ window.addEventListener('DOMContentLoaded', async function() {
             <div class="spec-metrics-display">
                 <div class="spec-row">Notional Contract Value:<strong id="spec-calc-notional">$0.00</strong></div>
                 <div class="spec-row">Margin Allocated (1:10):<strong id="spec-calc-margin">$0.00</strong></div>
-                <div class="spec-row">Remaining Buying Power:<strong id="spec-calc-buyingpower">$5,000.00</strong></div>
+                <div class="spec-row">Remaining Buying Power:<strong id="spec-calc-buyingpower">$50,000.00</strong></div>
             </div>
             
             <div class="bracket-toggle-container">
@@ -3305,9 +3304,9 @@ window.addEventListener('DOMContentLoaded', async function() {
         
         <div class="rules-container">
     <div style="font-weight:bold; color:#fff; font-size:0.7rem; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">Prop Verification Framework</div>
-    <div class="rule-item"><span>Profit Extraction Target Metric:</span><span id="metric-target">$300.00 Left</span></div>
-    <div class="rule-item"><span>Intraday Drawdown Safety Metric:</span><span id="metric-daily-loss" class="pass">PASSED (-$0.00 / $150.00)</span></div>
-    <div class="rule-item"><span>EOD Trailing Drawdown Limit:</span><span id="metric-trailing" class="pass">PASSED ($0.00 / $300.00)</span></div>
+    <div class="rule-item"><span>Profit Extraction Target Metric:</span><span id="metric-target">$5000.00 Left</span></div>
+    <div class="rule-item"><span>Intraday Drawdown Safety Metric:</span><span id="metric-daily-loss" class="pass">PASSED (-$0.00 / $2500.00)</span></div>
+    <div class="rule-item"><span>EOD Trailing Drawdown Limit:</span><span id="metric-trailing" class="pass">PASSED ($0.00 / $5000.00)</span></div>
     <div class="rule-item"><span>Max Position Margin Guard:</span><span id="metric-consistency" class="pass">COMPLIANT</span></div>
 </div>
     </div>
