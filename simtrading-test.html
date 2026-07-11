@@ -1717,12 +1717,22 @@ async function loadTradeXpStatus() {
         }
 
         const data = await response.json();
-        const redeemableXp = Number(data.redeemable_xp || 0);
+        const speedrunLockedXp = (
+    ACTIVE_CHALLENGE
+    && ACTIVE_CHALLENGE.stage !== "rebel_stage"
+    && Number(ACTIVE_CHALLENGE.speedrun_eligible || 0) === 1
+) ? 20 : 0;
+
+const redeemableXp = speedrunLockedXp > 0
+    ? speedrunLockedXp
+    : Number(data.redeemable_xp || 0);
 
         xpValue.innerText = redeemableXp.toLocaleString(undefined, {
             maximumFractionDigits: 1
         });
-
+xpBadge.title = speedrunLockedXp > 0
+    ? "Speedrun XP Boost locked. Activates after you enter Sim Funded."
+    : "Redeemable Rebel XP";
         xpBadge.style.display = "inline-flex";
     } catch (err) {
         console.warn("Rebel XP status failed:", err);
