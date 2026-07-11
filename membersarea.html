@@ -1198,7 +1198,7 @@ function dismissSpeedrunXpOverlay() {
         return;
     }
 
-    if (status) status.innerText = "Activating free 1K challenge...";
+    if (status) status.innerText = "Activating free 50K trial...";
 
     try {
         const response = await fetch(`${API_URL}/api/promo/free-t1`, {
@@ -1229,7 +1229,7 @@ function dismissSpeedrunXpOverlay() {
             trialButton.style.cursor = "not-allowed";
         }
 
-        if (status) status.innerText = "Free 3K trial activated.";
+        if (status) status.innerText = "Free 50K trial activated.";
 
         setTimeout(() => {
             loadMemberDashboard();
@@ -2171,7 +2171,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
 
             <div class="metric-row">
     <span class="metric-name">Daily Loss Breach Barrier</span>
-    <span class="metric-target" id="metric-daily-target">Max Loss $150.00</span>
+    <span class="metric-target" id="metric-daily-target">Max Loss $2500.00</span>
     <span class="metric-current passed-text" id="metric-daily-status">Passed ($142.50 Current Loss)</span>
 </div>
 
@@ -2366,7 +2366,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     </p>
 
         <p style="margin: 0; color: #aaa;">
-        To continue trading and become eligible for Sim Funded payouts, buy a $1K, $2K, or $3K Sim Challenge from your dashboard.
+        To continue trading and become eligible for Sim Funded payouts, buy a $10K, $25K, or $50K Sim Challenge from your dashboard.
     </p>
 </div>
 
