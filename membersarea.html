@@ -123,10 +123,13 @@ header img {
 
 /* MAIN PANEL CONTAINER BODY */
 .dashboard-content {
-    flex-grow: 1;
-    padding: 24px 36px 100px 36px;
+    flex: 1 1 auto;
+    width: calc(100% - 240px);
     max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 36px 100px 36px;
     box-sizing: border-box;
+    min-width: 0;
 }
 
 /* METRICS ACCORDION TOP FILTER BAR */
@@ -2333,7 +2336,7 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     </p>
 
     <p style="margin: 0 0 8px 0; color: #aaa;">
-        <strong style="color:#fff;">1 XP = $1</strong> of eligible simulated profit above the buffer. <strong style="color:#fff;">1,000 XP minimum</strong> is required to request a USDC reward conversion.
+        XP earning rates vary by Sim Box tier. <strong style="color:#fff;">1,000 XP minimum</strong> is required to request a USDC reward conversion.
     </p>
 
     <p style="margin: 0; color: #aaa;">
