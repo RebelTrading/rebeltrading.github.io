@@ -1063,6 +1063,7 @@ body.signed-out .user-profile-badge {
 <script>
 const API_URL = "https://api.rebeltrading.io";
 let CURRENT_REDEEMABLE_XP = 0;
+let CURRENT_ACTIVE_CHALLENGE = null;
 let CURRENT_XP_USDC_RATE = 0.025;
 const maxPositionMarginRates = {
     "T1": 0.10,
@@ -1148,6 +1149,32 @@ function showFundedUnlockOverlay(challenge) {
 
 function dismissFundedUnlockOverlay() {
     const overlay = document.getElementById("funded-unlock-overlay");
+    if (!overlay) return;
+
+    if (overlay.dataset.storageKey) {
+        localStorage.setItem(overlay.dataset.storageKey, "1");
+    }
+
+    overlay.style.display = "none";
+}
+    function shouldShowSpeedrunXpOverlay(challenge) {
+    if (!challenge || challenge.stage === "rebel_stage") return false;
+    if (Number(challenge.speedrun_eligible || 0) !== 1) return false;
+
+    const storageKey = `rebel_speedrun_xp_seen_${challenge.id}`;
+    return localStorage.getItem(storageKey) !== "1";
+}
+
+function showSpeedrunXpOverlay(challenge) {
+    const overlay = document.getElementById("speedrun-xp-overlay");
+    if (!overlay) return;
+
+    overlay.dataset.storageKey = `rebel_speedrun_xp_seen_${challenge.id}`;
+    overlay.style.display = "flex";
+}
+
+function dismissSpeedrunXpOverlay() {
+    const overlay = document.getElementById("speedrun-xp-overlay");
     if (!overlay) return;
 
     if (overlay.dataset.storageKey) {
@@ -1250,6 +1277,7 @@ async function loadMemberDashboard() {
 
     const user = data.user;
     const challenge = data.active_challenge;
+    CURRENT_ACTIVE_CHALLENGE = challenge || null;
     const trialButton = document.getElementById("free-trial-activate-btn");
     const storedTrialChallengeId = localStorage.getItem("rebel_free_trial_challenge_id");
 
@@ -1396,9 +1424,12 @@ async function loadMemberDashboard() {
     await loadTradeStats(token);
     await loadPayoutStatus(token);
 
-        if (shouldShowFundedUnlockOverlay(challenge)) {
+    if (shouldShowFundedUnlockOverlay(challenge)) {
     showFundedUnlockOverlay(challenge);
     }
+    if (shouldShowSpeedrunXpOverlay(challenge)) {
+    showSpeedrunXpOverlay(challenge);
+}
 }
 function updatePayoutEligibility(challenge, equity) {
     const stage = challenge.stage || "challenge";
@@ -1804,12 +1835,24 @@ updateXpRedemptionEstimate();
                 : "metric-current running-text";
         }
 
-        setText("dashboard-xp", `${redeemableXp.toFixed(0)} XP`);
-        setText("dashboard-xp-detail", redeemableXp >= minimumXpRequest
-            ? `Eligible For ${formatMoney(maxXpReward)} USDC Reward`
-            : `${minimumXpRequest.toFixed(0)} XP Minimum To Redeem`
-        );
-        setText("metric-xp-status", `${redeemableXp.toFixed(0)} XP / ${minimumXpRequest.toFixed(0)} XP`);
+        const speedrunLockedXp = (
+    CURRENT_ACTIVE_CHALLENGE
+    && CURRENT_ACTIVE_CHALLENGE.stage !== "rebel_stage"
+    && Number(CURRENT_ACTIVE_CHALLENGE.speedrun_eligible || 0) === 1
+) ? 20 : 0;
+
+if (speedrunLockedXp > 0) {
+    setText("dashboard-xp", `${speedrunLockedXp} XP`);
+    setText("dashboard-xp-detail", "Speedrun XP Boost Locked");
+    setText("metric-xp-status", `${speedrunLockedXp} XP Locked Until Sim Funded`);
+} else {
+    setText("dashboard-xp", `${redeemableXp.toFixed(0)} XP`);
+    setText("dashboard-xp-detail", redeemableXp >= minimumXpRequest
+        ? `Eligible For ${formatMoney(maxXpReward)} USDC Reward`
+        : `${minimumXpRequest.toFixed(0)} XP Minimum To Redeem`
+    );
+    setText("metric-xp-status", `${redeemableXp.toFixed(0)} XP / ${minimumXpRequest.toFixed(0)} XP`);
+}
         if (tradingDays) {
         const fundedDays = Number(data.funded_trading_days || 0);
         const requiredDays = Number(data.required_trading_days || 5);
@@ -1952,6 +1995,21 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <div class="user-avatar" id="member-avatar">RT</div>
 </div>
 </header>
+<div class="funded-unlock-overlay" id="speedrun-xp-overlay">
+    <div class="funded-unlock-card">
+        <div class="funded-unlock-kicker">SPEEDRUN XP BOOST LOCKED</div>
+        <h2>+20 Rebel XP Secured</h2>
+        <p>
+            You reached the <strong>Level 1 profit target within 48 hours</strong>.
+            Your +20 Rebel XP boost is now secured for your Sim Funded account.
+            Finish the remaining Level 1 rules to activate the boost.
+        </p>
+        <div class="funded-unlock-actions">
+            <button class="action-btn" onclick="dismissSpeedrunXpOverlay()">View Dashboard</button>
+            <button class="action-btn" onclick="window.location.href='simtrading-test.html'">Keep Trading</button>
+        </div>
+    </div>
+</div>
 <div class="funded-unlock-overlay" id="funded-unlock-overlay">
     <div class="funded-unlock-card">
         <div class="funded-unlock-kicker">SIM FUNDED UNLOCKED</div>
