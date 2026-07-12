@@ -2774,6 +2774,15 @@ if (!Number.isFinite(intendedEntryPrice) || intendedEntryPrice <= 0) {
     return;
 }
 
+if (ORDER_TYPE === "LIMIT") {
+    const maxLimitDrift = liveEntryPrice * 0.05;
+
+    if (Math.abs(intendedEntryPrice - liveEntryPrice) > maxLimitDrift) {
+        alert("Limit price is too far from the live market price. Please enter a price within 5% of the current market.");
+        return;
+    }
+}
+
 if (bracketEnabled) {
     const tpRaw = document.getElementById('bracket-tp-input').value.trim();
     const slRaw = document.getElementById('bracket-sl-input').value.trim();
