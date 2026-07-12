@@ -1567,15 +1567,18 @@ const assetMap = {
 };
 
 let localAssetPrices = {
-    "BTC-USD": 63532.03,
-    "ETH-USD": 1687.30,
-    "SOL-USD": 66.83,
-    "XRP-USD": 1.1618,
-    "XLM-USD": 0.202594,
-    "HYPE-USD": 64.51,
-    "DOGE-USD": 0.08633,
-    "BNB-USD": 600.37
+    "BTC-USD": 0,
+    "ETH-USD": 0,
+    "SOL-USD": 0,
+    "XRP-USD": 0,
+    "XLM-USD": 0,
+    "HYPE-USD": 0,
+    "DOGE-USD": 0,
+    "BNB-USD": 0
 };
+
+let localAssetPriceUpdatedAt = {};
+const PRICE_FRESHNESS_MS = 15000;
 
 let pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
 let activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
@@ -2159,12 +2162,18 @@ function playPositionClosedSFX() {
     }
 }
 
-function getCurrentPrice() {
-    return localAssetPrices[CURRENT_ASSET];
+function getPriceForAsset(assetApi) {
+    const price = Number(localAssetPrices[assetApi] || 0);
+    const updatedAt = Number(localAssetPriceUpdatedAt[assetApi] || 0);
+
+    if (!price || price <= 0) return 0;
+    if (Date.now() - updatedAt > PRICE_FRESHNESS_MS) return 0;
+
+    return price;
 }
 
-function getPriceForAsset(assetApi) {
-    return localAssetPrices[assetApi] || 0;
+function getCurrentPrice() {
+    return getPriceForAsset(CURRENT_ASSET);
 }
 
 function changeSimAccountTier(selectElement) {
@@ -2968,21 +2977,19 @@ async function fetchRebelEnginePrices() {
         });
         const priceMatrix = await response.json();
         
-        if (priceMatrix) {
+       if (priceMatrix) {
     Object.values(assetMap).forEach((spec) => {
         if (spec.api && priceMatrix[spec.api]) {
             localAssetPrices[spec.api] = parseFloat(priceMatrix[spec.api]);
+            localAssetPriceUpdatedAt[spec.api] = Date.now();
         }
     });
 }
     } catch (err) {
-        const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
-        const config = assetMap[currentAssetKey];
-        let tickDelta = config.delta;
-        localAssetPrices[CURRENT_ASSET] += (Math.random() * (tickDelta * 2) - tickDelta);
-    }
+    console.error("Price fetch failed:", err);
+}
 
-    const currentPrice = localAssetPrices[CURRENT_ASSET];
+    const currentPrice = getCurrentPrice();
     
     if (currentPrice && currentPrice > 0) {
         const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
