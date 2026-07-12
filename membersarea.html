@@ -2061,46 +2061,47 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
                 <h2 class="glow-title">Performance Hub</h2>
                 <div style="font-size: 0.8rem; color: #8a8a93; margin-top: 4px;">Real-time tracking engine for evaluation milestones</div>
             </div>
-            <div style="display:flex; gap:10px; align-items:flex-start;">
+            <div style="display:flex; gap:10px; align-items:flex-start; justify-content:flex-end; flex-wrap:wrap; max-width:100%;">
     <select id="account-dropdown">
-    <option value="active-challenge" selected>Active Rebel Challenge</option>
-</select>
+        <option value="active-challenge" selected>Active Rebel Challenge</option>
+    </select>
 
-<div class="current-badge-panel">
-    <div class="current-badge-label">Current Badge Status</div>
-    <div class="current-badge-value" id="dashboard-current-badge">No Badge Yet</div>
-</div>
+    <div class="current-badge-panel">
+        <div class="current-badge-label">Current Badge Status</div>
+        <div class="current-badge-value" id="dashboard-current-badge">No Badge Yet</div>
+    </div>
 
-<button class="action-btn" onclick="window.location.href='simtrading-test.html'">
-    Launch Trade Sim
-</button>
-<a href="#objective-metrics-panel" class="metrics-jump-btn">
-    View My Metrics
-</a>
-
-<div class="promo-code-panel">
-    <input id="promo-code-input" type="hidden" value="RebelJune">
-    <button class="action-btn" id="free-trial-activate-btn" type="button" onclick="redeemPromoCode()">
-        Activate Free Trial
+    <button class="action-btn" onclick="window.location.href='simtrading-test.html'">
+        Launch Trade Sim
     </button>
-    <div class="promo-code-status" id="promo-code-status"></div>
-</div>
 
-<div style="
-    max-width: 220px;
-    color: #ffb703;
-    font-family: monospace;
-    font-size: 0.68rem;
-    font-weight: bold;
-    line-height: 1.35;
-    text-transform: uppercase;
-">
-    Free trial accounts are for platform testing only.
-</div>
+    <a href="#objective-metrics-panel" class="metrics-jump-btn">
+        View My Metrics
+    </a>
 
-<button class="action-btn" onclick="window.location.href='payments.html?redirect=membersarea.html'" style="background:#00ff66; color:#000;">
-    Buy New Challenge
-</button>
+    <div class="promo-code-panel">
+        <input id="promo-code-input" type="hidden" value="RebelJune">
+        <button class="action-btn" id="free-trial-activate-btn" type="button" onclick="redeemPromoCode()">
+            Activate Free Trial
+        </button>
+        <div class="promo-code-status" id="promo-code-status"></div>
+    </div>
+
+    <div style="
+        max-width: 170px;
+        color: #ffb703;
+        font-family: monospace;
+        font-size: 0.68rem;
+        font-weight: bold;
+        line-height: 1.35;
+        text-transform: uppercase;
+    ">
+        Free trial accounts are for platform testing only.
+    </div>
+
+    <button class="action-btn" onclick="window.location.href='payments.html?redirect=membersarea.html'" style="background:#00ff66; color:#000; flex-shrink:0;">
+        Buy New Challenge
+    </button>
 </div>
         </div>
 
