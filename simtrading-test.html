@@ -2221,7 +2221,7 @@ function switchAsset(assetKey, element) {
     if (!config) return;
     CURRENT_ASSET = config.api;
     document.getElementById('active-ticker-label').innerText = config.display;
-    const currentLivePrice = localAssetPrices[CURRENT_ASSET];
+    const currentLivePrice = getCurrentPrice();
     
     document.getElementById('header-spot-price').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
     document.getElementById('live-index-val').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
@@ -2783,6 +2783,11 @@ const intendedEntryPrice = ORDER_TYPE === "LIMIT"
     ? parseFloat(document.getElementById('target-execution-price').value)
     : getCurrentPrice();
 
+if (!Number.isFinite(intendedEntryPrice) || intendedEntryPrice <= 0) {
+    alert("Live price is not ready for this asset yet. Please wait for the price feed to refresh.");
+    return;
+}
+
 if (bracketEnabled) {
     const tpRaw = document.getElementById('bracket-tp-input').value.trim();
     const slRaw = document.getElementById('bracket-sl-input').value.trim();
@@ -2824,10 +2829,14 @@ if (bracketEnabled) {
 }
 
     if (activePosition.hasPosition) {
-        closeActivePosition();
-    }
+    closeActivePosition();
 
-    if (ORDER_TYPE === "MARKET") {
+    if (activePosition.hasPosition) {
+        return;
+    }
+}
+
+if (ORDER_TYPE === "MARKET") {
             activePosition = {
             hasPosition: true,
             side: side,
