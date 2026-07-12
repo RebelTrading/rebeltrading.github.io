@@ -1580,7 +1580,7 @@ let localAssetPrices = {
 let localAssetPriceUpdatedAt = {};
 const PRICE_FRESHNESS_MS = 15000;
 
-let pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
+let pendingLimitOrder = { isSet: false, side: null, asset: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
 let activePosition = { hasPosition: false, side: null, entryPrice: 0.0, size: 0.0, asset: null, tpPrice: 0.0, slPrice: 0.0, largestTradeProfit: 0.0 };
 let SUPPRESS_RESTORE_MILESTONES = false;
 function getActivePositionStorageKey() {
@@ -2881,13 +2881,14 @@ if (ORDER_TYPE === "MARKET") {
     } else {
         const limitPriceVal = parseFloat(document.getElementById('target-execution-price').value);
         pendingLimitOrder = {
-            isSet: true,
-            side: side,
-            limitPrice: limitPriceVal,
-            size: contractSize,
-            tpPrice: targetTP,
-            slPrice: targetSL
-        };
+    isSet: true,
+    side: side,
+    asset: CURRENT_ASSET,
+    limitPrice: limitPriceVal,
+    size: contractSize,
+    tpPrice: targetTP,
+    slPrice: targetSL
+};
         triggerLimitWorkingLine();
         playOrderFilledSFX();
     }
