@@ -2167,10 +2167,6 @@ function getPriceForAsset(assetApi) {
     return localAssetPrices[assetApi] || 0;
 }
 
-function getPriceForAsset(assetApi) {
-    return localAssetPrices[assetApi] || 0;
-}
-
 function changeSimAccountTier(selectElement) {
     if (ACTIVE_CHALLENGE) {
         selectElement.value = activeTierKey;
@@ -2877,11 +2873,6 @@ if (!exitPrice || exitPrice <= 0) {
     return;
 }
 
-if (!exitPrice || exitPrice <= 0) {
-    alert("Unable to close position: live price unavailable for the open position asset.");
-    return;
-}
-
     let finalPnl = 0.00;
 
     if (activePosition.side === 'BUY') {
@@ -2978,13 +2969,12 @@ async function fetchRebelEnginePrices() {
         const priceMatrix = await response.json();
         
         if (priceMatrix) {
-            const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
-            const spec = assetMap[currentAssetKey];
-            
-            if (priceMatrix[spec.api]) {
-                localAssetPrices[CURRENT_ASSET] = parseFloat(priceMatrix[spec.api]);
-            }
+    Object.values(assetMap).forEach((spec) => {
+        if (spec.api && priceMatrix[spec.api]) {
+            localAssetPrices[spec.api] = parseFloat(priceMatrix[spec.api]);
         }
+    });
+}
     } catch (err) {
         const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
         const config = assetMap[currentAssetKey];
