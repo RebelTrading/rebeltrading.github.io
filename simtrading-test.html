@@ -2167,6 +2167,10 @@ function getPriceForAsset(assetApi) {
     return localAssetPrices[assetApi] || 0;
 }
 
+function getPriceForAsset(assetApi) {
+    return localAssetPrices[assetApi] || 0;
+}
+
 function changeSimAccountTier(selectElement) {
     if (ACTIVE_CHALLENGE) {
         selectElement.value = activeTierKey;
@@ -2855,13 +2859,23 @@ function closeActivePosition(exitPriceOverride = null) {
     if (!activePosition.hasPosition) return;
     playPositionClosedSFX();
 
-    const positionAsset = activePosition.asset || CURRENT_ASSET;
-    const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === positionAsset);
-    const spec = assetMap[currentAssetKey];
+const positionAsset = activePosition.asset || CURRENT_ASSET;
+const currentAssetKey = Object.keys(assetMap).find(key => assetMap[key].api === positionAsset);
+const spec = assetMap[currentAssetKey];
 
-    const exitPrice = Number(exitPriceOverride) > 0
+if (!spec) {
+    alert("Unable to close position: unsupported position asset.");
+    return;
+}
+
+const exitPrice = Number(exitPriceOverride) > 0
     ? Number(exitPriceOverride)
     : getPriceForAsset(positionAsset);
+
+if (!exitPrice || exitPrice <= 0) {
+    alert("Unable to close position: live price unavailable for the open position asset.");
+    return;
+}
 
 if (!exitPrice || exitPrice <= 0) {
     alert("Unable to close position: live price unavailable for the open position asset.");
