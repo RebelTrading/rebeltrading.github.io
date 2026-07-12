@@ -2808,7 +2808,7 @@ let targetSL = 0.0;
 const bracketEnabled = document.getElementById('bracket-toggle-check').checked;
 const intendedEntryPrice = ORDER_TYPE === "LIMIT"
     ? parseFloat(document.getElementById('target-execution-price').value)
-    : getCurrentPrice();
+    : liveEntryPrice;
 
 if (!Number.isFinite(intendedEntryPrice) || intendedEntryPrice <= 0) {
     alert("Live price is not ready for this asset yet. Please wait for the price feed to refresh.");
