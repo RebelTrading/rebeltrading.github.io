@@ -2482,6 +2482,14 @@ function updateAccountMetrics() {
     const spec = assetMap[currentAssetKey];
     const currentPrice = getCurrentPrice();
 
+    if (!spec || !currentPrice || currentPrice <= 0) {
+        document.getElementById('header-spot-price').innerText = "--";
+        document.getElementById('live-index-val').innerText = "--";
+        document.getElementById('live-mark-val').innerText = "--";
+        FLOATING_PNL = 0.00;
+        return;
+    }
+
     document.getElementById('header-spot-price').innerText = `$${currentPrice.toFixed(spec.precision)}`;
     document.getElementById('live-index-val').innerText = `$${currentPrice.toFixed(spec.precision)}`;
     document.getElementById('live-mark-val').innerText = `$${(currentPrice + spec.delta).toFixed(spec.precision)}`;
