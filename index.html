@@ -2580,9 +2580,9 @@ function toggleMenu() {
 let activeCalcIndex = 0;
 
 const configMatrix = [
-    { entry: "$10", balance: "$1,000.00", target: "$100.00", potential: "$1,050 buffer / 1,000 XP min", tierName: "Recruit Box", xpPerDollar: 2.6087 },
-    { entry: "$20", balance: "$2,000.00", target: "$200.00", potential: "$2,100 buffer / 1,000 XP min", tierName: "Raider Box", xpPerDollar: 1.30435 },
-    { entry: "$30", balance: "$3,000.00", target: "$300.00", potential: "$3,150 buffer / 1,000 XP min", tierName: "Rebel Box", xpPerDollar: 0.869565 }
+    { entry: "$10", balance: "$10,000.00", target: "$1,000.00", potential: "$10,500 buffer / 1,000 XP min", tierName: "Recruit Box", xpPerDollar: 0.26087 },
+    { entry: "$20", balance: "$25,000.00", target: "$2,500.00", potential: "$26,250 buffer / 1,000 XP min", tierName: "Raider Box", xpPerDollar: 0.10435 },
+    { entry: "$30", balance: "$50,000.00", target: "$5,000.00", potential: "$52,500 buffer / 1,000 XP min", tierName: "Rebel Box", xpPerDollar: 0.05217 }
 ];
 
 function updateInteractiveCalculator(val) {
@@ -2753,7 +2753,7 @@ function buyChallenge(tier) {
         <div class="box">
             <div style="font-size: 0.7rem; color: #ff2a2a; font-weight: bold; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase;">Stage 01 // Choose Your Box</div>
             <h3>Pick A Micro Challenge</h3>
-            <p>Select a $1K, $2K, or $3K simulated crypto prop account. No monthly fees, no recurring subscription, and no extra activation fee after you pass.</p>
+            <p>Select a $10K, $25K, or $50K simulated crypto prop account. No monthly fees, no recurring subscription, and no extra activation fee after you pass.</p>
         </div>
 
         <div class="box">
@@ -2852,40 +2852,40 @@ function buyChallenge(tier) {
 
         <h2>Try The Rebel Desk <span>Free</span></h2>
 
-        <p class="promo-trading-copy">
-            New users can activate one free $3K trial account from the member dashboard and test the Rebel Trading
-            experience before buying a Sim Challenge. The trial lets traders use the trade terminal, place simulated
-            crypto perp trades, and work through the Level 1 objective with real platform rules.
-        </p>
+ <p class="promo-trading-copy">
+    New users can activate one free $50K trial account from the member dashboard and test the Rebel Trading
+    experience before buying a Sim Challenge. The trial lets traders use the trade terminal, place simulated
+    crypto perp trades, and work through the Level 1 objective with real platform rules.
+</p>
 
-        <p class="promo-trading-copy">
-            Free trial accounts are for platform evaluation only. Trial accounts do not qualify for USDC payouts,
-            payout requests, or funded-stage withdrawals. If a trader passes the trial objective, the dashboard will
-            show a trial pass result and invite them to purchase a $1K, $2K, or $3K Sim Challenge to continue with
-            full payout eligibility.
-        </p>
+<p class="promo-trading-copy">
+    Free trial accounts are for platform evaluation only. Trial accounts do not qualify for USDC payouts,
+    payout requests, or funded-stage withdrawals. If a trader passes the trial objective, the dashboard will
+    show a trial pass result and invite them to purchase a $10K, $25K, or $50K Sim Challenge to continue with
+    full payout eligibility.
+</p>
 
         <div class="promo-trading-grid">
-            <div class="promo-trading-item">
-                <strong>1 Trial</strong>
-                <span>One free trial activation per user account.</span>
-            </div>
+    <div class="promo-trading-item">
+        <strong>1 Trial</strong>
+        <span>One free trial activation per user account.</span>
+    </div>
 
-            <div class="promo-trading-item">
-                <strong>$3K Trial</strong>
-                <span>Test the Recruit Box Level 1 experience for free.</span>
-            </div>
+    <div class="promo-trading-item">
+        <strong>$50K Trial</strong>
+        <span>Test the Rebel Box Level 1 experience for free.</span>
+    </div>
 
-            <div class="promo-trading-item">
-                <strong>No Payouts</strong>
-                <span>Trial accounts are not eligible for USDC payout requests.</span>
-            </div>
+    <div class="promo-trading-item">
+        <strong>No Payouts</strong>
+        <span>Trial accounts are not eligible for USDC payout requests.</span>
+    </div>
 
-            <div class="promo-trading-item">
-                <strong>Pass Score</strong>
-                <span>Pass the trial, then buy a Sim Challenge to continue.</span>
-            </div>
-        </div>
+    <div class="promo-trading-item">
+        <strong>Pass Score</strong>
+        <span>Pass the trial, then buy a Sim Challenge to continue.</span>
+    </div>
+</div>
 
         <div style="margin-top: 26px;">
             <a href="membership.html?redirect=membersarea.html" class="enter-desk-btn">START FREE TRIAL</a>
@@ -2964,351 +2964,203 @@ function buyChallenge(tier) {
     <h2>Select Your Simulation Challenge</h2>
     <div class="section-subtitle">Instant ticket deployment. Clear objective milestones. Rebel XP rewards redeemable for USDC.</div>
     <div class="tier-stack">
-    <article class="tier-card">
-        <div class="tier-summary">
-            <div class="tier-tag">Starter Box</div>
-            <h3>Recruit Box</h3>
-            <div class="tier-size">$1,000 Sim Account</div>
-            <div class="tier-price"><span>$20</span>$10</div>
-            <p class="tier-note">
-                The lowest-cost Rebel path. Built for traders who want fast reps, smaller
-                account pressure, and a compact target before entering Sim Funded.
-            </p>
-            <a href="#" onclick="buyChallenge('T1'); return false;" class="btn red">Buy Recruit Box</a>
-        </div>
-
-        <div class="tier-details">
-    <div class="metric-grid">
-        <div class="metric">
-            <span>Challenge Target</span>
-            <strong class="green">$100.00</strong>
-        </div>
-        <div class="metric">
-            <span>Daily Loss Guard</span>
-            <strong>$50.00</strong>
-        </div>
-        <div class="metric">
-            <span>EOD Trail Limit</span>
-            <strong>$100.00</strong>
-        </div>
-        <div class="metric">
-            <span>Funded Buffer Floor</span>
-            <strong>$1,050</strong>
-        </div>
-        <div class="metric">
-            <span>Min XP Redemption</span>
-            <strong>1,000 XP</strong>
-        </div>
-        <div class="metric">
-            <span>Trading Days</span>
-            <strong>5 Days</strong>
-        </div>
-        <div class="metric">
-            <span>Max Position Margin</span>
-            <strong class="gold">10%</strong>
-        </div>
-        <div class="metric">
-            <span>Best Day Rule</span>
-            <strong>35% Max</strong>
-        </div>
-        <div class="metric">
-            <span>XP Conversion</span>
-            <strong class="gold">1,000 XP = $25</strong>
-        </div>
+   <article class="tier-card">
+    <div class="tier-summary">
+        <div class="tier-tag">Starter Box</div>
+        <h3>Recruit Box</h3>
+        <div class="tier-size">$10,000 Sim Account</div>
+        <div class="tier-price"><span>$20</span>$10</div>
+        <p class="tier-note">
+            The lowest-cost Rebel path. Built for traders who want fast reps, smaller
+            account pressure, and a compact target before entering Sim Funded.
+        </p>
+        <a href="#" onclick="buyChallenge('T1'); return false;" class="btn red">Buy Recruit Box</a>
     </div>
 
-            <div class="rule-grid">
-                <div class="rule-box">
-                    <strong>Best Fit</strong>
-                    <p>Good for first-time Rebel traders who want to learn the dashboard, rules, and execution flow with the smallest ticket.</p>
-                </div>
-                <div class="rule-box">
-                    <strong>Funded Stage</strong>
-                    <p>After passing, your balance resets to $1,000 and funded-stage profits above the $1,050 floor earn Rebel XP redeemable for USDC rewards.</p>
-                </div>
+    <div class="tier-details">
+        <div class="metric-grid">
+            <div class="metric">
+                <span>Challenge Target</span>
+                <strong class="green">$1,000.00</strong>
+            </div>
+            <div class="metric">
+                <span>Daily Loss Guard</span>
+                <strong>$500.00</strong>
+            </div>
+            <div class="metric">
+                <span>EOD Trail Limit</span>
+                <strong>$1,000.00</strong>
+            </div>
+            <div class="metric">
+                <span>Funded Buffer Floor</span>
+                <strong>$10,500</strong>
+            </div>
+            <div class="metric">
+                <span>Min XP Redemption</span>
+                <strong>1,000 XP</strong>
+            </div>
+            <div class="metric">
+                <span>Trading Days</span>
+                <strong>5 Days</strong>
+            </div>
+            <div class="metric">
+                <span>Max Position Margin</span>
+                <strong class="gold">10%</strong>
+            </div>
+            <div class="metric">
+                <span>Best Day Rule</span>
+                <strong>35% Max</strong>
+            </div>
+            <div class="metric">
+                <span>XP Conversion</span>
+                <strong class="gold">1,000 XP = $25</strong>
             </div>
         </div>
-    </article>
+
+        <div class="rule-grid">
+            <div class="rule-box">
+                <strong>Best Fit</strong>
+                <p>Good for first-time Rebel traders who want to learn the dashboard, rules, and execution flow with the smallest ticket.</p>
+            </div>
+            <div class="rule-box">
+                <strong>Funded Stage</strong>
+                <p>After passing, your balance resets to $10,000 and funded-stage profits above the $10,500 floor earn Rebel XP redeemable for USDC rewards.</p>
+            </div>
+        </div>
+    </div>
+</article>
 
     <article class="tier-card featured">
-        <div class="tier-summary">
-            <div class="tier-tag">Featured Tier</div>
-            <h3>Rebel Box</h3>
-            <div class="tier-size">$3,000 Sim Account</div>
-            <div class="tier-price"><span>$40</span>$30</div>
-            <p class="tier-note">
-                The largest launch-stage Rebel box. More simulated account room, a larger
-                target, a higher payout buffer, and the highest max position margin allowance.
-            </p>
-            <a href="#" onclick="buyChallenge('T3'); return false;" class="btn green">Buy Rebel Box</a>
-        </div>
-
-        <div class="tier-details">
-            <div class="metric-grid">
-                <div class="metric">
-                    <span>Challenge Target</span>
-                    <strong class="green">$300.00</strong>
-                </div>
-                <div class="metric">
-                    <span>Daily Loss Guard</span>
-                    <strong>$150.00</strong>
-                </div>
-                <div class="metric">
-                    <span>EOD Trail Limit</span>
-                    <strong>$300.00</strong>
-                </div>
-                <div class="metric">
-                    <span>Funded Buffer Floor</span>
-                    <strong>$3,150</strong>
-                </div>
-                <div class="metric">
-    <span>Min XP Redemption</span>
-    <strong>1,000 XP</strong>
-</div>
-<div class="metric">
-    <span>Trading Days</span>
-    <strong>5 Days</strong>
-</div>
-<div class="metric">
-    <span>Max Position Margin</span>
-    <strong class="gold">10%</strong>
-</div>
-<div class="metric">
-    <span>Best Day Rule</span>
-    <strong>35% Max</strong>
-</div>
-<div class="metric">
-    <span>XP Conversion</span>
-    <strong class="gold">1,000 XP = $25</strong>
-</div>
-            </div>
-
-            <div class="rule-grid">
-                <div class="rule-box">
-                    <strong>Best Fit</strong>
-                    <p>Good for traders who want the largest launch box, more simulated capital, and more room for position sizing.</p>
-                </div>
-                <div class="rule-box">
-                    <strong>Funded Stage</strong>
-                    <p>After passing, your balance resets to $3,000 and funded-stage profits above the $3,150 floor earn Rebel XP redeemable for USDC rewards.</p>
-                </div>
-            </div>
-        </div>
-    </article>
-
-    <article class="tier-card">
-        <div class="tier-summary">
-            <div class="tier-tag">Middle Path</div>
-            <h3>Raider Box</h3>
-            <div class="tier-size">$2,000 Sim Account</div>
-            <div class="tier-price"><span>$30</span>$20</div>
-            <p class="tier-note">
-                The balanced Rebel package. More room than Recruit, lower cost than Rebel,
-                and a clean middle lane for traders who want moderate simulated exposure.
-            </p>
-            <a href="#" onclick="buyChallenge('T2'); return false;" class="btn red">Buy Raider Box</a>
-        </div>
-
-        <div class="tier-details">
-            <div class="metric-grid">
-                <div class="metric">
-                    <span>Challenge Target</span>
-                    <strong class="green">$200.00</strong>
-                </div>
-                <div class="metric">
-                    <span>Daily Loss Guard</span>
-                    <strong>$100.00</strong>
-                </div>
-                <div class="metric">
-                    <span>EOD Trail Limit</span>
-                    <strong>$200.00</strong>
-                </div>
-                <div class="metric">
-                    <span>Funded Buffer Floor</span>
-                    <strong>$2,100</strong>
-                </div>
-                <div class="metric">
-    <span>Min XP Redemption</span>
-    <strong>1,000 XP</strong>
-</div>
-<div class="metric">
-    <span>Trading Days</span>
-    <strong>5 Days</strong>
-</div>
-<div class="metric">
-    <span>Max Position Margin</span>
-    <strong class="gold">10%</strong>
-</div>
-<div class="metric">
-    <span>Best Day Rule</span>
-    <strong>35% Max</strong>
-</div>
-<div class="metric">
-    <span>XP Conversion</span>
-    <strong class="gold">1,000 XP = $25</strong>
-</div>
-            </div>
-
-            <div class="rule-grid">
-                <div class="rule-box">
-                    <strong>Best Fit</strong>
-                    <p>Good for traders who want a middle-sized challenge target and a little more margin room than the starter box.</p>
-                </div>
-                <div class="rule-box">
-                    <strong>Funded Stage</strong>
-                    <p>After passing, your balance resets to $2,000 and funded-stage profits above the $2,100 floor earn Rebel XP redeemable for USDC rewards.</p>
-                </div>
-            </div>
-        </div>
-    </article>
-</div>
-    <div style="max-width: 420px; margin: 34px auto 0; text-align: center;">
-        <a href="packages.html" style="
-            display: inline-block;
-            width: 100%;
-            box-sizing: border-box;
-            background: #00ff66;
-            color: #000;
-            text-decoration: none;
-            font-family: monospace;
-            font-size: 0.85rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            padding: 14px 18px;
-            border-radius: 6px;
-            box-shadow: 0 0 18px rgba(0, 255, 102, 0.22);
-        ">
-            Learn More About Sim Packages
-        </a>
-    </div>
-
-    <div class="calc-wrapper">
-        <div class="calc-title">Interactive Box Leverage Scalar</div>
-        <div class="calc-subtitle">Slide parameters to preview cost-to-exposure scaling ratios natively inside our network engine layout.</div>
-        
-        <div class="slider-container">
-            <input type="range" min="0" max="2" value="1" class="box-slider" oninput="updateInteractiveCalculator(this.value)">
-        </div>
-        
-        <div class="calc-metrics">
-            <div class="calc-card">
-                <div class="calc-label">Your Entry Cost</div>
-                <div id="calc-entry-cost" class="calc-val text-red" style="color:#ff2a2a;">$10</div>
-            </div>
-            <div class="calc-card">
-                <div class="calc-label">Simulated Asset Size</div>
-                <div id="calc-sim-balance" class="calc-val">$1,000.00</div>
-            </div>
-            <div class="calc-card">
-                <div class="calc-label">Funded XP Buffer</div>
-                <div id="calc-payout-cap" class="calc-val highlight">$1,050 buffer / 1,000 XP min</div>
-            </div>
-        </div>
-                <div class="xp-converter">
-            <div class="xp-converter-title">Rebel XP → USDC Converter</div>
-            <div class="xp-converter-row">
-                <div>
-                    <label for="xp-converter-input">Enter Rebel XP</label>
-                    <input
-                        type="number"
-                        id="xp-converter-input"
-                        min="0"
-                        step="1"
-                        value="1000"
-                        oninput="updateXpConverter()"
-                    >
-                </div>
-                <div>
-                    <label>Estimated USDC Value</label>
-                    <div id="xp-converter-output" class="xp-converter-output">$25.00 USDC</div>
-                </div>
-            </div>
-
-            <p style="margin:14px 0 0; color:#8f949d; font-size:0.82rem; line-height:1.6;">
-                XP earning rates scale by box tier: Recruit earns 2.6087 XP per $1 eligible profit, Raider earns 1.30435 XP per $1, and Rebel earns 0.869565 XP per $1. Reward value remains 1,000 XP = $25 USDC.
-            </p>
-        </div>
-    </div>
-
-        <p style="margin-top: 40px; text-align: center; font-size: 0.95rem; color: #ff2a2a; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase;">
-            ⚠️ Risk Guard Note: EOD trailing drawdown updates at the end of the trading day, not tick-by-tick during open trades. Protect your closing balance.
+    <div class="tier-summary">
+        <div class="tier-tag">Featured Tier</div>
+        <h3>Rebel Box</h3>
+        <div class="tier-size">$50,000 Sim Account</div>
+        <div class="tier-price"><span>$40</span>$30</div>
+        <p class="tier-note">
+            The largest launch-stage Rebel box. More simulated account room, a larger
+            target, a higher payout buffer, and the highest max position margin allowance.
         </p>
-</section>
-    <section id="sim-funded" class="section" style="padding-top: 46px;">
-    <h2>Sim Funded Accounts</h2>
-    <div class="section-subtitle">Pass Level 1, reset into Sim Funded, then earn Rebel XP from eligible profits above the funded buffer floor.</div>
+        <a href="#" onclick="buyChallenge('T3'); return false;" class="btn green">Buy Rebel Box</a>
+    </div>
 
-    <div class="tier-stack">
-        <article class="tier-card featured">
-            <div class="tier-summary">
-                <div class="tier-tag">After Level 1</div>
-                <h3>Sim Funded Rebel Stage</h3>
-                <div class="tier-size">Unlimited Profit Target</div>
-                <div class="tier-price"><span>Phase 2</span>No Extra Step</div>
-                <p class="tier-note">
-                    Once a paid Sim Challenge passes Level 1, the account automatically moves into the Sim Funded Rebel Stage.
-                    The balance resets to the selected account size, and eligible funded-stage profit above the 5% buffer earns Rebel XP redeemable for USDC rewards.
-                </p>
-                <a href="#packages" class="btn green">Choose A Challenge</a>
+    <div class="tier-details">
+        <div class="metric-grid">
+            <div class="metric">
+                <span>Challenge Target</span>
+                <strong class="green">$5,000.00</strong>
             </div>
-
-            <div class="tier-details">
-                <div class="metric-grid">
-                    <div class="metric">
-                        <span>Funded Target</span>
-                        <strong class="green">Unlimited</strong>
-                    </div>
-
-                    <div class="metric">
-                        <span>Balance Reset</span>
-                        <strong>$1K / $2K / $3K</strong>
-                    </div>
-
-                    <div class="metric">
-                        <span>Funded EOD Trail</span>
-                        <strong>8%</strong>
-                    </div>
-
-                    <div class="metric">
-                        <span>Buffer Floor</span>
-                        <strong>Starting + 5%</strong>
-                    </div>
-
-                    <div class="metric">
-                        <span>Trading Days</span>
-                        <strong>5 Days</strong>
-                    </div>
-
-                    <div class="metric">
-                        <span>Closed Trades</span>
-                        <strong>10 Trades</strong>
-                    </div>
-
-                    <div class="metric">
-                        <span>XP Conversion</span>
-                        <strong class="gold">1,000 XP = $25</strong>
-                     </div>
-
-                    <div class="metric">
-                        <span>Best Day Rule</span>
-                        <strong>35% Max</strong>
-                    </div>
-                </div>
-
-                <div class="rule-grid">
-                    <div class="rule-box">
-                        <strong>How It Unlocks</strong>
-                        <p>Hit the Level 1 10% target while respecting the daily loss guard, EOD trail, and max position margin rule. Sim Funded unlocks automatically after passing.</p>
-                    </div>
-
-                    <div class="rule-box">
-                        <strong>XP Reward Eligibility</strong>
-                        <p>Funded-stage rewards require eligible profit above the 5% buffer floor, a 1,000 XP minimum redemption, 5 qualifying funded trading days, 10 funded-stage closed trades, and the 35% Best Day Rule.</p>
-                    </div>
-                </div>
+            <div class="metric">
+                <span>Daily Loss Guard</span>
+                <strong>$2,500.00</strong>
             </div>
-        </article>
+            <div class="metric">
+                <span>EOD Trail Limit</span>
+                <strong>$5,000.00</strong>
+            </div>
+            <div class="metric">
+                <span>Funded Buffer Floor</span>
+                <strong>$52,500</strong>
+            </div>
+            <div class="metric">
+                <span>Min XP Redemption</span>
+                <strong>1,000 XP</strong>
+            </div>
+            <div class="metric">
+                <span>Trading Days</span>
+                <strong>5 Days</strong>
+            </div>
+            <div class="metric">
+                <span>Max Position Margin</span>
+                <strong class="gold">10%</strong>
+            </div>
+            <div class="metric">
+                <span>Best Day Rule</span>
+                <strong>35% Max</strong>
+            </div>
+            <div class="metric">
+                <span>XP Conversion</span>
+                <strong class="gold">1,000 XP = $25</strong>
+            </div>
+        </div>
+
+        <div class="rule-grid">
+            <div class="rule-box">
+                <strong>Best Fit</strong>
+                <p>Good for traders who want the largest launch box, more simulated capital, and more room for position sizing.</p>
+            </div>
+            <div class="rule-box">
+                <strong>Funded Stage</strong>
+                <p>After passing, your balance resets to $50,000 and funded-stage profits above the $52,500 floor earn Rebel XP redeemable for USDC rewards.</p>
+            </div>
+        </div>
+    </div>
+</article>
+
+  <article class="tier-card">
+    <div class="tier-summary">
+        <div class="tier-tag">Middle Path</div>
+        <h3>Raider Box</h3>
+        <div class="tier-size">$25,000 Sim Account</div>
+        <div class="tier-price"><span>$30</span>$20</div>
+        <p class="tier-note">
+            The balanced Rebel package. More room than Recruit, lower cost than Rebel,
+            and a clean middle lane for traders who want moderate simulated exposure.
+        </p>
+        <a href="#" onclick="buyChallenge('T2'); return false;" class="btn red">Buy Raider Box</a>
+    </div>
+
+    <div class="tier-details">
+        <div class="metric-grid">
+            <div class="metric">
+                <span>Challenge Target</span>
+                <strong class="green">$2,500.00</strong>
+            </div>
+            <div class="metric">
+                <span>Daily Loss Guard</span>
+                <strong>$1,250.00</strong>
+            </div>
+            <div class="metric">
+                <span>EOD Trail Limit</span>
+                <strong>$2,500.00</strong>
+            </div>
+            <div class="metric">
+                <span>Funded Buffer Floor</span>
+                <strong>$26,250</strong>
+            </div>
+            <div class="metric">
+                <span>Min XP Redemption</span>
+                <strong>1,000 XP</strong>
+            </div>
+            <div class="metric">
+                <span>Trading Days</span>
+                <strong>5 Days</strong>
+            </div>
+            <div class="metric">
+                <span>Max Position Margin</span>
+                <strong class="gold">10%</strong>
+            </div>
+            <div class="metric">
+                <span>Best Day Rule</span>
+                <strong>35% Max</strong>
+            </div>
+            <div class="metric">
+                <span>XP Conversion</span>
+                <strong class="gold">1,000 XP = $25</strong>
+            </div>
+        </div>
+
+        <div class="rule-grid">
+            <div class="rule-box">
+                <strong>Best Fit</strong>
+                <p>Good for traders who want a middle-sized challenge target and a little more margin room than the starter box.</p>
+            </div>
+            <div class="rule-box">
+                <strong>Funded Stage</strong>
+                <p>After passing, your balance resets to $25,000 and funded-stage profits above the $26,250 floor earn Rebel XP redeemable for USDC rewards.</p>
+            </div>
+        </div>
+    </div>
+</article>
     </div>
 </section>
     <section id="rules" class="section rules-preview-section">
@@ -3320,59 +3172,60 @@ function buyChallenge(tier) {
     </div>
 
     <div class="rules-grid">
-        <div class="rule-card">
-            <strong>Challenge Target</strong>
-            <span>10% To Pass Level 1</span>
-            <p>Hit the 10% target while respecting the drawdown and margin rules to unlock the Sim Funded stage.</p>
-        </div>
-
-        <div class="rule-card">
-            <strong>Risk Guard</strong>
-            <span>5% Daily Loss Limit</span>
-            <p>Each account has a daily loss guard based on starting balance: $50, $100, or $150.</p>
-        </div>
-
-        <div class="rule-card">
-            <strong>EOD Drawdown</strong>
-            <span>10% End-Of-Day Trail</span>
-            <p>The trailing drawdown updates from end-of-day balances, not tick-by-tick open trade movement.</p>
-        </div>
-
-        <div class="rule-card">
-            <strong>Leverage Engine</strong>
-            <span>1:10 Simulated Leverage</span>
-            <p>All challenge tiers use the same 1:10 simulated leverage model.</p>
-        </div>
-
-        <div class="rule-card">
-            <strong>Minimum XP Redemption</strong>
-            <span>1,000 XP Minimum</span>
-            <p>Approved Rebel XP redemptions can be converted into USDC rewards after eligibility checks are met.</p>
-       </div>
-
-        <div class="rule-card">
-            <strong>XP Reward Rules</strong>
-            <span>5 Days + 10 Closed Trades</span>
-            <p>Level 1 and Sim Funded accounts require 5 qualifying trading days and at least 10 closed trades. A trading day qualifies when at least one trade is held for 2 minutes or longer.</p>
-        </div>
-        <div class="rule-card">
-            <strong>Best Day Rule</strong>
-            <span>35% Max Profit Concentration</span>
-            <p>Your best profitable trading day cannot account for more than 35% of total positive profit. This applies to Level 1 passing and Sim Funded payout eligibility. If your best day is above 35%, your account does not fail, but you must keep trading until total positive profit brings the ratio back to 35% or lower.</p>
-        </div>
-
-        <div class="rule-card">
-            <strong>XP Buffer Floor</strong>
-            <span>Starting Balance + 5%</span>
-            <p>Rebel XP starts accumulating only after a Sim Funded account is above the funded buffer floor: $1,050, $2,100, or $3,150.</p>
-        </div>
-
-        <div class="rule-card">
-            <strong>Minimum Request</strong>
-            <span>$25 USDC Minimum</span>
-            <p>Approved payout requests are sent through USDC rails after eligibility checks are met.</p>
-        </div>
+    <div class="rule-card">
+        <strong>Challenge Target</strong>
+        <span>10% To Pass Level 1</span>
+        <p>Hit the 10% target while respecting the drawdown and margin rules to unlock the Sim Funded stage.</p>
     </div>
+
+    <div class="rule-card">
+        <strong>Risk Guard</strong>
+        <span>5% Daily Loss Limit</span>
+        <p>Each account has a daily loss guard based on starting balance: $500, $1,250, or $2,500.</p>
+    </div>
+
+    <div class="rule-card">
+        <strong>EOD Drawdown</strong>
+        <span>10% End-Of-Day Trail</span>
+        <p>The trailing drawdown updates from end-of-day balances, not tick-by-tick open trade movement.</p>
+    </div>
+
+    <div class="rule-card">
+        <strong>Leverage Engine</strong>
+        <span>1:10 Simulated Leverage</span>
+        <p>All challenge tiers use the same 1:10 simulated leverage model.</p>
+    </div>
+
+    <div class="rule-card">
+        <strong>Minimum XP Redemption</strong>
+        <span>1,000 XP Minimum</span>
+        <p>Approved Rebel XP redemptions can be converted into USDC rewards after eligibility checks are met.</p>
+    </div>
+
+    <div class="rule-card">
+        <strong>XP Reward Rules</strong>
+        <span>5 Days + 10 Closed Trades</span>
+        <p>Level 1 and Sim Funded accounts require 5 qualifying trading days and at least 10 closed trades. A trading day qualifies when at least one trade is held for 2 minutes or longer.</p>
+    </div>
+
+    <div class="rule-card">
+        <strong>Best Day Rule</strong>
+        <span>35% Max Profit Concentration</span>
+        <p>Your best profitable trading day cannot account for more than 35% of total positive profit. This applies to Level 1 passing and Sim Funded payout eligibility. If your best day is above 35%, your account does not fail, but you must keep trading until total positive profit brings the ratio back to 35% or lower.</p>
+    </div>
+
+    <div class="rule-card">
+        <strong>XP Buffer Floor</strong>
+        <span>Starting Balance + 5%</span>
+        <p>Rebel XP starts accumulating only after a Sim Funded account is above the funded buffer floor: $10,500, $26,250, or $52,500.</p>
+    </div>
+
+    <div class="rule-card">
+        <strong>Minimum Request</strong>
+        <span>$25 USDC Minimum</span>
+        <p>Approved payout requests are sent through USDC rails after eligibility checks are met.</p>
+    </div>
+</div>
 
     <p class="rules-note">
         Rebel Trading is a simulated trading and evaluation environment. All trading activity, balances, account stages, Rebel XP, and USDC reward redemptions are simulated and subject to Rebel rules and payout terms.
@@ -3546,9 +3399,9 @@ function buyChallenge(tier) {
 
     <div class="faq-list">
         <details class="faq-item">
-            <summary>What is Rebel Trading Group?</summary>
-            <p>Rebel Trading Group is a simulated micro crypto prop trading platform. Traders buy a low-cost challenge ticket, trade BTC, ETH, SOL, XRP, DOGE, HYPE, XLM, and BNB perpetual simulations, and can unlock a Sim Funded Rebel Stage after passing the one-step challenge.</p>
-        </details>
+    <summary>How do funded-stage payouts work?</summary>
+    <p>After you enter the Sim Funded Rebel Stage, eligible profit above the 5.0% buffer floor earns Rebel XP. Payout requests become available once you have at least 1,000 redeemable XP, complete 5 qualifying funded trading days, close at least 10 funded-stage trades, and satisfy the 35% Best Day Rule. Approved XP redemptions are paid in USDC. New Sim Challenge accounts now reset into $10K, $25K, or $50K Sim Funded accounts.</p>
+</details>
 
         <details class="faq-item">
             <summary>Is there a Phase 2 evaluation?</summary>
@@ -3557,7 +3410,7 @@ function buyChallenge(tier) {
 
         <details class="faq-item">
             <summary>What can I trade?</summary>
-           <p>The Rebel trade desk currently focuses on crypto perpetual simulations: <strong>BTC, ETH, SOL, XRP, DOGE, HYPE, XLM, and BNB</strong>. The platform uses a browser-based custom trade UI with charting, indicators, order book depth, market orders, and limit orders.</p>
+            <p>The Rebel trade desk currently focuses on crypto perpetual simulations: <strong>BTC, ETH, SOL, XRP, DOGE, HYPE, XLM, and BNB</strong>. The platform uses a browser-based custom trade UI with charting, indicators, order book depth, market orders, and limit orders.</p>
         </details>
 
         <details class="faq-item">
@@ -3567,12 +3420,12 @@ function buyChallenge(tier) {
 
         <details class="faq-item">
             <summary>How do funded-stage payouts work?</summary>
-            <p>After you enter the Sim Funded Rebel Stage, eligible profit above the 5.0% buffer floor earns Rebel XP. Payout requests become available once you have at least 1,000 redeemable XP, complete 5 qualifying funded trading days, close at least 10 funded-stage trades, and satisfy the 35% Best Day Rule. Approved XP redemptions are paid in USDC.</p>
+            <p>After you enter the Sim Funded Rebel Stage, eligible profit above the 5.0% buffer floor earns Rebel XP. Payout requests become available once you have at least 1,000 redeemable XP, complete 5 qualifying funded trading days, close at least 10 funded-stage trades, and satisfy the 35% Best Day Rule. Approved XP redemptions are paid in USDC. New Sim Challenge accounts now reset into $10K, $25K, or $50K Sim Funded accounts.</p>
         </details>
 
         <details class="faq-item">
             <summary>How are Rebel XP payouts calculated?</summary>
-            <p>Sim Funded traders earn Rebel XP from eligible profit above the 5.0% buffer floor. Each $1 of eligible simulated profit equals 1 Rebel XP. The minimum redemption is 1,000 XP, and approved redemptions are paid in USDC.</p>
+            <p>Sim Funded traders earn Rebel XP from eligible profit above the 5.0% buffer floor. XP earning rates scale by account size so each tier needs about the same percentage growth to reach 1,000 XP. The minimum redemption is 1,000 XP, and approved redemptions are paid in USDC.</p>
         </details>
 
         <details class="faq-item">
