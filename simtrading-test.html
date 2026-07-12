@@ -2778,12 +2778,24 @@ if (ACCOUNT_STATUS === "failed") {
     return;
 }
 
-    const contractSize = parseFloat(document.getElementById('position-contract-size').value);
-    const currentAssetKeyForMargin = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
-    const marginSpec = assetMap[currentAssetKeyForMargin];
-    const estimatedNotional = getCurrentPrice() * contractSize * marginSpec.multiplier;
-    const estimatedMargin = estimatedNotional / LEVERAGE_FACTOR;
-    const maxPositionMargin = STARTING_BALANCE * getMaxPositionMarginRate();
+const contractSize = parseFloat(document.getElementById('position-contract-size').value);
+const currentAssetKeyForMargin = Object.keys(assetMap).find(key => assetMap[key].api === CURRENT_ASSET);
+const marginSpec = assetMap[currentAssetKeyForMargin];
+const liveEntryPrice = getCurrentPrice();
+
+if (!marginSpec || !Number.isFinite(contractSize) || contractSize <= 0) {
+    alert("Invalid order size or asset.");
+    return;
+}
+
+if (!liveEntryPrice || liveEntryPrice <= 0) {
+    alert("Live price is not ready for this asset yet. Please wait for the price feed to refresh.");
+    return;
+}
+
+const estimatedNotional = liveEntryPrice * contractSize * marginSpec.multiplier;
+const estimatedMargin = estimatedNotional / LEVERAGE_FACTOR;
+const maxPositionMargin = STARTING_BALANCE * getMaxPositionMarginRate();
 
     if (estimatedMargin > maxPositionMargin) {
         alert(`Order blocked: margin required $${estimatedMargin.toFixed(2)} exceeds ${(getMaxPositionMarginRate() * 100).toFixed(0)}% max position margin $${maxPositionMargin.toFixed(2)}.`);
@@ -2855,7 +2867,7 @@ if (ORDER_TYPE === "MARKET") {
             activePosition = {
             hasPosition: true,
             side: side,
-            entryPrice: getCurrentPrice(),
+            entryPrice: intendedEntryPrice,
             size: contractSize,
             asset: CURRENT_ASSET,
             tpPrice: targetTP,
