@@ -2222,10 +2222,17 @@ function switchAsset(assetKey, element) {
     CURRENT_ASSET = config.api;
     document.getElementById('active-ticker-label').innerText = config.display;
     const currentLivePrice = getCurrentPrice();
-    
-    document.getElementById('header-spot-price').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
-    document.getElementById('live-index-val').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
-    document.getElementById('live-mark-val').innerText = `$${(currentLivePrice + config.delta).toFixed(config.precision)}`;
+
+if (!currentLivePrice || currentLivePrice <= 0) {
+    document.getElementById('header-spot-price').innerText = "--";
+    document.getElementById('live-index-val').innerText = "--";
+    document.getElementById('live-mark-val').innerText = "--";
+    return;
+}
+
+document.getElementById('header-spot-price').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
+document.getElementById('live-index-val').innerText = `$${currentLivePrice.toFixed(config.precision)}`;
+document.getElementById('live-mark-val').innerText = `$${(currentLivePrice + config.delta).toFixed(config.precision)}`;
     
     const priceInput = document.getElementById('target-execution-price');
     if (ORDER_TYPE === "LIMIT") {
