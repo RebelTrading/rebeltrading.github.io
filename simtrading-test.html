@@ -1609,48 +1609,7 @@ function getSavedActivePositionAssetKey() {
 }
 function restoreActivePositionState() {
     if (!ACTIVE_CHALLENGE) return;
-
-    try {
-        const stored = localStorage.getItem(getActivePositionStorageKey());
-        if (!stored) return;
-
-        const parsed = JSON.parse(stored);
-
-        if (!parsed || !parsed.hasPosition) {
-            localStorage.removeItem(getActivePositionStorageKey());
-            return;
-        }
-
-        activePosition = {
-            hasPosition: true,
-            side: parsed.side,
-            entryPrice: Number(parsed.entryPrice) || 0,
-            size: Number(parsed.size) || 0,
-            asset: parsed.asset || CURRENT_ASSET,
-            tpPrice: Number(parsed.tpPrice) || 0,
-            slPrice: Number(parsed.slPrice) || 0,
-            largestTradeProfit: Number(parsed.largestTradeProfit) || 0,
-            openedAt: parsed.openedAt || Math.floor(Date.now() / 1000)
-        };
-
-        const storedFloating = Number(ACTIVE_CHALLENGE?.floating_pnl || 0);
-        if (storedFloating !== 0) {
-            ACCOUNT_BALANCE = ACCOUNT_BALANCE - storedFloating;
-        }
-
-        SUPPRESS_RESTORE_MILESTONES = true;
-
-showActivePositionOverlays();
-updateAccountMetrics();
-recalculateSpecInterface();
-
-setTimeout(() => {
-    SUPPRESS_RESTORE_MILESTONES = false;
-}, 1500);
-    } catch (err) {
-        console.warn("Could not restore active position:", err);
-        localStorage.removeItem(getActivePositionStorageKey());
-    }
+    localStorage.removeItem(getActivePositionStorageKey());
 }
 function toggleMenu() {
     const menu = document.getElementById("menu");
