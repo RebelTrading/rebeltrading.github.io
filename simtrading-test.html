@@ -1590,12 +1590,7 @@ function getActivePositionStorageKey() {
 
 function saveActivePositionState() {
     if (!ACTIVE_CHALLENGE) return;
-
-    if (activePosition.hasPosition) {
-        localStorage.setItem(getActivePositionStorageKey(), JSON.stringify(activePosition));
-    } else {
-        localStorage.removeItem(getActivePositionStorageKey());
-    }
+    localStorage.removeItem(getActivePositionStorageKey());
 }
 function getSavedActivePositionAssetKey() {
     if (!ACTIVE_CHALLENGE) return null;
