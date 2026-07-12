@@ -2420,20 +2420,25 @@ function updateBracketPreview() {
 
 function checkAutomatedRulesAndExits() {
     const currentPrice = getCurrentPrice();
-    if (!currentPrice || currentPrice === 0) return;
+    if (!currentPrice || currentPrice <= 0) return;
 
     if (pendingLimitOrder.isSet) {
+        const pendingAsset = pendingLimitOrder.asset;
+        const pendingPrice = getPriceForAsset(pendingAsset);
+
+        if (!pendingAsset || !pendingPrice || pendingPrice <= 0) return;
+
         let isStruck = false;
-        if (pendingLimitOrder.side === 'BUY' && currentPrice <= pendingLimitOrder.limitPrice) isStruck = true;
-        if (pendingLimitOrder.side === 'SELL' && currentPrice >= pendingLimitOrder.limitPrice) isStruck = true;
-        
-                if (isStruck) {
+        if (pendingLimitOrder.side === 'BUY' && pendingPrice <= pendingLimitOrder.limitPrice) isStruck = true;
+        if (pendingLimitOrder.side === 'SELL' && pendingPrice >= pendingLimitOrder.limitPrice) isStruck = true;
+
+        if (isStruck) {
             activePosition = {
                 hasPosition: true,
                 side: pendingLimitOrder.side,
                 entryPrice: pendingLimitOrder.limitPrice,
                 size: pendingLimitOrder.size,
-                asset: CURRENT_ASSET,
+                asset: pendingAsset,
                 tpPrice: pendingLimitOrder.tpPrice,
                 slPrice: pendingLimitOrder.slPrice,
                 largestTradeProfit: 0.0,
