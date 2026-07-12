@@ -2635,7 +2635,7 @@ function triggerLimitWorkingLine() {
 }
 
 function cancelPendingLimit() {
-    pendingLimitOrder = { isSet: false, side: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
+    pendingLimitOrder = { isSet: false, side: null, asset: null, limitPrice: 0.0, size: 0.0, tpPrice: 0.0, slPrice: 0.0 };
     document.getElementById('limit-order-line').style.display = 'none';
 }
 
