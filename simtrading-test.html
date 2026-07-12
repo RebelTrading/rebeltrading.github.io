@@ -2163,6 +2163,10 @@ function getCurrentPrice() {
     return localAssetPrices[CURRENT_ASSET];
 }
 
+function getPriceForAsset(assetApi) {
+    return localAssetPrices[assetApi] || 0;
+}
+
 function changeSimAccountTier(selectElement) {
     if (ACTIVE_CHALLENGE) {
         selectElement.value = activeTierKey;
@@ -2856,8 +2860,13 @@ function closeActivePosition(exitPriceOverride = null) {
     const spec = assetMap[currentAssetKey];
 
     const exitPrice = Number(exitPriceOverride) > 0
-        ? Number(exitPriceOverride)
-        : getCurrentPrice();
+    ? Number(exitPriceOverride)
+    : getPriceForAsset(positionAsset);
+
+if (!exitPrice || exitPrice <= 0) {
+    alert("Unable to close position: live price unavailable for the open position asset.");
+    return;
+}
 
     let finalPnl = 0.00;
 
