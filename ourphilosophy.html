@@ -23,190 +23,207 @@ body::before {
     position: fixed;
     inset: 0;
     background:
-        radial-gradient(circle at 18% 18%, rgba(255, 42, 42, 0.18), transparent 32%),
-        radial-gradient(circle at 85% 28%, rgba(0, 255, 102, 0.10), transparent 34%),
-        linear-gradient(120deg, #120506 0%, #030305 48%, #001012 100%);
+        radial-gradient(circle at 14% 18%, rgba(255, 42, 42, 0.18), transparent 30%),
+        radial-gradient(circle at 86% 28%, rgba(0, 210, 255, 0.08), transparent 34%),
+        linear-gradient(115deg, #160707 0%, #040406 48%, #001114 100%);
     z-index: -2;
 }
 
+/* HEADER MATCHES INDEX */
 header {
-    height: 92px;
-    padding: 0 34px;
-    background: rgba(4, 4, 6, 0.88);
-    border-bottom: 1px solid #18181c;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background:
+    radial-gradient(
+        ellipse at 50% 0%,
+        rgba(255, 255, 255, 0.10) 0%,
+        rgba(255, 42, 42, 0.06) 28%,
+        transparent 58%
+    ),
+    linear-gradient(
+        108deg,
+        rgba(255, 42, 42, 0.08) 0%,
+        transparent 28%,
+        rgba(255, 255, 255, 0.045) 48%,
+        transparent 67%,
+        rgba(0, 210, 255, 0.045) 100%
+    ),
+    rgba(0, 0, 0, 0.94);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    backdrop-filter: blur(12px);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    padding: 12px 10px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #1a1a1a;
+    box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 6px 24px rgba(0, 0, 0, 0.55),
+    0 1px 12px rgba(255, 42, 42, 0.10);
+    z-index: 1000;
 }
 
-.logo-link img {
-    height: 62px;
-    width: auto;
-    display: block;
+header img {
+    height: 50px;
 }
 
-.top-cta {
+.site-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 1001;
+}
+
+.header-cta-group {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, #ff3b32 0%, #b80d0d 55%, #ff5b4f 100%);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.sim-challenge-btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff4b3e 0%, #ef2626 45%, #9f0000 100%);
     color: #fff;
     text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 8px;
-    padding: 16px 34px;
     font-family: monospace;
+    font-size: 0.78rem;
     font-weight: 900;
-    letter-spacing: 2px;
+    letter-spacing: 1.2px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 115, 115, 0.95);
     text-transform: uppercase;
-    box-shadow: 0 0 28px rgba(255, 42, 42, 0.45);
-    position: absolute;
-    overflow: hidden;
+    box-shadow:
+    0 0 18px rgba(255, 42, 42, 0.55),
+    0 0 34px rgba(255, 183, 3, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
 }
 
-.top-cta::before {
+.sim-challenge-btn::before {
     content: "";
     position: absolute;
-    top: -40%;
-    left: -65%;
-    width: 70%;
-    height: 180%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+    top: -60%;
+    left: -45%;
+    width: 42%;
+    height: 220%;
+    background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.75) 48%, transparent 100%);
     transform: rotate(18deg);
-    animation: shine 3.5s infinite;
+    animation: headerCtaShine 2.8s ease-in-out infinite;
 }
 
-@keyframes shine {
-    0% { left: -65%; }
-    45%, 100% { left: 130%; }
+@keyframes headerCtaShine {
+    0% { left: -55%; opacity: 0; }
+    18% { opacity: 1; }
+    45% { left: 118%; opacity: 0; }
+    100% { left: 118%; opacity: 0; }
 }
 
-.menu-btn {
-    width: 42px;
-    height: 32px;
-    border: none;
-    background: transparent;
+.hamburger {
     cursor: pointer;
-    display: grid;
-    gap: 7px;
-    padding: 0;
+    width: 35px;
+    position: relative;
+    z-index: 1001;
 }
 
-.menu-btn span {
-    display: block;
-    height: 3px;
-    background: #e7ffff;
-    border-radius: 3px;
+.hamburger div {
+    height: 2px;
+    background: #fff;
+    margin: 5px 0;
 }
 
-.side-menu {
+.menu {
     position: fixed;
     top: 0;
-    right: -360px;
-    width: min(340px, 86vw);
-    height: 100vh;
-    background: rgba(3, 3, 5, 0.98);
-    border-left: 1px solid #242428;
-    padding: 110px 32px 32px;
-    z-index: 200;
-    transition: right 0.25s ease;
+    right: -260px;
+    width: 260px;
+    height: 100%;
+    background: #0a0a0a;
+    padding-top: 120px;
+    transition: 0.3s;
+    z-index: 999;
+    border-left: 1px solid #1a1a1a;
 }
 
-.side-menu.open {
-    right: 0;
-}
-
-.side-menu a {
+.menu a {
     display: block;
-    color: #a7a7ad;
+    padding: 15px 25px;
+    color: #aaa;
     text-decoration: none;
-    font-size: 1.05rem;
-    font-weight: 900;
-    padding: 15px 0;
+    font-weight: bold;
 }
 
-.side-menu a.active {
+.menu a:hover,
+.menu a.active {
     color: #00ff66;
 }
 
-.side-menu a:hover {
-    color: #ff3b32;
-}
-
-.close-menu {
-    position: absolute;
-    top: 26px;
-    right: 28px;
-    border: none;
-    background: transparent;
-    color: #fff;
-    font-size: 2rem;
-    cursor: pointer;
-}
-
-.status-strip {
-    height: 54px;
-    background: rgba(0, 0, 0, 0.84);
-    border-bottom: 1px solid #111;
+/* PAGE */
+.network-status-bar {
+    margin-top: 75px;
+    height: 42px;
+    background: rgba(0, 0, 0, 0.86);
+    border-bottom: 1px solid #101010;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 18px;
-    padding: 0 38px;
+    padding: 0 34px;
     font-family: monospace;
+    font-size: 0.78rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
     color: #777;
-    overflow: hidden;
+    letter-spacing: 1px;
 }
 
-.status-strip strong {
+.network-status-bar strong {
     color: #00ff66;
 }
 
-.status-pill {
-    border: 1px solid rgba(0, 255, 102, 0.35);
-    color: #00ff66;
-    padding: 5px 14px;
+.arcade-pill {
+    border: 1px solid rgba(255, 42, 42, 0.45);
+    color: #ff4b3e;
+    padding: 4px 10px;
     border-radius: 4px;
     font-weight: 900;
 }
 
-.philosophy-hero {
-    min-height: calc(100vh - 146px);
-    display: flex;
-    align-items: center;
-    padding: 72px 7vw 90px;
-}
-
-.hero-inner {
-    width: min(1180px, 100%);
+.page-wrap {
+    max-width: 1180px;
     margin: 0 auto;
+    padding: 72px 24px 80px;
 }
 
 .kicker {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     color: #00ff66;
     border: 1px solid rgba(0, 255, 102, 0.35);
     background: rgba(0, 255, 102, 0.07);
     border-radius: 6px;
-    padding: 10px 16px;
+    padding: 8px 13px;
     font-family: monospace;
     font-weight: 900;
-    letter-spacing: 1.5px;
+    font-size: 0.78rem;
+    letter-spacing: 1.4px;
     text-transform: uppercase;
-    margin-bottom: 28px;
+    margin-bottom: 22px;
 }
 
 .kicker-dot {
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #00ff66;
     box-shadow: 0 0 14px rgba(0, 255, 102, 0.8);
@@ -215,43 +232,53 @@ header {
 h1 {
     margin: 0;
     color: #ff3b32;
-    font-size: clamp(3rem, 8vw, 7.5rem);
-    line-height: 0.92;
+    font-size: clamp(2.7rem, 5.6vw, 5.4rem);
+    line-height: 0.96;
     text-transform: uppercase;
     letter-spacing: 0;
     max-width: 980px;
 }
 
-.hero-subtitle {
-    margin: 28px 0 0;
+.subtitle {
+    margin: 24px 0 0;
     color: #fff;
-    font-size: clamp(1.3rem, 2.5vw, 2.2rem);
-    line-height: 1.22;
+    font-size: clamp(1.15rem, 2vw, 1.55rem);
+    line-height: 1.35;
     font-weight: 900;
-    max-width: 980px;
+    max-width: 900px;
 }
 
 .content-grid {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 28px;
-    margin-top: 54px;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 24px;
+    margin-top: 42px;
 }
 
 .story-panel,
 .principles-panel {
     background: rgba(8, 8, 12, 0.72);
-    border: 1px solid rgba(255, 42, 42, 0.24);
-    border-radius: 12px;
-    padding: 34px;
+    border: 1px solid rgba(255, 42, 42, 0.22);
+    border-radius: 10px;
+    padding: 28px;
     backdrop-filter: blur(8px);
 }
 
+.panel-label {
+    color: #ffb703;
+    font-family: monospace;
+    font-weight: 900;
+    font-size: 0.78rem;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
 .story-panel p {
-    margin: 0 0 22px;
+    margin: 0 0 18px;
     color: #b8b8bd;
-    font-size: 1.05rem;
-    line-height: 1.75;
+    font-size: 0.98rem;
+    line-height: 1.72;
 }
 
 .story-panel p:last-child {
@@ -262,57 +289,49 @@ h1 {
     color: #fff;
 }
 
-.panel-label {
-    color: #ffb703;
-    font-family: monospace;
-    font-weight: 900;
-    letter-spacing: 1.8px;
-    text-transform: uppercase;
-    margin-bottom: 18px;
-}
-
 .principle {
     border: 1px solid rgba(255,255,255,0.08);
     background: rgba(255,255,255,0.025);
     border-radius: 8px;
-    padding: 18px;
-    margin-bottom: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
 }
 
 .principle strong {
     display: block;
     color: #fff;
-    font-size: 1.05rem;
-    margin-bottom: 8px;
+    font-size: 1rem;
+    margin-bottom: 7px;
 }
 
 .principle span {
     color: #9b9ba3;
     line-height: 1.5;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
 }
 
 .cta-band {
-    margin-top: 34px;
+    margin-top: 28px;
     border: 1px solid rgba(0, 255, 102, 0.25);
     background: linear-gradient(90deg, rgba(255,42,42,0.12), rgba(0,255,102,0.08));
-    border-radius: 12px;
-    padding: 24px;
+    border-radius: 10px;
+    padding: 22px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
+    gap: 22px;
 }
 
 .cta-band strong {
     color: #fff;
-    font-size: 1.2rem;
+    font-size: 1.08rem;
 }
 
 .cta-band span {
     display: block;
     color: #a7a7ad;
     margin-top: 6px;
+    line-height: 1.45;
 }
 
 .cta-band a {
@@ -320,7 +339,7 @@ h1 {
     background: #00ff66;
     color: #000;
     text-decoration: none;
-    padding: 16px 24px;
+    padding: 14px 22px;
     border-radius: 8px;
     font-weight: 900;
     text-transform: uppercase;
@@ -329,72 +348,103 @@ h1 {
 }
 
 .disclaimer {
-    margin-top: 30px;
+    margin-top: 26px;
     color: #777;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     line-height: 1.55;
     text-align: center;
 }
 
-@media (max-width: 850px) {
+/* MOBILE MATCHES INDEX HEADER BEHAVIOR */
+@media (max-width: 600px) {
+    .header-cta-group {
+        position: static !important;
+        left: auto !important;
+        transform: none !important;
+        gap: 2px !important;
+        margin-left: auto;
+        margin-right: 8px;
+    }
+
+    .header-cta-group a {
+        padding: 6px 8px !important;
+        font-size: 0.65rem !important;
+        white-space: nowrap;
+    }
+
+    .header-cta-group a[href="membership.html?redirect=membersarea.html"] {
+        display: inline-flex !important;
+        padding: 8px 12px !important;
+        font-size: 0.70rem !important;
+        border-radius: 8px !important;
+        min-height: 34px;
+        letter-spacing: 0.8px;
+        margin-right: 4px !important;
+    }
+}
+
+@media (max-width: 700px) {
     header {
-        height: 82px;
-        padding: 0 18px;
+        height: 76px;
+        padding: 8px 10px;
     }
 
-    .logo-link img {
-        height: 56px;
+    header img {
+        height: 72px;
+        max-width: 170px;
+        object-fit: contain;
     }
 
-    .top-cta {
-        padding: 12px 18px;
-        font-size: 0.82rem;
-        letter-spacing: 1.4px;
-    }
-
-    .status-strip {
-        height: auto;
-        min-height: 48px;
-        padding: 10px 16px;
-        font-size: 0.72rem;
-        gap: 10px;
-    }
-
-    .status-strip > div:last-child {
+    .network-status-bar {
         display: none;
     }
 
-    .philosophy-hero {
-        padding: 46px 18px 70px;
-        align-items: flex-start;
+    .page-wrap {
+        padding: 108px 18px 62px;
+    }
+
+    .kicker {
+        font-size: 0.68rem;
+        padding: 7px 10px;
+        margin-bottom: 18px;
     }
 
     h1 {
-        font-size: clamp(3rem, 15vw, 5.4rem);
+        font-size: clamp(2.05rem, 11vw, 3.35rem);
+        line-height: 1.02;
     }
 
-    .hero-subtitle {
-        font-size: 1.25rem;
+    .subtitle {
+        font-size: 1.05rem;
+        line-height: 1.42;
+        margin-top: 18px;
     }
 
     .content-grid {
         grid-template-columns: 1fr;
-        margin-top: 36px;
+        gap: 18px;
+        margin-top: 30px;
     }
 
     .story-panel,
     .principles-panel {
-        padding: 24px 20px;
+        padding: 22px 18px;
+    }
+
+    .story-panel p {
+        font-size: 0.94rem;
+        line-height: 1.65;
     }
 
     .cta-band {
         display: block;
+        padding: 20px 18px;
     }
 
     .cta-band a {
         display: block;
         text-align: center;
-        margin-top: 18px;
+        margin-top: 16px;
     }
 }
 </style>
@@ -403,112 +453,111 @@ h1 {
 <body>
 
 <header>
-    <a href="index.html" class="logo-link" aria-label="Rebel Trading home">
+    <a href="index.html" class="site-logo-link" aria-label="Rebel Trading home">
         <img src="https://raw.githubusercontent.com/rebeltrading/rebeltrading/main/rebellogo6.png" alt="Rebel Trading Logo">
     </a>
-
-    <a href="signup.html" class="top-cta">Free Trial &rarr;</a>
-
-    <button class="menu-btn" type="button" onclick="toggleMenu()" aria-label="Open menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+    
+   <div class="header-cta-group">
+        <a href="membership.html?redirect=membersarea.html" class="sim-challenge-btn">FREE TRIAL →</a>
+   </div>
+    
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
 </header>
 
-<nav class="side-menu" id="side-menu">
-    <button class="close-menu" type="button" onclick="toggleMenu()" aria-label="Close menu">&times;</button>
-    <a href="signup.html">Sign Up/Sign In</a>
-    <a href="index.html#how-it-works">How It Works</a>
-    <a href="packages.html">Sim Box Tiers</a>
-    <a href="index.html#rules">Trading Rules</a>
+<div id="menu" class="menu">
+    <a href="membership.html?redirect=membersarea.html">Sign Up/Sign In</a>
     <a href="ourphilosophy.html" class="active">Our Philosophy</a>
+    <a href="index.html#packages">Sim Boxes Tiers</a>
+    <a href="index.html#rules">Trading Rules</a>
     <a href="leaderboard.html">Leaderboard</a>
     <a href="roadmap.html">Roadmap</a>
     <a href="knowledgebase.html">Knowledge Base</a>
     <a href="payouts.html">Payouts</a>
-    <a href="simtrading-test.html">Trade Simulator &rarr;</a>
-</nav>
+    <a href="simtrading-test.html">Trade Simulator →</a>
+</div>
 
-<div class="status-strip">
+<div class="network-status-bar">
     <div>Console // <strong>Rebel_Engine_Online</strong></div>
-    <div class="status-pill">Micro Prop Arcade</div>
+    <div class="arcade-pill">Micro Prop Arcade</div>
     <div>XP Rewards: <strong>1,000 XP</strong> / $25 USDC</div>
 </div>
 
-<main class="philosophy-hero">
-    <div class="hero-inner">
-        <div class="kicker"><span class="kicker-dot"></span> Our Philosophy</div>
+<main class="page-wrap">
+    <div class="kicker"><span class="kicker-dot"></span> Our Philosophy</div>
 
-        <h1>Built For Traders Who Wanted A Better Game</h1>
+    <h1>Built For Traders Who Wanted A Better Game</h1>
 
-        <p class="hero-subtitle">
-            Rebel Trading was created to make simulated prop-style trading lower-cost, faster to understand, and more fun to practice.
-        </p>
+    <p class="subtitle">
+        Rebel Trading was created to make simulated prop-style trading lower-cost, clearer, and more fun to practice.
+    </p>
 
-        <div class="content-grid">
-            <section class="story-panel">
-                <div class="panel-label">Founder Story</div>
+    <div class="content-grid">
+        <section class="story-panel">
+            <div class="panel-label">Founder Story</div>
 
-                <p>
-                    Rebel Trading was founded by <strong>Ted Teske</strong>, a trader with over 10 years of market experience. After spending years around trading rooms, prop-style evaluations, challenge accounts, payout rules, and platform restrictions, Ted kept seeing the same problem: traders were paying too much money just to test whether they had a real edge.
-                </p>
+            <p>
+                Rebel Trading was founded by <strong>Ted Teske</strong>, a trader with over 10 years of market experience. After years around trading rooms, prop-style evaluations, challenge accounts, payout rules, and platform restrictions, Ted kept seeing the same problem: traders were paying too much money just to find out whether they had a real edge.
+            </p>
 
-                <p>
-                    Traditional prop firms can feel heavy. Big fees. Complex rules. Delayed feedback. Accounts that look exciting on the surface but become frustrating once traders realize how many hidden constraints are stacked against them. Rebel was built from that frustration. The goal was not to copy the old model. The goal was to strip it down, make it clearer, and turn it into something traders could actually practice with.
-                </p>
+            <p>
+                Traditional prop firms can feel heavy. Big fees. Complex rules. Delayed feedback. Accounts that look exciting on the surface but become frustrating once traders realize how many constraints are stacked against them. Rebel was built from that frustration. The goal was not to copy the old model. The goal was to strip it down, make it clearer, and turn it into something traders could actually practice with.
+            </p>
 
-                <p>
-                    That is why Rebel Trading takes an arcade-first approach. We use simulated crypto perpetual markets, objective rules, XP rewards, and low-cost entry tickets to create a trading arena where users can build discipline without putting hundreds of dollars into a traditional evaluation. You choose a box, trade the sim, respect the rules, and see exactly where you stand.
-                </p>
+            <p>
+                That is why Rebel Trading takes an arcade-first approach. We use simulated crypto perpetual markets, objective rules, XP rewards, and low-cost entry tickets to create a trading arena where users can build discipline without putting hundreds of dollars into a traditional evaluation. You choose a box, trade the sim, respect the rules, and see exactly where you stand.
+            </p>
 
-                <p>
-                    Rebel is not pretending to be Wall Street. It is a skill-based trading simulator with prop-style pressure, arcade energy, and a direct feedback loop. Our belief is simple: traders should be able to get reps, test execution, and learn risk control without getting buried by expensive gates before they even start.
-                </p>
-            </section>
+            <p>
+                Rebel is not pretending to be Wall Street. It is a skill-based trading simulator with prop-style pressure, arcade energy, and a direct feedback loop. Our belief is simple: traders should be able to get reps, test execution, and learn risk control without getting buried by expensive gates before they even start.
+            </p>
+        </section>
 
-            <aside class="principles-panel">
-                <div class="panel-label">What We Believe</div>
+        <aside class="principles-panel">
+            <div class="panel-label">What We Believe</div>
 
-                <div class="principle">
-                    <strong>Lower Entry, More Reps</strong>
-                    <span>Traders should be able to practice under real rules without risking large upfront evaluation fees.</span>
-                </div>
-
-                <div class="principle">
-                    <strong>Rules Should Be Visible</strong>
-                    <span>The challenge should be hard because trading is hard, not because the rules are hidden or confusing.</span>
-                </div>
-
-                <div class="principle">
-                    <strong>Simulation Can Still Create Pressure</strong>
-                    <span>Drawdown limits, trading days, best day rules, and margin guards create structure without live capital trading.</span>
-                </div>
-
-                <div class="principle">
-                    <strong>Rewards Should Feel Earned</strong>
-                    <span>Rebel XP turns performance into a game-style reward path while keeping eligibility checks and manual review in place.</span>
-                </div>
-            </aside>
-        </div>
-
-        <div class="cta-band">
-            <div>
-                <strong>Ready to enter the arena?</strong>
-                <span>Start with a free trial, learn the rules, and see how the Rebel Arcade works before choosing a Sim Box.</span>
+            <div class="principle">
+                <strong>Lower Entry, More Reps</strong>
+                <span>Traders should be able to practice under real rules without risking large upfront evaluation fees.</span>
             </div>
-            <a href="signup.html">Start Free Trial</a>
-        </div>
 
-        <div class="disclaimer">
-            Rebel Trading is a simulated trading and evaluation environment. Trades, balances, account stages, and Rebel XP are simulated. USDC rewards are subject to eligibility checks, manual review, and Rebel payout terms. Nothing on this page is financial advice.
+            <div class="principle">
+                <strong>Rules Should Be Visible</strong>
+                <span>The challenge should be hard because trading is hard, not because the rules are hidden or confusing.</span>
+            </div>
+
+            <div class="principle">
+                <strong>Simulation Can Still Create Pressure</strong>
+                <span>Drawdown limits, trading days, best day rules, and margin guards create structure without live capital trading.</span>
+            </div>
+
+            <div class="principle">
+                <strong>Rewards Should Feel Earned</strong>
+                <span>Rebel XP turns simulated performance into a game-style reward path while keeping eligibility checks and manual review in place.</span>
+            </div>
+        </aside>
+    </div>
+
+    <div class="cta-band">
+        <div>
+            <strong>Ready to enter the arena?</strong>
+            <span>Start with a free trial, learn the rules, and see how the Rebel Arcade works before choosing a Sim Box.</span>
         </div>
+        <a href="membership.html?redirect=membersarea.html">Start Free Trial</a>
+    </div>
+
+    <div class="disclaimer">
+        Rebel Trading is a simulated trading and evaluation environment. Trades, balances, account stages, and Rebel XP are simulated. USDC rewards are subject to eligibility checks, manual review, and Rebel payout terms. Nothing on this page is financial advice.
     </div>
 </main>
 
 <script>
 function toggleMenu() {
-    document.getElementById("side-menu").classList.toggle("open");
+    const menu = document.getElementById("menu");
+    menu.style.right = (menu.style.right === "0px") ? "-260px" : "0px";
 }
 </script>
 
