@@ -1299,6 +1299,8 @@ async function loadMemberDashboard() {
     setText("dashboard-equity", "--");
     setText("dashboard-starting", "No active challenge selected");
     setText("dashboard-pnl", "--");
+    setText("dashboard-target-progress", "--");
+    setText("dashboard-target-detail", "No active challenge selected");
     setText("dashboard-xp", "0 XP");
     setText("dashboard-xp-detail", "Sim Funded Required");
     setText("metric-xp-status", "0 XP");
@@ -1339,6 +1341,10 @@ async function loadMemberDashboard() {
     const pnl = equity - starting;
     const targetBalance = starting + target;
     const targetRemaining = Math.max(0, targetBalance - equity);
+    const targetEarned = Math.max(0, equity - starting);
+    const targetProgressPercent = target > 0
+        ? Math.min(100, (targetEarned / target) * 100)
+        : 0;
     const stage = challenge.stage || "challenge";
     const accountStatus = challenge.status || "active";
     const failureReason = challenge.failure_reason || "";
@@ -1393,7 +1399,16 @@ async function loadMemberDashboard() {
     setText("dashboard-equity", formatMoney(equity));
     setText("dashboard-starting", `Starting Balance: ${formatMoney(starting)}`);
     setText("dashboard-pnl", `${pnl >= 0 ? "+" : "-"}${formatMoney(Math.abs(pnl))}`);
-    setText("dashboard-drawdown", formatMoney(drawdownFloor));
+
+    if (stage === "rebel_stage") {
+        setText("dashboard-target-progress", "Unlimited");
+        setText("dashboard-target-detail", "Sim Funded Stage Active");
+    } else {
+        setText("dashboard-target-progress", `${targetProgressPercent.toFixed(1)}%`);
+        setText("dashboard-target-detail", `${formatMoney(targetRemaining)} Remaining To Pass`);
+}
+
+setText("dashboard-drawdown", formatMoney(drawdownFloor));
     setText("metric-max-target", `EOD Floor ${formatMoney(drawdownFloor)}`);
     setText("dashboard-daily", formatMoney(Math.max(0, dailyLimit - Math.max(0, -pnl))));
     setText("dashboard-margin-rate", `${(marginRate * 100).toFixed(1).replace(".0", "")}%`);
@@ -2123,7 +2138,11 @@ window.addEventListener("DOMContentLoaded", loadMemberDashboard);
     <div class="value positive" id="dashboard-pnl">+$0.00</div>
     <span class="status-badge">Start Balance Vs Current Equity</span>
 </div>
-
+<div class="card">
+    <h3>Profit Target Progress</h3>
+    <div class="value neutral" id="dashboard-target-progress">0.0%</div>
+    <span class="status-badge" id="dashboard-target-detail">$0.00 Remaining To Pass</span>
+</div>
 <div class="card">
     <h3>Rebel XP</h3>
     <div class="value positive" id="dashboard-xp">0 XP</div>
