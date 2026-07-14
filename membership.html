@@ -285,11 +285,17 @@ select:focus {
 }
 
 .status-message {
+    display: none;
     min-height: 20px;
-    font-size: 0.82rem;
-    margin-top: 14px;
-    color: #ffb703;
+    font-size: 0.9rem;
+    margin: 14px 0 0;
+    color: #ff4a4a;
     font-weight: bold;
+    line-height: 1.45;
+    background: rgba(255, 42, 42, 0.12);
+    border: 1px solid rgba(255, 42, 42, 0.45);
+    border-radius: 8px;
+    padding: 12px;
 }
 
 footer {
@@ -465,7 +471,10 @@ function setMode(mode) {
 
 function setStatus(message) {
     const status = document.getElementById("status-message");
-    if (status) status.innerText = message;
+    if (!status) return;
+
+    status.innerText = message || "";
+    status.style.display = message ? "block" : "none";
 }
 
 function getSelectedTier() {
