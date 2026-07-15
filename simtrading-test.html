@@ -1196,8 +1196,7 @@ header img {
     }
 
     .progress-container {
-        width: 150px;
-        min-width: 0;
+        display: none !important;
     }
 
     .progress-labels {
@@ -1206,8 +1205,10 @@ header img {
     }
 
     .hamburger {
-        width: 30px;
+        width: 34px;
         flex-shrink: 0;
+        position: relative;
+        z-index: 20;
     }
 
     .desk-container {
@@ -1394,8 +1395,28 @@ header img {
         line-height: 1.35;
     }
 
-    .bracket-inputs-grid {
+        .bracket-inputs-grid {
         grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .bracket-swap-btn {
+        position: static;
+        transform: none;
+        width: 34px;
+        height: 34px;
+        margin: -2px auto;
+        line-height: 30px;
+        display: block;
+        order: 2;
+    }
+
+    .bracket-inputs-grid .input-block:first-of-type {
+        order: 1;
+    }
+
+    .bracket-inputs-grid .input-block:last-of-type {
+        order: 3;
     }
 
     .execution-actions {
