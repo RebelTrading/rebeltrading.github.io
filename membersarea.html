@@ -391,8 +391,9 @@ header img {
     text-transform: none;
 }
 
+.rule-info-btn:hover + .rule-info-popover,
 .rule-info-btn:focus + .rule-info-popover,
-.metric-name:hover .rule-info-popover {
+.rule-info-btn.is-open + .rule-info-popover {
     display: block;
 }
 
@@ -1996,7 +1997,35 @@ function logout() {
     localStorage.removeItem("rebel_auth_token");
     showSignedOut("Signed out.");
 }
-window.addEventListener("DOMContentLoaded", loadMemberDashboard);
+function setupRuleInfoPopovers() {
+    document.querySelectorAll(".rule-info-btn").forEach((btn) => {
+        btn.addEventListener("click", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const isOpen = btn.classList.contains("is-open");
+
+            document.querySelectorAll(".rule-info-btn.is-open").forEach((openBtn) => {
+                openBtn.classList.remove("is-open");
+            });
+
+            if (!isOpen) {
+                btn.classList.add("is-open");
+            }
+        });
+    });
+
+    document.addEventListener("click", function() {
+        document.querySelectorAll(".rule-info-btn.is-open").forEach((btn) => {
+            btn.classList.remove("is-open");
+        });
+    });
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+    setupRuleInfoPopovers();
+    loadMemberDashboard();
+});
 </script>
 </head>
 
