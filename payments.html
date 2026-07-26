@@ -160,55 +160,6 @@ header img {
     100% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 10px #00ff66; }
 }
 
-/* LIVE TICKER MARQUEE */
-.ticker-wrap {
-    position: fixed;
-    top: 132px;
-    width: 100%;
-    overflow: hidden;
-    height: 32px;
-    background-color: rgba(6, 6, 6, 0.8);
-    backdrop-filter: blur(5px);
-    border-top: 1px solid #141414;
-    border-bottom: 1px solid #141414;
-    z-index: 998;
-    display: flex;
-    align-items: center;
-}
-
-.ticker {
-    display: inline-block;
-    height: 32px;
-    line-height: 32px;
-    white-space: nowrap;
-    padding-right: 100%;
-    box-sizing: content-box;
-    animation: marquee 25s linear infinite;
-}
-
-.ticker__item {
-    display: inline-block;
-    padding: 0 2rem;
-    font-size: 0.75rem;
-    font-family: monospace;
-    color: #888;
-    letter-spacing: 0.5px;
-}
-
-.ticker__item strong {
-    color: #00ff66;
-}
-
-.ticker__item span.payout-tag {
-    color: #ffb703;
-    font-weight: bold;
-}
-
-@keyframes marquee {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-100%, 0, 0); }
-}
-
 /* HERO CHANNELS */
 .banner {
     height: 45vh;
@@ -536,22 +487,6 @@ footer {
 
     .network-status-bar {
         display: none;
-    }
-
-    .ticker-wrap {
-        top: 76px;
-        height: 28px;
-    }
-
-    .ticker,
-    .ticker__item {
-        height: 28px;
-        line-height: 28px;
-    }
-
-    .ticker__item {
-        font-size: 0.62rem;
-        padding: 0 1rem;
     }
 
     .menu {
@@ -930,17 +865,6 @@ window.addEventListener("DOMContentLoaded", handlePaymentReturn);
     
     <div class="terminal-node right">
         <span>ENCRYPTION: <strong style="color: #00ff66;">AES-256</strong> &nbsp;&bull;&nbsp; DISPATCH: <strong>IMMEDIATE</strong></span>
-    </div>
-</div>
-
-<div class="ticker-wrap">
-    <div class="ticker">
-        <div class="ticker__item">🏆 NASDAQ_X7 cleared BTC levels &rarr; <span class="payout-tag">Paid $80.00 USDT</span></div>
-        <div class="ticker__item">🟢 142 Coins Inserted into Recruit Arena this hour</div>
-        <div class="ticker__item">🏆 SCALPER_DECK cleared SOL levels &rarr; <span class="payout-tag">Paid $400.00 USDC</span></div>
-        <div class="ticker__item">⚡ SPEEDRUN LOCKOUT: User 'TapeReader' unlocked <strong style="color:#ffb703;">100% PROFIT BOOST</strong></div>
-        <div class="ticker__item">🏆 WHALE_HUNTER cleared ETH levels &rarr; <span class="payout-tag">Paid $200.00 USDT</span></div>
-        <div class="ticker__item">🟢 89 Coins Inserted into Rebel Box Arena this hour</div>
     </div>
 </div>
 
