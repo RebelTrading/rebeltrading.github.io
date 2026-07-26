@@ -576,10 +576,23 @@ footer {
         line-height: 1.45;
     }
 
-    .widget-payload-frame {
+        .widget-payload-frame {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
         min-height: 260px;
         padding: 12px;
         box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .widget-payload-frame > div,
+    .widget-payload-frame iframe,
+    [id^="helioCheckoutContainer"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
     }
 
     .step-number {
