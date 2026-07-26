@@ -6,11 +6,24 @@
 <title>Rebel Trading Desk | Micro Crypto Prop Funding</title>
 
 <style>
+:root {
+    --rebel-mint: #00e6a8;
+    --rebel-mint-bright: #00ffb8;
+    --rebel-green: #00ff66;
+    --rebel-gold: #f4c542;
+    --rebel-red: #ff3b36;
+    --rebel-bg: #030606;
+    --rebel-panel: #080d0d;
+    --rebel-border: rgba(0, 230, 168, 0.22);
+    --rebel-text: #f4f7f6;
+    --rebel-muted: #9ca7a4;
+}
+
 html {
     background:
-        linear-gradient(115deg, rgba(255, 42, 42, 0.14) 0%, transparent 32%),
-        linear-gradient(245deg, rgba(0, 210, 255, 0.07) 0%, transparent 28%),
-        linear-gradient(180deg, #0b0c0f 0%, #111217 48%, #08090b 100%);
+        radial-gradient(circle at 62% 18%, rgba(0, 230, 168, 0.16), transparent 34%),
+        radial-gradient(circle at 18% 30%, rgba(244, 197, 66, 0.07), transparent 30%),
+        linear-gradient(180deg, #030606 0%, #071010 48%, #020303 100%);
     background-attachment: fixed;
 }
 
@@ -18,20 +31,21 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background: transparent;
-    color: #bdbdbd;
+    color: var(--rebel-muted);
     overflow-x: hidden;
 }
-    .site-glare {
+
+.site-glare {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 997;
-    opacity: 0.42;
+    opacity: 0.36;
     mix-blend-mode: screen;
     background:
-        radial-gradient(circle at 18% 22%, rgba(255, 42, 42, 0.22), transparent 28%),
-        radial-gradient(circle at 82% 38%, rgba(0, 255, 102, 0.12), transparent 24%),
-        linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.035) 42%, transparent 58%);
+        radial-gradient(circle at 17% 22%, rgba(0, 230, 168, 0.14), transparent 28%),
+        radial-gradient(circle at 82% 38%, rgba(0, 255, 184, 0.10), transparent 24%),
+        linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.028) 42%, transparent 58%);
 }
 /* HEADER */
 header {
@@ -39,32 +53,32 @@ header {
     top: 0;
     width: 100%;
     background:
-    radial-gradient(
-        ellipse at 50% 0%,
-        rgba(255, 255, 255, 0.10) 0%,
-        rgba(255, 42, 42, 0.06) 28%,
-        transparent 58%
-    ),
-    linear-gradient(
-        108deg,
-        rgba(255, 42, 42, 0.08) 0%,
-        transparent 28%,
-        rgba(255, 255, 255, 0.045) 48%,
-        transparent 67%,
-        rgba(0, 210, 255, 0.045) 100%
-    ),
-    rgba(0, 0, 0, 0.94);
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(0, 230, 168, 0.12) 0%,
+            rgba(0, 230, 168, 0.045) 34%,
+            transparent 62%
+        ),
+        linear-gradient(
+            108deg,
+            rgba(0, 230, 168, 0.08) 0%,
+            transparent 30%,
+            rgba(255, 255, 255, 0.04) 50%,
+            transparent 68%,
+            rgba(244, 197, 66, 0.045) 100%
+        ),
+        rgba(0, 0, 0, 0.94);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 10px;
     box-sizing: border-box;
-    border-bottom: 1px solid #1a1a1a;
+    border-bottom: 1px solid rgba(0, 230, 168, 0.16);
     box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 6px 24px rgba(0, 0, 0, 0.55),
-    0 1px 12px rgba(255, 42, 42, 0.10);
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 6px 24px rgba(0, 0, 0, 0.55),
+        0 1px 18px rgba(0, 230, 168, 0.10);
     z-index: 1000;
 }
 
@@ -107,8 +121,8 @@ header img {
 .sim-challenge-btn {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #ff4b3e 0%, #ef2626 45%, #9f0000 100%);
-    color: #fff;
+    background: linear-gradient(135deg, #ffffff 0%, #dffdf3 42%, #00e6a8 100%);
+    color: #03100c;
     text-decoration: none;
     font-family: monospace;
     font-size: 0.78rem;
@@ -116,17 +130,13 @@ header img {
     letter-spacing: 1.2px;
     padding: 10px 18px;
     border-radius: 8px;
-    border: 1px solid rgba(255, 115, 115, 0.95);
+    border: 1px solid rgba(0, 255, 184, 0.92);
     text-transform: uppercase;
     box-shadow:
-    0 0 18px rgba(255, 42, 42, 0.55),
-    0 0 34px rgba(255, 183, 3, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.48);
-    transition: all 0.2s ease-in-out;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
+        0 0 18px rgba(0, 230, 168, 0.34),
+        0 0 34px rgba(0, 230, 168, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .sim-challenge-btn::before {
@@ -142,12 +152,11 @@ header img {
 }
 
 .sim-challenge-btn:hover {
+    transform: translateY(-2px) scale(1.02);
     box-shadow:
-        0 0 24px rgba(0, 255, 102, 0.75),
-        0 0 42px rgba(17, 215, 255, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    transform: scale(1.04);
-    border-color: #fff;
+        0 0 24px rgba(0, 255, 184, 0.55),
+        0 0 46px rgba(0, 230, 168, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 @keyframes headerCtaShine {
@@ -165,28 +174,35 @@ header img {
 }
 
 .enter-desk-btn {
-    background: linear-gradient(135deg, #ff2a2a 0%, #990000 100%);
-    color: #fff;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #dffdf3 42%, var(--rebel-mint) 100%);
+    color: #03100c;
     text-decoration: none;
     font-family: monospace;
     font-size: 0.9rem;
-    font-weight: bold;
+    font-weight: 900;
     letter-spacing: 2px;
-    padding: 14px 32px;
-    border-radius: 6px;
-    border: 1px solid #ff5555;
+    padding: 14px 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 255, 184, 0.92);
     text-transform: uppercase;
-    box-shadow: 0 0 18px rgba(255, 42, 42, 0.45);
+    box-shadow:
+        0 0 20px rgba(0, 230, 168, 0.38),
+        0 0 42px rgba(0, 230, 168, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
     transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: inline-block;
 }
 
 .enter-desk-btn:hover {
-    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-    color: #fff;
-    box-shadow: 0 0 28px rgba(255, 42, 42, 0.75);
+    color: #03100c;
+    box-shadow:
+        0 0 28px rgba(0, 255, 184, 0.58),
+        0 0 54px rgba(0, 230, 168, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.92);
     transform: translateY(-2px) scale(1.02);
-    border-color: #fff;
+    border-color: #ffffff;
 }
 .built-in-arena-card {
     position: relative;
@@ -250,7 +266,7 @@ header img {
 }
 
 .menu a:hover {
-    color: #ff2a2a;
+    color: var(--rebel-mint-bright);
 }
 
 /* LIVE NETWORK STATUS BAR TERMINAL GRID */
@@ -258,10 +274,12 @@ header img {
     position: fixed;
     top: 74px;
     width: 100%;
-    background: #050505;
+    background:
+        linear-gradient(90deg, rgba(0, 230, 168, 0.055), rgba(0, 0, 0, 0.96), rgba(244, 197, 66, 0.04)),
+        #050707;
     padding: 12px 24px;
     box-sizing: border-box;
-    border-bottom: 1px solid #141414;
+    border-bottom: 1px solid rgba(0, 230, 168, 0.16);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
@@ -270,11 +288,11 @@ header img {
     font-family: monospace;
     font-size: 0.7rem;
     letter-spacing: 0.5px;
-    color: #666;
+    color: #7b8582;
 }
 
 .network-status-bar strong {
-    color: #fff;
+    color: var(--rebel-text);
 }
 
 .terminal-node {
@@ -302,13 +320,12 @@ header img {
 }
 
 .terminal-tag {
-    background: rgba(255, 42, 42, 0.1);
-    color: #ff2a2a;
+    background: rgba(0, 230, 168, 0.09);
+    color: var(--rebel-mint);
     padding: 2px 6px;
-    border-radius: 3px;
-    border: 1px solid rgba(255, 42, 42, 0.2);
+    border-radius: 999px;
+    border: 1px solid rgba(0, 230, 168, 0.24);
     font-size: 0.6rem;
-    font-weight: bold;
 }
 
 @keyframes network-ping {
@@ -395,11 +412,13 @@ header img {
 }
 .banner h1 {
     font-size: 4.5rem;
-    color: #ff2a2a;
-    line-height: 1.1;
+    color: var(--rebel-text);
+    line-height: 1.05;
     letter-spacing: -1px;
-    margin: 0 0 10px 0;
-    text-shadow: 0 0 20px rgba(255, 42, 42, 0.2);
+    margin: 0 0 12px 0;
+    text-shadow:
+        0 0 22px rgba(0, 230, 168, 0.16),
+        0 0 42px rgba(0, 0, 0, 0.55);
 }
 
 .beta-live-badge {
@@ -407,27 +426,27 @@ header img {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    min-height: 26px;
-    padding: 5px 10px;
+    min-height: 28px;
+    padding: 6px 12px;
     box-sizing: border-box;
-    background: rgba(0, 255, 102, 0.08);
-    border: 1px solid rgba(0, 255, 102, 0.35);
-    border-radius: 4px;
-    color: #00ff66;
+    background: rgba(0, 230, 168, 0.10);
+    border: 1px solid rgba(0, 230, 168, 0.42);
+    border-radius: 999px;
+    color: var(--rebel-mint-bright);
     font-family: monospace;
     font-size: 0.72rem;
     font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
-    box-shadow: 0 0 12px rgba(0, 255, 102, 0.12);
+    box-shadow: 0 0 16px rgba(0, 230, 168, 0.16);
 }
 
 .banner p {
-    color: #fff;
-    font-size: 1.4rem;
-    letter-spacing: 2px;
-    margin-top: 15px;
-    font-weight: 300;
+    color: rgba(244, 247, 246, 0.92);
+    font-size: 1.35rem;
+    letter-spacing: 1.4px;
+    margin-top: 18px;
+    font-weight: 500;
     text-transform: uppercase;
 }
 
@@ -435,11 +454,11 @@ header img {
 .speedrun-banner {
     background: linear-gradient(
         90deg,
-        rgba(39, 15, 18, 0.96),
-        rgba(22, 24, 29, 0.96),
-        rgba(12, 29, 29, 0.94)
+        rgba(4, 18, 16, 0.96),
+        rgba(10, 16, 18, 0.96),
+        rgba(21, 17, 7, 0.92)
     );
-    border: 1px solid #3b3034;
+    border: 1px solid rgba(0, 230, 168, 0.24);
     padding: 15px;
     border-radius: 8px;
     max-width: 800px;
@@ -450,16 +469,16 @@ header img {
     gap: 15px;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.035),
-        0 10px 28px rgba(0, 0, 0, 0.24);
+        0 10px 30px rgba(0, 230, 168, 0.08);
 }
 
 .speedrun-badge {
-    background: #ff2a2a;
-    color: #fff;
+    background: linear-gradient(135deg, var(--rebel-mint), var(--rebel-green));
+    color: #02100b;
     font-size: 0.7rem;
     font-weight: bold;
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 4px 9px;
+    border-radius: 5px;
     letter-spacing: 1px;
     text-transform: uppercase;
     animation: pulse-glow 1.5s infinite alternate;
@@ -473,7 +492,7 @@ header img {
 }
 
 .speedrun-text span {
-    color: #ffb703;
+    color: var(--rebel-gold);
 }
     .hero-proof-grid {
     display: grid;
@@ -484,15 +503,15 @@ header img {
 }
 
 .hero-proof-item {
-    background: rgba(17, 19, 24, 0.92);
-    border: 1px solid #30343b;
-    border-radius: 6px;
+    background: rgba(8, 13, 13, 0.88);
+    border: 1px solid rgba(0, 230, 168, 0.18);
+    border-radius: 8px;
     padding: 12px 10px;
     font-family: monospace;
     text-align: center;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.035),
-        0 8px 22px rgba(0, 0, 0, 0.22);
+        0 8px 22px rgba(0, 0, 0, 0.24);
 }
 
 .hero-proof-label {
@@ -734,11 +753,12 @@ header img {
 }
 
 .section h2 {
-    color: #ff2a2a;
+    color: var(--rebel-text);
     font-size: 2.5rem;
     letter-spacing: -0.5px;
     margin-bottom: 20px;
     text-transform: uppercase;
+    text-shadow: 0 0 24px rgba(0, 230, 168, 0.10);
 }
 
 .section-subtitle {
@@ -994,17 +1014,19 @@ header img {
 }
 
 .btn.red {
-    background: #ff2a2a;
-    color: #fff;
-    border: 1px solid #ff5555;
-    box-shadow: 0 0 18px rgba(255, 42, 42, 0.28);
+    background: rgba(8, 13, 13, 0.92);
+    color: var(--rebel-text);
+    border: 1px solid rgba(0, 230, 168, 0.28);
+    box-shadow: 0 0 18px rgba(0, 230, 168, 0.10);
 }
 
 .btn.green {
-    background: #00ff66;
-    color: #000;
-    border: 1px solid #00ff66;
-    box-shadow: 0 0 18px rgba(0, 255, 102, 0.18);
+    background: linear-gradient(135deg, #ffffff 0%, #dffdf3 42%, var(--rebel-mint) 100%);
+    color: #03100c;
+    border: 1px solid rgba(0, 255, 184, 0.92);
+    box-shadow:
+        0 0 20px rgba(0, 230, 168, 0.30),
+        inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
 .tier-stack {
@@ -1019,30 +1041,37 @@ header img {
     grid-template-columns: minmax(260px, 0.42fr) minmax(0, 0.58fr);
     gap: 22px;
     align-items: stretch;
-    background: rgba(7, 7, 10, 0.86);
-    border: 1px solid #1f1f1f;
-    border-radius: 8px;
+    background:
+        linear-gradient(135deg, rgba(0, 230, 168, 0.045), rgba(255, 255, 255, 0.015)),
+        rgba(5, 8, 8, 0.92);
+    border: 1px solid rgba(0, 230, 168, 0.18);
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 26px rgba(255, 42, 42, 0.04);
+    box-shadow:
+        0 0 28px rgba(0, 230, 168, 0.06),
+        0 18px 42px rgba(0, 0, 0, 0.28);
 }
 
 .tier-card.featured {
-    border-color: rgba(255, 183, 3, 0.58);
-    box-shadow: 0 0 34px rgba(255, 183, 3, 0.09);
+    border-color: rgba(244, 197, 66, 0.46);
+    box-shadow:
+        0 0 34px rgba(244, 197, 66, 0.10),
+        0 18px 42px rgba(0, 0, 0, 0.30);
 }
 
 .tier-summary {
     padding: 30px;
     background:
-        radial-gradient(circle at top right, rgba(255, 42, 42, 0.16), transparent 44%),
-        #080808;
-    border-right: 1px solid #181818;
+        radial-gradient(circle at top right, rgba(0, 230, 168, 0.15), transparent 44%),
+        rgba(4, 9, 9, 0.96);
+    border-right: 1px solid rgba(0, 230, 168, 0.12);
 }
 
 .tier-card.featured .tier-summary {
     background:
-        radial-gradient(circle at top right, rgba(255, 183, 3, 0.18), transparent 44%),
-        #080808;
+        radial-gradient(circle at top right, rgba(244, 197, 66, 0.16), transparent 44%),
+        radial-gradient(circle at bottom left, rgba(0, 230, 168, 0.09), transparent 46%),
+        rgba(4, 9, 9, 0.96);
 }
 
 .tier-tag {
@@ -1061,9 +1090,9 @@ header img {
 }
 
 .tier-card.featured .tier-tag {
-    border-color: rgba(255, 183, 3, 0.45);
-    background: rgba(255, 183, 3, 0.10);
-    color: #ffb703;
+    border-color: rgba(244, 197, 66, 0.48);
+    background: rgba(244, 197, 66, 0.10);
+    color: var(--rebel-gold);
 }
 
 .tier-summary h3 {
@@ -1093,12 +1122,18 @@ header img {
 }
 
 .tier-price {
-    color: #ff2a2a;
+    color: var(--rebel-text);
     font-family: monospace;
     font-size: 3.4rem;
     font-weight: bold;
     line-height: 1;
     margin: 24px 0 12px 0;
+    text-shadow: 0 0 18px rgba(0, 230, 168, 0.12);
+}
+
+.tier-card.featured .tier-price {
+    color: var(--rebel-gold);
+    text-shadow: 0 0 18px rgba(244, 197, 66, 0.16);
 }
 
 .tier-card.featured .tier-price {
