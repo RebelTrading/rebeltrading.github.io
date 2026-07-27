@@ -483,6 +483,17 @@ header img {
     letter-spacing: 1px;
     text-transform: uppercase;
     animation: pulse-glow 1.5s infinite alternate;
+    text-decoration: none;
+    box-shadow: 0 0 18px rgba(0, 255, 170, 0.42);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+    .speedrun-badge:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+    box-shadow:
+        0 0 18px rgba(0, 255, 170, 0.65),
+        0 0 34px rgba(0, 255, 170, 0.35);
 }
 
 .speedrun-text {
@@ -2831,7 +2842,7 @@ function buyChallenge(tier) {
         
         <div class="speedrun-banner">
     <a href="#packages" class="speedrun-badge">Sim Packages</a>
-    <div class="speedrun-text">Trade crypto perps with <span>$50K funding</span>, and earn USDC Rewards</div>
+    <div class="speedrun-text">Trade crypto perps with <span>up to $50K funding</span>, and earn USDC Rewards</div>
 </div>
 
                 <div class="enter-desk-container">
