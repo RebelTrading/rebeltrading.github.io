@@ -1821,7 +1821,9 @@ async function savePayoutWallet() {
         const walletInput = document.getElementById("payout-wallet-address");
         const networkSelect = document.getElementById("payout-network");
 
-        const redeemableXp = Number(data.redeemable_xp || 0);
+                const redeemableXp = Number(data.redeemable_xp || 0);
+        const practiceXp = Number(data.practice_xp || 0);
+        const visibleXp = Math.max(redeemableXp, practiceXp);
         const maxXpReward = Number(data.max_xp_usdc_reward || 0);
         const minimumXpRequest = Number(data.minimum_xp_request || 1000);
         CURRENT_REDEEMABLE_XP = redeemableXp;
@@ -1864,12 +1866,14 @@ if (speedrunLockedXp > 0) {
     setText("dashboard-xp-detail", "Speedrun XP Boost Locked");
     setText("metric-xp-status", `${speedrunLockedXp} XP Locked Until Sim Funded`);
 } else {
-    setText("dashboard-xp", `${redeemableXp.toFixed(0)} XP`);
+        setText("dashboard-xp", `${visibleXp.toFixed(0)} XP`);
     setText("dashboard-xp-detail", redeemableXp >= minimumXpRequest
         ? `Eligible For ${formatMoney(maxXpReward)} USDC Reward`
-        : `${minimumXpRequest.toFixed(0)} XP Minimum To Redeem`
+        : practiceXp > 0
+            ? "Practice XP Banked"
+            : `${minimumXpRequest.toFixed(0)} XP Minimum To Redeem`
     );
-    setText("metric-xp-status", `${redeemableXp.toFixed(0)} XP / ${minimumXpRequest.toFixed(0)} XP`);
+    setText("metric-xp-status", `${visibleXp.toFixed(0)} XP / ${minimumXpRequest.toFixed(0)} XP`);
 }
         if (tradingDays) {
         const fundedDays = Number(data.funded_trading_days || 0);
