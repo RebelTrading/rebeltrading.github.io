@@ -1201,7 +1201,7 @@ function dismissSpeedrunXpOverlay() {
         return;
     }
 
-    if (status) status.innerText = "Activating free 50K trial...";
+    if (status) status.innerText = "Activating Practice Sim...";
 
     try {
         const response = await fetch(`${API_URL}/api/promo/free-t1`, {
@@ -1226,13 +1226,13 @@ function dismissSpeedrunXpOverlay() {
 
         const trialButton = document.getElementById("free-trial-activate-btn");
         if (trialButton) {
-            trialButton.innerText = "Free Trial Active";
+            trialButton.innerText = "Practice Sim Active;
             trialButton.disabled = true;
             trialButton.style.opacity = "0.65";
             trialButton.style.cursor = "not-allowed";
         }
 
-        if (status) status.innerText = "Free 50K trial activated.";
+        if (status) status.innerText = "Practice Sim activated.";
 
         setTimeout(() => {
             loadMemberDashboard();
@@ -2128,7 +2128,7 @@ window.addEventListener("DOMContentLoaded", function() {
     <div class="promo-code-panel">
         <input id="promo-code-input" type="hidden" value="RebelJune">
         <button class="action-btn" id="free-trial-activate-btn" type="button" onclick="redeemPromoCode()">
-            Activate Free Trial
+            Start Practice Sim
         </button>
         <div class="promo-code-status" id="promo-code-status"></div>
     </div>
@@ -2142,7 +2142,7 @@ window.addEventListener("DOMContentLoaded", function() {
         line-height: 1.35;
         text-transform: uppercase;
     ">
-        Free trial accounts are for platform testing only.
+        Practice Sim accounts are for platform testing only.
     </div>
 
     <button class="action-btn" onclick="window.location.href='payments.html?redirect=membersarea.html'" style="background:#00ff66; color:#000; flex-shrink:0;">
@@ -2406,24 +2406,24 @@ window.addEventListener("DOMContentLoaded", function() {
         letter-spacing: 0.8px;
         text-transform: uppercase;
         margin-bottom: 7px;
-    ">
-        Free Trial Payout Notice
+      ">
+        Practice Sim Reward Notice
     </div>
 
     <p style="margin: 0 0 8px 0; color: #aaa;">
-        Free trial accounts are for platform testing only and are <strong style="color:#fff;">not eligible for USDC payouts</strong>.
+        Practice Sim accounts are for platform testing and rule training only. They are <strong style="color:#fff;">not eligible for USDC payouts</strong>.
     </p>
 
     <p style="margin: 0 0 8px 0; color: #aaa;">
-        Trial accounts let you experience the Rebel Trading simulator, risk controls, chart tools, and Level 1 challenge flow before buying a package.
+        Practice Sim accounts let you experience the Rebel Trading simulator, risk controls, chart tools, and Level 1 challenge flow before buying a package.
     </p>
 
     <p style="margin: 0 0 8px 0; color: #aaa;">
-        If you pass or fail the free trial, that trial account ends and trading on that trial account is locked.
+        Passing a Practice Sim earns <strong style="color:#00ff66;">+10 Rebel XP</strong> on your account. Practice XP can carry forward, but USDC reward eligibility requires a paid Sim Challenge.
     </p>
 
-        <p style="margin: 0; color: #aaa;">
-        To continue trading and become eligible for Sim Funded payouts, buy a $10K, $25K, or $50K Sim Challenge from your dashboard.
+    <p style="margin: 0; color: #aaa;">
+        To continue trading and become eligible for Sim Funded rewards, buy a $10K, $25K, or $50K Sim Challenge from your dashboard.
     </p>
 </div>
 
