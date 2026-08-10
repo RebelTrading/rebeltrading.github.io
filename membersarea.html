@@ -1563,8 +1563,8 @@ async function loadTradeStats(token) {
             const tradingDaysEl = document.getElementById("metric-trading-days-status");
             if (tradingDaysEl) {
                 const tradingDays = Number(summary.trading_days || 0);
-                tradingDaysEl.innerText = `${tradingDays} / 5`;
-                tradingDaysEl.className = tradingDays >= 5
+                tradingDaysEl.innerText = `${tradingDays} / 2`;
+                tradingDaysEl.className = tradingDays >= 2
                     ? "metric-current passed-text"
                     : "metric-current running-text";
             }
